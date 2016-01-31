@@ -1,0 +1,131 @@
+.site-content {
+
+  .cart-contents {
+    width: 494px;
+    height: auto;
+    position: absolute;
+    top: 135px;
+    left: 467px;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 30px 40px 40px 40px;
+    background-color: $oB;
+    border-radius: 0px 0px 10px 10px;
+    opacity: 1;
+    text-align: left;
+    z-index: 1000;
+    // box-shadow: 0 3px 10px 0 rgba(0,0,0, 0.3);
+    @include trans(0.3s);
+
+    .cart-empty {
+      width: 100%;
+      text-align: center;
+      padding: 10px 0 0 0;
+
+      h4.cart {
+        font-size: 18px;
+        color: $mainGreen;
+      }
+    }
+
+    .arrow-up {
+      position: absolute;
+      top: -35px;
+      right: 20px;
+      opacity: 0.9;
+    }
+
+    .cart-count {
+      p.small {
+        font-size: 11px;
+        text-transform: uppercase;
+        color: $mainGreen;
+        padding: 0 0 0 10px;
+      }
+    }
+
+    .cart-element {
+      width: 100%;
+      padding: 12px 10px;
+
+      .elem-title {
+        float: left;
+      }
+
+      .elem-qty-total {
+        float: right;
+      }
+    }
+
+    .cart-total {
+      width: 100%;
+      padding: 32px 32px 20px 32px;
+      color: $white;
+      text-align: right;
+
+      p.small {
+        font-size: 11px;
+        text-transform: uppercase;
+        color: $mainGreen;
+        padding: 0 0 0 10px;
+      }
+    }
+
+    .cart-link {
+      width: 247px;
+      height: 40px;
+      position: absolute;
+      padding: 10px 0 10px 0;
+      text-align: center;
+      cursor: pointer;
+      @include trans(0.3s);
+
+      a {
+        color: $white;
+        font-weight: 700;
+        font-family: $robot;
+      }
+    }
+
+    .cart-link.first {
+      background-color: $mainBlue;
+      left: 0;
+      bottom: 0;
+      border-radius: 0 0 0px 10px;
+    }
+
+    .cart-link.first:hover {
+      background-color: #FFF;
+
+      a {
+        color: $mainBlue;
+      }
+    }
+
+    .cart-link.second {
+      background-color: $mainGreen;
+      right: 0;
+      bottom: 0;
+      border-radius: 0 0 10px 0;
+    }
+
+    .cart-link.second:hover {
+      background-color: #FFF;
+
+      a {
+        color: $mainGreen;
+      }
+    }
+
+    p {
+      color: $white;
+    }
+
+  }
+
+  .cart-contents.hidden {
+    opacity: 0;
+    z-index: 0;
+  }
+}

@@ -1,0 +1,14 @@
+*.py
+*.pyc
+*.txt
+.DS_Store
+.sass-cache
+.zip
+*.crt
+*.key
+backups/*
+public/wp-config-live.php
+public/wp-content/uploads/*
+public/wp-content/dbbackups/*
+public/wp-content/languages/*
+node_modules/*

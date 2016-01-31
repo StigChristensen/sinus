@@ -1,0 +1,161 @@
+.menu-icon {
+  position: fixed;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  z-index: 10000;
+
+  svg.menu {
+    width: 60px;
+    height: 60px;
+    overflow: hidden;
+    border-radius: 0 0 0 5px;
+
+    g.icon-bg {
+      rect {
+        fill: $mainGreen;
+        border-radius: 0 0 0 5px;
+        @include trans(0.3s);
+      }
+    }
+
+    line.menu-line {
+      stroke: #FFF;
+      @include trans(0.3s);
+    }
+  }
+}
+
+.menu-icon.open {
+  svg.menu {
+
+    g.icon-bg {
+      rect {
+        fill: $white;
+        border-radius: 0;
+      }
+    }
+
+    line.menu-line {
+      stroke: $mainGreen;
+    }
+  }
+}
+
+.main-menu {
+  position: absolute;
+  width: 320px;
+  height: 100%;
+  top: 0;
+  right: 0;
+  background-color: $white;
+  padding: 50px;
+  border-left: 2px solid $mainGreen;
+  z-index: 3000;
+  // box-shadow: 0 3px 10px 0 rgba(0,0,0, 0.3);
+  @include trans(0.5s);
+
+  h3 {
+    margin: 20px 0 0px 0;
+    color: $mainGreen;
+  }
+
+  ul {
+    li {
+      a {
+        color: $black;
+        outline: none;
+      }
+
+      a:hover {
+        color: $mainGreen;
+      }
+    }
+  }
+}
+
+.main-menu.hidden {
+  right: -400px;
+}
+
+
+.header {
+  width: 920px;
+  margin: 0 auto 0 auto;
+}
+
+.head-row-1 {
+  height: 130px;
+}
+
+.head-row-2 {
+  height: 60px;
+}
+
+.headerlogo {
+  width: 50%;
+  height: 130px;
+  float: left;
+  text-align: left;
+  margin: 0;
+
+  img {
+    width: 157px;
+    height: 46px;
+    margin-top: 42px;
+  }
+}
+
+.sine-animation {
+  position: absolute;
+  width: 155px;
+  height: 113px;
+  top: 15px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+
+  .img-container {
+    position: absolute;
+    width: 465px;
+    height: 113px;
+    top: 0;
+    left: 0;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+}
+
+.headermenu {
+  width: 72px;
+  height: 130px;
+  float: right;
+  text-align: right;
+  margin: 0;
+
+  .cart-icon {
+    width: 50px;
+    float: left;
+    cursor: pointer;
+    margin: 56px 0 0 0;
+    position: relative;
+    z-index: 100;
+
+    img {
+      width: 50px;
+      height: 50px;
+    }
+  }
+
+
+  // img {
+  //   width: 42px;
+  //   height: 30px;
+  //   margin-top: 56px;
+  // }
+}

@@ -1,0 +1,42 @@
+.site-main {
+
+  .filters {
+    width: 100%;
+    height: auto;
+    float: left;
+
+    ul.main-filters {
+      width: 960px;
+      height: auto;
+      margin: 0 auto 0 auto;
+
+      li.filter {
+        width: 320px;
+        height: 315px;
+        float: left;
+        overflow: hidden;
+        position:relative;
+
+        img {
+          position: absolute;
+          width: 320px;
+          height: 315px;
+          top: 0;
+          left: 0;
+        }
+
+        a {
+          width: 320px;
+          height: auto;
+          opacity: 1;
+          float: left;
+          @include trans(0.5s);
+        }
+
+        a:hover {
+          opacity: 0.9;
+        }
+      }
+    }
+  }
+}

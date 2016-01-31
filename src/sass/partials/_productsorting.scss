@@ -1,0 +1,92 @@
+.site-main {
+  .storefront-sorting {
+    width: 100%;
+    margin: 60px 0 60px 0;
+    position: relative;
+
+    form.woocommerce-ordering {
+      margin: 0;
+
+      select.orderby {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 320px;
+        height: 50px;
+        padding: 10px 25px 10px 25px;
+        font-size: 15px;
+        text-transform: uppercase;
+        border-radius: 0 10px 10px 0;
+        border: 2px solid $mainGreen;
+        outline: none;
+
+        option {
+          padding: 10px;
+          font-size: 15px;
+          text-transform: uppercase;
+        }
+      }
+    }
+
+    p.woocommerce-result-count {
+      padding: 5px 25px;
+      font-size: 13px;
+      text-transform: uppercase;
+      opacity: 0.2;
+      font-family: $robot;
+      font-weight: 900;
+    }
+
+
+    nav.woocommerce-pagination {
+      width: 320px;
+      height: 50px;
+      padding: 10px 25px 10px 25px;
+      border-radius: 0 10px 10px 0;
+      outline: none;
+
+      ul.page-numbers {
+
+        li {
+          float: left;
+          padding: 0;
+          margin: 0 5px 0 0;
+
+          a {
+            font-family: $robot;
+            font-weight: 900;
+            font-size: 15px;
+            padding: 10px;
+            border: 2px solid $mainGreen;
+            background-color: $white;
+            color: $mainBlue;
+            @include trans(0.5s);
+            outline: none;
+            border-radius: 0 10px 10px 0;
+          }
+
+          a:hover {
+            background-color: $mainGreen;
+            color: $white;
+            border: 2px solid $mainGreen;
+          }
+
+          a.prev, a.next {
+            outline: none;
+          }
+
+          span.page-numbers.current {
+            font-family: $robot;
+            font-weight: 900;
+            font-size: 15px;
+            background-color: $mainGreen;
+            color: $white;
+            padding: 10px 20px;
+            border: 2px solid $mainGreen;
+            border-radius: 0 10px 10px 0;
+          }
+
+        }
+      }
+    }
+  }
+}

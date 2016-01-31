@@ -1,0 +1,83 @@
+.site-main {
+
+  .product {
+    h1 {
+      font-size: 40px;
+      color: $mainGreen;
+      background-color: $black;
+      padding: 10px 35px;
+      border-radius: 0 10px 10px 0;
+      margin: 50px 0 0 0;
+    }
+
+    h3.single-product-title {
+      width: 100%;
+      font-size: 26px;
+      color: $mainGreen;
+      background-color: $black;
+      padding: 10px 35px;
+      border-radius: 0 10px 10px 0;
+      margin: 50px 0 0 0;
+    }
+
+    .images {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+
+      .thumbnails {
+        width: 100%;
+        text-align: center;
+
+        a {
+          width: 300px;
+          height: 300px;
+          position: relative;
+          display: inline-block;
+          overflow: hidden;
+          border: 1px solid $mainGreen;
+
+           img {
+            position: absolute;
+            width: 300px;
+            height: auto;
+            top: 0;
+            left: 0;
+           }
+        }
+
+        a:first-child {
+          margin: 0 10px 0 0;
+        }
+
+        a:last-child {
+          margin: 0 0px 0 10px;
+        }
+      }
+    }
+
+    .product-content {
+      padding: 0px 50px 50px 0;
+      margin: 50px 0 50px 0;
+      text-align: left;
+      // background-color: $lightGrey;
+      border-radius: 0 10px 10px 0;
+
+
+
+      p {
+        font-family: $robotCon;
+        font-size: 18px;
+        font-weight: 400;
+        color: $black;
+        padding: 0px 100px 35px 100px;
+      }
+
+      .youtube-frame {
+        margin: 50px 100px;
+      }
+
+    }
+  }
+}

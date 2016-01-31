@@ -1,0 +1,7 @@
+@mixin trans($speed) {
+  transition: all $speed cubic-bezier(0.2,0.75,0.8,0.95);
+}
+
+@mixin border($radius) {
+  border-radius: $radius;
+}

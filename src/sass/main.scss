@@ -1,0 +1,20 @@
+@import 'partials/reset';
+@import 'partials/mixins';
+@import 'partials/colors';
+@import 'partials/typography';
+@import 'partials/inputsearch';
+@import 'partials/grids';
+@import 'partials/header';
+@import 'partials/filters';
+@import 'partials/banner';
+@import 'partials/productgrid';
+@import 'partials/productsorting';
+@import 'partials/singleproduct';
+@import 'partials/cartmodal';
+@import 'partials/inputs';
+@import 'partials/staticfront';
+@import 'partials/footer';
+
+#secondary {
+  display: none;
+}

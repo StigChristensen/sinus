@@ -1,0 +1,185 @@
+
+    ul.products {
+      width: 960px;
+      height: auto;
+      float: left;
+      margin: 60px auto;
+
+      li.product {
+        width: 320px;
+        height: 370px;
+        margin: 0 0 10px 0;
+        float: left;
+        overflow: hidden;
+        position: relative;
+
+        a {
+
+          img {
+            width: 322px;
+            height: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 1;
+            z-index: 1;
+            filter: grayscale(75%);
+            @include trans(0.5s);
+          }
+
+          .product-price {
+            position: absolute;
+            width: 320px;
+            height: 48px;
+            bottom: 0px;
+            left: 0;
+            padding: 12px 22px 12px 30px;
+            background-color: $black;
+            color: $white;
+            text-align: right;
+            z-index: 100;
+            border-right: 1px solid $white;
+
+            span {
+              font-size: 18px;
+              font-weight: 700;
+
+              del {
+                float: left;
+                margin: 0 10px 0 30px;
+                color: $red;
+              }
+
+              ins {
+                text-decoration: none;
+              }
+            }
+
+            span.onsale {
+              display: none;
+            }
+
+            .add-button {
+              position: absolute;
+              top: 0;
+              left: 8px;
+              width: 48px;
+              height: 48px;
+
+              svg {
+                position: absolute;
+                top: 14px;
+                left: 14px;
+                width: 20px;
+                height: 20px;
+
+                line.svg-line {
+                  stroke: $lightBlue;
+                  @include trans(0.3s);
+                }
+              }
+
+              span.add-info {
+                position: absolute;
+                top: -19px;
+                left: -8px;
+                width: 138px;
+                font-size: 12px;
+                color: $lightBlue;
+                background-color: $black;
+                padding: 2px 19px 2px 10px;
+                border-radius: 0 5px 0 0;
+                opacity: 0;
+                @include trans(0.3s);
+              }
+            }
+
+            .add-button:hover {
+              svg {
+                line.svg-line {
+                  stroke: #FFFFFF;
+                }
+              }
+
+              span.add-info {
+                opacity: 1;
+              }
+
+            }
+          }
+        }
+
+        .sinus-product-info {
+          position: absolute;
+          width: 320px;
+          height: 320px;
+          top: 0px;
+          left: 0;
+          @include trans(0.3s);
+
+          .product-title {
+            width: 320px;
+            height: auto;
+            padding: 14px 22px 12px 22px;
+            background-color: $obLight;
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            z-index: 10;
+            text-align: left;
+            border-radius: 10px 10px 0 0;
+            border-right: 1px solid $white;
+
+            h3 {
+              font-family: $robot;
+              font-weight: 700;
+              font-size: 13px;
+              color: $mainGreen;
+            }
+          }
+
+          .short-desc {
+            width: 320px;
+            height: 180px;
+            padding: 10px 23px 0;
+            background-color: $obLight;
+            border-right: 1px solid $white;
+            position: absolute;
+            top: 320px;
+            left: 0px;
+            z-index: 10;
+            text-align: left;
+
+            p {
+              font-family: $robotCon;
+              font-size: 12px;
+              color: $white;
+            }
+
+            span.mere {
+              float: left;
+              font-family: $robotCon;
+              font-size: 12px;
+              color: $mainGreen;
+              @include trans(0.3s);
+            }
+
+            span.mere:hover {
+              color: $white;
+            }
+          }
+        }
+      }
+
+      li.product:hover {
+        a {
+          img {
+            filter: grayscale(0%);
+          }
+        }
+
+        .sinus-product-info {
+          top: -110px;
+        }
+      }
+    }
