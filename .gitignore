@@ -1,6 +1,8 @@
 *.py
 *.pyc
 *.txt
+*.sql.gz
+*.sql
 .DS_Store
 .sass-cache
 .zip

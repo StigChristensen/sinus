@@ -1,220 +1,162 @@
-html h2, body h2 {
-	margin: 0 0 45px 0;
-}
-
-html p, body p {
-	padding: 0px 20px 0 0px;
+html, body {
+	background-color: $white;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	z-index: 0;
 }
 
 .bg {
 	width: 100%;
 	height: 100%;
+	background-color: #000;
 	position: fixed;
-	z-index: 0;
 	top: 0;
 	left: 0;
-	background: url('../img/Sony.jpg') 0px 0px no-repeat;
-	background-size: 100% auto;
-	opacity: 0.05;
+	z-index: 5;
+}
+
+.menu-icon, .main-menu, .site-content .header, .site-content.head-row-2, .site-content.cart-contents, footer {
+	display: none;
 }
 
 .logo {
-	width: auto;
-	height: auto;
-	margin: 0 0 30px -20px;
+	width: 1000px;
+	height: 300px;
+	position: absolute;
+	top: 100px;
+	z-index: 10;
+	@include center();
 
+	img {
+		width: 100%;
+		height: auto;
+		position: absolute;
+		top: 0;
+		@include center();
+	}
 
 	h4 {
-		float: right;
-		margin: -45px 102px 0px auto;
-		opacity: 0.3;
+		color: $mainBlue;
+		position: absolute;
+		right: 32px;
+		bottom: 60px;
+		font-size: 30px;
 	}
 }
 
-.body-text {
-	width: 500px;
-	height: auto;
-	margin: 10px 80px 10px 0;
-	padding: 0 0 200px 0;
-	float: right;
+.comingsoon {
+	position: absolute;
+	width: 145px;
+	top: 460px;
+	z-index: 10;
+	@include center();
+
+	h4 {
+		color: #FFF;
+		font-size: 22px;
+		font-weight: 900;
+	}
 }
 
-@media (max-width: 768px) {
-	html h2, body h2 {
-	font-size: 34px;
-	margin: 0 0 45px 0;
-}
-
-html p, body p {
-	padding: 0px 0px 0 0px;
-}
-
-.logo {
-	width: 768px;
-	height: auto;
-	margin: 0 0 0 -20px;
-
-	img {
+@media screen and (max-width: 1080px) {
+	.logo {
 		width: 700px;
-		height: auto;
+		height: 237px;
+		top: 100px;
+
+		h4 {
+			right: 20px;
+			bottom: 60px;
+			font-size: 30px;
+		}
 	}
 
-	h4 {
-		float: right;
-		margin: -40px 89px 0px auto;
-		opacity: 0.3;
-	}
-}
+	.comingsoon {
+		width: 145px;
+		top: 360px;
 
-.body-text {
-	width: 470px;
-	height: auto;
-	margin: 10px 10px 10px 0px;
-	padding: 0 0 150px 0;
-	float: right;
-}
-
-}
-
-@media (max-width: 480px) {
-	html h2, body h2 {
-	font-size: 29px;
-	margin: 0 0 40px 0;
-}
-
-html p, body p {
-	padding: 0px 10px 0 0px;
-}
-
-.logo {
-	width: 320px;
-	height: auto;
-	margin: 0 0 30px -10px;
-
-	img {
-		width: 400px;
-		height: auto;
-	}
-
-	h4 {
-		float: right;
-		margin: -26px -68px 0px auto;
-		opacity: 0.3;
+		h4 {
+			font-size: 22px;
+			font-weight: 900;
+		}
 	}
 }
 
-.body-text {
-	width: 320px;
-	height: auto;
-	margin: 10px 0px 10px 0px;
-	padding: 0 0 150px 0;
-	float: right;
-}
+@media screen and (max-width: 700px) {
+	.logo {
+		width: 500px;
+		height: 190px;
+		top: 100px;
 
-}
-
-@media (max-width: 414px) {
-	html h2, body h2 {
-	font-size: 29px;
-	margin: 50px 0 45px 0;
-}
-
-html p, body p {
-	padding: 0px 10px 0 0px;
-}
-
-.logo {
-	width: 320px;
-	height: auto;
-	margin: 0 0 30px -10px;
-
-	img {
-		width: 370px;
-		height: auto;
+		h4 {
+			right: 15px;
+			bottom: 60px;
+			font-size: 22px;
+		}
 	}
 
-	h4 {
-		float: right;
-		margin: -25px -39px 0px auto;
-		opacity: 0.3;
+	.comingsoon {
+		width: 145px;
+		top: 360px;
+
+		h4 {
+			font-size: 22px;
+			font-weight: 900;
+		}
 	}
 }
 
-.body-text {
-	width: 280px;
-}
+@media screen and (max-width: 500px) {
+	.logo {
+		width: 300px;
+		height: 130px;
+		top: 80px;
 
-}
-
-@media (max-width: 375px) {
-	html h2, body h2 {
-	font-size: 29px;
-	margin: 50px 0 45px 0;
-}
-
-html p, body p {
-	padding: 0px 10px 0 0px;
-}
-
-.logo {
-	width: 330px;
-	height: auto;
-	margin: 0 0 30px -10px;
-
-	img {
-		width: 330px;
-		height: auto;
+		h4 {
+			right: 8px;
+			bottom: 50px;
+			font-size: 16px;
+		}
 	}
 
-	h4 {
-		float: right;
-		margin: -23px 9px 0px auto;
+	.comingsoon {
+		width: 105px;
+		top: 205px;
+
+		h4 {
+			font-size: 16px;
+			font-weight: 900;
+		}
 	}
 }
 
-.body-text {
-	width: 270px;
-}
 
-}
+@media screen and (max-width: 320px) {
+	.logo {
+		width: 260px;
+		height: 100px;
+		top: 80px;
 
-
-@media (max-width: 320px) {
-	html h2, body h2 {
-	font-size: 26px;
-	margin: 50px 0 45px 0;
-}
-
-html p, body p {
-	padding: 0px 5px 0 0px;
-	font-size: 15px;
-	line-height: 1.6;
-	font-weight: 400;
-}
-
-.logo {
-	width: 320px;
-	height: auto;
-	margin: 0 0 30px -10px;
-
-	img {
-		width: 285px;
-		height: auto;
+		h4 {
+			right: 7px;
+			bottom: 26px;
+			font-size: 16px;
+		}
 	}
 
-	h4 {
-		float: right;
-		margin: -19px 43px 0px auto;
-		opacity: 0.2;
+	.comingsoon {
+		width: 105px;
+		top: 200px;
+
+		h4 {
+			font-size: 16px;
+			font-weight: 900;
+		}
 	}
 }
 
-.body-text {
-	width: 270px;
-	height: auto;
-	margin: 10px 0px 10px 0px;
-	padding: 0 0 150px 0;
-	float: right;
-}
-
-}
