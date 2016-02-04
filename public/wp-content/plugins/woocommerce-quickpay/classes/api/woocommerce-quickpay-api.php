@@ -76,7 +76,7 @@ class WC_QuickPay_API
 	* @access public
 	* @return object
 	*/    
-    public function get( $path ) 
+    public function get( $path, $return_array = FALSE ) 
     {
     	// Instantiate a new instance
         $this->remote_instance();
@@ -85,7 +85,7 @@ class WC_QuickPay_API
         $this->set_url( $path );
 
         // Start the request and return the response
-        return $this->execute('GET');
+        return $this->execute('GET', $return_array);
     }
  
 
@@ -97,7 +97,7 @@ class WC_QuickPay_API
 	* @access public
 	* @return object
 	*/    
-    public function post( $path, $form = array() ) 
+    public function post( $path, $form = array(), $return_array = FALSE ) 
     {
     	// Instantiate a new instance
         $this->remote_instance();
@@ -106,7 +106,7 @@ class WC_QuickPay_API
         $this->set_url( $path );
 
         // Start the request and return the response
-        return $this->execute('POST', $form);
+        return $this->execute('POST', $form, $return_array);
     }	
 
 
@@ -118,7 +118,7 @@ class WC_QuickPay_API
 	* @access public
 	* @return object
 	*/    
-    public function put( $path, $form = array() ) 
+    public function put( $path, $form = array(), $return_array = FALSE ) 
     {
     	// Instantiate a new instance
         $this->remote_instance();
@@ -127,7 +127,7 @@ class WC_QuickPay_API
         $this->set_url( $path );
 
         // Start the request and return the response
-        return $this->execute('PUT', $form);
+        return $this->execute('PUT', $form, $return_array);
     }	
 
 
@@ -139,10 +139,11 @@ class WC_QuickPay_API
 	* @access public
 	* @param  string $request_type
 	* @param  array  $form
+    * @param  boolean $return_array - if we want to retrieve an array with additional 
 	* @return object
 	* @throws QuickPay_API_Exception
 	*/   	
- 	public function execute( $request_type, $form = array() ) 
+ 	public function execute( $request_type, $form = array(), $return_array = FALSE ) 
  	{
  		// Set the HTTP request type
  		curl_setopt( $this->ch, CURLOPT_CUSTOMREQUEST, $request_type );
@@ -165,6 +166,8 @@ class WC_QuickPay_API
 
  		// Retrieve the HTTP response code
  		$response_code = (int) curl_getinfo( $this->ch, CURLINFO_HTTP_CODE );
+        $response_data = json_encode( $this->resource_data );
+        $curl_request_url = curl_getinfo( $this->ch, CURLINFO_EFFECTIVE_URL);
 
  		// If the HTTP response code is higher than 299, the request failed.
  		// Throw an exception to handle the error
@@ -183,20 +186,29 @@ class WC_QuickPay_API
                     }
                 }
                 
-                throw new QuickPay_API_Exception( $error_messages, $response_code, NULL, $request_form_data );
+                throw new QuickPay_API_Exception( $error_messages, $response_code, NULL, $curl_request_url, $request_form_data, $response_data );
             }
             else if( isset( $this->resource_data->message) ) 
             {
-                throw new QuickPay_API_Exception( $this->resource_data->message, $response_code, NULL, $request_form_data ); 
+                throw new QuickPay_API_Exception( $this->resource_data->message, $response_code, NULL, $curl_request_url, $request_form_data, $response_data ); 
             }
             else 
             {
-                throw new QuickPay_API_Exception( (string) json_encode($this->resource_data), $response_code, NULL, $request_form_data );
+                throw new QuickPay_API_Exception( (string) json_encode($this->resource_data), $response_code, NULL, $curl_request_url, $request_form_data, $response_data );
             }
  			
  		}
         
  		// Everything went well, return the resource data object.
+        if( $return_array ) {
+            return array( 
+                $this->resource_data, 
+                $curl_request_url,
+                $request_form_data,
+                $response_data,
+                curl_getinfo( $this->ch ),
+            ); 
+        }
  		return $this->resource_data;
  	}
 

@@ -18,14 +18,14 @@ class WC_QuickPay_Order extends WC_Order {
 	*
 	* @access public
 	* @return string
-	*/	
+	*/
 	public function get_continue_url() {
 		if( method_exists( $this, 'get_checkout_order_received_url' ) ) {
 			return $this->get_checkout_order_received_url();
 		}
 
 		return add_query_arg( 'key', $this->order_key, add_query_arg(
-				'order', $this->id, 
+				'order', $this->id,
 				get_permalink( get_option( 'woocommerce_thanks_page_id' ) )
 			)
 		);
@@ -39,15 +39,15 @@ class WC_QuickPay_Order extends WC_Order {
 	*
 	* @access public
 	* @return string
-	*/	
+	*/
 	public function get_cancellation_url() {
 		if( method_exists( $this, 'get_cancel_order_url' ) ) {
 			return str_replace( '&amp;', '&', $this->get_cancel_order_url() );
 		}
 
-		return add_query_arg('key', $this->order_key, add_query_arg( 
-			array( 
-				'order' => $this->id, 
+		return add_query_arg('key', $this->order_key, add_query_arg(
+			array(
+				'order' => $this->id,
 				'payment_cancellation' => 'yes'
 			),
 			get_permalink( get_option('woocommerce_cart_page_id') ) )
@@ -62,7 +62,7 @@ class WC_QuickPay_Order extends WC_Order {
 	*
 	* @access public
 	* @return string
-	*/	
+	*/
 	public static function get_callback_url() {
         trigger_error('WC_QuickPay_Order::get_callback_url() is deprecated since 4.2.0. Use WC_QuickPay_Helper::get_callback_url() instead.');
 		return WC_QuickPay_Helper::get_callback_url();
@@ -76,22 +76,21 @@ class WC_QuickPay_Order extends WC_Order {
 	*
 	* @access public
 	* @return string
-	*/	
+	*/
 	public function get_transaction_id() {
-		return get_post_meta( $this->id , 'TRANSACTION_ID', TRUE );
-	}
-    
-    
-	/**
-	* set_transaction_id function
-	*
-	* Set the transaction ID on an order
-	*
-	* @access public
-	* @return void
-	*/	
-	public function set_transaction_id( $transaction_id ) {
-		update_post_meta( $this->id , 'TRANSACTION_ID', $transaction_id );
+		$transaction_id = parent::get_transaction_id();
+		if( empty( $transaction_id ) ) 
+		{
+			// Search for original transaction ID. The transaction might be temporarily removed by
+			// subscriptions. Use this one instead (if available).
+			$transaction_id = get_post_meta( $this->id, '_transaction_id_original', TRUE );
+			if( empty( $transaction_id ) ) 
+			{
+				// Check if the old legacy TRANSACTION ID meta value is available.
+				$transaction_id = get_post_meta( $this->id , 'TRANSACTION_ID', TRUE );
+			}
+		}
+		return $transaction_id;
 	}
 
 
@@ -102,12 +101,12 @@ class WC_QuickPay_Order extends WC_Order {
 	*
 	* @access public
 	* @return string
-	*/	
+	*/
 	public function get_payment_id() {
 		return get_post_meta( $this->id , 'QUICKPAY_PAYMENT_ID', TRUE );
 	}
-    
-    
+
+
 	/**
 	* set_payment_id function
 	*
@@ -115,7 +114,7 @@ class WC_QuickPay_Order extends WC_Order {
 	*
 	* @access public
 	* @return void
-	*/	
+	*/
 	public function set_payment_id( $payment_link ) {
 		update_post_meta( $this->id , 'QUICKPAY_PAYMENT_ID', $payment_link );
 	}
@@ -128,7 +127,7 @@ class WC_QuickPay_Order extends WC_Order {
 	*
 	* @access public
 	* @return void
-	*/	
+	*/
 	public function delete_payment_id() {
 		delete_post_meta( $this->id , 'QUICKPAY_PAYMENT_ID' );
 	}
@@ -141,12 +140,12 @@ class WC_QuickPay_Order extends WC_Order {
 	*
 	* @access public
 	* @return string
-	*/	
+	*/
 	public function get_payment_link() {
 		return get_post_meta( $this->id , 'QUICKPAY_PAYMENT_LINK', TRUE );
 	}
-    
-    
+
+
 	/**
 	* set_payment_link function
 	*
@@ -154,12 +153,12 @@ class WC_QuickPay_Order extends WC_Order {
 	*
 	* @access public
 	* @return void
-	*/	
+	*/
 	public function set_payment_link( $payment_link ) {
 		update_post_meta( $this->id , 'QUICKPAY_PAYMENT_LINK', $payment_link );
 	}
-    
-    
+
+
 	/**
 	* delete_payment_link function
 	*
@@ -167,25 +166,25 @@ class WC_QuickPay_Order extends WC_Order {
 	*
 	* @access public
 	* @return void
-	*/	
+	*/
 	public function delete_payment_link() {
 		delete_post_meta( $this->id , 'QUICKPAY_PAYMENT_LINK' );
 	}
-    
-    
-	/**   
+
+
+	/**
 	* get_transaction_order_id function
 	*
 	* If the order has a transaction order reference, we will return it. If no transaction order reference is set we return FALSE.
 	*
 	* @access public
 	* @return string
-	*/	
+	*/
 	public function get_transaction_order_id() {
 		return get_post_meta( $this->id , 'TRANSACTION_ORDER_ID', TRUE );
 	}
-    
-    
+
+
 	/**
 	* set_transaction_order_id function
 	*
@@ -193,12 +192,12 @@ class WC_QuickPay_Order extends WC_Order {
 	*
 	* @access public
 	* @return void
-	*/	
+	*/
 	public function set_transaction_order_id( $transaction_order_id ) {
 		update_post_meta( $this->id , 'TRANSACTION_ORDER_ID', $transaction_order_id );
 	}
-    
-    
+
+
 	/**
 	* get_clean_order_number function
 	*
@@ -206,7 +205,7 @@ class WC_QuickPay_Order extends WC_Order {
 	*
 	* @access public
 	* @return integer
-	*/		
+	*/
 	public function get_clean_order_number() {
 		return str_replace( '#', '', $this->get_order_number() );
 	}
@@ -223,11 +222,11 @@ class WC_QuickPay_Order extends WC_Order {
 	public function contains_subscription() {
 		$has_subscription = FALSE;
 
-		if( WC_QuickPay_Helper::subscription_is_active() ) {
-			$has_subscription = WC_Subscriptions_Order::order_contains_subscription( $this );
-		}	
+		if( WC_QuickPay_Subscription::plugin_is_active() ) {
+			$has_subscription = wcs_order_contains_subscription( $this );
+		}
 
-		return $has_subscription;	
+		return $has_subscription;
 	}
 
 
@@ -239,12 +238,12 @@ class WC_QuickPay_Order extends WC_Order {
 	* @access public
 	* @param int $total_amount_with_fee
 	* @return boolean
-	*/	
-    
+	*/
+
     public function add_transaction_fee( $total_amount_with_fee ) {
 		$order_total = $this->get_total() ;
 		$order_total_formatted = WC_QuickPay_Helper::price_multiply( $order_total );
-        
+
         $fee = $total_amount_with_fee - $order_total_formatted;
 
         if( $fee > 0) {
@@ -265,11 +264,11 @@ class WC_QuickPay_Order extends WC_Order {
 
 			return TRUE;
 		}
-        
+
 		return FALSE;
 	}
-    
-    
+
+
  	/**
 	* subscription_is_renewal_failure function.
 	*
@@ -277,20 +276,20 @@ class WC_QuickPay_Order extends WC_Order {
 	*
 	* @access public
 	* @return boolean
-	*/	   
+	*/
     public function subscription_is_renewal_failure()
     {
-        $renewal_failure = FALSE; 
-        
-        if( WC_QuickPay_Helper::subscription_is_active() )
+        $renewal_failure = FALSE;
+
+        if( WC_QuickPay_Subscription::plugin_is_active() )
         {
-            $renewal_failure = (WC_Subscriptions_Renewal_Order::is_renewal( $this ) AND $this->status == 'failed');
+            $renewal_failure = (WC_QuickPay_Subscription::is_renewal( $this ) AND $this->status == 'failed');
         }
-        
+
         return $renewal_failure;
     }
-    
-    
+
+
 	/**
 	* note function.
 	*
@@ -298,15 +297,15 @@ class WC_QuickPay_Order extends WC_Order {
 	*
 	* @access public
 	* @return void
-	*/	
-	public function note( $message ) 
+	*/
+	public function note( $message )
     {
 		if( isset( $message ) ) {
 			$this->add_order_note( 'QuickPay: ' . $message );
 		}
 	}
 
-    
+
 	/**
 	* get_transaction_params function.
 	*
@@ -314,28 +313,28 @@ class WC_QuickPay_Order extends WC_Order {
 	*
 	* @access public
 	* @return void
-	*/	
-	public function get_transaction_params() 
+	*/
+	public function get_transaction_params()
     {
         $is_subscription = $this->contains_subscription();
-        
+
         $params_subscription = array();
-        
+
         if( $is_subscription )
         {
             $params_subscription = array(
-                'description' => 'woocommerce-subscription'  
+                'description' => 'woocommerce-subscription'
             );
         }
-        
+
         $params = array_merge(array(
             'order_id'      => $this->get_order_number_for_api(),
         ), $this->get_custom_variables());
-        
+
         return array_merge( $params, $params_subscription );
 	}
-    
-    
+
+
 	/**
 	* get_transaction_link_params function.
 	*
@@ -343,17 +342,17 @@ class WC_QuickPay_Order extends WC_Order {
 	*
 	* @access public
 	* @return void
-	*/	
-	public function get_transaction_link_params() 
+	*/
+	public function get_transaction_link_params()
     {
-        $is_subscription = $this->contains_subscription();
+        $is_subscription = $this->contains_subscription( $this );
         $amount = $this->get_total();
-           
+
         if( $is_subscription )
         {
-            $amount = WC_Subscriptions_Order::get_total_initial_payment( $this );
+            $amount = $this->get_total();
         }
-        
+
         return array(
             'order_id'      => $this->get_order_number_for_api(),
             'continueurl'   => $this->get_continue_url(),
@@ -361,24 +360,24 @@ class WC_QuickPay_Order extends WC_Order {
             'amount'        => WC_QuickPay_Helper::price_multiply( $amount ),
         );
 	}
-    
-    
+
+
 	/**
 	* get_custom_variables function.
 	*
-	* Returns custom variables chosen in the gateway settings. This information will 
+	* Returns custom variables chosen in the gateway settings. This information will
 	* be sent to QuickPay and stored with the transaction.
 	*
 	* @access public
 	* @return void
-	*/	
-	public function get_custom_variables() 
+	*/
+	public function get_custom_variables()
     {
         $custom_vars_settings = (array) WC_QP()->s('quickpay_custom_variables');
         $custom_vars = array();
 
         // Complete Billing Address Details
-        if( in_array('billing_all_data', $custom_vars_settings) ) 
+        if( in_array('billing_all_data', $custom_vars_settings) )
         {
             $custom_vars['Billing Details'] = array(
                 __('Name', 'woo-quickpay' ) => $this->billing_first_name . ' ' . $this->billing_last_name,
@@ -393,9 +392,9 @@ class WC_QuickPay_Order extends WC_Order {
                 __('Email', 'woo-quickpay' ) => $this->billing_email,
             );
         }
-        
+
         // Complete Shipping Address Details
-        if( in_array('shipping_all_data', $custom_vars_settings) ) 
+        if( in_array('shipping_all_data', $custom_vars_settings) )
         {
             $custom_vars['Shipping Details'] = array(
                 __('Name', 'woo-quickpay' ) => $this->shipping_first_name . ' ' . $this->shipping_last_name,
@@ -408,50 +407,50 @@ class WC_QuickPay_Order extends WC_Order {
                 __('Country', 'woo-quickpay' ) => $this->shipping_country,
             );
         }
-        
+
         // Single: Order Email
-        if( in_array('customer_email', $custom_vars_settings) ) 
+        if( in_array('customer_email', $custom_vars_settings) )
         {
             $custom_vars[__('Customer Email', 'woo-quickpay' )] = $this->billing_email;
         }
-        
+
         // Single: Order Phone
-        if( in_array('customer_phone', $custom_vars_settings) ) 
+        if( in_array('customer_phone', $custom_vars_settings) )
         {
             $custom_vars[__('Customer Phone', 'woo-quickpay' )] = $this->billing_phone;
         }
-        
+
         // Single: Browser User Agent
-        if( in_array('browser_useragent', $custom_vars_settings) ) 
+        if( in_array('browser_useragent', $custom_vars_settings) )
         {
             $custom_vars[__('User Agent', 'woo-quickpay' )] = $this->customer_user_agent;
         }
-        
+
         // Single: Shipping Method
-        if( in_array('shipping_method', $custom_vars_settings) ) 
+        if( in_array('shipping_method', $custom_vars_settings) )
         {
-            $custom_vars[__('Shipping Method', 'woo-quickpay' )] = $this->get_shipping_method();   
+            $custom_vars[__('Shipping Method', 'woo-quickpay' )] = $this->get_shipping_method();
         }
-        
+
 		// Save a POST ID reference on the transaction
 		$custom_vars['order_post_id'] = $this->id;
-		
+
         ksort($custom_vars);
-        
+
         return array( 'variables' => $custom_vars );
-	}  
-	
+	}
+
 	/**
-	 * Determine if we should enable autocapture on the order. This is based on both the 
-	 * plugin configuration and the product types. If the order contains both virtual 
+	 * Determine if we should enable autocapture on the order. This is based on both the
+	 * plugin configuration and the product types. If the order contains both virtual
 	 * and non-virtual products,  we will default to the 'quickpay_autocapture'-setting.
 	 */
-	public function get_autocapture_setting() 
+	public function get_autocapture_setting()
 	{
 		// Get the autocapture settings
 		$autocapture_default = WC_QP()->s( 'quickpay_autocapture' );
 		$autocapture_virtual = WC_QP()->s( 'quickpay_autocapture_virtual' );
-		
+
 		$has_virtual_products = FALSE;
 		$has_nonvirtual_products = FALSE;
 
@@ -462,25 +461,25 @@ class WC_QuickPay_Order extends WC_Order {
 
 		// Check order items type.
 		$order_items = $this->get_items( 'line_item' );
-		
+
 		// Loop through the order items
-		foreach ( $order_items as $order_item ) 
+		foreach ( $order_items as $order_item )
 		{
 			// Get the product
 			$product = $this->get_product_from_item( $order_item );
-			
+
 			// Is this product virtual?
 			if ( $product->is_virtual() )
 			{
 				$has_virtual_products = TRUE;
 			}
 			// This was a non-virtual product.
-			else 
+			else
 			{
 				$has_nonvirtual_products = TRUE;
 			}
 		}
-		
+
 		// If the order contains both virtual and nonvirtual products,
 		// we use the 'quickpay_autopay' as the option of choice.
 		if ( $has_virtual_products AND $has_nonvirtual_products )
@@ -496,10 +495,10 @@ class WC_QuickPay_Order extends WC_Order {
 		else
 		{
 			return $autocapture_default;
-		}	
+		}
 	}
-	
-	
+
+
 	/**
 	* get_order_id_from_callback function.
 	*
@@ -508,33 +507,33 @@ class WC_QuickPay_Order extends WC_Order {
 	* @access static public
 	* @param object - the callback data
 	* @return int
-	*/		
+	*/
 	public static function get_order_id_from_callback( $callback_data )
 	{
-		// Check for the post ID reference on the response object. 
+		// Check for the post ID reference on the response object.
 		// This should be available on all new orders.
 		if( ! empty( $callback_data->variables ) && isset( $callback_data->variables->order_post_id ) )
 		{
 			return $callback_data->variables->order_post_id;
 		}
-		
-		// Fallback 
+
+		// Fallback
 		preg_match( '/\d{4,}$/', $callback_data->order_id, $order_number );
-		$order_number = (int) end( $order_number );	
-		
+		$order_number = (int) end( $order_number );
+
 		return $order_number;
 	}
 
 	/**
 	* get_order_number_for_api function.
 	*
-	* Prefix the order number if necessary. This is done 
+	* Prefix the order number if necessary. This is done
 	* because QuickPay requires the order number to contain at least
 	* 4 chars.
 	*
-	* @access public 
+	* @access public
 	* @return string
-	*/	
+	*/
 	public function get_order_number_for_api() {
 		$minimum_length = 4;
 		$order_number = $this->get_clean_order_number();
@@ -547,7 +546,7 @@ class WC_QuickPay_Order extends WC_Order {
 				$missing_digits = $minimum_length - $order_number_length;
 				$order_number = str_replace($digits[0], str_pad( $digits[0] , strlen($digits[0]) + $missing_digits, 0, STR_PAD_LEFT ), $order_number);
 			}
-		} 
+		}
 		return $order_number;
 	}
 }

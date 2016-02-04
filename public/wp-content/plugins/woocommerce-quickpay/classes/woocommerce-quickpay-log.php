@@ -60,7 +60,7 @@ class WC_QuickPay_Log {
 	*/	
     public function clear() 
     {
-        $this->_logger->clear( $this->_domain );
+        return $this->_logger->clear( $this->_domain );
     }
  
     

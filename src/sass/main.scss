@@ -13,9 +13,20 @@
 @import 'partials/cartmodal';
 @import 'partials/inputs';
 @import 'partials/footer';
+@import 'partials/social';
+@import 'partials/spinners';
 
-@import 'partials/staticfront';
+// @import 'partials/staticfront';
 
 #secondary {
   display: none;
+}
+
+html, body {
+  background-color: #FFF;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }

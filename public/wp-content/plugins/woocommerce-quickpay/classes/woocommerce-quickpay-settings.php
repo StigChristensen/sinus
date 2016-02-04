@@ -75,7 +75,7 @@ class WC_QuickPay_Settings {
                         'title' => __( 'Physical products (default)', 'woo-quickpay' ), 
                         'type' => 'checkbox', 
                         'label' => __( 'Enable/Disable', 'woo-quickpay' ), 
-                        'description' => __( 'Automatically capture payments on virtual products.', 'woo-quickpay' ), 
+                        'description' => __( 'Automatically capture payments on physical products.', 'woo-quickpay' ), 
                         'default' => 'no',
                         'desc_tip' => false,
 					),
@@ -295,7 +295,7 @@ class WC_QuickPay_Settings {
                     ),
 				);	
 
-			if( WC_QuickPay_Helper::subscription_is_active() )
+			if( WC_QuickPay_Subscription::plugin_is_active() )
 			{			
 				$fields['woocommerce-subscriptions'] = array(
 					'type' => 'title',
@@ -337,6 +337,11 @@ class WC_QuickPay_Settings {
         asort($options);
         
         return $options;
+    }
+
+    public static function clear_logs_section() {
+        printf( '<h3 class="wc-settings-sub-title">%s</h3>', __( 'Logs', 'woo-quickpay' ) );
+        printf( '<button id="wcqp_logs_clear" class="button">%s</button>', __( 'Empty debug logs', 'woo-quickpay' ) );
     }
 }
 

@@ -151,6 +151,25 @@
 	$(function() {
 		new QuickPay().init();
         new QuickPayAjaxStatus().init();
+
+        var emptyLogsButton = $('#wcqp_logs_clear');
+        emptyLogsButton.on('click', function(e) {
+        	e.preventDefault();
+        	$.getJSON(ajaxurl, { action: 'quickpay_empty_logs' }, function (response) {
+        		if (response.hasOwnProperty('status') && response.status == 'success') {
+        			var message = $('<div id="message" class="updated"><p>' + response.message + '</p></div>');
+        			message.hide();
+        			message.insertBefore(emptyLogsButton);
+        			message.fadeIn('fast', function () {
+        				setTimeout(function () {
+        					message.fadeOut('fast', function () {
+        						message.remove();
+        					});
+        				},5000);
+        			});
+        		} 
+        	});
+        });
 	});
 
 	function QuickPay() {

@@ -1,0 +1,76 @@
+// Spinner
+.spinner {
+	position: fixed;
+	width: 50px;
+	top: 10%;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	z-index: 10000;
+	opacity: 1;
+	@include trans(0.3s);
+
+		.circle {
+			position: absolute;
+			top: 0;
+			left: 0;
+			background-color: transparent;
+		  border: 5px solid rgba(0, 0, 0, 0);
+		  border-right: 5px solid $mainGreen;
+		  border-left: 5px solid $mainGreen;
+		  border-radius: 50%;
+		  width: 50px;
+		  height: 50px;
+		  animation: mainSpin 2s infinite ease-in-out;
+		}
+
+		.circle1 {
+			position: absolute;
+			top: 12px;
+			left: 12px;
+			background-color: transparent;
+		  border: 2px solid $mainBlue;
+		  opacity: 1;
+		  border-right: 2px solid rgba(0, 0, 0, 0);
+		  border-left: 2px solid rgba(0, 0, 0, 0);
+		  border-radius: 50%;
+		  width: 26px;
+		  height: 26px;
+		  animation: mainSpinInner 2s infinite ease-in-out;
+		}
+}
+
+.spinner.hidden {
+	opacity: 0;
+	z-index: 0;
+}
+
+@keyframes mainSpin {
+	0% {
+		transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(180deg);
+  }
+
+  100% {
+    transform: rotate(359deg);
+  }
+}
+
+
+@keyframes mainSpinInner {
+	0% {
+		transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(-180deg);
+  }
+
+  100% {
+    transform: rotate(-359deg);
+  }
+}

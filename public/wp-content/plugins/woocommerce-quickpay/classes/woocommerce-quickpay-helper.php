@@ -39,27 +39,6 @@ class WC_QuickPay_Helper {
 
 
 	/**
-	* subscription_is_active function.
-	*
-	* Checks if Woocommerce Subscriptions is enabled or not
-	*
-	* @access public static
-	* @return string
-	*/
-	public static function subscription_is_active() {
-		if( ! function_exists( 'is_plugin_active' ) ) {
-			include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-		}
-
-		if( is_plugin_active( 'woocommerce-subscriptions/woocommerce-subscriptions.php' ) ) {
-			return TRUE;
-		} 
-
-		return FALSE;
-	}
-
-
-	/**
 	* enqueue_javascript_backend function.
 	*
 	* @access public static
@@ -103,9 +82,9 @@ class WC_QuickPay_Helper {
 	*/
 	public static function option_is_enabled( $value ) {
 		return ( $value == 'yes' ) ? 1 : 0;
-	}	
-    
-    
+	}
+
+
 	/**
 	* get_callback_url function
 	*
@@ -113,9 +92,9 @@ class WC_QuickPay_Helper {
 	*
 	* @access public
 	* @return string
-	*/	
+	*/
 	public static function get_callback_url() {
-		return add_query_arg( 'wc-api', 'WC_QuickPay', home_url( '/' ) );
+		return add_query_arg( 'wc-api', 'WC_QuickPay', site_url( '/' ) );
 	}
 
 
@@ -126,7 +105,7 @@ class WC_QuickPay_Helper {
 	*
 	* @access public
 	* @return string
-	*/	
+	*/
 	public static function is_url( $url ) {
 		return ! filter_var($url, FILTER_VALIDATE_URL) === FALSE;
 	}

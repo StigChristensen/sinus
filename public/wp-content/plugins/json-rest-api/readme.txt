@@ -3,7 +3,7 @@ Contributors: rmccue, rachelbaker
 Tags: json, rest, api, rest-api
 Requires at least: 3.9
 Tested up to: 4.4
-Stable tag: 1.2.4
+Stable tag: 1.2.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,6 +52,12 @@ Drop this directory in and activate it. You need to be using pretty permalinks
 to use the plugin, as it uses custom rewrite rules to power the API.
 
 == Changelog ==
+
+= 1.2.5 =
+
+* Ensure media of private posts are private too.
+
+  Reported by @danielbachhuber on 2016-01-08.
 
 = 1.2.4 =
 
