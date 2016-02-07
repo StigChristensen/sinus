@@ -14,3 +14,4 @@ public/wp-content/uploads/*
 public/wp-content/dbbackups/*
 public/wp-content/languages/*
 node_modules/*
+social-app/node_modules/*

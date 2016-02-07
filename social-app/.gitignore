@@ -4,6 +4,7 @@
 .zip
 *.crt
 *.key
+node_modules/*
 public/wp-content/uploads
 
 public/wp-content/dbbackups/*
