@@ -9,7 +9,7 @@
     padding: 20px;
     @include center();
     border-radius: 10px 10px 0 0;
-    background-color: $mainGreen;
+    background-color: $black;
 
     .info-content {
       width: 100%;
@@ -26,10 +26,13 @@
 
       h4 {
         font-size: 30px;
+        color: $mainGreen;
+        padding: 20px 0 0 0;
       }
 
       p.name {
         text-transform: uppercase;
+        color: $mainGreen;
       }
     }
 
@@ -39,12 +42,16 @@
     position: relative;
     width: 960px;
     height: auto;
+    min-height: 300px;
     top: 0px;
     padding: 0px;
     @include center();
     background-color: $white;
 
     .feed-content {
+      position: relative;
+      height: auto;
+
       .image-nodes {
 
         .image-container {
@@ -77,12 +84,15 @@
               float: left;
               width: 20px;
               height: 20px;
-              margin: 0px 5px;
+              margin: 0px 10px 0 10px;
              }
 
              p {
               float: left;
-              color: $mainGreen;
+              color: $white;
+              font-size: 18px;
+              margin: -2px 0 0 0;
+              font-weight: 700;
              }
           }
         }

@@ -1,0 +1,9 @@
+.txt
+.DS_Store
+.sass-cache
+.zip
+*.crt
+*.key
+public/wp-content/uploads
+
+public/wp-content/dbbackups/*

@@ -97,11 +97,13 @@ if ( 0 == $woocommerce_loop['loop'] % $woocommerce_loop['columns'] ) {
 
 				<?php if ( !$post->post_excerpt ) { ?>
 
-						<p class="content"><?php echo wp_trim_words( get_the_content(), 12, ' ...' ); ?></p>
+						<p class="content"><?php echo wp_trim_words( get_the_content(), 18, ' ...' ); ?></p>
 
-				<?php } else { ?>
+				<?php } else {
+					$excerpt = $post->post_excerpt;
+					?>
 
-				<p><?php echo apply_filters( 'woocommerce_short_description', $post->post_excerpt ) ?></p>
+				<p class="content"><?php echo wp_trim_words( $excerpt, 18, ' ...' ); ?></p>
 
 				<?php } ?>
 
