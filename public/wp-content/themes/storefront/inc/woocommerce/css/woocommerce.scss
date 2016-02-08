@@ -348,12 +348,20 @@ ul.products {
 		margin-right: .53em;
 	}
 
-	&.in-stock:before {
-		content: "\f118";
+	&.in-stock {
+		color: $success;
+
+		&:before {
+			content: "\f118";
+		}
 	}
 
-	&.out-of-stock:before {
-		content: "\f119";
+	&.out-of-stock {
+		color: $error;
+
+		&:before {
+			content: "\f119";
+		}
 	}
 }
 
@@ -415,6 +423,10 @@ a.reset_variations {
 
 	.comment-form-rating {
 		clear: both;
+
+		label {
+			display: block;
+		}
 	}
 }
 
@@ -454,8 +466,7 @@ a.reset_variations {
 			float: right;
 		}
 
-		.quantity,
-		> .amount {
+		> a {
 			display: block;
 		}
 	}
@@ -570,6 +581,23 @@ a.reset_variations {
 	.chosen {
 		&:before {
 			content: "\f14a";
+		}
+	}
+}
+
+.widget_layered_nav_filters {
+	ul {
+		li {
+			&.chosen {
+				a {
+					&:before {
+						font-family: "FontAwesome";
+						content: "\f00d";
+						margin-right: .53em;
+						color: $error;
+					}
+				}
+			}
 		}
 	}
 }
@@ -848,6 +876,51 @@ form.checkout {
 						float: right;
 					}
 				}
+
+				.wc-credit-card-form-card-number,
+				.wc-credit-card-form-card-expiry,
+				.wc-credit-card-form-card-cvc {
+					font-size: 1.387em;
+				}
+
+				.wc-credit-card-form-card-number {
+					background-repeat: no-repeat;
+					background-position: right .618em center;
+					background-size: 31px 20px;
+					background-image: url(../../../images/credit-cards/unknown.svg);
+
+					&.visa {
+						background-image: url(../../../images/credit-cards/visa.svg);
+					}
+
+					&.mastercard {
+						background-image: url(../../../images/credit-cards/mastercard.svg);
+					}
+
+					&.laser {
+						background-image: url(../../../images/credit-cards/laser.svg);
+					}
+
+					&.dinersclub {
+						background-image: url(../../../images/credit-cards/diners.svg);
+					}
+
+					&.maestro {
+						background-image: url(../../../images/credit-cards/maestro.svg);
+					}
+
+					&.jcb {
+						background-image: url(../../../images/credit-cards/jcb.svg);
+					}
+
+					&.amex {
+						background-image: url(../../../images/credit-cards/amex.svg);
+					}
+
+					&.discover {
+						background-image: url(../../../images/credit-cards/discover.svg);
+					}
+				}
 			}
 		}
 	}
@@ -857,10 +930,11 @@ form.checkout {
 		clear: both;
 		float: none;
 		margin-bottom: 0;
-		margin-top: 1em;
+		margin-bottom: 1em;
 
 		label {
-			display: inline;
+			display: inline-block;
+			margin-left: .618em;
 		}
 
 		input {
@@ -881,6 +955,22 @@ form.checkout {
 			font-size: 1.387em;
 			width: 100%;
 			white-space: pre-wrap;
+		}
+	}
+}
+
+.woocommerce-checkout {
+	.payment-fixed {
+		position: fixed;
+		top: 0;
+		z-index: 9;
+	}
+}
+
+.admin-bar {
+	.woocommerce-checkout {
+		.payment-fixed {
+			top: 32px;
 		}
 	}
 }
@@ -1093,6 +1183,9 @@ ul.digital-downloads {
 }
 
 p.stars {
+	display: inline-block;
+	margin: 0;
+
 	a {
 		position: relative;
 		height: 1em;
@@ -1323,7 +1416,7 @@ dl.variation {
 	}
 }
 
-@media screen and (min-width: 768px) {
+@include susy-media($desktop) {
 	/**
 	 * Responsive tables
 	 */
@@ -1489,6 +1582,14 @@ dl.variation {
 					}
 				}
 			}
+
+			.columns-6 {
+				ul.products {
+					li.product {
+						@include span(2 of 12);
+					}
+				}
+			}
 		}
 	}
 
@@ -1540,6 +1641,14 @@ dl.variation {
 				li.product {
 					width: 16.9%;
 					margin-right: 3.8%;
+				}
+			}
+		}
+
+		.columns-6 {
+			ul.products {
+				li.product {
+					@include span(1.5 of 9);
 				}
 			}
 		}
@@ -1671,6 +1780,14 @@ dl.variation {
 	/**
 	 * Cart
 	 */
+	.woocommerce-cart,
+	.woocommerce-checkout {
+		.hentry {
+			border-bottom: 0;
+			padding-bottom: 0;
+		}
+	}
+
 	.page-template-template-fullwidth-php {
 		table.cart {
 			.product-thumbnail {
@@ -1763,6 +1880,12 @@ dl.variation {
 		  	clear: right;
 		}
 
+		.cart_totals {
+			small.includes_tax {
+				display: block;
+			}
+		}
+
 		.shipping_calculator {
 			clear: right;
 		}
@@ -1808,6 +1931,18 @@ dl.variation {
 
 		& + #customer_details {
 			display: none;
+		}
+
+		&.addresses {
+			@include span(full);
+
+			.col-1 {
+				@include span(4.5 of 9);
+			}
+
+			.col-2 {
+				@include span(last 4.5 of 9)
+			}
 		}
 	}
 
@@ -1876,6 +2011,16 @@ dl.variation {
 			.form-row-last {
 				@include span(last 3 of 6);
 			}
+
+			&.addresses {
+				.col-1 {
+					@include span(6 of 12);
+				}
+
+				.col-2 {
+					@include span(last 6 of 12)
+				}
+			}
 		}
 
 		#order_review_heading,
@@ -1921,6 +2066,40 @@ dl.variation {
 
 			.col-2 {
 				@include span( 6 of 12 last );
+			}
+		}
+	}
+
+	.addresses {
+		header.title {
+			@include clearfix;
+
+			h3 {
+				float: left;
+			}
+
+			a {
+				float: right;
+				display: block;
+				width: 1em;
+				height: 1em;
+				text-indent: -9999px;
+				position: relative;
+				padding: .857em;
+				margin-top: .4em;
+
+				&:before {
+					font-family: "FontAwesome";
+					content: "\f044";
+					position: absolute;
+					top :0;
+					left: 0;
+					height: 100%;
+					width: 100%;
+					text-align: center;
+					text-indent: 0;
+					font-weight: 400;
+				}
 			}
 		}
 	}

@@ -3,15 +3,12 @@
 // Hide admin bar on the front facing site, when logged in.
 show_admin_bar(false);
 
-// include CPTs
-// function inc_cpt() {
-//   require get_stylesheet_directory_uri() . '/inc/custom-post-types.php';
-// }
-// add_action( 'after_setup_theme', 'inc_cpt' );
+// remove other styling
+add_filter( 'storefront_customizer_enabled', '__return_false' );
+add_filter( 'woocommerce_enqueue_styles', '__return_empty_array' );
 
 // Remove unwanted Menu Items in Admin.
 function remove_menus() {
-  // remove_menu_page( 'edit.php' );                   //Posts
   remove_menu_page( 'edit-comments.php' );          //Comments
 }
 add_action( 'admin_menu', 'remove_menus' );
@@ -20,19 +17,16 @@ remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'wp_print_styles', 'print_emoji_styles' );
 
 function reg_scripts() {
-	wp_enqueue_script( 'vendor', get_stylesheet_directory_uri() . '/js/lib.js', array(jquery), '1.0.0', true );
+	wp_enqueue_script( 'vendor', get_stylesheet_directory_uri() . '/js/lib.js', array('jquery'), '1.0.0', true );
 	wp_enqueue_script( 'app', get_stylesheet_directory_uri() . '/js/main.min.js', array( 'vendor' ), '0.0.1', true );
-  wp_enqueue_script( 'app', get_stylesheet_directory_uri() . '/js/main.min.js.map', array( 'vendor' ), '0.0.1', true );
 
-  wp_localize_script('app', 'site', array( 'theme_path' => get_stylesheet_directory_uri() ));
+  wp_localize_script('app', 'site', array( 'theme_path' => get_stylesheet_directory_uri(), 'ajax_url' => admin_url( 'admin-ajax.php' ), 'site_url' => get_site_url() ));
 
 	wp_enqueue_style( 'main', get_stylesheet_directory_uri() . '/css/main.min.css', array(), '0.0.1' );
-  wp_enqueue_style( 'main', get_stylesheet_directory_uri() . '/css/main.min.css.map', array(), '0.0.1' );
 }
-add_action( 'wp_enqueue_scripts', 'reg_scripts' );
+add_action( 'wp_enqueue_scripts', 'reg_scripts', 10 );
 
-add_filter( 'storefront_customizer_enabled', '__return_false' );
-add_filter( 'woocommerce_enqueue_styles', '__return_empty_array' );
+
 
 // Flush rewrite rules for custom post types
 add_action( 'after_switch_theme', 'wd_flush_rewrite_rules' );
@@ -88,7 +82,77 @@ function remove_empty_p( $content ) {
 add_filter('the_content', 'remove_empty_p', 20, 1);
 
 
-// Ensure cart contents update when products are added to the cart via AJAX
+// Custom cart ajax
+add_action( 'wp_ajax_sinus_add', 'sinus_cart_add' );
+add_action( 'wp_ajax_nopriv_sinus_add', 'sinus_cart_add' );
+
+function sinus_cart_add() {
+
+  $decoded = json_decode(file_get_contents("php://input"));
+
+  if ( $decoded ) {
+    WC()->cart->add_to_cart( $decoded->product_id, 1 );
+  } else {
+    return false;
+  }
+
+  $qty = WC()->cart->get_cart_contents_count();
+  $total = WC()->cart->get_cart_total();
+  $cart_url = WC()->cart->get_cart_url();
+  $checkout_url = WC()->cart->get_checkout_url();
+  $cart = WC()->cart->get_cart();
+
+  // generate output to update the cart.
+  ob_start();
+  ?>
+
+    <div class="arrow-up">
+      <img src="<?php echo get_stylesheet_directory_uri() . '/img/arrowup.png'; ?>">
+    </div>
+
+     <?php if ( $qty < 1 ) { ?>
+        <div class="cart-empty"><h4 class="cart">Din kurv er tom...</h4></div>
+      <?php } ?>
+
+      <?php if ( $qty >= 1 ) { ?>
+
+        <div class="cart-container">
+          <div class="cart-count"><p class="small">Antal varer: <?php echo $qty; ?></p></div>
+
+          <?php foreach ($cart as $ca) { ?>
+          <?php
+            $product = new WC_Product( $ca['product_id'] );
+            $price = $product->price;
+          ?>
+            <div class="cart-element">
+              <div class="elem-title"><p><?php echo get_the_title($ca['product_id']); ?></p></div>
+              <div class="elem-qty-total"><p>
+              <?php
+              if ( $ca['quantity'] > 1 ) {
+                echo $ca['quantity'] . ' x ' . $price . ',- kr.';
+              } else {
+                echo $price . ',- kr.';
+              } ?>
+              </p></div>
+            </div>
+
+          <?php } ?>
+
+          <div class="cart-total">
+            <p class="small">I alt: </p><h4><?php echo $total; ?></h4>
+            <p class="small">(inkl. moms)</p>
+          </div>
+
+          <div class="cart-link first"><a class="cart" href="<?php echo $cart_url; ?>">Kurv</a></div>
+          <div class="cart-link second"><a class="cart" href="<?php echo $checkout_url; ?>">Check ud</a></div>
+
+        </div>
+      <?php } ?>
+
+  <?php
+  $cart_content = ob_get_clean();
+  echo $cart_content;
+}
 
 
 

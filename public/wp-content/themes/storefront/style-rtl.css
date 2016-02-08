@@ -4,7 +4,7 @@ Theme URI:    	http://www.woothemes.com/storefront
 Author:       	WooThemes
 Author URI:		http://www.woothemes.com
 Description:  	Storefront is the perfect theme for your next WooCommerce project. Designed and developed by WooThemes, it features a deep integration with our market leading WooCommerce plugin, several layout & color options to personalise your shop, multiple widget regions, a responsive design and much more. Developers will love it's lean and extensible codebase making it a joy to customise and extend. Looking for a WooCommerce theme? Look no further!
-Version:      	1.5.3
+Version:      	1.6.1
 License:      	GNU General Public License v2 or later
 License URI:  	http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain:  	storefront
@@ -782,7 +782,10 @@ a {
 /**
  * General Layout
  */
-@media screen and (min-width: 768px) {
+@media (min-width: 768px) {
+  table.shop_table_responsive tbody tr td,
+  table.shop_table_responsive tbody tr th {
+    text-align: right; }
   .site-header .site-branding,
   .site-header .site-logo-anchor,
   .site-header .site-logo-link {
@@ -926,12 +929,12 @@ a {
         float: left;
         margin-left: 0; } }
 
-@media screen and (max-width: 65.141em) {
+@media (max-width: 65.141em) {
   .col-full {
     margin-right: 2.618em;
     margin-left: 2.618em; } }
 
-@media screen and (max-width: 568px) {
+@media (max-width: 568px) {
   .col-full {
     margin-right: 1.387em;
     margin-left: 1.387em; } }
@@ -1202,7 +1205,7 @@ fieldset {
     .main-navigation ul li a:hover {
       color: #e6e6e6; }
 
-@media screen and (min-width: 768px) {
+@media (min-width: 768px) {
   .menu-toggle,
   .handheld-navigation,
   .main-navigation.toggled .handheld-navigation,
@@ -1383,7 +1386,9 @@ fieldset {
   padding-bottom: 3.631em;
   border-bottom: 6px solid rgba(0, 0, 0, 0.05); }
   .hentry .wp-post-image {
-    margin-bottom: 1.618em; }
+    margin-bottom: 1.618em;
+    margin-right: auto;
+    margin-left: auto; }
   .hentry .entry-header {
     border-bottom: 3px solid #60646c;
     margin-bottom: 3.631em; }
@@ -1435,7 +1440,7 @@ fieldset {
 .edit-link:before {
   content: "\f040"; }
 
-@media screen and (min-width: 768px) {
+@media (min-width: 768px) {
   .hentry.type-post::after {
     clear: both;
     content: "";
@@ -1495,10 +1500,28 @@ fieldset {
     .gallery .gallery-item .gallery-icon img {
       border: none;
       height: auto;
-      margin-bottom: 0; }
+      margin: 0 auto; }
     .gallery .gallery-item .gallery-caption {
       margin: 0;
       text-align: center; }
+  .gallery.gallery-columns-1 .gallery-item {
+    width: 100%; }
+  .gallery.gallery-columns-2 .gallery-item {
+    width: 50%; }
+  .gallery.gallery-columns-3 .gallery-item {
+    width: 33.3%; }
+  .gallery.gallery-columns-4 .gallery-item {
+    width: 25%; }
+  .gallery.gallery-columns-5 .gallery-item {
+    width: 20%; }
+  .gallery.gallery-columns-6 .gallery-item {
+    width: 16.666666667%; }
+  .gallery.gallery-columns-7 .gallery-item {
+    width: 14.285714286%; }
+  .gallery.gallery-columns-8 .gallery-item {
+    width: 12.5%; }
+  .gallery.gallery-columns-9 .gallery-item {
+    width: 11.111111111%; }
 
 /**
  * Embeds
@@ -1650,7 +1673,7 @@ video {
   #respond form {
     margin-bottom: 0; }
 
-@media screen and (min-width: 768px) {
+@media (min-width: 768px) {
   .comment-list::after {
     clear: both;
     content: "";

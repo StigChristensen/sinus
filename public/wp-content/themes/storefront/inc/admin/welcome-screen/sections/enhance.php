@@ -15,6 +15,7 @@
 			</p>
 
 			<ul class="extensions">
+				<li><a href="https://www.woothemes.com/products/storefront-mega-menus?utm_source=product&utm_medium=upsell&utm_campaign=storefrontaddons">Mega Menus</a></li>
 				<li><a href="https://www.woothemes.com/products/storefront-woocommerce-customiser?utm_source=product&utm_medium=upsell&utm_campaign=storefrontaddons">WooCommerce Customiser</a></li>
 				<li><a href="https://www.woothemes.com/products/storefront-product-hero?utm_source=product&utm_medium=upsell&utm_campaign=storefrontaddons">Product Hero</a></li>
 				<li><a href="https://www.woothemes.com/products/storefront-parallax-hero?utm_source=product&utm_medium=upsell&utm_campaign=storefrontaddons">Parallax Hero</a></li>

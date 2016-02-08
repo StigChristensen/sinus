@@ -41,22 +41,30 @@ var embedVidController = function() {
 
 
 var gridCartController = function() {
-  var addBtn = $('body').find('.add-button');
+  var addBtn = $('body').find('.add-button'),
+      cart = $('body').find('.cart-contents');
 
   $(addBtn).each(function(i, e) {
-    var productHref = $(this).attr('data-href'),
-        curLocation = window.location.href;
+    var id = $(this).attr('data-href');
 
     $(this).on('click', function(event) {
       event.preventDefault();
-      var url = curLocation + productHref;
+      var url = site.ajax_url + '?action=sinus_add',
+          dataObject = {
+            'product_id': id
+          }
 
-      console.log(url, this);
+      data = JSON.stringify(dataObject);
 
-      $.get({
+      console.log(url, data);
+
+      $.ajax({
         url: url,
+        type: 'POST',
+        data: data,
+        dataType: 'html',
         success: function(response) {
-          console.log('success -', response);
+          $(cart).html(response);
         },
         error: function(response) {
           console.log('error -', response);
@@ -155,3 +163,9 @@ var SineAnimation = function() {
         'left': [-310, 0]
       }, options);
 };
+
+
+
+
+// Google Maps style
+

@@ -111,9 +111,9 @@ function storefront_widgets_init() {
 	) );
 
 	register_sidebar( array(
-		'name'          => __( 'Header', 'storefront' ),
+		'name'          => __( 'Below Header', 'storefront' ),
 		'id'            => 'header-1',
-		'description'   => '',
+		'description'   => 'Widgets added to this region will appear beneath the header and above the main content.',
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</aside>',
 		'before_title'  => '<h3 class="widget-title">',
@@ -160,7 +160,7 @@ function storefront_scripts() {
  * Enqueue child theme stylesheet.
  * A separate function is required as the child theme css needs to be enqueued _after_ the parent theme
  * primary css and the separate WooCommerce css.
- * @since  1.0.0
+ * @since  1.5.3
  */
 function storefront_child_scripts() {
 	if ( is_child_theme() ) {

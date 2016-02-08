@@ -26,6 +26,20 @@
       padding: 0;
       text-align: center;
 
+      a {
+        width: auto;
+        height: auto;
+        max-width: 100%;
+
+
+        img {
+          width: auto;
+          height: auto;
+          max-width: 100%;
+          margin: 10px 0;
+        }
+      }
+
       .thumbnails {
         width: 100%;
         text-align: center;
@@ -37,6 +51,7 @@
           display: inline-block;
           overflow: hidden;
           border: 1px solid $mainGreen;
+          margin: 0 3px 0px 0;
 
            img {
             position: absolute;
@@ -46,32 +61,63 @@
             left: 0;
            }
         }
-
-        a:first-child {
-          margin: 0 10px 0 0;
-        }
-
-        a:last-child {
-          margin: 0 0px 0 10px;
-        }
       }
     }
 
     .product-content {
-      padding: 0px 50px 50px 0;
+      padding: 0px 40px 50px 40px;
       margin: 50px 0 50px 0;
       text-align: left;
-      // background-color: $lightGrey;
       border-radius: 0 10px 10px 0;
 
+      .main-description {
+        p, div p, .product-short-description p, .product-features p, p.subcategory-description {
+          font-family: $robotCon;
+          font-size: 20px;
+          font-weight: 300;
+          color: $black;
+          padding: 0px 50px 20px 0px;
 
+          a {
+            font-family: $robotCon;
+            font-size: 20px;
+            font-weight: 400;
+            color: $mainBlue;
+          }
 
-      p {
-        font-family: $robotCon;
-        font-size: 18px;
-        font-weight: 400;
-        color: $black;
-        padding: 0px 100px 35px 100px;
+          b {
+            font-family: $robotCon;
+            font-size: 20px;
+            font-weight: 700;
+            color: $black;
+            padding: 0px;
+          }
+        }
+
+        ul {
+          width: 100%;
+          margin: 0 0px 20px 50px;
+
+          li {
+            font-family: $robotCon;
+            font-size: 20px;
+            font-weight: 700;
+            color: $black;
+            padding: 0px 0px 10px 0px;
+          }
+        }
+      }
+
+      .product-specs {
+        width: 100%;
+        margin: 50px 0 0 0;
+
+        p.specs {
+          font-weight: 700;
+          font-family: $robotCon;
+          font-size: 20px;
+          padding: 0px 50px 25px 0px;
+        }
       }
 
       .youtube-frame {
