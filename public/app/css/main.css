@@ -139,12 +139,19 @@ html, body {
     font-family: 'Roboto Condensed', sans-serif;
     font-size: 86px;
     line-height: 1;
-    font-weight: 300;
+    font-weight: 700;
     float: left;
     margin: -6px 10px 0 0px;
     color: #FFF;
-    padding: 0px 20px 4px 20px;
-    background-color: #1a8180; }
+    padding: 0px 20px 35px 20px;
+    background-color: #007c96; }
+  html .body-text, body .body-text {
+    margin: 50px 0; }
+  html p.paragraph, body p.paragraph {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.5;
+    margin: 25 0 25px 0; }
   html .float-text, body .float-text {
     float: left;
     margin: 51px 0 0 0; }
@@ -243,7 +250,7 @@ input[type=submit], .search-submit {
 .menu-icon {
   position: fixed;
   top: 0;
-  right: 0;
+  right: 15px;
   cursor: pointer;
   z-index: 10000; }
   .menu-icon svg.menu {
@@ -611,7 +618,7 @@ ul.products {
       width: auto;
       height: auto;
       max-width: 100%;
-      margin: 10px 0; }
+      margin: 0px 0; }
   .site-main .product .images .thumbnails {
     width: 100%;
     text-align: center; }
@@ -809,7 +816,7 @@ ul.products {
 footer, footer.site-footer {
   width: 100%;
   height: 470px;
-  margin: 100px 0 0 0;
+  margin: 150px 0 0 0;
   background-color: #2b2b2b;
   float: left;
   position: relative;
@@ -831,7 +838,7 @@ footer, footer.site-footer {
     footer .footer-content .footer-left, footer.site-footer .footer-content .footer-left {
       width: 50%;
       height: 100%;
-      padding: 40px 0 0 0;
+      padding: 45px 0 0 0;
       margin: 0;
       float: left;
       text-align: left; }
@@ -854,7 +861,7 @@ footer, footer.site-footer {
     footer .footer-content .footer-right, footer.site-footer .footer-content .footer-right {
       width: 50%;
       height: 100%;
-      padding: 40px 0 0 0;
+      padding: 45px 0 0 0;
       margin: 0;
       float: right;
       text-align: right; }
@@ -862,24 +869,29 @@ footer, footer.site-footer {
         color: #007c96; }
   footer .map, footer.site-footer .map {
     position: absolute;
-    top: 235px;
+    bottom: 60px;
     left: 0;
     right: 0;
     margin-left: auto;
     margin-right: auto;
-    width: 960px;
+    width: 100%;
     height: 140px;
-    border: 2px solid #4fd5ca; }
+    opacity: 0.5;
+    border-bottom: 1px solid #000;
+    border-top: 1px solid #000; }
+    footer .map .gm-style-cc, footer.site-footer .map .gm-style-cc {
+      opacity: 0.2; }
   footer address.sub, footer.site-footer address.sub {
     position: absolute;
-    bottom: 15px;
+    bottom: 0px;
     left: 0;
     right: 0;
     margin-left: auto;
     margin-right: auto;
     font-size: 12px;
     font-weight: 700;
-    color: #BCBCBC; }
+    color: #BCBCBC;
+    opacity: 0.15; }
 
 .site-main .info-container {
   width: 960px;
@@ -1023,9 +1035,11 @@ footer, footer.site-footer {
   display: none; }
 
 html, body {
+  width: 100%;
+  height: 100%;
   background-color: #FFF;
   margin: 0;
   padding: 0;
   position: relative;
   overflow-x: hidden;
-  overflow-y: scroll; }
+  overflow-y: auto; }

@@ -56,8 +56,6 @@ var gridCartController = function() {
 
       data = JSON.stringify(dataObject);
 
-      console.log(url, data);
-
       $.ajax({
         url: url,
         type: 'POST',

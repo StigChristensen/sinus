@@ -4,6 +4,7 @@
     <div class="footer-bar"></div>
     <div class="footer-content">
       <div class="footer-left" itemscope itemtype="http://schema.org/Organization">
+        <a class="maplink" href="https://www.google.com/maps/place/Studiestr%C3%A6de+24,+1455+K%C3%B8benhavn+K,+Denmark/@55.6784408,12.5665802,17z/data=!3m1!4b1!4m2!3m1!1s0x4652530e3be1ef31:0x5d7d53361e137078" target="_blank">
         <address class="store-address" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
           <h4 itemprop="name">Sinus</h4>
           <p itemprop="name">Headphones & Audio</p>
@@ -11,6 +12,7 @@
           <span itemprop="addressRegion">DK-1455 København</span><br>
           <span itemprop="phoneNumber">TLF:</span>
         </address>
+        </a>
         <a href="mailto:info@sinus-store.dk" itemprop="email"><p>info@sinus-store.dk</p></a><br>
 
       </div>
@@ -20,7 +22,8 @@
       </div>
     </div>
 
-    <div class="map" id="storemap"></div>
+        <div class="map" id="storemap"></div>
+
 
     <address class="sub" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
       <span itemprop="name">Sinus IVS / </span>
@@ -61,7 +64,7 @@
         "elementType": "labels.text.stroke",
         "stylers": [
             {
-                "visibility": "on"
+                "visibility": "off"
             }
         ]
     },
@@ -70,7 +73,7 @@
         "elementType": "labels.text.fill",
         "stylers": [
             {
-                "color": "#222222"
+                "color": "#FAFAFA"
             }
         ]
     },
@@ -88,13 +91,13 @@
         "elementType": "labels.text",
         "stylers": [
             {
-                "color": "#222222"
+                "color": "#FAFAFA"
             },
             {
                 "visibility": "off"
             },
             {
-                "lightness": "0"
+                "lightness": "10"
             }
         ]
     },
@@ -130,7 +133,7 @@
         "elementType": "all",
         "stylers": [
             {
-                "color": "#f2f2f2"
+                "color": "#2b2b2b"
             }
         ]
     },
@@ -202,10 +205,10 @@
                 "visibility": "simplified"
             },
             {
-                "lightness": "10"
+                "lightness": "100"
             },
             {
-                "weight": "0.69"
+                "weight": "1"
             }
         ]
     },
@@ -220,10 +223,37 @@
     },
     {
         "featureType": "road.highway",
-        "elementType": "geometry",
+        "elementType": "geometry.fill",
         "stylers": [
             {
                 "visibility": "on"
+            },
+            {
+                "color": "#acb1b0"
+            },
+            {
+                "lightness": "5"
+            },
+            {
+                "weight": "1"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "visibility": "on"
+            },
+            {
+                "color": "#4fd5ca"
+            },
+            {
+                "lightness": "25"
+            },
+            {
+                "weight": "1"
             }
         ]
     },
@@ -268,7 +298,7 @@
                 "lightness": "25"
             },
             {
-                "weight": "1.02"
+                "weight": "1"
             }
         ]
     },
@@ -283,7 +313,7 @@
                 "color": "#4fd5ca"
             },
             {
-                "lightness": "20"
+                "lightness": "25"
             }
         ]
     },
@@ -296,7 +326,7 @@
             },
             {
                 "lightness": "10"
-            }
+            },
         ]
     },
     {
@@ -304,13 +334,13 @@
         "elementType": "labels.text.stroke",
         "stylers": [
             {
-                "lightness": "1"
+                "lightness": "10"
             },
             {
                 "visibility": "on"
             },
             {
-                "hue": "#0094ff"
+                "hue": "#FFF"
             }
         ]
     },
@@ -340,7 +370,7 @@
   function initMap() {
     map = new google.maps.Map(document.getElementById('storemap'), {
       center: latLng,
-      zoom: 15,
+      zoom: 16,
       styles: mapStyle
     });
 

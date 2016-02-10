@@ -107,13 +107,25 @@ html, body {
 		font-family: $robotCon;
 	  font-size: 86px;
 	  line-height: 1;
-	  font-weight: 300;
+	  font-weight: 700;
 	  float: left;
 	  margin: -6px 10px 0 0px;
 	  color: #FFF;
-	  padding: 0px 20px 4px 20px;
-	  background-color: #1a8180;
+	  padding: 0px 20px 35px 20px;
+	  background-color: $mainBlue;
 	}
+
+	.body-text {
+		margin: 50px 0;
+	}
+
+	p.paragraph {
+		font-size: 16px;
+		font-weight: 300;
+		line-height: 1.5;
+		margin: 25 0 25px 0;
+	}
+
 
 	.float-text {
 		float: left;
