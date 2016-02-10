@@ -80,8 +80,8 @@ let userFeed = ()=> {
         <div className="image-container">
           <a href={this.props.link} target="_blank"><img className="feed-thumb" src={this.props.thumb} /></a>
           <div className="like-bar">
-            <img className="like-icon" src="https://sinus/social-api/img/like.png" /><p className="likes">{this.props.likes}</p>
-            <img className="comments-icon" src="https://sinus/social-api/img/comments.png" /><p className="comments">{this.props.comments}</p>
+            <img className="like-icon" src="https://www.sinus-store.dk/social-api/img/like.png" /><p className="likes">{this.props.likes}</p>
+            <img className="comments-icon" src="https://www.sinus-store.dk/social-api/img/comments.png" /><p className="comments">{this.props.comments}</p>
           </div>
         </div>
       );
@@ -99,7 +99,7 @@ let userFeed = ()=> {
     }
   })
 
-  let url = 'https://sinus/social-api/api/getuserfeed.php';
+  let url = 'https://www.sinus-store.dk/social-api/api/getuserfeed.php';
 
   ReactDOM.render(
     <FeedContainer source={url} />,

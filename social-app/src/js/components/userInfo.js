@@ -8,7 +8,7 @@ let userInfo = ()=> {
     getInitialState: ()=> {
       return {
         data: {},
-        profilepic: 'https://sinus/social-api/img/placeholder.png',
+        profilepic: 'https://www.sinus-store.dk/social-api/img/placeholder.png',
         spinnerShow: true
       }
     },
@@ -34,7 +34,7 @@ let userInfo = ()=> {
     }
   });
 
-  let url = 'https://sinus/social-api/api/getuserinfo.php';
+  let url = 'https://www.sinus-store.dk/social-api/api/getuserinfo.php';
 
   ReactDOM.render(
     <InfoContainer source={url} />,

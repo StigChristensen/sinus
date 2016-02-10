@@ -36,7 +36,7 @@ gulp.task('scripts', function() {
 gulp.task('styles', function() {
   return gulp.src('src/sass/**/*.scss')
     .pipe(sass())
-    .pipe(gulp.dest('public/app/css/'))
+    .pipe(gulp.dest('public/wp-content/themes/storefront-child/css/'))
     .pipe(sourcemaps.init())
     .pipe(autoprefixer({browsers: ['last 3 versions']}))
     .pipe(cssmin())

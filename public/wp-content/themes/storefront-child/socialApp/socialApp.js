@@ -7881,7 +7881,10 @@ var ReactDOMOption = {
       }
     });
 
-    nativeProps.children = content;
+    if (content) {
+      nativeProps.children = content;
+    }
+
     return nativeProps;
   }
 
@@ -14070,7 +14073,7 @@ module.exports = ReactUpdates;
 
 'use strict';
 
-module.exports = '0.14.6';
+module.exports = '0.14.7';
 },{}],88:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -15166,6 +15169,7 @@ var warning = require('fbjs/lib/warning');
  */
 var EventInterface = {
   type: null,
+  target: null,
   // currentTarget is set when dispatching; no use in copying it here
   currentTarget: emptyFunction.thatReturnsNull,
   eventPhase: null,
@@ -15199,8 +15203,6 @@ function SyntheticEvent(dispatchConfig, dispatchMarker, nativeEvent, nativeEvent
   this.dispatchConfig = dispatchConfig;
   this.dispatchMarker = dispatchMarker;
   this.nativeEvent = nativeEvent;
-  this.target = nativeEventTarget;
-  this.currentTarget = nativeEventTarget;
 
   var Interface = this.constructor.Interface;
   for (var propName in Interface) {
@@ -15211,7 +15213,11 @@ function SyntheticEvent(dispatchConfig, dispatchMarker, nativeEvent, nativeEvent
     if (normalize) {
       this[propName] = normalize(nativeEvent);
     } else {
-      this[propName] = nativeEvent[propName];
+      if (propName === 'target') {
+        this.target = nativeEventTarget;
+      } else {
+        this[propName] = nativeEvent[propName];
+      }
     }
   }
 
@@ -19128,6 +19134,7 @@ var userFeed = function userFeed() {
   var FeedContainer = _react2.default.createClass({
     displayName: 'FeedContainer',
 
+
     getInitialState: function getInitialState() {
       return {
         data: []
@@ -19195,13 +19202,13 @@ var userFeed = function userFeed() {
         _react2.default.createElement(
           'div',
           { className: 'like-bar' },
-          _react2.default.createElement('img', { className: 'like-icon', src: 'https://sinus/social-api/img/like.png' }),
+          _react2.default.createElement('img', { className: 'like-icon', src: 'https://www.sinus-store.dk/social-api/img/like.png' }),
           _react2.default.createElement(
             'p',
             { className: 'likes' },
             this.props.likes
           ),
-          _react2.default.createElement('img', { className: 'comments-icon', src: 'https://sinus/social-api/img/comments.png' }),
+          _react2.default.createElement('img', { className: 'comments-icon', src: 'https://www.sinus-store.dk/social-api/img/comments.png' }),
           _react2.default.createElement(
             'p',
             { className: 'comments' },
@@ -19225,7 +19232,7 @@ var userFeed = function userFeed() {
     }
   });
 
-  var url = 'https://sinus/social-api/api/getuserfeed.php';
+  var url = 'https://www.sinus-store.dk/social-api/api/getuserfeed.php';
 
   _reactDom2.default.render(_react2.default.createElement(FeedContainer, { source: url }), document.getElementById('user-feed'));
 };
@@ -19250,10 +19257,11 @@ var userInfo = function userInfo() {
   var InfoContainer = _react2.default.createClass({
     displayName: 'InfoContainer',
 
+
     getInitialState: function getInitialState() {
       return {
         data: {},
-        profilepic: 'https://sinus/social-api/img/placeholder.png',
+        profilepic: 'https://www.sinus-store.dk/social-api/img/placeholder.png',
         spinnerShow: true
       };
     },
@@ -19287,7 +19295,7 @@ var userInfo = function userInfo() {
     }
   });
 
-  var url = 'https://sinus/social-api/api/getuserinfo.php';
+  var url = 'https://www.sinus-store.dk/social-api/api/getuserinfo.php';
 
   _reactDom2.default.render(_react2.default.createElement(InfoContainer, { source: url }), document.getElementById('user-info'));
 };
