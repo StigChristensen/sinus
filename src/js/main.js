@@ -6,7 +6,6 @@ if (/*@cc_on!@*/false && document.documentMode === 10) {
 jQuery(document).on('ready', function() {
   $ = jQuery;
 
-  new SineAnimation();
   new CartController();
   new MenuController();
   new gridCartController();
@@ -20,6 +19,38 @@ jQuery(document).on('ready', function() {
   });
 }); // End Ready
 
+function addedToCart(title) {
+  var atcModal = $('body').find('.atc-modal');
+  var html = title + '<span>- blev tilføjet til kurven.</span>';
+
+  $(atcModal).append(html);
+
+  function animate() {
+    $(atcModal).velocity({
+      'opacity': [1, 0],
+      'top': [100, 300],
+      'z-index': [5000, 5000]
+    }, {duration: 400, delay: 0, easing: 'easeInOutSine'});
+
+    $(atcModal).velocity({
+      'opacity': [0, 1],
+      'top': [300, 100],
+      'z-index': 5000
+    }, {duration: 400, delay: 1400, easing: 'easeInOutSine'});
+  }
+
+  setTimeout(function() {
+    animate();
+  }, 100);
+
+  setTimeout(function() {
+    $(atcModal).html('');
+    $(atcModal).css({
+      'z-index': -1000
+    });
+  }, 2000);
+}
+
 
 var embedVidController = function() {
   var vidFrame = $('body').find('.youtube-frame');
@@ -32,8 +63,12 @@ var embedVidController = function() {
 
   function initVideo() {
     var vidUrl = $(vidFrame).attr('data-href'),
-        vidId = vidUrl.split('/'),
-        constructedHtml = '<iframe width="760" height="428" src="https://www.youtube.com/embed/' + vidId[3] + '?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>';
+        vidId = vidUrl.split('/');
+
+    var width = $(window).width(),
+        height = (width / 16) * 9;
+
+    var constructedHtml = '<iframe width="' + width + '" height="' + height + '" src="https://www.youtube.com/embed/' + vidId[3] + '?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>';
 
     $(vidFrame).html(constructedHtml);
   }
@@ -45,7 +80,8 @@ var gridCartController = function() {
       cart = $('body').find('.cart-contents');
 
   $(addBtn).each(function(i, e) {
-    var id = $(this).attr('data-href');
+    var id = $(this).attr('data-href'),
+        prodTitle = $(this).attr('data-title');
 
     $(this).on('click', function(event) {
       event.preventDefault();
@@ -63,6 +99,7 @@ var gridCartController = function() {
         dataType: 'html',
         success: function(response) {
           $(cart).html(response);
+          addedToCart(prodTitle);
         },
         error: function(response) {
           console.log('error -', response);
@@ -79,23 +116,67 @@ var MenuController = function() {
       menuLinks = $(mainMenu).find('li'),
       menuHeaders = $(mainMenu).find('h3'),
       footer = $('body').find('footer'),
-      footerPosition = $(footer).position();
+      footerPosition = $(footer).position(),
+      searchForm = $('body').find('.search-form'),
+      cartIcon = $('body').find('.cart-icon'),
+      cartContents = $('body').find('.cart-contents'),
+      width = $(window).width();
 
       // set menu height, relative to content height
       $(mainMenu).css({
         'height': footerPosition.top + 100 + 'px'
       });
 
-      $(menuBtn).on('click', function() {
+      $(menuBtn).on('click', animateMenu);
+
+      function animateMenu() {
         if ( $(mainMenu).hasClass('hidden') ) {
           $(mainMenu).removeClass('hidden');
           $(this).addClass('open');
+          updateHeaderOpen();
           addEventListener();
         } else {
           $(mainMenu).addClass('hidden');
           $(this).removeClass('open');
+          updateHeaderClose();
         }
-      });
+      }
+
+      function updateHeaderOpen() {
+        var rawIconCss = $(cartIcon).css('right'),
+            rawSearchCss = $(searchForm).css('right'),
+            rawCartContCss = $(cartContents).css('right'),
+            iconRight = parseInt(rawIconCss.replace('px', '')),
+            searchRight = parseInt(rawSearchCss.replace('px', '')),
+            cartContRight = parseInt(rawCartContCss.replace('px', ''));
+
+
+            $(cartIcon).velocity({
+              'right': iconRight + 230 + 'px'
+            }, {duration: 400, delay: 100, easing: 'easeOutSine'});
+
+            $(searchForm).velocity({
+              'right': searchRight + 230 + 'px'
+            }, {duration: 400, delay: 0, easing: 'easeOutSine'});
+
+            $(cartContents).velocity({
+              'right': cartContRight + 230 + 'px'
+            }, {duration: 400, delay: 150, easing: 'easeOutSine'});
+      }
+
+      function updateHeaderClose() {
+            $(cartIcon).velocity({
+              'right': 80
+            }, {duration: 300, delay: 200, easing: 'easeOutSine'});
+
+            $(searchForm).velocity({
+              'right': 155
+            }, {duration: 300, delay: 300, easing: 'easeOutSine'});
+
+            $(cartContents).velocity({
+              'right': 80
+            }, {duration: 300, delay: 250, easing: 'easeOutSine'});
+      }
 
       function addEventListener() {
         $(menuLinks).on('click', function(e) {
@@ -128,7 +209,8 @@ var MenuController = function() {
         setTimeout(function() {
           $(menuBtn).removeClass('open');
           $(mainMenu).addClass('hidden');
-        }, 900);
+          updateHeaderClose();
+        }, 1000);
 
         setTimeout(function() {
           window.location.href = href;
@@ -146,24 +228,18 @@ var CartController = function() {
   });
 }
 
-var SineAnimation = function() {
-  var container = $('body').find('.sine-animation'),
-      imgContainer = $(container).find('.img-container');
+// var SineAnimation = function() {
+//   var container = $('body').find('.sine-animation'),
+//       imgContainer = $(container).find('.img-container');
 
-      var options = {
-        'duration': 5000,
-        'delay': 8000,
-        'easing': 'easeInOutSine',
-        'loop': true
-      }
+//       var options = {
+//         'duration': 5000,
+//         'delay': 8000,
+//         'easing': 'easeInOutSine',
+//         'loop': true
+//       }
 
-      $(imgContainer).velocity({
-        'left': [-310, 0]
-      }, options);
-};
-
-
-
-
-// Google Maps style
-
+//       $(imgContainer).velocity({
+//         'left': [-310, 0]
+//       }, options);
+// };

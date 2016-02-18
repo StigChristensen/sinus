@@ -1,73 +1,67 @@
 <?php
 /**
  * The template for displaying product content in the single-product.php template
- *
- * Override this template by copying it to yourtheme/woocommerce/content-single-product.php
- *
- * @author 		WooThemes
- * @package 	WooCommerce/Templates
- * @version     1.6.4
- */
+ **/
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+  exit; // Exit if accessed directly
 }
-
+  global $product, $post;
+  $image_ids = $product->get_gallery_attachment_ids();
 ?>
 
-<?php
-	/**
-	 * woocommerce_before_single_product hook
-	 *
-	 * @hooked wc_print_notices - 10
-	 */
-	 do_action( 'woocommerce_before_single_product' );
+<div itemscope itemtype="<?php echo woocommerce_get_product_schema(); ?>" id="product-<?php the_ID(); ?>" class="sinus single-product">
+  <h1 class="single-product-title" itemprop="model"><?php the_title(); ?></h1>
 
-	global $product, $post;
-?>
+  <?php // Images
+    if ( has_post_thumbnail() ) {
+      $image_title  = esc_attr( get_the_title( get_post_thumbnail_id() ) );
+      $image_caption  = get_post( get_post_thumbnail_id() )->post_excerpt;
+      $image        = get_the_post_thumbnail( $post->ID, apply_filters( 'single_product_large_thumbnail_size', 'shop_single' ), array(
+        'title' => $image_title,
+        'alt' => $image_title
+        ) );
+    } else {
+      echo apply_filters( 'woocommerce_single_product_image_html', sprintf( '<img src="%s" alt="%s" />', wc_placeholder_img_src(), __( 'Placeholder', 'woocommerce' ) ), $post->ID );
+    }
 
-<div itemscope itemtype="<?php echo woocommerce_get_product_schema(); ?>" id="product-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<h3 class="single-product-title"><?php the_title(); ?></h2>
+    $attachment_count = count( $image_ids );
 
-	<?php
-		/**
-		 * woocommerce_before_single_product_summary hook
-		 *
-		 * @hooked woocommerce_show_product_sale_flash - 10
-		 * @hooked woocommerce_show_product_images - 20
-		 */
-		do_action( 'woocommerce_before_single_product_summary' );
-	?>
+    if ( $attachment_count >= 1 ) {
 
-	<h1><?php the_title(); ?></h1>
-	<div class="product-content">
-		<div class="main-description">
-			<?php the_content(); ?>
-		</div>
-		<div class="product-specs">
-			<p class="specs"><?php the_field('specifikationer'); ?></p>
-		</div>
+      echo apply_filters( 'woocommerce_single_product_image_html', sprintf( '<div class="main-image"  itemprop="image">%s</div>', $image ), $post->ID );
 
-		<?php
-			$vid_url = get_field('youtube');
-			if ($vid_url) { ?>
-				<div class="youtube-frame" data-href="<?php echo $vid_url ?>"></div>
-			<?php } ?>
-	</div>
+      $img_loop = 0;
+      foreach( $image_ids as $id ) {
+        $image = wp_get_attachment_image( $id,  apply_filters( 'single_product_large_thumbnail_size', 'shop_single' ), 0, $attr = array(
+      'title' => $image_title,
+      'alt' => $image_title
+      ) );;
+          echo apply_filters( 'woocommerce_single_product_image_html', sprintf( '<div class="product-image-%s"  itemprop="image">%s</div>', $img_loop, $image ), $id, $post->ID );
+        $img_loop++;
+      }
+    } elseif ( $attachment_count < 1 ) {
+      echo apply_filters( 'woocommerce_single_product_image_html', sprintf( '<div class="main-image"  itemprop="image">%s</div>', $image ), $post->ID );
+    }
+  ?>
 
-	<?php
-		/**
-		 * woocommerce_after_single_product_summary hook
-		 *
-		 * @hooked woocommerce_output_product_data_tabs - 10
-		 * @hooked woocommerce_upsell_display - 15
-		 * @hooked woocommerce_output_related_products - 20
-		 */
-		// do_action( 'woocommerce_after_single_product_summary' );
-	?>
+  <div class="product-content">
+    <div class="main-description">
+      <?php the_content(); ?>
+    </div>
+    <div class="product-specs">
+      <p class="specs"><?php the_field('specifikationer'); ?></p>
+    </div>
 
-	<meta itemprop="url" content="<?php the_permalink(); ?>" />
+    <?php
+      $vid_url = get_field('youtube');
+      if ($vid_url) { ?>
+        <div class="youtube-frame" data-href="<?php echo $vid_url ?>"></div>
+      <?php } ?>
+  </div>
+
+  <meta itemprop="url" content="<?php the_permalink(); ?>" />
 
 </div><!-- #product-<?php the_ID(); ?> -->
 
-<?php do_action( 'woocommerce_after_single_product' ); ?>
+<?php //do_action( 'woocommerce_after_single_product' ); ?>

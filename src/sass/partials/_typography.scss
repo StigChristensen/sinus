@@ -105,18 +105,17 @@ html, body {
 
 	.first-letter {
 		font-family: $robotCon;
-	  font-size: 86px;
-	  line-height: 1;
+	  font-size: 110px;
+	  line-height: 0.87;
 	  font-weight: 700;
 	  float: left;
-	  margin: -6px 10px 0 0px;
+	  margin: -6px 5px 0 0;
 	  color: #FFF;
-	  padding: 0px 20px 35px 20px;
-	  background-color: $mainBlue;
+	  padding: 0 15px 45px;
 	}
 
 	.body-text {
-		margin: 50px 0;
+		margin: 55px 0;
 	}
 
 	p.paragraph {

@@ -90,34 +90,21 @@
       $checkout_url = $woocommerce->cart->get_checkout_url();
       $cart = $woocommerce->cart->get_cart(); ?>
 
-  <div class="header head-row-1">
+  <div class="header top">
       <div class="headerlogo">
-        <a href="<?php echo site_url(); ?>"><img src="<?php echo get_stylesheet_directory_uri() . '/img/headerlogo.png'; ?>" ></a>
+        <a href="<?php echo site_url(); ?>"><img src="<?php echo get_stylesheet_directory_uri() . '/img/sinus_logo_new3.png'; ?>" ></a>
       </div>
-      <div class="sine-animation">
-        <div class="img-container">
-          <img src="<?php echo get_stylesheet_directory_uri() . '/img/sineanim.png'; ?>">
-        </div>
+      <div class="search-form">
+        <?php get_search_form( true ); ?>
       </div>
-      <div class="headermenu">
         <div class="cart-icon">
-          <?php if ( $qty < 1 ) { ?>
-            <img src="<?php echo get_stylesheet_directory_uri() . '/img/cart-empty.png'; ?>">
-          <?php } ?>
-          <?php if ( $qty >= 1 ) { ?>
-            <img src="<?php echo get_stylesheet_directory_uri() . '/img/cart-full.png'; ?>">
-          <?php } ?>
-        </div>
+          <h5><?php echo $qty; ?></h5>
+          <img src="<?php echo get_stylesheet_directory_uri() . '/img/headphones_cart.png'; ?>" alt="Sinus-Store.dk Sinus Headphones cart icon" />
       </div>
   </div>
 
 
   <div class="cart-contents hidden">
-
-    <div class="arrow-up">
-      <img src="<?php echo get_stylesheet_directory_uri() . '/img/arrowup.png'; ?>">
-    </div>
-
      <?php if ( $qty < 1 ) { ?>
         <div class="cart-empty"><h4 class="cart">Din kurv er tom...</h4></div>
       <?php } ?>
@@ -158,12 +145,5 @@
       <?php } ?>
   </div>
 
-
-  <div class="header head-row-2">
-    <div class="search-form">
-      <?php get_search_form( true ); ?>
-    </div>
-  </div>
-
-
+<div class="atc-modal"></div>
 

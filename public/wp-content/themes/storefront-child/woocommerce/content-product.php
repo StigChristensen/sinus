@@ -76,7 +76,7 @@ if ( 0 == $woocommerce_loop['loop'] % $woocommerce_loop['columns'] ) {
 			 */
 			do_action( 'woocommerce_after_shop_loop_item_title' );
 		?>
-			<div class="add-button" data-href="<?php echo $product->id; ?>">
+			<div class="add-button" data-href="<?php echo $product->id; ?>" data-title="<?php do_action( 'woocommerce_shop_loop_item_title' ); ?>">
 				<svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
 					 x="0px" y="0px" viewBox="0 0 60 60" xml:space="preserve">
 				<line class="svg-line" fill="none" stroke="#007c96" stroke-width="10" stroke-miterlimit="10" x1="30" y1="6" x2="30" y2="54"/>
@@ -94,20 +94,8 @@ if ( 0 == $woocommerce_loop['loop'] % $woocommerce_loop['columns'] ) {
 			</div>
 
 			<div class="short-desc" itemprop="description">
-
-				<?php if ( !$post->post_excerpt ) { ?>
-
-						<p class="content"><?php echo wp_trim_words( get_the_content(), 18, ' ...' ); ?></p>
-
-				<?php } else {
-					$excerpt = $post->post_excerpt;
-					?>
-
-				<p class="content"><?php echo wp_trim_words( $excerpt, 18, ' ...' ); ?></p>
-
-				<?php } ?>
-
-					<span class="mere">Klik for mere info</span>
+				<p class="content"><?php echo wp_trim_words( get_the_content(), 18, ' ...' ); ?></p>
+				<span class="mere">Klik for mere info</span>
 			</div>
 	</div>
 

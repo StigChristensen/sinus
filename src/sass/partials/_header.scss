@@ -1,26 +1,25 @@
 .menu-icon {
   position: fixed;
-  top: 0;
-  right: 15px;
+  top: 0px;
+  right: 0px;
   cursor: pointer;
-  z-index: 10000;
+  z-index: 200000000;
 
   svg.menu {
-    width: 60px;
-    height: 60px;
+    width: 65px;
+    height: 65px;
     overflow: hidden;
-    border-radius: 0 0 0 5px;
 
     g.icon-bg {
       rect {
-        fill: $mainGreen;
+        fill: $black;
         border-radius: 0 0 0 5px;
         @include trans(0.3s);
       }
     }
 
     line.menu-line {
-      stroke: #FFF;
+      stroke: $mainGreen;
       @include trans(0.3s);
     }
   }
@@ -43,15 +42,15 @@
 }
 
 .main-menu {
-  position: absolute;
-  width: 320px;
+  position: fixed;
+  width: 280px;
   height: 100%;
   top: 0;
   right: 0;
   background-color: $white;
   padding: 50px;
   border-left: 2px solid $mainGreen;
-  z-index: 3000;
+  z-index: 300000;
   // box-shadow: 0 3px 10px 0 rgba(0,0,0, 0.3);
   @include trans(0.5s);
 
@@ -78,84 +77,135 @@
   right: -400px;
 }
 
-
 .header {
-  width: 920px;
-  margin: 0 auto 0 auto;
-}
-
-.head-row-1 {
-  height: 130px;
-}
-
-.head-row-2 {
-  height: 60px;
-}
-
-.headerlogo {
-  width: 50%;
-  height: 130px;
-  float: left;
-  text-align: left;
-  margin: 0;
-
-  img {
-    width: 157px;
-    height: 46px;
-    margin-top: 42px;
-  }
-}
-
-.sine-animation {
-  position: absolute;
-  width: 155px;
-  height: 113px;
-  top: 15px;
+  width: 100%;
+  height: 65px;
+  position: fixed;
+  top: 0;
   left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-  overflow: hidden;
+  background-color: $black;
+  margin: 0 0 50px 0;
+  z-index: 100000;
 
-  .img-container {
+
+  .headerlogo {
+    width: 200px;
+    height: 60px;
     position: absolute;
-    width: 465px;
-    height: 113px;
-    top: 0;
-    left: 0;
+    top: 2px;
+    left: 0px;
 
     img {
-      width: 100%;
+      width: 160px;
       height: auto;
+      margin: 6px 0 0 -23px;
     }
   }
-}
 
-.headermenu {
-  width: 72px;
-  height: 130px;
-  float: right;
-  text-align: right;
-  margin: 0;
+  .search-form {
+    position: absolute;
+    width: 250px;
+    height: 65px;
+    top: 0;
+    right: 155px;
+    overflow: hidden;
+    z-index: 5;
+    @include trans(0.5s);
+
+    form.search {
+      position: relative;
+      width: 250px;
+      height: 50px;
+      top: 8px;
+      right: 0px;
+      overflow: hidden;
+
+      label.search-label {
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        top: 10px;
+        right: 0px;
+        opacity: 1;
+
+        img {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 30px;
+          height: auto;
+          z-index: 100;
+          @include trans(0.5s);
+        }
+
+        img {
+          opacity: 1;
+        }
+      }
+
+      input[type=text] {
+        background-color: $black;
+        border: 2px solid rgba(0, 0, 0, 0);
+        padding: 6px 10px 6px 20px;
+        font-size: 12px;
+        outline: none;
+        width: 20px;
+        position: absolute;
+        top: 10px;
+        right: 0px;
+        z-index: 1;
+        color: #FFF;
+        @include trans(0.6s);
+      }
+
+      input[type=text]:focus {
+        border-top: 2px solid rgba(0, 0, 0, 0);
+        border-left: 2px solid rgba(0, 0, 0, 0);
+        border-right: 2px solid rgba(0, 0, 0, 0);
+        border-bottom: 2px solid $mainGreen;
+        width: 200px;
+        padding: 6px 10px 6px 0;
+      }
+
+      input[type=submit], .search-submit {
+        position: absolute;
+        right: 0;
+        top: 10px;
+        font-size: 14px;
+        background-color: $mainGreen;
+        border: none;
+        padding: 10px 15px;
+        color: #FFF;
+        display: none;
+        border-radius: 0 5px 5px 0;
+      }
+    }
+  }
 
   .cart-icon {
     width: 50px;
-    float: left;
+    height: 50px;
+    position: absolute;
+    top: 10px;
+    right: 80px;
     cursor: pointer;
-    margin: 56px 0 0 0;
-    position: relative;
     z-index: 100;
 
     img {
-      width: 50px;
-      height: 50px;
+      position: absolute;
+      top: 7px;
+      left: 9px;
+      width: 32px;
+      height: auto;
+      opacity: 0.4;
+    }
+
+    h5 {
+      font-family: $robotCon;
+      color: $white;
+      font-weight: 700;
+      padding: 7px;
+      font-size: 20px;
     }
   }
-
-
-  // img {
-  //   width: 42px;
-  //   height: 30px;
-  //   margin-top: 56px;
-  // }
 }

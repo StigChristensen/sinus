@@ -22,24 +22,10 @@ get_header(); ?>
 		 * @hooked woocommerce_output_content_wrapper - 10 (outputs opening divs for the content)
 		 * @hooked woocommerce_breadcrumb - 20
 		 */
-		do_action( 'woocommerce_before_main_content' );
+		// do_action( 'woocommerce_before_main_content' );
 	?>
 
-		<?php if ( apply_filters( 'woocommerce_show_page_title', true ) ) : ?>
-
-
-
-		<?php endif; ?>
-
-		<?php
-			/**
-			 * woocommerce_archive_description hook
-			 *
-			 * @hooked woocommerce_taxonomy_archive_description - 10
-			 * @hooked woocommerce_product_archive_description - 10
-			 */
-			do_action( 'woocommerce_archive_description' );
-		?>
+		<div class="product-list-grid">
 
 		<?php if ( have_posts() ) : ?>
 
@@ -79,14 +65,14 @@ get_header(); ?>
 			<?php wc_get_template( 'loop/no-products-found.php' ); ?>
 
 		<?php endif; ?>
-
+		</div>
 	<?php
 		/**
 		 * woocommerce_after_main_content hook
 		 *
 		 * @hooked woocommerce_output_content_wrapper_end - 10 (outputs closing divs for the content)
 		 */
-		do_action( 'woocommerce_after_main_content' );
+		// do_action( 'woocommerce_after_main_content' );
 	?>
 
 <?php get_footer( 'shop' ); ?>

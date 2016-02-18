@@ -106,10 +106,6 @@ function sinus_cart_add() {
   ob_start();
   ?>
 
-    <div class="arrow-up">
-      <img src="<?php echo get_stylesheet_directory_uri() . '/img/arrowup.png'; ?>">
-    </div>
-
      <?php if ( $qty < 1 ) { ?>
         <div class="cart-empty"><h4 class="cart">Din kurv er tom...</h4></div>
       <?php } ?>
@@ -151,9 +147,8 @@ function sinus_cart_add() {
 
   <?php
   $cart_content = ob_get_clean();
+  WC()->cart->persistent_cart_update();
   echo $cart_content;
 }
-
-
 
 ?>

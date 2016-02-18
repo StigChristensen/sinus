@@ -1,6 +1,6 @@
 footer, footer.site-footer {
   width: 100%;
-  height: 470px;
+  height: 450px;
   margin: 150px 0 0 0;
   background-color: $black;
   float: left;
@@ -19,7 +19,7 @@ footer, footer.site-footer {
 
   .footer-content {
     width: 960px;
-    margin: 20px auto 0 auto;
+    margin: 10px auto 0 auto;
     color: $white;
 
     a {
@@ -82,7 +82,7 @@ footer, footer.site-footer {
     @include center();
     width: 100%;
     height: 140px;
-    opacity: 0.5;
+    opacity: 1;
     border-bottom: 1px solid #000;
     border-top: 1px solid #000;
 
