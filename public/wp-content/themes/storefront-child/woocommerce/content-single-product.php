@@ -11,8 +11,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 
 <div itemscope itemtype="<?php echo woocommerce_get_product_schema(); ?>" id="product-<?php the_ID(); ?>" class="sinus single-product">
-  <h1 class="single-product-title" itemprop="model"><?php the_title(); ?></h1>
-
   <?php // Images
     if ( has_post_thumbnail() ) {
       $image_title  = esc_attr( get_the_title( get_post_thumbnail_id() ) );
@@ -29,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
     if ( $attachment_count >= 1 ) {
 
-      echo apply_filters( 'woocommerce_single_product_image_html', sprintf( '<div class="main-image"  itemprop="image">%s</div>', $image ), $post->ID );
+      echo apply_filters( 'woocommerce_single_product_image_html', sprintf( '<div class="main-image" itemprop="image">%s</div>', $image ), $post->ID );
 
       $img_loop = 0;
       foreach( $image_ids as $id ) {
@@ -37,19 +35,21 @@ if ( ! defined( 'ABSPATH' ) ) {
       'title' => $image_title,
       'alt' => $image_title
       ) );;
-          echo apply_filters( 'woocommerce_single_product_image_html', sprintf( '<div class="product-image-%s"  itemprop="image">%s</div>', $img_loop, $image ), $id, $post->ID );
+          echo apply_filters( 'woocommerce_single_product_image_html', sprintf( '<div class="product-image image-%s"  itemprop="image">%s</div>', $img_loop, $image ), $id, $post->ID );
         $img_loop++;
       }
     } elseif ( $attachment_count < 1 ) {
-      echo apply_filters( 'woocommerce_single_product_image_html', sprintf( '<div class="main-image"  itemprop="image">%s</div>', $image ), $post->ID );
+      echo apply_filters( 'woocommerce_single_product_image_html', sprintf( '<div class="main-image" itemprop="image">%s</div>', $image ), $post->ID );
     }
   ?>
 
   <div class="product-content">
     <div class="main-description">
+      <h1 class="single-product-title" itemprop="model"><?php the_title(); ?></h1>
       <?php the_content(); ?>
     </div>
     <div class="product-specs">
+      <h3 class="specs">Specifikationer:</h3>
       <p class="specs"><?php the_field('specifikationer'); ?></p>
     </div>
 

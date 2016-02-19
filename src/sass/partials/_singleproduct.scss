@@ -1,0 +1,84 @@
+.sinus.single-product {
+  width: 100%;
+  height: auto;
+  float: left;
+  position: relative;
+  margin: 0 0 100px 0;
+  border-top: 1px solid $lightGrey;
+  border-bottom: 1px solid $lightGrey;
+
+  .main-image, .product-image {
+    width: 100%;
+    height: auto;
+    float: left;
+    text-align: center;
+    margin: 50px 0 50px 0;
+
+    img {
+      width: auto;
+      height: auto;
+      margin: 0 auto 0 auto;
+    }
+  }
+
+  .product-content {
+    width: 100%;
+    height: auto;
+    float: left;
+    position: absolute;
+    top: 50px;
+
+    .main-description {
+      position: absolute;
+      width: 33%;
+      height: auto;
+      top: 0px;
+      left: 0;
+      padding: 20px 30px 20px 50px;
+      background-color: rgba(255, 255, 255, 0.4);
+
+      h1 {
+        font-weight: 700;
+        font-size: 32px;
+        margin-bottom: 20px;
+      }
+
+      p {
+        font-size: 15px;
+        line-height: 1.5;
+        font-weight: 400;
+        padding: 0 0 20px 0;
+      }
+    }
+
+    .product-specs {
+      position: absolute;
+      width: auto;
+      height: auto;
+      top: 0px;
+      right: 0;
+      padding: 20px 50px 20px 30px;
+      background-color: rgba(255, 255, 255, 0.4);
+      text-align: right;
+
+      h3.specs {
+        font-weight: 700;
+        font-size: 32px;
+        margin-bottom: 20px;
+      }
+
+      p.specs {
+        font-size: 15px;
+        line-height: 1.7;
+        font-weight: 700;
+      }
+    }
+
+    .youtube-frame {
+      width: 100%;
+      float: left;
+      display: none;
+    }
+
+  }
+}
