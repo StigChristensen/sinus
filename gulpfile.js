@@ -11,7 +11,7 @@ var gulp = require('gulp'),
 // dependencies task
 gulp.task('vendor', function() {
 	return gulp.src([
-      'src/bower_components/velocity/velocity.min.js'
+      'node_modules/velocity-animate/velocity.min.js'
     ])
     .pipe(concat('lib.js'))
     .pipe(gulp.dest('public/wp-content/themes/storefront-child/js/'));

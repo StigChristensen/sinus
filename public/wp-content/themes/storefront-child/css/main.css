@@ -249,11 +249,11 @@ html, body {
   stroke: #4fd5ca; }
 
 .main-menu {
-  position: fixed;
+  position: absolute;
   width: 280px;
   height: 100%;
   top: 0;
-  right: 0;
+  right: 0px;
   background-color: #FDFDFD;
   padding: 50px;
   border-left: 2px solid #4fd5ca;
@@ -648,62 +648,166 @@ ul.products {
   float: left;
   position: relative;
   margin: 0 0 100px 0;
-  border-top: 1px solid #F1F1F1;
-  border-bottom: 1px solid #F1F1F1; }
-  .sinus.single-product .main-image, .sinus.single-product .product-image {
+  padding: 0 0 100px 0;
+  min-height: 1100px; }
+  .sinus.single-product .single-product.icons {
+    width: 62px;
+    height: 32px;
+    display: inline-block;
+    position: absolute;
+    top: 40px;
+    left: 50px;
+    z-index: 1000; }
+    .sinus.single-product .single-product.icons .text-icon, .sinus.single-product .single-product.icons .add-button.single-product {
+      width: 30px;
+      height: 30px;
+      border: 1px solid #F1F1F1;
+      cursor: pointer;
+      background-color: #FDFDFD;
+      border-radius: 5px;
+      position: absolute;
+      transition: all 0.5s cubic-bezier(0.2, 0.75, 0.8, 0.95); }
+      .sinus.single-product .single-product.icons .text-icon svg, .sinus.single-product .single-product.icons .add-button.single-product svg {
+        width: 16px;
+        height: 16px;
+        position: absolute; }
+      .sinus.single-product .single-product.icons .text-icon svg.texticon, .sinus.single-product .single-product.icons .add-button.single-product svg.texticon {
+        top: 6px;
+        left: 6px; }
+        .sinus.single-product .single-product.icons .text-icon svg.texticon .a, .sinus.single-product .single-product.icons .add-button.single-product svg.texticon .a {
+          fill: none;
+          stroke: #acb1b0;
+          stroke-miterlimit: 10;
+          stroke-width: 8px; }
+      .sinus.single-product .single-product.icons .text-icon svg.addicon, .sinus.single-product .single-product.icons .add-button.single-product svg.addicon {
+        top: 6px;
+        left: 6px; }
+    .sinus.single-product .single-product.icons .text-icon {
+      top: 0;
+      left: 0; }
+    .sinus.single-product .single-product.icons .text-icon.off {
+      background-color: #2b2b2b; }
+      .sinus.single-product .single-product.icons .text-icon.off svg.texticon .a {
+        stroke: #F1F1F1; }
+    .sinus.single-product .single-product.icons .add-button.single-product {
+      top: 0;
+      right: 0; }
+  .sinus.single-product .main-image {
+    width: 100%;
+    height: auto;
+    text-align: center;
+    position: relative;
+    float: left;
+    top: 80px;
+    left: 0;
+    margin: 0 0 -3px 0;
+    z-index: 1; }
+    .sinus.single-product .main-image img {
+      width: auto;
+      height: auto;
+      max-height: 100%;
+      margin: 0 auto 0 auto; }
+  .sinus.single-product .product-images {
     width: 100%;
     height: auto;
     float: left;
     text-align: center;
-    margin: 50px 0 50px 0; }
-    .sinus.single-product .main-image img, .sinus.single-product .product-image img {
-      width: auto;
+    margin: 80px 0 0 0; }
+    .sinus.single-product .product-images .product-image {
+      width: 50%;
       height: auto;
-      margin: 0 auto 0 auto; }
+      display: inline-block;
+      margin: 0 auto 0 auto;
+      border: 1px solid #F1F1F1;
+      text-align: center; }
+      .sinus.single-product .product-images .product-image img {
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        margin: 0 auto 0 auto; }
+    .sinus.single-product .product-images .youtube-frame {
+      width: 100%;
+      float: left; }
   .sinus.single-product .product-content {
     width: 100%;
     height: auto;
     float: left;
+    margin: 0;
     position: absolute;
-    top: 50px; }
-    .sinus.single-product .product-content .main-description {
-      position: absolute;
+    top: 80px;
+    z-index: 100;
+    transition: all 0.3s cubic-bezier(0.2, 0.75, 0.8, 0.95); }
+    .sinus.single-product .product-content .product-left {
+      float: left;
       width: 33%;
       height: auto;
-      top: 0px;
-      left: 0;
+      margin: 0;
       padding: 20px 30px 20px 50px;
-      background-color: rgba(255, 255, 255, 0.4); }
-      .sinus.single-product .product-content .main-description h1 {
+      background-color: rgba(255, 255, 255, 0.4);
+      opacity: 1;
+      transition: all 0.5s cubic-bezier(0.2, 0.75, 0.8, 0.95); }
+      .sinus.single-product .product-content .product-left h1 {
         font-weight: 700;
         font-size: 32px;
         margin-bottom: 20px; }
-      .sinus.single-product .product-content .main-description p {
+      .sinus.single-product .product-content .product-left p {
         font-size: 15px;
         line-height: 1.5;
         font-weight: 400;
         padding: 0 0 20px 0; }
-    .sinus.single-product .product-content .product-specs {
-      position: absolute;
+    .sinus.single-product .product-content .product-right {
+      float: right;
       width: auto;
       height: auto;
-      top: 0px;
-      right: 0;
+      max-width: 460px;
+      margin: 0;
       padding: 20px 50px 20px 30px;
       background-color: rgba(255, 255, 255, 0.4);
-      text-align: right; }
-      .sinus.single-product .product-content .product-specs h3.specs {
-        font-weight: 700;
-        font-size: 32px;
-        margin-bottom: 20px; }
-      .sinus.single-product .product-content .product-specs p.specs {
+      text-align: right;
+      opacity: 1;
+      transition: all 0.5s cubic-bezier(0.2, 0.75, 0.8, 0.95); }
+      .sinus.single-product .product-content .product-right .product-text-right {
+        opacity: 1;
+        transition: all 0.5s cubic-bezier(0.2, 0.75, 0.8, 0.95); }
+        .sinus.single-product .product-content .product-right .product-text-right h3.specs {
+          font-weight: 700;
+          font-size: 32px;
+          margin-bottom: 20px; }
+        .sinus.single-product .product-content .product-right .product-text-right p.specs {
+          font-size: 15px;
+          line-height: 1.7;
+          font-weight: 700; }
+      .sinus.single-product .product-content .product-right .product-text-right.off {
+        opacity: 0; }
+    .sinus.single-product .product-content .product-left, .sinus.single-product .product-content .product-right {
+      position: relative;
+      z-index: 100; }
+    .sinus.single-product .product-content .product-left.off, .sinus.single-product .product-content .product-right.off {
+      opacity: 0; }
+    .sinus.single-product .product-content .product-controls {
+      width: 200px;
+      height: auto;
+      float: right;
+      margin: 0px 0 50px 0;
+      pading: 0; }
+      .sinus.single-product .product-content .product-controls .product-price h2 {
+        line-height: 1;
+        margin: 0 0 20px 0; }
+      .sinus.single-product .product-content .product-controls .add-button.large {
+        width: auto;
+        height: auto;
+        background-color: #4fd5ca;
+        float: right;
+        cursor: pointer; }
+        .sinus.single-product .product-content .product-controls .add-button.large h3 {
+          font-size: 24px;
+          font-family: "Roboto Condensed", sans-serif;
+          color: #FDFDFD;
+          font-weight: 700;
+          padding: 10px 25px; }
+      .sinus.single-product .product-content .product-controls span.no-price {
         font-size: 15px;
-        line-height: 1.7;
-        font-weight: 700; }
-    .sinus.single-product .product-content .youtube-frame {
-      width: 100%;
-      float: left;
-      display: none; }
+        text-transform: uppercase; }
 
 .site-content .cart-contents {
   width: 494px;

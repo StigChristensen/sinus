@@ -10,6 +10,8 @@ jQuery(document).on('ready', function() {
   new MenuController();
   new gridCartController();
   new embedVidController();
+  new productTextController();
+  new singleProductHeightController();
 
   // labels for input fields
   $("form :input").focus(function() {
@@ -52,6 +54,42 @@ function addedToCart(title) {
 }
 
 
+var productTextController = function() {
+  var textIcon = $('body').find('.text-icon'),
+      productLeft = $('body').find('.product-left'),
+      productRight = $('body').find('.product-right');
+
+  $(textIcon).on('click', function() {
+    $(textIcon).toggleClass('off');
+    $(productLeft).toggleClass('off');
+    $(productRight).toggleClass('off');
+  });
+}
+
+var singleProductHeightController = function() {
+  var mainImage = $('.main-image img');
+
+  if (mainImage[0].complete) {
+    handler();
+  } else {
+    // Not loaded yet, register the handler
+    mainImage.load(handler);
+  }
+
+  function handler() {
+    var contentHeight = $('.product-content').height(),
+        imageHeight = $('.main-image img').height();
+
+    if ( contentHeight && imageHeight < contentHeight ) {
+      $('.main-image').css({
+        'height': contentHeight + 'px'
+      });
+    } else {
+      return;
+    }
+  }
+}
+
 var embedVidController = function() {
   var vidFrame = $('body').find('.youtube-frame');
 
@@ -79,13 +117,16 @@ var gridCartController = function() {
   var addBtn = $('body').find('.add-button'),
       cart = $('body').find('.cart-contents');
 
+
   $(addBtn).each(function(i, e) {
     var id = $(this).attr('data-href'),
         prodTitle = $(this).attr('data-title');
 
     $(this).on('click', function(event) {
       event.preventDefault();
-      var url = site.ajax_url + '?action=sinus_add',
+      var cartNumber = $('body').find('.cart-icon h5'),
+          cartInt = parseInt($('body').find('.cart-icon h5').text()),
+          url = site.ajax_url + '?action=sinus_add',
           dataObject = {
             'product_id': id
           }
@@ -98,6 +139,8 @@ var gridCartController = function() {
         data: data,
         dataType: 'html',
         success: function(response) {
+          var updatedNum = cartInt + 1;
+          cartNumber.html(updatedNum);
           $(cart).html(response);
           addedToCart(prodTitle);
         },
@@ -124,7 +167,7 @@ var MenuController = function() {
 
       // set menu height, relative to content height
       $(mainMenu).css({
-        'height': footerPosition.top + 100 + 'px'
+        'height': footerPosition.top + 150 + 'px'
       });
 
       $(menuBtn).on('click', animateMenu);
@@ -166,15 +209,15 @@ var MenuController = function() {
 
       function updateHeaderClose() {
             $(cartIcon).velocity({
-              'right': 80
+              'right': 90
             }, {duration: 300, delay: 200, easing: 'easeOutSine'});
 
             $(searchForm).velocity({
-              'right': 155
+              'right': 165
             }, {duration: 300, delay: 300, easing: 'easeOutSine'});
 
             $(cartContents).velocity({
-              'right': 80
+              'right': 90
             }, {duration: 300, delay: 250, easing: 'easeOutSine'});
       }
 
@@ -185,20 +228,20 @@ var MenuController = function() {
           var href = $(aHref).attr('href');
 
           $(menuLinks).each(function(i, elem) {
-            var delay = i * 50;
+            var delay = i * 20;
 
             $(elem).velocity({
               'opacity': [0, 1]
-            }, {duration: 200, delay: delay, easing: 'easeInOutSine'});
+            }, {duration: 100, delay: delay, easing: 'easeInOutSine'});
 
           });
 
           $(menuHeaders).each(function(i, elem) {
-            var delay = i * 100;
+            var delay = i * 30;
 
             $(elem).velocity({
               'opacity': [0, 1]
-            }, {duration: 250, delay: delay, easing: 'easeInOutSine'});
+            }, {duration: 100, delay: delay, easing: 'easeInOutSine'});
           });
 
           setTimeout(navigate(href), 1200);

@@ -4,6 +4,7 @@
   "description": "Angular Webshop",
   "main": "gulpfile.js",
   "dependencies": {
+    "d3-ease": "^0.7.0",
     "gulp": "*",
     "gulp-concat": "*",
     "gulp-cssmin": "*",
@@ -11,7 +12,8 @@
     "gulp-rename": "*",
     "gulp-sass": "^2.2.0",
     "gulp-uglify": "*",
-    "gulp-watch": "*"
+    "gulp-watch": "*",
+    "velocity-animate": "^1.2.3"
   },
   "devDependencies": {
     "babel": "*",

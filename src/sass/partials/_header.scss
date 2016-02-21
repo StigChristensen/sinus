@@ -42,16 +42,15 @@
 }
 
 .main-menu {
-  position: fixed;
+  position: absolute;
   width: 280px;
   height: 100%;
   top: 0;
-  right: 0;
+  right: 0px;
   background-color: $white;
   padding: 50px;
   border-left: 2px solid $mainGreen;
   z-index: 300000;
-  // box-shadow: 0 3px 10px 0 rgba(0,0,0, 0.3);
   @include trans(0.5s);
 
   h3 {

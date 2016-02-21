@@ -43,40 +43,38 @@
   <div class="menu-categories">
     <h3>Kategorier</h3>
       <ul class="menu-filter">
-        <li class="filter">
-          <a href="/type/headphones/street/"><p>Street</p></a>
-        </li>
-        <li class="filter">
-          <a href="/type/headphones/dj/"><p>DJ</p></a>
-        </li>
-        <li class="filter">
-          <a href="/type/headphones/sport/"><p>Sport</p></a>
-        </li>
-        <li class="filter">
-          <a href="/type/headphones/gaming/"><p>Gaming</p></a>
-        </li>
-        <li class="filter">
-          <a href="/type/headphones/studie/"><p>Studie</p></a>
-        </li>
-        <li class="filter">
-          <a href="/type/headphones/inear/"><p>In-Ear</p></a>
-        </li>
-        <li class="filter">
-          <a href="/type/headphones/wireless/"><p>Wireless</p></a>
-        </li>
-        <li class="filter">
-          <a href="/type/headphones/noise-cancelling/"><p>Noise-Cancelling</p></a>
-        </li>
+        <?php
+          $args = array(
+                 'taxonomy'     => 'product_cat',
+                 'orderby'      => 'slug',
+                 'order'        => 'asc',
+                 'show_count'   => 0,
+                 'pad_counts'   => 0,
+                 'hierarchical' => 1,
+                 'hide_empty'   => 1
+          );
+         $all_categories = get_categories( $args );
+         foreach ($all_categories as $cat) { ?>
+          <li class="filter">
+            <a href="<?php echo get_term_link($cat->slug, 'product_cat'); ?>"><?php echo $cat->name; ?></a>
+          </li>
+        <?php } ?>
       </ul>
   </div>
   <div class="menu-brands">
     <h3>Brands</h3>
       <ul class="menu-filter">
         <?php
-          $tags = get_terms('product_tag');
+          $args = array(
+            'orderby'      => 'name',
+            'order'        => 'ASC',
+            'hide_empty'   => 1
+          );
+
+          $tags = get_terms('product_tag', $args);
           foreach( $tags as $tag ) {
           ?>
-            <li class="filter"><a href="<?php echo site_url() . '/brands/' . $tag->slug; ?>"><?php echo $tag->name; ?></a></li>
+            <li class="filter"><a href="<?php echo get_term_link($tag->slug, 'product_tag'); ?>"><?php echo $tag->name; ?></a></li>
           <?php } ?>
   </div>
 </div>

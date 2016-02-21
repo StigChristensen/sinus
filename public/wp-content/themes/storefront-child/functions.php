@@ -89,18 +89,14 @@ add_action( 'wp_ajax_nopriv_sinus_add', 'sinus_cart_add' );
 function sinus_cart_add() {
 
   $decoded = json_decode(file_get_contents("php://input"));
-
-  if ( $decoded ) {
-    WC()->cart->add_to_cart( $decoded->product_id, 1 );
-  } else {
-    return false;
-  }
+  WC()->cart->add_to_cart( $decoded->product_id, 1 );
 
   $qty = WC()->cart->get_cart_contents_count();
   $total = WC()->cart->get_cart_total();
   $cart_url = WC()->cart->get_cart_url();
   $checkout_url = WC()->cart->get_checkout_url();
   $cart = WC()->cart->get_cart();
+  $persistent = WC()->cart->get_cart_from_session();
 
   // generate output to update the cart.
   ob_start();
