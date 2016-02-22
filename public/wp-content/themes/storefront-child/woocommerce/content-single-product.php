@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div itemscope itemtype="<?php echo woocommerce_get_product_schema(); ?>" id="product-<?php the_ID(); ?>" class="sinus single-product">
 
 <div class="single-product icons">
-  <div class="text-icon">
+  <div class="text-icon off">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 47.69 43.95" class="texticon"><line class="a" y1="3.79" x2="25.83" y2="3.79"/><line class="a" y1="15.64" x2="33.62" y2="15.64"/><line class="a" x1="28.53" y1="3.79" x2="47.52" y2="3.79"/><line class="a" y1="40.15" x2="18.99" y2="40.15"/><line class="a" x1="21.32" y1="40.15" x2="47.69" y2="40.15"/><line class="a" x1="35.81" y1="15.64" x2="47.52" y2="15.64"/><line class="a" y1="27.79" x2="7.85" y2="27.79"/><line class="a" x1="10.13" y1="27.79" x2="47.52" y2="27.79"/></svg>
   </div>
   <?php if ( $price ) { ?>
@@ -81,19 +81,19 @@ if ( ! defined( 'ABSPATH' ) ) {
   ?>
 
   <div class="product-content">
-    <div class="product-left">
+    <div class="product-left off">
       <h1 class="single-product-title" itemprop="model"><?php the_title(); ?></h1>
       <?php the_content(); ?>
     </div>
 
 
-    <div class="product-right">
+    <div class="product-right off">
 
     <?php
     if ( $price ) { ?>
       <div class="product-controls">
         <div class="product-price">
-          <h2><?php echo $product->price . ',-'; ?></h2>
+          <h2><?php echo $product->price . ',- kr.'; ?></h2>
         </div>
         <div class="add-button large" data-href="<?php echo $product->id; ?>" data-title="<?php do_action( 'woocommerce_shop_loop_item_title' ); ?>">
           <h3>Læg i kurv</h3>

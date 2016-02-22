@@ -102,7 +102,7 @@
   </div>
 
 
-  <div class="cart-contents hidden">
+  <div class="cart-modal cart-contents hidden">
      <?php if ( $qty < 1 ) { ?>
         <div class="cart-empty"><h4 class="cart">Din kurv er tom...</h4></div>
       <?php } ?>
@@ -118,8 +118,9 @@
             $price = $product->price;
           ?>
             <div class="cart-element">
+              <div class="remove-icon" data-id="<?php echo $ca['product_id']; ?>"><p>X</p></div>
               <div class="elem-title"><p><?php echo get_the_title($ca['product_id']); ?></p></div>
-              <div class="elem-qty-total"><p>
+              <div class="elem-qty-total" data-qty="<?php echo $ca['quantity']; ?>"><p>
               <?php
               if ( $ca['quantity'] > 1 ) {
                 echo $ca['quantity'] . ' x ' . $price . ',- kr.';

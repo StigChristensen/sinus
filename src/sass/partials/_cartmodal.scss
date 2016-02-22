@@ -1,7 +1,7 @@
 .site-content {
 
-  .cart-contents {
-    width: 494px;
+  .cart-modal.cart-contents {
+    width: 620px;
     height: auto;
     position: absolute;
     top: 65px;
@@ -28,14 +28,6 @@
       }
     }
 
-    .arrow-up {
-      position: absolute;
-      top: -35px;
-      right: 20px;
-      opacity: 0.9;
-      display: none;
-    }
-
     .cart-count {
       p.small {
         font-size: 11px;
@@ -48,6 +40,22 @@
     .cart-element {
       width: 100%;
       padding: 12px 10px;
+
+      .remove-icon {
+        width: 15px;
+        height: 15px;
+        float: left;
+        margin: 0 5px 0 -25px;
+        cursor: pointer;
+
+        p {
+          color: $red;
+          font-famile: $robotCon;
+          font-weight: 700;
+          font-size: 14px;
+
+        }
+      }
 
       .elem-title {
         float: left;
@@ -73,7 +81,7 @@
     }
 
     .cart-link {
-      width: 247px;
+      width: 310px;
       height: 40px;
       position: absolute;
       padding: 10px 0 10px 0;

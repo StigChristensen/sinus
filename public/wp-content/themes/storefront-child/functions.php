@@ -85,18 +85,47 @@ add_filter('the_content', 'remove_empty_p', 20, 1);
 // Custom cart ajax
 add_action( 'wp_ajax_sinus_add', 'sinus_cart_add' );
 add_action( 'wp_ajax_nopriv_sinus_add', 'sinus_cart_add' );
+add_action( 'wp_ajax_sinus_remove', 'sinus_cart_remove' );
+add_action( 'wp_ajax_nopriv_sinus_remove', 'sinus_cart_remove' );
 
 function sinus_cart_add() {
 
   $decoded = json_decode(file_get_contents("php://input"));
   WC()->cart->add_to_cart( $decoded->product_id, 1 );
 
+  WC()->cart->persistent_cart_update();
+  $get_updated_cart = cart_update();
+  echo $get_updated_cart;
+  wp_die();
+}
+
+function sinus_cart_remove() {
+  $decoded = json_decode(file_get_contents("php://input"));
+  $remove_id = $decoded->product_id;
+  $qty = $decoded->quantity;
+  $cart = WC()->cart->get_cart();
+
+  foreach ( $cart as $cart_item_key => $cart_item ) {
+    $prod_id = $cart_item['product_id'];
+
+    if( $remove_id == $prod_id ) {
+      WC()->cart->set_quantity( $cart_item_key, $cart_item['quantity'] - $qty, true  );
+      break;
+    }
+  }
+
+  WC()->cart->persistent_cart_update();
+  $get_updated_cart = cart_update();
+  echo $get_updated_cart;
+  wp_die();
+}
+
+function cart_update() {
   $qty = WC()->cart->get_cart_contents_count();
   $total = WC()->cart->get_cart_total();
   $cart_url = WC()->cart->get_cart_url();
   $checkout_url = WC()->cart->get_checkout_url();
   $cart = WC()->cart->get_cart();
-  $persistent = WC()->cart->get_cart_from_session();
 
   // generate output to update the cart.
   ob_start();
@@ -116,7 +145,8 @@ function sinus_cart_add() {
             $product = new WC_Product( $ca['product_id'] );
             $price = $product->price;
           ?>
-            <div class="cart-element">
+            <div class="cart-element" data-id="<?php echo $ca['product_id']; ?>">
+              <div class="remove-icon"><p>X</p></div>
               <div class="elem-title"><p><?php echo get_the_title($ca['product_id']); ?></p></div>
               <div class="elem-qty-total"><p>
               <?php
@@ -143,8 +173,91 @@ function sinus_cart_add() {
 
   <?php
   $cart_content = ob_get_clean();
-  WC()->cart->persistent_cart_update();
-  echo $cart_content;
+  return $cart_content;
 }
+
+function get_stripped_cart() {
+  ob_start();
+  ?>
+      <h4>Antal varer: <?php echo $qty; ?></h4>
+      <br><br>
+      <?php foreach ($cart as $ca) {
+        $product = new WC_Product( $ca['product_id'] );
+        $price = $product->price;
+      ?>
+        <h2><?php echo get_the_title($ca['product_id']); ?></h2>
+        <p>
+          <?php
+          if ( $ca['quantity'] > 1 ) {
+            echo $ca['quantity'] . ' x ' . $price . ',- kr.';
+          } else {
+            echo $price . ',- kr.';
+          } ?>
+          </p>
+      <?php } ?>
+      <br><br>
+      <br><br>
+        <p>I alt: </p><h4><?php echo $total; ?></h4>
+        <p>(inkl. moms)</p>
+      <br><br>
+      <br><br>
+  <?php
+  $cart_stripped = ob_get_clean();
+  return $cart_stripped;
+}
+
+
+function reserve_in_store() {
+  $customer = json_decode(file_get_contents("php://input"));
+  $cart_data = get_stripped_cart();
+
+  if ( isset($customer) ) {
+    $sanitized_email = filter_var($customer->customer_email, FILTER_SANITIZE_EMAIL);
+    $headers = array(
+      'From: Sinus - sinus-store.dk <info@sinus-store.dk>',
+      'Content-Type: text/html; charset=UTF-8'
+    );
+
+    // Add company logo
+    $file = get_template_directory_uri() . '/img/sinus_logo_new3.png';
+    $uid = 'logo-uid'; //will map it to this UID
+    $name = 'sinus_store_logo.png';
+
+    global $phpmailer;
+    add_action( 'phpmailer_init', function(&$phpmailer)use($file,$uid,$name){
+      $phpmailer->SMTPKeepAlive = true;
+      $phpmailer->AddEmbeddedImage($file, $uid, $name);
+    });
+
+    $image_path = '<img src="' . get_template_directory_uri() . '/img/sinus_logo_new3.png' . '" width="203" height="62" alt="Sinus Store Logo">';
+    $company_info = '<br><h2>Sinus IVS // sinus-store.dk</h2><h4>Studiestræde 24, kld. th.<br>DK-1455<br>København K<br>Danmark<br><br>Email: info@sinus-store.dk<br>Tlf: (+45) 61458215</h4>';
+
+    $email_body_danish = '<html><head></head><body>';
+    $email_body_danish .= '<h2>Tak for din bestilling!</h2><p>Vi lægger de valgte varer til side til dig i butikken i København, og forbeholder os retten til at kontakte dig, hvis du ikke afhenter dem indenfor 2 hverdage.' . $cart_data . '<br><br>Mvh</p>' . $image_path . $company_info;
+    $email_body_danish .= '</body></html>';
+
+    $customer_subject = 'Sinus IVS / sinus-store.dk - Tak for din bestilling.';
+    $customer_body = $email_body_danish;
+
+    $company_to = 'orders@sinus-store.dk';
+    $company_subject = 'Lægges til side i butik!';
+    $company_body = '<h2>Lægges til side i butik:</h2><p>Kundeinformation: <br><br>' . $customer->customer_html . '<p>Varer:</p><br><br>' . $cart_data . '</p><br><br>';
+
+    wp_mail($sanitized_email, $customer_subject, $customer_body, $headers);
+    wp_mail($company_to, $company_subject, $company_body, $headers);
+
+    echo "Success";
+    WC()->cart->persistent_cart_destroy();
+    wp_die();
+  } else {
+    echo "Error";
+    wp_die();
+  }
+}
+
+add_action( 'wp_ajax_reserve', 'reserve_in_store' );
+add_action( 'wp_ajax_nopriv_reserve', 'reserve_in_store' );
+
+
 
 ?>

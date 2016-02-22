@@ -72,6 +72,11 @@ footer, footer.site-footer {
 
       a {
         color: $mainBlue;
+        @include trans(0.3s);
+      }
+
+      a:hover {
+        color: $white;
       }
     }
   }

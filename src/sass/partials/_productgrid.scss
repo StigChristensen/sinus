@@ -15,10 +15,9 @@ ul.products {
     position: relative;
 
     a {
-
       img {
         width: auto;
-        height: 100%;
+        height: auto;
         position: absolute;
         top: 0;
         @include center();
@@ -195,7 +194,6 @@ ul.products {
   top: 100px;
   padding: 25px;
   z-index: -1000;
-  border: 1px solid #f1f1f1;
   box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.3);
   text-align: center;
 

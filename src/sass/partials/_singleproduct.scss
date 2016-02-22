@@ -5,9 +5,7 @@
   position: relative;
   margin: 0 0 100px 0;
   padding: 0 0 100px 0;
-  min-height: 1100px;
-  // border-top: 1px solid $lightGrey;
-  // border-bottom: 1px solid $lightGrey;
+  min-height: 800px;
 
   .single-product.icons {
     width: 62px;
@@ -138,7 +136,7 @@
       height: auto;
       margin: 0;
       padding: 20px 30px 20px 50px;
-      background-color: rgba(255, 255, 255, 0.4);
+      background-color: rgba(255, 255, 255, 0.7);
       opacity: 1;
       @include trans(0.5s);
 
@@ -163,7 +161,7 @@
       max-width: 460px;
       margin: 0;
       padding: 20px 50px 20px 30px;
-      background-color: rgba(255, 255, 255, 0.4);
+      background-color: rgba(255, 255, 255, 0.7);
       text-align: right;
       opacity: 1;
       @include trans(0.5s);
