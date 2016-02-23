@@ -1,9 +1,9 @@
 .site-content {
 
   .cart-modal.cart-contents {
-    width: 620px;
+    width: 630px;
     height: auto;
-    position: absolute;
+    position: fixed;
     top: 65px;
     right: 80px;
     margin-left: auto;
@@ -81,7 +81,7 @@
     }
 
     .cart-link {
-      width: 310px;
+      width: 210px;
       height: 40px;
       position: absolute;
       padding: 10px 0 10px 0;
@@ -93,14 +93,30 @@
         color: $white;
         font-weight: 700;
         font-family: $robot;
+        padding: 8px 60px;
       }
     }
 
     .cart-link.first {
-      background-color: $mainBlue;
+      background-color: $mainGreen;
       left: 0;
       bottom: 0;
-      border-radius: 0 0 0px 10px;
+      border-radius: 0 0 0 10px;
+    }
+
+    .cart-link.second:hover {
+      background-color: #FFF;
+
+      a {
+        color: $mainGreen;
+      }
+    }
+
+    .cart-link.second {
+      background-color: $mainBlue;
+      left: 210px;
+      bottom: 0;
+      border-radius: 0;
     }
 
     .cart-link.first:hover {
@@ -111,14 +127,14 @@
       }
     }
 
-    .cart-link.second {
+    .cart-link.third {
       background-color: $mainGreen;
       right: 0;
       bottom: 0;
       border-radius: 0 0 10px 0;
     }
 
-    .cart-link.second:hover {
+    .cart-link.third:hover {
       background-color: #FFF;
 
       a {

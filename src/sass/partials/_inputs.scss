@@ -1,88 +1,78 @@
-.site-main {
+.woocommerce {
+  width: 100%;
+  height: 1500px;
+  float: left;
+  padding: 0 0 100px 0;
 
-  article {
+  form.checkout {
+    padding: 50px;
+    width: 100%;
 
-    .entry-content {
+    .col2-set {
+      .col-1, .col-2 {
+        width: 50%;
+        float: left;
+      }
 
-      .woocommerce {
-
-        form.checkout {
-          padding: 50px;
-          width: 800px;
-          margin: 0 auto 0 auto;
-
-          .col2-set {
-
-            .col-1 {
-              float: right;
-            }
-
-            .col-2 {
-              float: right;
-            }
-
-            h3 {
-              float: right;
-              text-transform: uppercase;
-              margin: 15px;
-              padding: 15px;
-            }
-          }
-
-
-          p.form-row {
-            margin: 10px 0px 40px 0px;
-            float:right;
-            text-align: right;
-
-            label {
-              padding: 8px 15px 8px 15px;
-              font-size: 16px;
-              font-weight: 700;
-              background-color: $lightGrey;
-              color: $black;
-              text-transform: uppercase;
-              opacity: 0.5;
-              @include trans(0.3s);
-            }
-
-            label.focus {
-              background-color: $mainGreen;
-              color: $white;
-              opacity: 1;
-            }
-
-            abbr.required {
-              color: $mainBlue;
-            }
-
-            input[type=text], textarea, input[type=number], input[type=email], input[type=tel] {
-              width: 530px;
-              border: none;
-              border-bottom: 1px solid $lightGrey;
-              padding: 8px 15px 8px 15px;
-              font-size: 16px;
-              outline: none;
-              @include trans(0.3s);
-            }
-
-            input[type=text]:focus, input[type=number]:focus, input[type=email]:focus, input[type=tel]:focus {
-              border-bottom: 1px solid $mainGreen;
-              outline: none;
-            }
-
-            textarea {
-              width: 500px;
-              height: 150px;
-              margin-top: 5px;
-              border: 1px solid $lightGrey;
-            }
-
-          }
-
-        }
+      h3 {
+        float: right;
+        text-transform: uppercase;
+        margin: 15px;
+        padding: 15px;
       }
     }
-  }
 
+
+    p.form-row {
+      margin: 10px 0px 40px 0px;
+      float:left;
+      text-align: left;
+
+      label {
+        padding: 8px 15px 8px 15px;
+        font-size: 16px;
+        font-weight: 700;
+        background-color: $lightGrey;
+        color: $black;
+        text-transform: uppercase;
+        opacity: 0.5;
+        @include trans(0.3s);
+      }
+
+      label.focus {
+        background-color: $mainGreen;
+        color: $white;
+        opacity: 1;
+      }
+
+      abbr.required {
+        color: $mainBlue;
+      }
+
+      input[type=text], textarea, input[type=number], input[type=email], input[type=tel] {
+        width: 530px;
+        border: none;
+        border-bottom: 1px solid $lightGrey;
+        padding: 8px 15px 8px 15px;
+        font-size: 16px;
+        outline: none;
+        @include trans(0.3s);
+      }
+
+      input[type=text]:focus, input[type=number]:focus, input[type=email]:focus, input[type=tel]:focus {
+        border-bottom: 1px solid $mainGreen;
+        outline: none;
+      }
+
+      textarea {
+        width: 500px;
+        height: 150px;
+        margin-top: 5px;
+        border: 1px solid $lightGrey;
+      }
+
+    }
+
+  }
 }
+

@@ -22,11 +22,9 @@ $total = WC()->cart->get_cart_total();
 
 
 <div class="cart-page-container">
-  <div class="cart-header">
-    <h1>Din Kurv</h1>
-  </div>
 
   <div class="cart-contents">
+    <h1>Din Kurv</h1>
     <div class="cart-count"><p class="small">Antal varer: <?php echo $qty; ?></p></div>
 
     <?php foreach ($cart as $ca) { ?>
@@ -34,8 +32,8 @@ $total = WC()->cart->get_cart_total();
       $product = new WC_Product( $ca['product_id'] );
       $price = $product->price;
     ?>
-      <div class="cart-element">
-        <div class="remove-icon" data-id="<?php echo $ca['product_id']; ?>"><p>X</p></div>
+      <a href="<?php the_permalink($ca['product_id']); ?>"><div class="cart-element">
+        <div class="remove-icon" data-id="<?php echo $ca['product_id']; ?>"><p>Fjern</p></div>
         <div class="elem-title"><h3><?php echo get_the_title($ca['product_id']); ?></h3></div>
         <div class="elem-qty-total" data-qty="<?php echo $ca['quantity']; ?>"><h3>
         <?php
@@ -45,7 +43,7 @@ $total = WC()->cart->get_cart_total();
           echo $price . ',- kr.';
         } ?>
         </h3></div>
-      </div>
+      </div></a>
 
     <?php } ?>
 
@@ -62,14 +60,11 @@ $total = WC()->cart->get_cart_total();
       <?php } ?>
     </div>
 
-    <div class="cart-link second"><a class="cart" href="/checkud">Check ud</a></div>
+    <div class="cart-page reserver-link"><a class="reserve" href="/reserver">Reserver</a></div>
+    <div class="cart-page checkout-link"><a class="cart" href="/checkud">Check ud</a></div>
 
-    </div>
+  </div>
 </div>
-
-
-
-
 
 <?php
 get_footer();

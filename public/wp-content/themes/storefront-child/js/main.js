@@ -13,6 +13,7 @@ jQuery(document).on('ready', function() {
   new productTextController();
   new singleProductHeightController();
   new removeFromCartController();
+  new reserveFormController();
 
   // labels for input fields
   $("form :input").focus(function() {
@@ -22,9 +23,193 @@ jQuery(document).on('ready', function() {
   });
 }); // End Ready
 
-function addedToCart(title) {
+function validateEmail(email) {
+  var regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+  return regex.test(email);
+}
+
+function validateInput(input) {
+  var allowedChars = /^[\u00C0-\u1FFF\u2C00-\uD7FF\w&.,\- ]+$/;
+  return allowedChars.test(input);
+}
+
+function validateNumber(input) {
+  var isNumber = /^(?=.*[0-9])[+()0-9]+$/;
+  return isNumber.test(input);
+}
+
+var reserveFormController = function() {
+  var form = $('body').find('form.reserve'),
+      emailInput = $(form).find('input[type=email]'),
+      nameInput = $(form).find('input[type=text].name'),
+      phoneInput = $(form).find('input[type=text].phone'),
+      submitBtn = $(form).find('.submit-btn > a');
+
+  function validateEmailOnBlur() {
+    $(emailInput).on('blur', function() {
+      var value = $(this).val();
+
+      if ( value.length === 0 ) {
+        if ( $(this).hasClass('error') ) {
+          $(this).removeClass('error');
+        }
+        return;
+      }
+
+      if ( value.length !== 0 ) {
+        var isEmail = validateEmail(value);
+
+        if( !isEmail && !$(this).hasClass('error') ) {
+          $(this).addClass('error');
+        }
+
+        if( isEmail && $(this).hasClass('error') ) {
+          $(this).removeClass('error');
+        }
+      }
+    });
+  }
+
+  function validateNameOnBlur() {
+    $(nameInput).on('blur', function() {
+      var value = $(this).val();
+
+      if ( value.length === 0 ) {
+        if ( $(this).hasClass('error') ) {
+          $(this).removeClass('error');
+        }
+        return;
+      }
+
+      if ( value.length !== 0 ) {
+        var isTrustedCharacters = validateInput(value);
+
+        if( !isTrustedCharacters && !$(this).hasClass('error') ) {
+          $(this).addClass('error');
+        }
+
+        if( isTrustedCharacters && $(this).hasClass('error') ) {
+          $(this).removeClass('error');
+        }
+      }
+    });
+  }
+
+  function validateNumberOnBlur() {
+    $(phoneInput).on('blur', function() {
+      var value = $(this).val();
+
+      if ( value.length === 0 ) {
+        if ( $(this).hasClass('error') ) {
+          $(this).removeClass('error');
+        }
+        return;
+      }
+
+      if ( value.length !== 0 ) {
+        var isNumber = validateNumber(value);
+
+        if ( !isNumber && !$(this).hasClass('error') ) {
+          $(this).addClass('error');
+        }
+
+        if ( isNumber && $(this).hasClass('error') ) {
+          $(this).removeClass('error');
+        }
+      }
+    });
+  }
+
+  function submitListener() {
+    $(submitBtn).on('click', function(event) {
+      event.preventDefault(),
+      inputs = $(form).find('input'),
+      validSuccess = $('body').find('.validation.success');
+      dataObject = {},
+      inputArray = [];
+
+      $(inputs).each(function(i, e) {
+        if ( $(e).hasClass('error') || $(e).val().length === 0 ) {
+          return;
+        } else {
+          var object = {
+            name: e.name,
+            value: $(e).val()
+          }
+          inputArray.push(object);
+        }
+      });
+
+      var data = packData();
+      sendForm(data);
+    });
+
+    function packData() {
+      dataObject.customer_html = '<h4>Navn:</h4><h2>' + inputArray[0].value + '</h2>';
+      dataObject.customer_html += '<h4>TLF:</h4><h2>' + inputArray[1].value + '</h2>';
+      dataObject.customer_html += '<h4>EMAIL:</h4><h2>' + inputArray[2].value + '</h2>';
+      dataObject.customer_email = inputArray[2].value;
+
+      return dataObject;
+    }
+
+    function sendForm(data) {
+      var customerData = JSON.stringify(data);
+
+        $.ajax({
+          url: site.ajax_url + '?action=reserve',
+          type: 'POST',
+          data: customerData,
+          success: function(response) {
+            var stripResponse = $.trim(response);
+            console.log(stripResponse);
+            if ( stripResponse === 'Success' ) {
+              animateSuccess();
+            }
+            if ( stripResponse === 'Error' ) {
+
+            }
+          },
+          error: function(response) {
+            console.log(response);
+
+          }
+        });
+    }
+
+    function animateSuccess() {
+      $(form).velocity({
+        'opacity': [0, 1]
+      }, {duration: 300, delay: 0, easing: 'easeOutSine', display: 'none'});
+
+      $(validSuccess).velocity({
+        'opacity': [1, 0]
+      }, {duration: 300, delay: 350, easing: 'easeOutSine', display: 'block'});
+
+      setTimeout(function() {
+        window.location.href = window.location.href;
+      }, 1000);
+    }
+  }
+
+
+  validateNumberOnBlur();
+  validateEmailOnBlur();
+  validateNameOnBlur();
+  submitListener();
+}
+
+
+function shopMsg(title, msg) {
   var atcModal = $('body').find('.atc-modal');
-  var html = title + '<span>- blev tilføjet til kurven.</span>';
+
+  if ( !msg ) {
+    var msg = '<span>- blev tilføjet til kurven.</span>';
+  } else {
+    var msg = msg;
+  }
+
+  var html = title + msg;
 
   $(atcModal).append(html);
 
@@ -153,7 +338,7 @@ var gridCartController = function() {
           var updatedNum = cartInt + 1;
           cartNumber.html(updatedNum);
           $(cart).html(response);
-          addedToCart(prodTitle);
+          shopMsg(prodTitle);
         },
         error: function(response) {
           console.log('error -', response);
@@ -204,7 +389,6 @@ var removeFromCartController = function() {
   });
 };
 
-
 var MenuController = function() {
   var menuBtn = $('body').find('.menu-icon'),
       mainMenu = $('body').find('.main-menu'),
@@ -214,7 +398,7 @@ var MenuController = function() {
       footerPosition = $(footer).position(),
       searchForm = $('body').find('.search-form'),
       cartIcon = $('body').find('.cart-icon'),
-      cartContents = $('body').find('.cart-contents'),
+      cartContents = $('body').find('.cart-modal.cart-contents'),
       width = $(window).width();
 
       // set menu height, relative to content height

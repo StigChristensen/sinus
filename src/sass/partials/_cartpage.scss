@@ -6,16 +6,82 @@
   padding: 50px;
   text-align: left;
 
-  .cart-header {
+  .cart-contents {
+    width: 860px;
+    height: auto;
+    padding: 0 0 50px 0;
+    position: absolute;
+    @include center();
+
     h1 {
       color: $mainGreen;
+      margin: 0 0 50px 0;
     }
-  }
-
-  .cart-contents {
-    width: 100%;
 
     .cart-count {
+      p.small {
+        font-size: 16px;
+        text-transform: uppercase;
+        color: $mainBlue;
+        padding: 0 0 0 0px;
+      }
+    }
+
+    a, .cart-element {
+      width: 100%;
+      height: 50px;
+      float: left;
+      padding: 12px 0px;
+      position: relative;
+
+      .remove-icon {
+        width: 15px;
+        height: 15px;
+        cursor: pointer;
+        position: absolute;
+        top: 19px;
+        left: -50px;
+
+        p {
+          color: $red;
+          font-famile: $robotCon;
+          text-transform: uppercase;
+          font-weight: 700;
+          font-size: 11px;
+        }
+      }
+
+      .elem-title {
+        float: left;
+        width: 80%;
+
+        h3, a {
+          font-size: 18px;
+          color: $black;
+        }
+      }
+
+      .elem-qty-total {
+        float: right;
+        text-align: right;
+        width: 20%;
+
+        h3, a {
+          font-size: 18px;
+          color: $black;
+        }
+      }
+    }
+
+    .cart-total {
+      width: 100%;
+      height: auto;
+      padding: 28px 0px 28px 0px;
+      margin: 20px 0 0 0;
+      color: $black;
+      float: left;
+      text-align: right;
+
       p.small {
         font-size: 14px;
         text-transform: uppercase;
@@ -24,56 +90,49 @@
       }
     }
 
-    .cart-element {
-      width: 100%;
+    .cart-page.reserver-link {
+      right: 160px;
+      background-color: $mainBlue;
+    }
+
+    .cart-page.reserver-link:hover {
+      background-color: $white;
+
+      a {
+        color: $mainBlue;
+      }
+    }
+
+    .cart-page.checkout-link {
+      right: 0;
+      background-color: $mainGreen;
+    }
+
+    .cart-page.checkout-link:hover {
+      background-color: $white;
+
+      a {
+        color: $mainGreen;
+      }
+    }
+
+    .cart-page.checkout-link, .cart-page.reserver-link {
+      width: 160px;
       height: auto;
-      padding: 12px 20px;
+      position: absolute;
+      bottom: 0;
+      @include trans(0.5s);
 
-      .remove-icon {
-        width: 15px;
-        height: 15px;
-        float: left;
-        margin: 0 5px 0 -25px;
-        cursor: pointer;
-
-        p {
-          color: $red;
-          font-famile: $robotCon;
-          font-weight: 700;
-          font-size: 15px;
-
-        }
-      }
-
-      .elem-title {
-        float: left;
-        width: 60%;
-      }
-
-      .elem-qty-total {
-        float: right;
-        width: 40%;
-      }
-    }
-
-    .cart-total {
-      width: 100%;
-      padding: 28px 10px 28px 0px;
-      color: $black;
-      text-align: right;
-
-      p.small {
-        font-size: 14px;
+      a {
+        padding: 13px 38px;
+        font-size: 18px;
         text-transform: uppercase;
-        color: $black;
-        padding: 0 0 0 10px;
+        color: $white;
+        font-weight: 700;
+        @include trans(0.5s);
       }
     }
+
 
   }
-
-
-
-
-
 }

@@ -177,10 +177,15 @@ function cart_update() {
 }
 
 function get_stripped_cart() {
+  $qty = WC()->cart->get_cart_contents_count();
+  $total = WC()->cart->get_cart_total();
+  $cart_url = WC()->cart->get_cart_url();
+  $checkout_url = WC()->cart->get_checkout_url();
+  $cart = WC()->cart->get_cart();
+
   ob_start();
   ?>
       <h4>Antal varer: <?php echo $qty; ?></h4>
-      <br><br>
       <?php foreach ($cart as $ca) {
         $product = new WC_Product( $ca['product_id'] );
         $price = $product->price;
@@ -195,12 +200,9 @@ function get_stripped_cart() {
           } ?>
           </p>
       <?php } ?>
-      <br><br>
-      <br><br>
+      <br>
         <p>I alt: </p><h4><?php echo $total; ?></h4>
         <p>(inkl. moms)</p>
-      <br><br>
-      <br><br>
   <?php
   $cart_stripped = ob_get_clean();
   return $cart_stripped;
@@ -230,23 +232,24 @@ function reserve_in_store() {
     });
 
     $image_path = '<img src="' . get_template_directory_uri() . '/img/sinus_logo_new3.png' . '" width="203" height="62" alt="Sinus Store Logo">';
-    $company_info = '<br><h2>Sinus IVS // sinus-store.dk</h2><h4>Studiestræde 24, kld. th.<br>DK-1455<br>København K<br>Danmark<br><br>Email: info@sinus-store.dk<br>Tlf: (+45) 61458215</h4>';
+    $company_info = '<br><h2>Sinus-Store.dk // Sinus IVS</h2><h4>Studiestræde 24, kld. th.<br>DK-1455<br>København K<br>Danmark<br><br>Email: info@sinus-store.dk<br>Tlf: (+45) 61458215</h4>';
 
-    $email_body_danish = '<html><head></head><body>';
-    $email_body_danish .= '<h2>Tak for din bestilling!</h2><p>Vi lægger de valgte varer til side til dig i butikken i København, og forbeholder os retten til at kontakte dig, hvis du ikke afhenter dem indenfor 2 hverdage.' . $cart_data . '<br><br>Mvh</p>' . $image_path . $company_info;
-    $email_body_danish .= '</body></html>';
+    $email_body = '<html><head></head><body>';
+    $email_body .= '<h2>Tak for din bestilling!</h2><p>Vi lægger de valgte varer til side til dig i butikken i København, og forbeholder os retten til at kontakte dig, hvis du ikke afhenter dem indenfor 2 hverdage.' . $cart_data . '<br>Mvh</p>' . $image_path . $company_info;
+    $email_body .= '</body></html>';
 
-    $customer_subject = 'Sinus IVS / sinus-store.dk - Tak for din bestilling.';
-    $customer_body = $email_body_danish;
+    $customer_subject = 'sinus-store.dk - Tak for din reservation.';
+    $customer_body = $email_body;
 
-    $company_to = 'orders@sinus-store.dk';
+    $company_to = 'admin@sinus-store.dk';
     $company_subject = 'Lægges til side i butik!';
-    $company_body = '<h2>Lægges til side i butik:</h2><p>Kundeinformation: <br><br>' . $customer->customer_html . '<p>Varer:</p><br><br>' . $cart_data . '</p><br><br>';
+    $company_body = '<h2>Lægges til side i butik!</h2><p>Kundeinformation:<br>' . $customer->customer_html . '<p>Varer:</p><br>' . $cart_data . '</p>';
 
     wp_mail($sanitized_email, $customer_subject, $customer_body, $headers);
     wp_mail($company_to, $company_subject, $company_body, $headers);
 
     echo "Success";
+    WC()->cart->empty_cart();
     WC()->cart->persistent_cart_destroy();
     wp_die();
   } else {
