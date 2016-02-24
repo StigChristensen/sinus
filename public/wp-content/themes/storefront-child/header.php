@@ -100,6 +100,17 @@
           <img src="<?php echo get_stylesheet_directory_uri() . '/img/headphones_cart.png'; ?>" alt="Sinus-Store.dk Sinus Headphones cart icon" />
       </div>
   </div>
+  <div class="header-link-row">
+    <a href="/type/headphones">Hovedtelefoner</a>
+    <p>|</p>
+    <a href="/type/preamps">Preamps</a>
+    <p>|</p>
+    <a href="/type/dac">DAC</a>
+    <p>|</p>
+    <a href="/type/traadloese-hoejtalere">Højtalere</a>
+    <p>|</p>
+    <a href="/type/tilbehoer">Tilbehør</a>
+  </div>
 
 
   <div class="cart-modal cart-contents hidden">

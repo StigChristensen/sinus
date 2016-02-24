@@ -55,7 +55,7 @@ html, body {
 	}
 
 	p, address {
-		font-family: $robotCon;
+		font-family: $robot;
 		font-size: 15px;
 		line-height: 1.3;
 		font-weight: 300;
@@ -81,7 +81,7 @@ html, body {
 	}
 
 	a {
-		font-family: $robotCon;
+		font-family: $robot;
 		font-size: 16px;
 		line-height: 1.3;
 		font-weight: 300;
@@ -124,7 +124,6 @@ html, body {
 		line-height: 1.5;
 		margin: 25 0 25px 0;
 	}
-
 
 	.float-text {
 		float: left;

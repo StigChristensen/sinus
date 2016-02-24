@@ -4,7 +4,7 @@ ul.products {
   position: relative;
   float: left;
   @include center();
-  top: 150px;
+  top: 50px;
 
   li.product {
     width: 320px;
@@ -171,17 +171,17 @@ ul.products {
     }
   }
 
-  li.product:hover {
-    a {
-      img {
-        filter: grayscale(75%);
-      }
-    }
+  // li.product:hover {
+  //   a {
+  //     img {
+  //       filter: grayscale(75%);
+  //     }
+  //   }
 
-    .sinus-product-info {
-      top: -110px;
-    }
-  }
+  //   .sinus-product-info {
+  //     top: -110px;
+  //   }
+  // }
 }
 
 .atc-modal {

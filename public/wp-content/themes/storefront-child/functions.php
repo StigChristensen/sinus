@@ -241,7 +241,7 @@ function reserve_in_store() {
     $customer_subject = 'sinus-store.dk - Tak for din reservation.';
     $customer_body = $email_body;
 
-    $company_to = 'admin@sinus-store.dk';
+    $company_to = 'info@sinus-store.dk';
     $company_subject = 'Lægges til side i butik!';
     $company_body = '<h2>Lægges til side i butik!</h2><p>Kundeinformation:<br>' . $customer->customer_html . '<p>Varer:</p><br>' . $cart_data . '</p>';
 

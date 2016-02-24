@@ -14,6 +14,7 @@ jQuery(document).on('ready', function() {
   new singleProductHeightController();
   new removeFromCartController();
   new reserveFormController();
+  new scrollHeaderController();
 
   // labels for input fields
   $("form :input").focus(function() {
@@ -22,6 +23,27 @@ jQuery(document).on('ready', function() {
     $("label").removeClass("focus");
   });
 }); // End Ready
+
+var scrollHeaderController = function() {
+  var linkHeader = $('body').find('.header-link-row'),
+      width = $(window).width(),
+      scroll;
+
+  $('body').on('scroll', modifyHeader);
+
+  function modifyHeader() {
+    scroll = $('body').scrollTop();
+
+    console.log(scroll);
+
+    if ( scroll > 200 ) {
+      $(linkHeader).addClass('hidden');
+    }
+    if ( scroll < 200 ) {
+      $(linkHeader).removeClass('hidden');
+    }
+  }
+}
 
 function validateEmail(email) {
   var regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
