@@ -1,7 +1,7 @@
 .menu-icon {
   position: fixed;
   top: 0px;
-  right: 10px;
+  right: 0px;
   cursor: pointer;
   z-index: 200000000;
 
@@ -30,13 +30,13 @@
 
     g.icon-bg {
       rect {
-        fill: $white;
+        fill: $mainGreen;
         border-radius: 0;
       }
     }
 
     line.menu-line {
-      stroke: $mainGreen;
+      stroke: $black;
     }
   }
 }
@@ -45,28 +45,47 @@
   position: absolute;
   width: 280px;
   height: 100%;
-  top: 0;
+  top: 0px;
   right: 0px;
-  background-color: $white;
-  padding: 50px;
-  border-left: 2px solid $mainGreen;
+  background-color: $black;
+  border-left: 1px solid $blckBorder;
+  padding: 85px 50px 20px;
   z-index: 300000;
   @include trans(0.5s);
 
   h3 {
-    margin: 20px 0 0px 0;
+    font-size: 18px;
+    margin: 10px 0 0px 0;
     color: $mainGreen;
   }
 
-  ul {
-    li {
+  ul.menu-filter {
+    li.cat-item, li.filter {
       a {
-        color: $black;
+        color: $white;
         outline: none;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 1.5;
+        padding: 0 0 5px 0;
       }
 
       a:hover {
         color: $mainGreen;
+      }
+
+      ul.children {
+        margin: 5px 0 5px 15px;
+
+        li.cat-item {
+          a {
+            color: $white;
+            outline: none;
+            font-size: 12px;
+            font-weight: 300;
+            padding: 0 0 5px 0;
+          }
+        }
       }
     }
   }
@@ -218,6 +237,7 @@
   top: 65px;
   margin: 0 0 50px 0;
   border-top: 1px solid $blckBorder;
+  border-bottom: 1px solid $blckBorder;
   z-index: 90000;
   @include trans(1s);
 

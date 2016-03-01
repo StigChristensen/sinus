@@ -8,9 +8,9 @@
         <address class="store-address" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
           <h4 itemprop="name">Sinus</h4>
           <p itemprop="name">Headphones & Audio</p>
-          <span itemprop="streetAddress">Studiestræde 24, Kld.</span><br>
+          <span itemprop="streetAddress">Studiestræde 24, Kld. Th.</span><br>
           <span itemprop="addressRegion">DK-1455 København</span><br>
-          <span itemprop="phoneNumber">TLF:</span>
+          <span itemprop="phoneNumber">TLF:<a href="tel:+4561458215">(+45) 61 45 82 15</a></span>
         </address>
         </a>
         <a href="mailto:info@sinus-store.dk" itemprop="email"><p>info@sinus-store.dk</p></a><br>

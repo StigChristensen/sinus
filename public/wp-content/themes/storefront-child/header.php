@@ -42,24 +42,31 @@
 <div class="main-menu hidden">
   <div class="menu-categories">
     <h3>Kategorier</h3>
-      <ul class="menu-filter">
-        <?php
-          $args = array(
-                 'taxonomy'     => 'product_cat',
-                 'orderby'      => 'slug',
-                 'order'        => 'asc',
-                 'show_count'   => 0,
-                 'pad_counts'   => 0,
-                 'hierarchical' => 1,
-                 'hide_empty'   => 1
-          );
-         $all_categories = get_categories( $args );
-         foreach ($all_categories as $cat) { ?>
-          <li class="filter">
-            <a href="<?php echo get_term_link($cat->slug, 'product_cat'); ?>"><?php echo $cat->name; ?></a>
-          </li>
-        <?php } ?>
-      </ul>
+    <ul class="menu-filter">
+      <?php
+        $args = array(
+          'show_option_all'    => '',
+          'orderby'            => 'name',
+          'order'              => 'ASC',
+          'style'              => 'list',
+          'show_count'         => 0,
+          'hide_empty'         => 1,
+          'use_desc_for_title' => 1,
+          'child_of'           => 0,
+          'hierarchical'       => 1,
+          'title_li'           => __( '' ),
+          'show_option_none'   => __( '' ),
+          'number'             => null,
+          'echo'               => 1,
+          'depth'              => 0,
+          'current_category'   => 0,
+          'pad_counts'         => 0,
+          'taxonomy'           => 'product_cat',
+          'walker'             => null
+        );
+        wp_list_categories( $args );
+      ?>
+    </ul>
   </div>
   <div class="menu-brands">
     <h3>Brands</h3>

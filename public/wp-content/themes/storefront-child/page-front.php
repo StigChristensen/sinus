@@ -20,7 +20,7 @@ get_header(); ?>
 		z-index: 5;
 	}
 
-	.menu-icon, .main-menu, .site-content .header, .site-content.head-row-2, .site-content.cart-contents, footer {
+	.menu-icon, .main-menu, .site-content .header, .site-content.head-row-2, .site-content .header-link-row, .site-content.cart-contents, footer {
 		display: none;
 	}
 

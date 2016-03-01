@@ -5,7 +5,7 @@
 @import 'partials/inputsearch';
 @import 'partials/grids';
 @import 'partials/header';
-@import 'partials/filters';
+@import 'partials/frontpage';
 @import 'partials/banner';
 @import 'partials/productgrid';
 @import 'partials/productsorting';
@@ -22,7 +22,7 @@
   display: none;
 }
 
-html, body {
+html {
   width: 100%;
   height: 100%;
   background-color: #FFF;
