@@ -4,38 +4,29 @@
  *
  * Override this template by copying it to yourtheme/woocommerce/archive-product.php
  *
- * @author 		WooThemes
- * @package 	WooCommerce/Templates
+ * @author    WooThemes
+ * @package   WooCommerce/Templates
  * @version     2.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+  exit; // Exit if accessed directly
 }
 
-get_header(); ?>
+get_header();
 
-		<div class="product-list-grid">
+if ( $_GET['brand'] ) {
+  $current_brand = $_GET['brand'];
+}
 
-		<?php if ( have_posts() ) : ?>
+$current_category = single_cat_title("", false);
 
-			<?php woocommerce_product_loop_start(); ?>
+?>
 
-				<?php woocommerce_product_subcategories(); ?>
+    <div class="product-list-grid" data-type="<?php echo $current_category; ?>" data-brand="<?php echo $current_brand; ?>">
+    <h1><?php echo $current_category; ?></h1>
+    <h1><?php echo $current_brand; ?></h1>
 
-				<?php while ( have_posts() ) : the_post(); ?>
-
-					<?php wc_get_template_part( 'content', 'product' ); ?>
-
-				<?php endwhile; // end of the loop. ?>
-
-			<?php woocommerce_product_loop_end(); ?>
-
-		<?php elseif ( ! woocommerce_product_subcategories( array( 'before' => woocommerce_product_loop_start( false ), 'after' => woocommerce_product_loop_end( false ) ) ) ) : ?>
-
-			<?php wc_get_template( 'loop/no-products-found.php' ); ?>
-
-		<?php endif; ?>
-		</div>
+    </div>
 
 <?php get_footer( 'shop' ); ?>

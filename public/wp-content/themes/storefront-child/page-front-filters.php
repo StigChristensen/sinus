@@ -15,7 +15,7 @@ get_header(); ?>
 
         <div class="moving-content">
 
-        <div class="bg-container" data-id="1">
+        <div class="bg-container">
           <img class="bg-1" src="<?php echo get_stylesheet_directory_uri() . '/img/bg/bg1.png'; ?>" alt="">
         </div>
 

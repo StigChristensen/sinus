@@ -17,6 +17,7 @@ jQuery(document).on('ready', function() {
   new scrollHeaderController();
   new fpVideoController();
   new fpBackgroundController();
+  new infiniteScrollController();
 
   // labels for input fields
   $("form :input").focus(function() {
@@ -30,6 +31,10 @@ function scrollTo(value) {
   $('html, body').animate({
     scrollTop: value
   }, 700);
+}
+
+var infiniteScrollController = function() {
+
 }
 
 
