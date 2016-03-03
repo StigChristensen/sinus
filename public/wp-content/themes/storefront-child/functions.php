@@ -17,14 +17,13 @@ remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'wp_print_styles', 'print_emoji_styles' );
 
 
-
 function reg_scripts() {
 	wp_enqueue_script( 'vendor', get_stylesheet_directory_uri() . '/js/lib.js', array('jquery'), '1.0.0', true );
 	wp_enqueue_script( 'app', get_stylesheet_directory_uri() . '/js/main.min.js', array( 'vendor' ), '0.0.1', true );
 
   wp_localize_script('app', 'site', array( 'theme_path' => get_stylesheet_directory_uri(), 'ajax_url' => admin_url( 'admin-ajax.php' ), 'site_url' => get_site_url() ));
 
-	wp_enqueue_style( 'main', get_stylesheet_directory_uri() . '/css/main.min.css', array(), '0.0.1' );
+	wp_enqueue_style( 'main', get_stylesheet_directory_uri() . '/css/main.css', array(), '0.0.1' );
 }
 add_action( 'wp_enqueue_scripts', 'reg_scripts', 10 );
 
@@ -83,20 +82,27 @@ function remove_empty_p( $content ) {
 }
 add_filter('the_content', 'remove_empty_p', 20, 1);
 
-
 // Custom cart ajax
 add_action( 'wp_ajax_sinus_add', 'sinus_cart_add' );
 add_action( 'wp_ajax_nopriv_sinus_add', 'sinus_cart_add' );
 add_action( 'wp_ajax_sinus_remove', 'sinus_cart_remove' );
 add_action( 'wp_ajax_nopriv_sinus_remove', 'sinus_cart_remove' );
-// placeholder function
-add_action( 'wp_ajax_sinus_empty', 'sinus_empty_function' );
-add_action( 'wp_ajax_nopriv_sinus_empty', 'sinus_empty_function' );
 
+// set customer cookies
+
+function set_init_cookie() {
+  if ( is_user_logged_in() || is_admin() ) {
+    return;
+  } else {
+    global $woocommerce;
+    WC()->session->set_customer_session_cookie(true);
+  }
+}
+add_action('init', 'set_init_cookie');
 
 function sinus_cart_add() {
-
   $decoded = json_decode(file_get_contents("php://input"));
+
   WC()->cart->add_to_cart( $decoded->product_id, 1 );
 
   WC()->cart->persistent_cart_update();
@@ -171,8 +177,9 @@ function cart_update() {
             <p class="small">(inkl. moms)</p>
           </div>
 
-          <div class="cart-link first"><a class="cart" href="<?php echo $cart_url; ?>">Kurv</a></div>
-          <div class="cart-link second"><a class="cart" href="<?php echo $checkout_url; ?>">Check ud</a></div>
+          <div class="cart-link first"><a class="cart" href="/reserver">Reserver</a></div>
+          <div class="cart-link second"><a class="cart" href="<?php echo $cart_url; ?>">Kurv</a></div>
+          <div class="cart-link third"><a class="cart" href="<?php echo $checkout_url; ?>">Check ud</a></div>
 
         </div>
       <?php } ?>
@@ -247,7 +254,7 @@ function reserve_in_store() {
     $customer_subject = 'sinus-store.dk - Tak for din reservation.';
     $customer_body = $email_body;
 
-    $company_to = 'info@sinus-store.dk';
+    $company_to = 'orders@sinus-store.dk';
     $company_subject = 'Lægges til side i butik!';
     $company_body = '<h2>Lægges til side i butik!</h2><p>Kundeinformation:<br>' . $customer->customer_html . '<p>Varer:</p><br>' . $cart_data . '</p>';
 

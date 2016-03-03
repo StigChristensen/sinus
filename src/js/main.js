@@ -6,9 +6,17 @@ if (/*@cc_on!@*/false && document.documentMode === 10) {
 jQuery(document).on('ready', function() {
   $ = jQuery;
 
+  new infiniteScrollController();
+
+  if ( !infiniteScrollController ) {
+
+
+  }
+
+
   new CartController();
   new MenuController();
-  // new gridCartController();
+  new gridCartController();
   new embedVidController();
   new productTextController();
   new singleProductHeightController();
@@ -17,7 +25,7 @@ jQuery(document).on('ready', function() {
   new scrollHeaderController();
   new fpVideoController();
   new fpBackgroundController();
-  new infiniteScrollController();
+
 
   // labels for input fields
   $("form :input").focus(function() {
@@ -174,7 +182,7 @@ var infiniteScrollController = function() {
       $(response).each(function(i, e) {
         var template = '<li class="product" itemscope itemtype="http://schema.org/Product">';
             template += '<a href="' + e.link + '">';
-            template += e.featured_image.content;
+            // template += e.featured_image.content;
             template += '<div class="product-price"><div class="add-button" data-href="' + e.ID + '" data-title="' + e.title + '"><svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"x="0px" y="0px" viewBox="0 0 60 60" xml:space="preserve"><line class="svg-line" fill="none" stroke="#007c96" stroke-width="10" stroke-miterlimit="10" x1="30" y1="6" x2="30" y2="54"/><line class="svg-line" fill="none" stroke="#007c96" stroke-width="10" stroke-miterlimit="10" x1="6" y1="30" x2="54" y2="30"/></svg><span class="add-info">Tilføj til kurv</span></div></div>';
             template += '<div class="sinus-product-info"><div class="product-title" itemprop="name"><h3>' + e.title + '</h3></div></div>';
             template += '</a></li>';
@@ -182,7 +190,7 @@ var infiniteScrollController = function() {
         $(grid).append(template);
       });
 
-      new gridCartController();
+      // new gridCartController();
     }
   }
 
@@ -555,7 +563,6 @@ function shopMsg(title, msg) {
     $(atcModal).css({
       'z-index': -1000
     });
-    window.location.href = window.location.href;
   }, 2000);
 }
 
@@ -664,6 +671,10 @@ var gridCartController = function() {
           cartNumber.html(updatedNum);
           $(cart).html(response);
           shopMsg(prodTitle);
+
+          setTimeout(function() {
+            window.location.href = window.location.href;
+          }, 2000);
         },
         error: function(response) {
           console.log('error -', response);
@@ -714,22 +725,27 @@ var removeFromCartController = function() {
   });
 };
 
+function setMenuHeight() {
+  var mainMenu = $('body').find('.main-menu'),
+      footer = $('body').find('footer'),
+      footerPosition = $(footer).position();
+
+   // set menu height, relative to content height
+  $(mainMenu).css({
+    'height': footerPosition.top + 155 + 'px'
+  });
+}
+
 var MenuController = function() {
   var menuBtn = $('body').find('.menu-icon'),
       mainMenu = $('body').find('.main-menu'),
       menuLinks = $(mainMenu).find('li'),
       menuHeaders = $(mainMenu).find('h3'),
-      footer = $('body').find('footer'),
-      footerPosition = $(footer).position(),
       searchForm = $('body').find('.search-form'),
       cartIcon = $('body').find('.cart-icon'),
       cartContents = $('body').find('.cart-modal.cart-contents'),
       width = $(window).width();
-
-      // set menu height, relative to content height
-      $(mainMenu).css({
-        'height': footerPosition.top + 155 + 'px'
-      });
+      setMenuHeight();
 
       $(menuBtn).on('click', animateMenu);
 

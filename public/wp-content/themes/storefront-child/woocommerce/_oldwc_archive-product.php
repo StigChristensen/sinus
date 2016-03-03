@@ -1,13 +1,24 @@
 <?php
 /**
- * The Template for displaying product archives, including the main shop page which is a post type archive.
+ * The Template for displaying product archives, including the main shop page which is a post type archive
  *
- * Override this template by copying it to yourtheme/woocommerce/archive-product.php
+ * This template can be overridden by copying it to yourtheme/woocommerce/archive-product.php.
  *
+ * HOWEVER, on occasion WooCommerce will need to update template files and you (the theme developer).
+ * will need to copy the new files to your theme to maintain compatibility. We try to do this.
+ * as little as possible, but it does happen. When this occurs the version of the template file will.
+ * be bumped and the readme will list any important changes.
+ *
+ * @see 	    http://docs.woothemes.com/document/template-structure/
  * @author 		WooThemes
  * @package 	WooCommerce/Templates
  * @version     2.0.0
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
@@ -22,6 +33,16 @@ $current_tag = single_term_title("", false);
 		<div class="product-list-grid">
 
 		<?php if ( have_posts() ) : ?>
+
+			<?php
+				/**
+				 * woocommerce_before_shop_loop hook.
+				 *
+				 * @hooked woocommerce_result_count - 20
+				 * @hooked woocommerce_catalog_ordering - 30
+				 */
+				do_action( 'woocommerce_before_shop_loop' );
+			?>
 
 			<?php woocommerce_product_loop_start(); ?>
 

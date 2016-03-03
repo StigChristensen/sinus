@@ -41,6 +41,8 @@ $args = array(
 
 $postslist = new WP_Query( $args );
 $totalpages = $postslist->max_num_pages;
+
+//wc_get_template( 'archive-product.php' );
 ?>
 
     <div class="products-container" data-cat="" data-tag="<?php echo $terms[0]->slug; ?>" data-page="<?php echo $page_num; ?>" data-maxpages="<?php echo $totalpages; ?>">
@@ -49,4 +51,4 @@ $totalpages = $postslist->max_num_pages;
         </div>
     </div>
 
-<?php get_footer( 'shop' ); ?>
+<?php // get_footer( 'shop' ); ?>
