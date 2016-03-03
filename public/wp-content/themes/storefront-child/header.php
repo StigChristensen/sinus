@@ -2,12 +2,14 @@
 /**
  * The template for displaying the header
  */
+
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?> class="no-js">
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width">
-	<script>(function(){document.documentElement.className='js'})();</script>
+
+  <script>(function(){document.documentElement.className='js'})();</script>
 	<?php wp_head(); ?>
 </head>
 
@@ -108,7 +110,7 @@
       </div>
   </div>
   <div class="header-link-row">
-    <a href="/type/headphones">Hovedtelefoner</a>
+    <a href="/type/hovedtelefoner">Hovedtelefoner</a>
     <p>|</p>
     <a href="/type/preamps">Preamps</a>
     <p>|</p>

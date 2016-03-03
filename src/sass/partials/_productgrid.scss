@@ -20,16 +20,21 @@
       position: relative;
 
       a {
-        img {
-          width: auto;
-          height: auto;
-          position: absolute;
-          bottom: 48px;
-          @include center();
-          opacity: 1;
-          z-index: 1;
-          filter: grayscale(0%);
-          @include trans(0.5s);
+
+        p.attachment {
+          a {
+            img {
+              width: auto;
+              height: auto;
+              position: absolute;
+              bottom: 48px;
+              @include center();
+              opacity: 1;
+              z-index: 1;
+              filter: grayscale(0%);
+              @include trans(0.5s);
+            }
+          }
         }
 
         .product-price {
@@ -70,6 +75,7 @@
             left: 8px;
             width: 48px;
             height: 48px;
+            cursor: pointer;
 
             svg {
               position: absolute;
@@ -175,6 +181,7 @@
         }
       }
     }
+  }
 
     // li.product:hover {
     //   a {
@@ -213,4 +220,3 @@
       text-transform: uppercase;
     }
   }
-}

@@ -15,18 +15,47 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 get_header();
 
-if ( $_GET['brand'] ) {
-  $current_brand = $_GET['brand'];
+if ( $_GET && $_GET['brand'] ) {
+  $brand = $_GET['brand'];
+} else {
+  $brand = '';
 }
 
-$current_category = single_cat_title("", false);
+if ( $_GET && $_GET['side'] ) {
+  $page = $_GET['side'];
+} else {
+  $page = '';
+}
 
+global $post;
+$args = array( 'taxonomy' => 'product_cat',);
+$terms = wp_get_post_terms($post->ID,'product_cat', $args);
+
+$paged = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
+
+$args = array(
+  'post_type' => 'product',
+  'posts_per_page' => 24,
+  'fields' => 'id',
+  'paged' => $paged,
+  'tax_query' => array(
+    array(
+      'taxonomy' => 'product_cat',
+      'field'    => 'slug',
+      'terms'    => $terms[0]->slug,
+    ),
+  ),
+);
+
+$postslist = new WP_Query( $args );
+$totalpages = $postslist->max_num_pages;
 ?>
 
-    <div class="product-list-grid" data-type="<?php echo $current_category; ?>" data-brand="<?php echo $current_brand; ?>">
-    <h1><?php echo $current_category; ?></h1>
-    <h1><?php echo $current_brand; ?></h1>
-
+    <div class="products-container" data-cat="<?php echo $terms[0]->slug; ?>" data-tag="<?php echo $brand; ?>" data-page="<?php echo $page; ?>" data-maxpages="<?php echo $totalpages; ?>">
+        <div class="spinner"><div class="circle"></div><div class="circle1"></div></div>
+        <div class="product-list-grid">
+          <ul class="products"></ul>
+        </div>
     </div>
 
 <?php get_footer( 'shop' ); ?>

@@ -89,6 +89,10 @@ add_action( 'wp_ajax_sinus_add', 'sinus_cart_add' );
 add_action( 'wp_ajax_nopriv_sinus_add', 'sinus_cart_add' );
 add_action( 'wp_ajax_sinus_remove', 'sinus_cart_remove' );
 add_action( 'wp_ajax_nopriv_sinus_remove', 'sinus_cart_remove' );
+// placeholder function
+add_action( 'wp_ajax_sinus_empty', 'sinus_empty_function' );
+add_action( 'wp_ajax_nopriv_sinus_empty', 'sinus_empty_function' );
+
 
 function sinus_cart_add() {
 
@@ -262,6 +266,11 @@ function reserve_in_store() {
 
 add_action( 'wp_ajax_reserve', 'reserve_in_store' );
 add_action( 'wp_ajax_nopriv_reserve', 'reserve_in_store' );
+
+
+function sinus_empty_function() {
+  // nothing here...
+}
 
 
 

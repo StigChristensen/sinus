@@ -8,7 +8,7 @@ jQuery(document).on('ready', function() {
 
   new CartController();
   new MenuController();
-  new gridCartController();
+  // new gridCartController();
   new embedVidController();
   new productTextController();
   new singleProductHeightController();
@@ -35,6 +35,158 @@ function scrollTo(value) {
 
 var infiniteScrollController = function() {
 
+  function productsModel() {
+    var url = window.location.href;
+
+    if ( url.indexOf('/type/') === -1 && url.indexOf('/brands/') === -1 ) {
+      console.log('Exited from productsModel');
+      return;
+    }
+
+    var target = $('body').find('.product-list-grid'),
+        productsCache,
+        queryType,
+        pageIndex,
+        maxPages,
+        type,
+        brand;
+
+    initialize();
+
+    function setPageIndex(index) {
+      pageIndex = index;
+    }
+
+    function getPageIndex() {
+      var p = pageIndex;
+      return p;
+    }
+
+    function setQueryType() {
+      if ( url.indexOf('/type/') !== -1 ) {
+        queryType = 'type';
+      }
+
+      if ( url.indexOf('/brands/') !== -1 ) {
+        queryType = 'brand';
+      }
+    }
+
+    function getQueryType() {
+      return queryType;
+    }
+
+    function initialize() {
+      var container = $('body').find('.products-container'),
+          pageIndex = $(container).data('page'),
+          maxPages = $(container).data('maxpages'),
+          type = $(container).data('cat'),
+          brand = $(container).data('tag');
+          setQueryType();
+
+
+      if ( !pageIndex || pageIndex > maxPages ) {
+        setPageIndex(1);
+      } else {
+        setPageIndex(pageIndex);
+      }
+
+      var int = getPageIndex();
+
+      loadInitial(int, maxPages, type, brand);
+    }
+
+    function storageAvailable(type) {
+      try {
+        var storage = window[type],
+          x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+      }
+      catch(e) {
+        return false;
+      }
+    }
+
+    function loadInitial(index, maxPages, type, brand) {
+      var index = getPageIndex(),
+          limit = 24 * index,
+          query = getQueryType(),
+          firstUrl;
+
+      if ( query === 'type' ) {
+        firstUrl = site.site_url + '/wp-json/posts?type=product&filter[product_cat]=' + type + '&filter[posts_per_page]=' + limit;
+      }
+
+      if ( query === 'brand' ) {
+        firstUrl = site.site_url + '/wp-json/posts?type=product&filter[product_tag]=' + brand + '&filter[posts_per_page]=' + limit;
+      }
+
+      $.ajax({
+        url: firstUrl,
+        success: function(response) {
+          console.log(response);
+
+          if ( storageAvailable('localStorage') ) {
+            productsCache = localStorage;
+            var key = 'products-init-' + query;
+            productsCache.setItem('key', response);
+          }
+
+          render(response);
+        },
+        error: function(response) {
+          console.log(response);
+        }
+      });
+    }
+
+    function loadMore() {
+
+    }
+
+    function preloader() {
+
+    }
+
+    function morePosts(maxPages) {
+      var i = getPageIndex(),
+          morePosts;
+      if ( i <= maxPages ) {
+        morePosts = true;
+      } else {
+        morePosts = false;
+      }
+
+      return morePosts;
+    }
+
+    function render(response) {
+      console.log('rendering');
+      var grid = $('body').find('ul.products');
+      var spinner = $('body').find('.spinner');
+
+      if ( !$(spinner).hasClass('hidden') ) {
+        $(spinner).addClass('hidden');
+      }
+
+      $(response).each(function(i, e) {
+        var template = '<li class="product" itemscope itemtype="http://schema.org/Product">';
+            template += '<a href="' + e.link + '">';
+            template += e.featured_image.content;
+            template += '<div class="product-price"><div class="add-button" data-href="' + e.ID + '" data-title="' + e.title + '"><svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"x="0px" y="0px" viewBox="0 0 60 60" xml:space="preserve"><line class="svg-line" fill="none" stroke="#007c96" stroke-width="10" stroke-miterlimit="10" x1="30" y1="6" x2="30" y2="54"/><line class="svg-line" fill="none" stroke="#007c96" stroke-width="10" stroke-miterlimit="10" x1="6" y1="30" x2="54" y2="30"/></svg><span class="add-info">Tilføj til kurv</span></div></div>';
+            template += '<div class="sinus-product-info"><div class="product-title" itemprop="name"><h3>' + e.title + '</h3></div></div>';
+            template += '</a></li>';
+
+        $(grid).append(template);
+      });
+
+      new gridCartController();
+    }
+  }
+
+  productsModel();
 }
 
 
@@ -463,13 +615,19 @@ var embedVidController = function() {
   }
 
   function initVideo() {
-    var vidUrl = $(vidFrame).attr('data-href'),
-        vidId = vidUrl.split('/');
+    var vidUrl = $(vidFrame).attr('data-href');
+        if ( vidUrl.indexOf('=') !== -1 ) {
+          var vidId = vidUrl.split('='),
+              id = vidId[1];
+        } else {
+          var vidId = vidUrl.split('/');
+          id = vidId[3];
+        }
 
     var width = $(window).width(),
         height = (width / 16) * 9;
 
-    var constructedHtml = '<iframe width="' + width + '" height="' + height + '" src="https://www.youtube.com/embed/' + vidId[3] + '?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>';
+    var constructedHtml = '<iframe width="' + width + '" height="' + height + '" src="https://www.youtube.com/embed/' + id + '?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>';
 
     $(vidFrame).html(constructedHtml);
   }

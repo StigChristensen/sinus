@@ -526,7 +526,7 @@ html, body {
       float: left;
       overflow: hidden;
       position: relative; }
-      .product-list-grid ul.products li.product a img {
+      .product-list-grid ul.products li.product a p.attachment a img {
         width: auto;
         height: auto;
         position: absolute;
@@ -567,7 +567,8 @@ html, body {
           top: 0;
           left: 8px;
           width: 48px;
-          height: 48px; }
+          height: 48px;
+          cursor: pointer; }
           .product-list-grid ul.products li.product a .product-price .add-button svg {
             position: absolute;
             top: 14px;
@@ -640,28 +641,29 @@ html, body {
             transition: all 0.3s cubic-bezier(0.24, 0.63, 0.5, 0.99); }
           .product-list-grid ul.products li.product .sinus-product-info .short-desc span.mere:hover {
             color: #FDFDFD; }
-  .product-list-grid .atc-modal {
-    position: fixed;
-    width: 100%;
-    height: 110px;
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: #2b2b2b;
-    opacity: 0;
-    top: 100px;
-    padding: 25px;
-    z-index: -1000;
-    box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.3);
-    text-align: center; }
-    .product-list-grid .atc-modal h3 {
-      font-size: 22px;
-      color: #4fd5ca; }
-    .product-list-grid .atc-modal span {
-      font-size: 16px;
-      color: #FDFDFD;
-      text-transform: uppercase; }
+
+.atc-modal {
+  position: fixed;
+  width: 100%;
+  height: 110px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #2b2b2b;
+  opacity: 0;
+  top: 100px;
+  padding: 25px;
+  z-index: -1000;
+  box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.3);
+  text-align: center; }
+  .atc-modal h3 {
+    font-size: 22px;
+    color: #4fd5ca; }
+  .atc-modal span {
+    font-size: 16px;
+    color: #FDFDFD;
+    text-transform: uppercase; }
 
 .product-list-grid .storefront-sorting {
   width: 100%;
