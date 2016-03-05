@@ -214,13 +214,18 @@ var infiniteScrollController = function() {
   }
 }
 
+function trimString(string, length){
+    var trim = string.indexOf(' ', length);
+    if( trim === -1 ) return string;
+    return string.substring(0, trim);
+}
+
 function setTemplate(e) {
   var template = '<li class="product" itemscope itemtype="http://schema.org/Product">';
-      template += '<a href="' + e.permalink + '">';
       template += '<img src="' + e.featured_src + '" alt="' + e.title + ' product image produktbillede Sinus-store Copenhagen København Denmark" />';
       template += '<div class="product-price">' + e.price_html + '<div class="add-button" data-href="' + e.id + '" data-title="' + e.title + '"><svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"x="0px" y="0px" viewBox="0 0 60 60" xml:space="preserve"><line class="svg-line" fill="none" stroke="#007c96" stroke-width="10" stroke-miterlimit="10" x1="30" y1="6" x2="30" y2="54"/><line class="svg-line" fill="none" stroke="#007c96" stroke-width="10" stroke-miterlimit="10" x1="6" y1="30" x2="54" y2="30"/></svg><span class="add-info">Tilføj til kurv</span></div></div>';
-      template += '<div class="sinus-product-info"><div class="product-title" itemprop="name"><h3>' + e.title + '</h3></div><div class="short-desc" itemprop="description">' + e.description + '</div></div>';
-      template += '</a></li>';
+      template += '<div class="sinus-product-info"><div class="product-title" itemprop="name"><h3>' + e.title + '</h3></div><div class="short-desc" itemprop="description">' + e.title + '</div></div>';
+      template += '</li>';
 
   return template;
 }

@@ -13,6 +13,7 @@
     "gulp-sass": "^2.2.0",
     "gulp-uglify": "*",
     "gulp-watch": "*",
+    "underscore": "^1.8.3",
     "velocity-animate": "^1.2.3"
   },
   "devDependencies": {

@@ -11,7 +11,8 @@ var gulp = require('gulp'),
 // dependencies task
 gulp.task('vendor', function() {
 	return gulp.src([
-      'node_modules/velocity-animate/velocity.min.js'
+      'node_modules/velocity-animate/velocity.min.js',
+      'node_modules/underscore/underscore-min.js'
     ])
     .pipe(concat('lib.js'))
     .pipe(gulp.dest('public/wp-content/themes/storefront-child/js/'));

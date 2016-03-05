@@ -4,12 +4,22 @@
   float: left;
   text-align: center;
 
+  .page.products {
+    width: 100%;
+    height: auto;
+    float: left;
+    opacity: 1;
+    @include trans(0.3s);
+
     ul.products {
       width: 100%;
       height: auto;
+      float: left;
       position: relative;
       margin: 0 auto 0 auto;
       top: 50px;
+      opacity: 1;
+      @include trans(0.5s);
 
       li.product {
         width: 320px;
@@ -18,100 +28,98 @@
         float: left;
         overflow: hidden;
         position: relative;
+        cursor: pointer;
 
-        a {
-          img {
-            width: auto;
-            height: auto;
-            max-height: 255px;
-            position: absolute;
-            bottom: 115px;
-            @include center();
-            opacity: 1;
-            z-index: 1;
-            filter: grayscale(0%);
-            @include trans(0.5s);
+        img {
+          width: auto;
+          height: auto;
+          max-height: 255px;
+          position: absolute;
+          bottom: 115px;
+          @include center();
+          opacity: 1;
+          z-index: 1;
+          filter: grayscale(0%);
+          @include trans(0.5s);
+        }
+
+        .product-price {
+          position: absolute;
+          width: 320px;
+          height: 48px;
+          bottom: 0px;
+          left: 0;
+          padding: 12px 22px 12px 30px;
+          background-color: $black;
+          color: $white;
+          text-align: right;
+          z-index: 100;
+          border-right: 1px solid $white;
+
+          span {
+            font-size: 18px;
+            font-weight: 700;
+
+            del {
+              float: left;
+              margin: 0 10px 0 30px;
+              color: $red;
+            }
+
+            ins {
+              text-decoration: none;
+            }
           }
 
-          .product-price {
+          span.onsale {
+            display: none;
+          }
+
+          .add-button {
             position: absolute;
-            width: 320px;
+            top: 0;
+            left: 8px;
+            width: 48px;
             height: 48px;
-            bottom: 0px;
-            left: 0;
-            padding: 12px 22px 12px 30px;
-            background-color: $black;
-            color: $white;
-            text-align: right;
-            z-index: 100;
-            border-right: 1px solid $white;
+            cursor: pointer;
 
-            span {
-              font-size: 18px;
-              font-weight: 700;
-
-              del {
-                float: left;
-                margin: 0 10px 0 30px;
-                color: $red;
-              }
-
-              ins {
-                text-decoration: none;
-              }
-            }
-
-            span.onsale {
-              display: none;
-            }
-
-            .add-button {
+            svg {
               position: absolute;
-              top: 0;
-              left: 8px;
-              width: 48px;
-              height: 48px;
-              cursor: pointer;
+              top: 14px;
+              left: 14px;
+              width: 20px;
+              height: 20px;
 
-              svg {
-                position: absolute;
-                top: 14px;
-                left: 14px;
-                width: 20px;
-                height: 20px;
-
-                line.svg-line {
-                  stroke: $lightBlue;
-                  @include trans(0.3s);
-                }
-              }
-
-              span.add-info {
-                position: absolute;
-                top: -19px;
-                left: -8px;
-                width: 138px;
-                font-size: 12px;
-                color: $lightBlue;
-                background-color: $black;
-                padding: 2px 19px 2px 10px;
-                border-radius: 0 5px 0 0;
-                opacity: 0;
+              line.svg-line {
+                stroke: $lightBlue;
                 @include trans(0.3s);
               }
             }
 
-            .add-button:hover {
-              svg {
-                line.svg-line {
-                  stroke: #FFFFFF;
-                }
-              }
+            span.add-info {
+              position: absolute;
+              top: -19px;
+              left: -8px;
+              width: 138px;
+              font-size: 12px;
+              color: $lightBlue;
+              background-color: $black;
+              padding: 2px 19px 2px 10px;
+              border-radius: 0 5px 0 0;
+              opacity: 0;
+              @include trans(0.3s);
+            }
+          }
 
-              span.add-info {
-                opacity: 1;
+          .add-button:hover {
+            svg {
+              line.svg-line {
+                stroke: #FFFFFF;
               }
+            }
 
+            span.add-info {
+              opacity: 1;
             }
           }
         }
@@ -177,43 +185,54 @@
           }
         }
       }
-    }
 
-    li.product:hover {
-      a {
+      li.product:hover {
         img {
           filter: grayscale(75%);
         }
-      }
 
-      .sinus-product-info {
-        top: -110px;
+        .sinus-product-info {
+          top: -110px;
+        }
       }
     }
   }
 
-
-  .atc-modal {
-    position: fixed;
-    width: 100%;
-    height: 110px;
-    @include center();
-    background-color: $black;
+  .page.products.hidden {
+    height: 0;
     opacity: 0;
-    top: 100px;
-    padding: 25px;
-    z-index: -1000;
-    box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.3);
-    text-align: center;
 
-    h3 {
-      font-size: 22px;
-      color: $mainGreen;
-    }
-
-    span {
-      font-size: 16px;
-      color: $white;
-      text-transform: uppercase;
+    ul.products {
+      height: 0;
+      opacity: 0
     }
   }
+}
+
+
+
+
+.atc-modal {
+  position: fixed;
+  width: 100%;
+  height: 110px;
+  @include center();
+  background-color: $black;
+  opacity: 0;
+  top: 100px;
+  padding: 25px;
+  z-index: -1000;
+  box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.3);
+  text-align: center;
+
+  h3 {
+    font-size: 22px;
+    color: $mainGreen;
+  }
+
+  span {
+    font-size: 16px;
+    color: $white;
+    text-transform: uppercase;
+  }
+}
