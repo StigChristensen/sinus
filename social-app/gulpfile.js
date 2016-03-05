@@ -17,8 +17,8 @@ function compile(watch) {
       .pipe(source('socialApp.js'))
       .pipe(buffer())
       // .pipe(uglify())
-      .pipe(sourcemaps.init({ loadMaps: true }))
-      .pipe(sourcemaps.write('./maps'))
+      // .pipe(sourcemaps.init({ loadMaps: true }))
+      // .pipe(sourcemaps.write('./maps'))
       .pipe(gulp.dest('../public/wp-content/themes/storefront-child/socialApp'));
   }
 

@@ -102,7 +102,7 @@ footer, footer.site-footer {
     @include center();
     font-size: 12px;
     font-weight: 700;
-    color: #BCBCBC;
-    opacity: 0.15;
+    color: $white;
+    opacity: 0.2;
   }
 }

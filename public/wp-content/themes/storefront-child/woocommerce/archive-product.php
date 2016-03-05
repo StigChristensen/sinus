@@ -53,9 +53,7 @@ $totalpages = $postslist->max_num_pages;
 
     <div class="products-container" data-cat="<?php echo $terms[0]->slug; ?>" data-tag="<?php echo $brand; ?>" data-page="<?php echo $page; ?>" data-maxpages="<?php echo $totalpages; ?>">
         <div class="spinner"><div class="circle"></div><div class="circle1"></div></div>
-        <div class="product-list-grid">
-          <ul class="products"></ul>
-        </div>
+        <div class="product-list-grid"></div>
     </div>
 
 <?php get_footer( 'shop' ); ?>

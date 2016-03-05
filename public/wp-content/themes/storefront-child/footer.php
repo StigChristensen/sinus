@@ -28,8 +28,8 @@
 
     <address class="sub" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
       <span itemprop="name">Sinus IVS / </span>
-      <span itemprop="streetAddress">Nygårdsvej 51B / </span>
-      <span itemprop="addressRegion">2100 København Ø / </span>
+      <span itemprop="streetAddress">Studiestræde 24, kld. th. / </span>
+      <span itemprop="addressRegion">1455 København K / </span>
       <span itemprop="cvr">CVR: 36 97 80 90</span>
     </address>
 

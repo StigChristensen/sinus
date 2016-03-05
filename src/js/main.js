@@ -7,13 +7,6 @@ jQuery(document).on('ready', function() {
   $ = jQuery;
 
   new infiniteScrollController();
-
-  if ( !infiniteScrollController ) {
-
-
-  }
-
-
   new CartController();
   new MenuController();
   new gridCartController();
@@ -25,7 +18,6 @@ jQuery(document).on('ready', function() {
   new scrollHeaderController();
   new fpVideoController();
   new fpBackgroundController();
-
 
   // labels for input fields
   $("form :input").focus(function() {
@@ -42,161 +34,196 @@ function scrollTo(value) {
 }
 
 var infiniteScrollController = function() {
+  var url = window.location.href;
 
-  function productsModel() {
-    var url = window.location.href;
+  if ( url.indexOf('/type/') === -1 && url.indexOf('/brands/') === -1 ) {
+    console.log('Exited from productsModel');
+    return;
+  }
 
-    if ( url.indexOf('/type/') === -1 && url.indexOf('/brands/') === -1 ) {
-      console.log('Exited from productsModel');
-      return;
+  var productsCache,
+      products,
+      storage = storageAvailable('localStorage'),
+      target = $('body').find('.product-list-grid'),
+      pageIndex,
+      maxPages,
+      type,
+      brand,
+      key,
+      query = {};
+      initialize();
+
+  function storageAvailable(type) {
+    try {
+      var storage = window[type],
+        x = '__storage_test__';
+      storage.setItem(x, x);
+      storage.removeItem(x);
+      return true;
     }
-
-    var target = $('body').find('.product-list-grid'),
-        productsCache,
-        queryType,
-        pageIndex,
-        maxPages,
-        type,
-        brand;
-
-    initialize();
-
-    function setPageIndex(index) {
-      pageIndex = index;
-    }
-
-    function getPageIndex() {
-      var p = pageIndex;
-      return p;
-    }
-
-    function setQueryType() {
-      if ( url.indexOf('/type/') !== -1 ) {
-        queryType = 'type';
-      }
-
-      if ( url.indexOf('/brands/') !== -1 ) {
-        queryType = 'brand';
-      }
-    }
-
-    function getQueryType() {
-      return queryType;
-    }
-
-    function initialize() {
-      var container = $('body').find('.products-container'),
-          pageIndex = $(container).data('page'),
-          maxPages = $(container).data('maxpages'),
-          type = $(container).data('cat'),
-          brand = $(container).data('tag');
-          setQueryType();
-
-
-      if ( !pageIndex || pageIndex > maxPages ) {
-        setPageIndex(1);
-      } else {
-        setPageIndex(pageIndex);
-      }
-
-      var int = getPageIndex();
-
-      loadInitial(int, maxPages, type, brand);
-    }
-
-    function storageAvailable(type) {
-      try {
-        var storage = window[type],
-          x = '__storage_test__';
-        storage.setItem(x, x);
-        storage.removeItem(x);
-        return true;
-      }
-      catch(e) {
-        return false;
-      }
-    }
-
-    function loadInitial(index, maxPages, type, brand) {
-      var index = getPageIndex(),
-          limit = 24 * index,
-          query = getQueryType(),
-          firstUrl;
-
-      if ( query === 'type' ) {
-        firstUrl = site.site_url + '/wp-json/posts?type=product&filter[product_cat]=' + type + '&filter[posts_per_page]=' + limit;
-      }
-
-      if ( query === 'brand' ) {
-        firstUrl = site.site_url + '/wp-json/posts?type=product&filter[product_tag]=' + brand + '&filter[posts_per_page]=' + limit;
-      }
-
-      $.ajax({
-        url: firstUrl,
-        success: function(response) {
-          console.log(response);
-
-          if ( storageAvailable('localStorage') ) {
-            productsCache = localStorage;
-            var key = 'products-init-' + query;
-            productsCache.setItem('key', response);
-          }
-
-          render(response);
-        },
-        error: function(response) {
-          console.log(response);
-        }
-      });
-    }
-
-    function loadMore() {
-
-    }
-
-    function preloader() {
-
-    }
-
-    function morePosts(maxPages) {
-      var i = getPageIndex(),
-          morePosts;
-      if ( i <= maxPages ) {
-        morePosts = true;
-      } else {
-        morePosts = false;
-      }
-
-      return morePosts;
-    }
-
-    function render(response) {
-      console.log('rendering');
-      var grid = $('body').find('ul.products');
-      var spinner = $('body').find('.spinner');
-
-      if ( !$(spinner).hasClass('hidden') ) {
-        $(spinner).addClass('hidden');
-      }
-
-      $(response).each(function(i, e) {
-        var template = '<li class="product" itemscope itemtype="http://schema.org/Product">';
-            template += '<a href="' + e.link + '">';
-            // template += e.featured_image.content;
-            template += '<div class="product-price"><div class="add-button" data-href="' + e.ID + '" data-title="' + e.title + '"><svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"x="0px" y="0px" viewBox="0 0 60 60" xml:space="preserve"><line class="svg-line" fill="none" stroke="#007c96" stroke-width="10" stroke-miterlimit="10" x1="30" y1="6" x2="30" y2="54"/><line class="svg-line" fill="none" stroke="#007c96" stroke-width="10" stroke-miterlimit="10" x1="6" y1="30" x2="54" y2="30"/></svg><span class="add-info">Tilføj til kurv</span></div></div>';
-            template += '<div class="sinus-product-info"><div class="product-title" itemprop="name"><h3>' + e.title + '</h3></div></div>';
-            template += '</a></li>';
-
-        $(grid).append(template);
-      });
-
-      // new gridCartController();
+    catch(e) {
+      return false;
     }
   }
 
-  productsModel();
+  function setPageIndex(index) {
+    pageIndex = index;
+  }
+
+  function getPageIndex() {
+    var p = pageIndex;
+    return p;
+  }
+
+  function setMaxPages(max) {
+    maxPages = max;
+  }
+
+  function getMaxPages() {
+    var p = maxPages;
+    return p;
+  }
+
+  function setQueryType() {
+    var parts;
+    if ( url.indexOf('/type/') !== -1 ) {
+      parts = url.split('/');
+
+      query = {
+        type: 'type',
+        param: parts[4]
+      }
+    }
+
+    if ( url.indexOf('/brands/') !== -1 ) {
+      parts = url.split('/');
+
+      query = {
+        type: 'brand',
+        param: parts[4]
+      }
+    }
+  }
+
+  function getQueryType() {
+    return query;
+  }
+
+  function initialize() {
+    var container = $('body').find('.products-container'),
+        pageIndex = $(container).data('page'),
+        maxPages = $(container).data('maxpages'),
+        type = $(container).data('cat'),
+        brand = $(container).data('tag');
+        setQueryType();
+        setMaxPages(maxPages);
+
+    if ( !pageIndex || pageIndex > maxPages ) {
+      setPageIndex(1);
+    } else {
+      setPageIndex(pageIndex);
+    }
+
+    var int = getPageIndex();
+    var queryParams = getQueryType();
+    key = queryParams.type + '_' + queryParams.param;
+
+    if ( storage ) {
+      productsCache = localStorage,
+      products = JSON.parse(productsCache.getItem(key));
+      if (products) {
+        console.log('From localStorage');
+        render(products);
+      } else {
+        console.log('Nothing in localStorage');
+        getPosts();
+      }
+    } else {
+      // load something else, maybe
+      console.log('no localStorage for us');
+    }
+  }
+
+  function getPosts() {
+    var queryType = getQueryType(),
+        action,
+        type = queryType.type;
+
+    if ( type === 'type' ) {
+      action = '?action=sinus_type';
+    }
+    if ( type === 'brand' ) {
+      action = '?action=sinus_brand';
+    }
+
+    var queryParams = {
+        offset: 0,
+        limit: -1,
+        param: queryType.param
+    },
+    dataObj = JSON.stringify(queryParams);
+
+    $.ajax({
+      url: site.ajax_url + action,
+      type: "POST",
+      data: dataObj,
+      dataType: 'json',
+      success: function(response) {
+        products = response.products;
+        productsCache.setItem(key, JSON.stringify(products));
+        console.log('From ajax call: ', products);
+        render(products);
+      },
+      error: function(response) {
+        console.log(response);
+      }
+    });
+  }
+
+  function render(products) {
+    var grid = $('body').find('.product-list-grid'),
+        spinner = $('body').find('.spinner'),
+        length = products.length;
+
+    if ( !$(spinner).hasClass('hidden') ) {
+      $(spinner).addClass('hidden');
+    }
+
+    var pageIndex = 1;
+    var html = '<div class="page products page-1">';
+        html += '<ul class="products">';
+
+        $(products).each(function(i, e) {
+          var k = i + 1;
+          var template = setTemplate(e);
+          html += template;
+
+          if ( k % 24 === 0 && i < length ) {
+            pageIndex++;
+            html += '</ul>';
+            html += '</div>';
+            html += '<div class="page products page-' + pageIndex + ' hidden">';
+            html += '<ul class="products">';
+          }
+        });
+
+        html += '</ul>';
+        html += '</div>';
+
+      $(grid).append(html);
+  }
 }
 
+function setTemplate(e) {
+  var template = '<li class="product" itemscope itemtype="http://schema.org/Product">';
+      template += '<a href="' + e.permalink + '">';
+      template += '<img src="' + e.featured_src + '" alt="' + e.title + ' product image produktbillede Sinus-store Copenhagen København Denmark" />';
+      template += '<div class="product-price">' + e.price_html + '<div class="add-button" data-href="' + e.id + '" data-title="' + e.title + '"><svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"x="0px" y="0px" viewBox="0 0 60 60" xml:space="preserve"><line class="svg-line" fill="none" stroke="#007c96" stroke-width="10" stroke-miterlimit="10" x1="30" y1="6" x2="30" y2="54"/><line class="svg-line" fill="none" stroke="#007c96" stroke-width="10" stroke-miterlimit="10" x1="6" y1="30" x2="54" y2="30"/></svg><span class="add-info">Tilføj til kurv</span></div></div>';
+      template += '<div class="sinus-product-info"><div class="product-title" itemprop="name"><h3>' + e.title + '</h3></div><div class="short-desc" itemprop="description">' + e.description + '</div></div>';
+      template += '</a></li>';
+
+  return template;
+}
 
 var fpBackgroundController = function() {
   var bgContainer = $('body').find('.bg-container'),
@@ -226,7 +253,7 @@ var fpBackgroundController = function() {
       $(bgContainer).append(img);
     }
 
-    setTimeout(controller, 1000);
+    setTimeout(controller, 8000);
   }
 
   function controller() {
@@ -245,7 +272,7 @@ var fpBackgroundController = function() {
 
     setIndex(k);
 
-    setTimeout(controller, 6000);
+    setTimeout(controller, 4000);
   }
 
   function animateIn(image) {
@@ -499,7 +526,6 @@ var reserveFormController = function() {
           },
           error: function(response) {
             console.log(response);
-
           }
         });
     }
@@ -518,7 +544,6 @@ var reserveFormController = function() {
       }, 1000);
     }
   }
-
 
   validateNumberOnBlur();
   validateEmailOnBlur();
@@ -543,13 +568,13 @@ function shopMsg(title, msg) {
   function animate() {
     $(atcModal).velocity({
       'opacity': [1, 0],
-      'top': [100, 300],
+      'top': [150, 300],
       'z-index': [5000, 5000]
     }, {duration: 400, delay: 0, easing: 'easeInOutSine'});
 
     $(atcModal).velocity({
       'opacity': [0, 1],
-      'top': [300, 100],
+      'top': [300, 150],
       'z-index': 5000
     }, {duration: 400, delay: 1400, easing: 'easeInOutSine'});
   }
@@ -586,7 +611,8 @@ var productTextController = function() {
 }
 
 var singleProductHeightController = function() {
-  var mainImage = $('.main-image img');
+  var mainImage = $('.main-image img'),
+      iFrame = $('body').find('iframe');
 
   if ( mainImage && mainImage[0] ) {
     if (mainImage[0].complete) {
@@ -595,7 +621,7 @@ var singleProductHeightController = function() {
       mainImage.load(handler);
     }
   } else {
-    return false;
+    return;
   }
 
   function handler() {
@@ -609,6 +635,7 @@ var singleProductHeightController = function() {
     } else {
       return;
     }
+    setMenuHeight();
   }
 }
 
@@ -726,14 +753,18 @@ var removeFromCartController = function() {
 };
 
 function setMenuHeight() {
-  var mainMenu = $('body').find('.main-menu'),
-      footer = $('body').find('footer'),
-      footerPosition = $(footer).position();
+  setTimeout(function() {
+    var mainMenu = $('body').find('.main-menu'),
+        siteContent = $('body').find('.site-content'),
+        documentHeight = $('.site-content').height();
 
-   // set menu height, relative to content height
-  $(mainMenu).css({
-    'height': footerPosition.top + 155 + 'px'
-  });
+    console.log(documentHeight);
+
+     // set menu height, relative to content height (minus footer)
+    $(mainMenu).css({
+      'height': documentHeight - 325 + 'px'
+    });
+  }, 1000);
 }
 
 var MenuController = function() {
@@ -850,18 +881,3 @@ var CartController = function() {
   });
 }
 
-// var SineAnimation = function() {
-//   var container = $('body').find('.sine-animation'),
-//       imgContainer = $(container).find('.img-container');
-
-//       var options = {
-//         'duration': 5000,
-//         'delay': 8000,
-//         'easing': 'easeInOutSine',
-//         'loop': true
-//       }
-
-//       $(imgContainer).velocity({
-//         'left': [-310, 0]
-//       }, options);
-// };

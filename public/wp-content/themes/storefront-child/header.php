@@ -88,8 +88,11 @@
   </div>
 </div>
 
-
 <div id="content" class="site-content">
+
+<div class="border-left"></div>
+<div class="border-right"></div>
+
   <?php global $woocommerce;
       $qty = $woocommerce->cart->get_cart_contents_count();
       $total = $woocommerce->cart->get_cart_total();
@@ -109,7 +112,7 @@
           <img src="<?php echo get_stylesheet_directory_uri() . '/img/headphones_cart.png'; ?>" alt="Sinus-Store.dk Sinus Headphones cart icon" />
       </div>
   </div>
-  <!-- <div class="header-link-row hidden">
+  <div class="header-link-row">
     <a href="/type/hovedtelefoner">Hovedtelefoner</a>
     <p>|</p>
     <a href="/type/preamps">Preamps</a>
@@ -119,7 +122,7 @@
     <a href="/type/traadloese-hoejtalere">Højtalere</a>
     <p>|</p>
     <a href="/type/tilbehoer">Tilbehør</a>
-  </div> -->
+  </div>
 
 
   <div class="cart-modal cart-contents hidden">

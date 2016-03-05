@@ -95,6 +95,11 @@ html, body {
 		letter-spacing: 1px;
 	}
 
+	a:active {
+		outline: none;
+		text-decoration: none;
+	}
+
 	blockquote {
 		font-family: $robotCon;
 		font-size: 26px;

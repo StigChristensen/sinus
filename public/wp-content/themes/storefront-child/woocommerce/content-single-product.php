@@ -127,6 +127,10 @@ if ( ! defined( 'ABSPATH' ) ) {
     </div>
   </div>
 
+  <div class="related-products">
+  </div>
+
+
   <meta itemprop="url" content="<?php the_permalink(); ?>" />
 
 </div><!-- #product-<?php the_ID(); ?> -->

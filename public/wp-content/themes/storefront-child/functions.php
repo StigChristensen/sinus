@@ -1,5 +1,37 @@
 <?php
 
+DEFINE("key", "ck_b8811924622d385bcd26099734be29c0b0b437c4");
+DEFINE("sec", "cs_7aaa1567247c633908ee2f5023f1c70c79535bcc");
+
+// Live
+//DEFINE("key", "ck_1fe428253a71d9b12917fa9663f874947e763f02");
+//DEFINE("sec", "cs_fd8f68f1d64916548497311d92f38b9ece0a752f");
+
+
+// get api
+require_once( 'inc/woocommerce-api.php' );
+$consumer_key = key;
+$consumer_secret = sec;
+$api_url = "https://sin.us";
+
+$options = array(
+    'ssl_verify'      => false,
+    'debug'           => true,
+    'return_as_array' => false,
+);
+
+try {
+  $client = new WC_API_Client( $api_url, $consumer_key, $consumer_secret, $options );
+} catch ( WC_API_Client_Exception $e ) {
+    echo $e->getMessage() . PHP_EOL;
+    echo $e->getCode() . PHP_EOL;
+    if ( $e instanceof WC_API_Client_HTTP_Exception ) {
+        print_r( $e->get_request() );
+        print_r( $e->get_response() );
+    }
+}
+
+
 // Hide admin bar on the front facing site, when logged in.
 show_admin_bar(false);
 
@@ -16,12 +48,11 @@ add_action( 'admin_menu', 'remove_menus' );
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'wp_print_styles', 'print_emoji_styles' );
 
-
 function reg_scripts() {
 	wp_enqueue_script( 'vendor', get_stylesheet_directory_uri() . '/js/lib.js', array('jquery'), '1.0.0', true );
 	wp_enqueue_script( 'app', get_stylesheet_directory_uri() . '/js/main.min.js', array( 'vendor' ), '0.0.1', true );
 
-  wp_localize_script('app', 'site', array( 'theme_path' => get_stylesheet_directory_uri(), 'ajax_url' => admin_url( 'admin-ajax.php' ), 'site_url' => get_site_url() ));
+  wp_localize_script('app', 'site', array( 'theme_path' => get_stylesheet_directory_uri(), 'ajax_url' => admin_url( 'admin-ajax.php' ), 'site_url' => get_site_url(), 'key' => key, 'sec' => sec ));
 
 	wp_enqueue_style( 'main', get_stylesheet_directory_uri() . '/css/main.css', array(), '0.0.1' );
 }
@@ -88,8 +119,85 @@ add_action( 'wp_ajax_nopriv_sinus_add', 'sinus_cart_add' );
 add_action( 'wp_ajax_sinus_remove', 'sinus_cart_remove' );
 add_action( 'wp_ajax_nopriv_sinus_remove', 'sinus_cart_remove' );
 
-// set customer cookies
+// Get Woocommerce API
+add_action( 'wp_ajax_sinus_products', 'sinus_get_products' );
+add_action( 'wp_ajax_nopriv_sinus_products', 'sinus_get_products' );
+add_action( 'wp_ajax_sinus_brand', 'sinus_get_products_by_brand' );
+add_action( 'wp_ajax_nopriv_sinus_brand', 'sinus_get_products_by_brand' );
+add_action( 'wp_ajax_sinus_type', 'sinus_get_products_by_type' );
+add_action( 'wp_ajax_nopriv_sinus_type', 'sinus_get_products_by_type' );
 
+$fields = "id,title,categories,tags,regular_price,sale_price,price_html,featured_src,images,description,permalink";
+
+function sinus_get_products() {
+  global $client;
+  $decoded = json_decode(file_get_contents("php://input"));
+  $offset = $decoded->offset;
+  $limit = $decoded->limit;
+
+  if ( !$offset ) {
+    $offset = 0;
+  }
+  $products = $client->products->get(null,
+    array(
+      'filter[limit]'   => $limit,
+      'filter[offset]'  => $offset,
+      )
+  );
+  echo json_encode($products);
+  wp_die();
+}
+
+function sinus_get_products_by_brand() {
+  global $client, $fields;
+  $decoded = json_decode(file_get_contents("php://input"));
+  $brand = $decoded->param;
+  $offset = $decoded->offset;
+  $limit = $decoded->limit;
+
+  if ( !$offset ) {
+    $offset = 0;
+  }
+
+  $products = $client->products->get(null,
+    array(
+      'filter[tag]'     => $brand,
+      'filter[limit]'   => $limit,
+      'filter[offset]'  => $offset,
+      'fields'          => $fields,
+    )
+  );
+  echo json_encode($products);
+  wp_die();
+}
+
+function sinus_get_products_by_type() {
+  global $client, $fields;
+  $decoded = json_decode(file_get_contents("php://input"));
+  $type = $decoded->param;
+  $offset = $decoded->offset;
+  $limit = $decoded->limit;
+
+  if ( !$offset ) {
+    $offset = 0;
+  }
+
+  $products = $client->products->get(null,
+    array(
+      'filter[category]'  => $type,
+      'filter[limit]'     => $limit,
+      'filter[offset]'    => $offset,
+      'fields'            => $fields,
+    )
+  );
+
+  echo json_encode($products);
+  wp_die();
+}
+
+
+
+// set customer cookies on initialization
 function set_init_cookie() {
   if ( is_user_logged_in() || is_admin() ) {
     return;
@@ -248,7 +356,7 @@ function reserve_in_store() {
     $company_info = '<br><h2>Sinus-Store.dk // Sinus IVS</h2><h4>Studiestræde 24, kld. th.<br>DK-1455<br>København K<br>Danmark<br><br>Email: info@sinus-store.dk<br>Tlf: (+45) 61458215</h4>';
 
     $email_body = '<html><head></head><body>';
-    $email_body .= '<h2>Tak for din bestilling!</h2><p>Vi lægger de valgte varer til side til dig i butikken i København, og forbeholder os retten til at kontakte dig, hvis du ikke afhenter dem indenfor 2 hverdage.' . $cart_data . '<br>Mvh</p>' . $image_path . $company_info;
+    $email_body .= '<h2>Tak for din bestilling!</h2><p>Vi lægger de valgte varer til side til dig hurtigst muligt, og kontakter dig lige så snart de er klar til afhentning. Vi reserverer kun varer i to dage, så kontakt os, hvis du ønsker at afhente varen senere.' . $cart_data . '<br>Med venlig hilsen</p>' . $image_path . $company_info;
     $email_body .= '</body></html>';
 
     $customer_subject = 'sinus-store.dk - Tak for din reservation.';
