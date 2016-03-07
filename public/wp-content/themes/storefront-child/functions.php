@@ -127,7 +127,7 @@ add_action( 'wp_ajax_nopriv_sinus_brand', 'sinus_get_products_by_brand' );
 add_action( 'wp_ajax_sinus_type', 'sinus_get_products_by_type' );
 add_action( 'wp_ajax_nopriv_sinus_type', 'sinus_get_products_by_type' );
 
-$fields = "id,title,categories,tags,regular_price,sale_price,price_html,featured_src,images,description,permalink";
+$fields = "id,title,categories,tags,regular_price,sale_price,price_html,featured_src,images,description,permalink,in_stock,visible";
 
 function sinus_get_products() {
   global $client;
