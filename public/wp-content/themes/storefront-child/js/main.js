@@ -41,8 +41,8 @@ function productsController() {
   promise.then(function(products) {
     render(products);
   });
+  sortPriceController();
 }
-
 
 function productsSupplyer() {
   var url = window.location.href;
@@ -245,6 +245,7 @@ function render(products) {
   $(grid).append(html);
   sortTags(tags);
   scrollController();
+  setMenuHeight();
   var page = $('body').find('.page.page-1');
   $(page).removeClass('hidden');
   setTimeout(function() {
@@ -302,7 +303,10 @@ function sortController() {
           $(e).detach();
         }, 600+delay);
       });
-      returnSortedCat(param);
+      var promise = returnSortedCat(param);
+      promise.then(function(products) {
+        render(products);
+      });
     });
   });
 
@@ -317,15 +321,18 @@ function sortController() {
           $(e).detach();
         }, 600+delay);
       });
-
-      returnSortedBrand(param);
+      var promise = returnSortedBrand(param);
+      promise.then(function(products) {
+        render(products);
+      });
     });
   });
 }
 
 function returnSortedCat(param) {
   var newProductsPromise = productsSupplyer(),
-      sorted = [];
+      sorted = [],
+      defer = $.Deferred();
 
   newProductsPromise.then(function(newProducts) {
     $(newProducts).each(function(i,e) {
@@ -336,18 +343,16 @@ function returnSortedCat(param) {
       }
     });
 
-    window.requestAnimationFrame(function() {
-      scrollTo(0);
-    });
-    window.requestAnimationFrame(function() {
-      render(sorted);
-    });
+    defer.resolve(sorted);
   });
+
+  return defer;
 }
 
 function returnSortedBrand(param) {
   var newProductsPromise = productsSupplyer(),
-      sorted = [];
+      sorted = [],
+      defer = $.Deferred();
 
   newProductsPromise.then(function(newProducts) {
     $(newProducts).each(function(i,e) {
@@ -357,15 +362,113 @@ function returnSortedBrand(param) {
       }
     });
 
-    window.requestAnimationFrame(function() {
-      scrollTo(0);
-    });
-    window.requestAnimationFrame(function() {
-      render(sorted);
-    });
+    defer.resolve(sorted);
   });
+
+  return defer;
 }
 
+function returnSortedPriceLow() {
+  var newProductsPromise = productsSupplyer(),
+      defer = $.Deferred();
+
+  newProductsPromise.then(function(newProducts) {
+    var initArray = [],
+        sorted = [];
+
+    $(newProducts).each(function(i,e) {
+      var object = {
+        price: parseInt(e['regular_price']),
+        element: e
+      }
+      initArray.push(object);
+    });
+
+    function sortPrice(a,b) {
+      return a.price - b.price;
+    }
+
+    var initialSort = initArray.sort(sortPrice);
+
+    $(initialSort).each(function(j,f) {
+      sorted.push(f.element);
+    });
+
+    defer.resolve(sorted);
+  });
+
+  return defer;
+}
+
+function returnSortedPriceHigh() {
+  var newProductsPromise = productsSupplyer(),
+      defer = $.Deferred();
+
+  newProductsPromise.then(function(newProducts) {
+    var initArray = [],
+        sorted = [];
+
+    $(newProducts).each(function(i,e) {
+      var object = {
+        price: parseInt(e['regular_price']),
+        element: e
+      }
+      initArray.push(object);
+    });
+
+    function sortPrice(a,b) {
+      return a.price - b.price;
+    }
+
+    var initialSort = initArray.sort(sortPrice).reverse();
+
+    $(initialSort).each(function(j,f) {
+      sorted.push(f.element);
+    });
+
+    defer.resolve(sorted);
+  });
+
+  return defer;
+}
+
+function sortPriceController() {
+  var direction = 'asc';
+
+  function setDirection(dir) {
+    direction = dir;
+  }
+
+  function getDirection() {
+    return direction;
+  }
+
+  var priceSorter = $('.menu-left').find('.sort-links > .price-sorter');
+
+  if ( !priceSorter ) {
+    return;
+  }
+
+  $(priceSorter).on('click', function() {
+    var currentDir = getDirection();
+
+    if ( currentDir === 'asc' ) {
+      var sortedPrice = returnSortedPriceLow();
+      setDirection('desc');
+      sortedPrice.then(function(products) {
+        render(products);
+      });
+    }
+
+    if ( currentDir === 'desc' ) {
+      var sortedPrice = returnSortedPriceHigh();
+      setDirection('asc');
+      sortedPrice.then(function(products) {
+        render(products);
+      });
+    }
+  });
+}
 
 function scrollController() {
   var pages = $('body').find('.page.products.hidden'),
@@ -412,7 +515,7 @@ function setTemplate(e) {
   }
 
   var desc = e.description;
-  var trunc = desc.split(" ").splice(0, 25).join(" ");
+  var trunc = desc.split(" ").splice(0, 23).join(" ");
 
   var template = '<li class="product" itemscope itemtype="http://schema.org/Product">' + stockIcon;
       template += '<img src="' + e.featured_src + '" alt="' + e.title + ' product image produktbillede Sinus-store Copenhagen København Denmark" />';
@@ -1066,7 +1169,6 @@ var MenuController = function() {
         }, 1300);
       }
 };
-
 
 var CartController = function() {
   var cartIcon = $('body').find('.cart-icon'),

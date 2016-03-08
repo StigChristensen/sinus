@@ -547,29 +547,27 @@ html, body {
     font-size: 12px;
     color: #FDFDFD;
     margin: 10px 0 10px 0; }
-  .menu-left .categories, .menu-left .brands {
+  .menu-left .categories, .menu-left .brands, .menu-left .sort-links {
     margin: 20px 0; }
-    .menu-left .categories p, .menu-left .brands p {
+    .menu-left .categories p, .menu-left .brands p, .menu-left .sort-links p {
       font-size: 14px;
       color: #FDFDFD;
       padding: 5px 0 5px 0;
       cursor: pointer;
       transition: all 0.3s cubic-bezier(0.24, 0.63, 0.5, 0.99); }
-      .menu-left .categories p i.fa, .menu-left .brands p i.fa {
+      .menu-left .categories p i.fa, .menu-left .brands p i.fa, .menu-left .sort-links p i.fa {
         font-size: 12px;
         margin: 0 5px 0 0;
         color: #007c96;
         transition: all 0.3s cubic-bezier(0.24, 0.63, 0.5, 0.99); }
-    .menu-left .categories p:hover, .menu-left .brands p:hover {
-      color: #007c96; }
-      .menu-left .categories p:hover i.fa, .menu-left .brands p:hover i.fa {
-        color: #FDFDFD; }
+    .menu-left .categories p:hover i.fa, .menu-left .brands p:hover i.fa, .menu-left .sort-links p:hover i.fa {
+      color: #FDFDFD; }
 
 .product-list-grid {
   width: calc(100% - 170px);
   height: auto;
   float: left;
-  margin-left: 150px;
+  margin-left: 170px;
   text-align: center; }
   .product-list-grid .page.products {
     width: calc(100% - 170px);
@@ -665,7 +663,7 @@ html, body {
             .product-list-grid .page.products ul.products li.product .product-price .add-button span.add-info {
               position: absolute;
               top: -17px;
-              left: 0px;
+              left: -8px;
               width: 100px;
               font-size: 10px;
               color: #FDFDFD;
