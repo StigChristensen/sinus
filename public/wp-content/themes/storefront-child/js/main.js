@@ -9,7 +9,7 @@ jQuery(document).on('ready', function() {
 
   new CartController();
   new MenuController();
-  new gridCartController();
+  // new gridCartController();
   new embedVidController();
   new productTextController();
   new singleProductHeightController();
@@ -38,7 +38,6 @@ function scrollTo(value) {
 
 function productsController() {
   var promise = productsSupplyer();
-
   promise.then(function(products) {
     render(products);
   });
@@ -248,6 +247,9 @@ function render(products) {
   scrollController();
   var page = $('body').find('.page.page-1');
   $(page).removeClass('hidden');
+  setTimeout(function() {
+    new gridCartController();
+  }, 1500);
 }
 
 function sortTags(tags) {
@@ -334,7 +336,12 @@ function returnSortedCat(param) {
       }
     });
 
-    render(sorted);
+    window.requestAnimationFrame(function() {
+      scrollTo(0);
+    });
+    window.requestAnimationFrame(function() {
+      render(sorted);
+    });
   });
 }
 
@@ -350,13 +357,18 @@ function returnSortedBrand(param) {
       }
     });
 
-    render(sorted);
+    window.requestAnimationFrame(function() {
+      scrollTo(0);
+    });
+    window.requestAnimationFrame(function() {
+      render(sorted);
+    });
   });
 }
 
 
 function scrollController() {
-  var pages = $('body').find('.page.hidden'),
+  var pages = $('body').find('.page.products.hidden'),
       content = $('body').find('.site-content'),
       height = $(content).height(),
       windowHeight = $(window).height();
@@ -369,8 +381,10 @@ function scrollController() {
     var scroll = $(document).scrollTop(),
         height = $(content).height();
 
-    if ( scroll >= (height - 800) ) {
-      updateView();
+    if ( scroll >= ((height - windowHeight) - 200) ) {
+      window.requestAnimationFrame(function() {
+        updateView();
+      });
     }
   });
 
@@ -397,10 +411,13 @@ function setTemplate(e) {
     stockIcon = '<div class="in-stock-icon"><span>PÅ LAGER: <i class="fa fa-check-square"></i></span></div>';
   }
 
+  var desc = e.description;
+  var trunc = desc.split(" ").splice(0, 25).join(" ");
+
   var template = '<li class="product" itemscope itemtype="http://schema.org/Product">' + stockIcon;
       template += '<img src="' + e.featured_src + '" alt="' + e.title + ' product image produktbillede Sinus-store Copenhagen København Denmark" />';
       template += '<div class="product-price">' + e.price_html + '<div class="add-button" data-href="' + e.id + '" data-title="' + e.title + '"><svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"x="0px" y="0px" viewBox="0 0 60 60" xml:space="preserve"><line class="svg-line" fill="none" stroke="#007c96" stroke-width="10" stroke-miterlimit="10" x1="30" y1="6" x2="30" y2="54"/><line class="svg-line" fill="none" stroke="#007c96" stroke-width="10" stroke-miterlimit="10" x1="6" y1="30" x2="54" y2="30"/></svg><span class="add-info">Tilføj til kurv</span></div></div>';
-      template += '<div class="sinus-product-info"><div class="product-title" itemprop="name"><h3>' + e.title + '</h3></div><div class="short-desc" itemprop="description">' + e.title + '</div></div>';
+      template += '<div class="sinus-product-info"><div class="product-title" itemprop="name"><h3>' + e.title + '</h3></div><div class="short-desc" itemprop="description">' + trunc + '</div></div>';
       template += '</li>';
 
   return template;
@@ -448,8 +465,8 @@ var fpBackgroundController = function() {
     var curImg = $(bgContainer).find('img.bg-' + j),
         newImg = $(bgContainer).find('img.bg-' + k);
 
-    animateIn(newImg);
-    animateOut(curImg);
+    window.requestAnimationFrame(animateIn(newImg));
+    window.requestAnimationFrame(animateOut(curImg));
 
     setIndex(k);
 
@@ -742,7 +759,7 @@ function shopMsg(title, msg) {
     var msg = msg;
   }
 
-  var html = title + msg;
+  var html = '<h3>' + title + '</h3>' + msg;
 
   $(atcModal).append(html);
 
@@ -882,7 +899,7 @@ var gridCartController = function() {
 
           setTimeout(function() {
             window.location.href = window.location.href;
-          }, 2000);
+          }, 1000);
         },
         error: function(response) {
           console.log('error -', response);

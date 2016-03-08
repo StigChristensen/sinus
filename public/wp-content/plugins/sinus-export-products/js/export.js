@@ -14,8 +14,8 @@ jQuery(document).on('ready', function() {
       dataType: 'json',
       success: function(response) {
         console.log(response);
-        var href = window.location.href;
-        window.location.href = href + '?exported=true';
+        // var href = window.location.href;
+        // window.location.href = href + '?exported=true';
       },
       error: function(response) {
         console.log(response);

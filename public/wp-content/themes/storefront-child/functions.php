@@ -1,11 +1,11 @@
 <?php
 
-DEFINE("key", "ck_b8811924622d385bcd26099734be29c0b0b437c4");
-DEFINE("sec", "cs_7aaa1567247c633908ee2f5023f1c70c79535bcc");
+// DEFINE("key", "ck_b8811924622d385bcd26099734be29c0b0b437c4");
+// DEFINE("sec", "cs_7aaa1567247c633908ee2f5023f1c70c79535bcc");
 
 // Live
-//DEFINE("key", "ck_1fe428253a71d9b12917fa9663f874947e763f02");
-//DEFINE("sec", "cs_fd8f68f1d64916548497311d92f38b9ece0a752f");
+DEFINE("key", "ck_1fe428253a71d9b12917fa9663f874947e763f02");
+DEFINE("sec", "cs_fd8f68f1d64916548497311d92f38b9ece0a752f");
 
 // get api
 require_once( 'inc/woocommerce-api.php' );
@@ -29,7 +29,6 @@ try {
         print_r( $e->get_response() );
     }
 }
-
 
 // Hide admin bar on the front facing site, when logged in.
 show_admin_bar(false);
