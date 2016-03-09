@@ -18,7 +18,8 @@ jQuery(document).on('ready', function() {
   new scrollHeaderController();
   new fpVideoController();
   new fpBackgroundController();
-  productsController();
+  // productsController();
+  urlListener();
 
   // labels for input fields
   $("form :input").focus(function() {
@@ -43,6 +44,406 @@ function productsController() {
   });
   sortPriceController();
 }
+
+function urlListener() {
+  var href = window.location.href,
+      hash = window.location.hash,
+      initParams,
+      base_url;
+
+  if ( !hash ) {
+    productsController();
+  } else {
+    sortHash(hash);
+  }
+
+  // window.onhashchange = function(inf) {
+  //   var hash = location.hash;
+  //   var parts = hash.split('=');
+
+  //   var params = parts[1].split('+');
+  // }
+}
+
+function sortHash(hash) {
+  var price, param, paramtype;
+
+  if ( hash.indexOf('price_asc') !== -1 ) {
+    price = 'price_asc';
+  }
+
+  if ( hash.indexOf('price_desc') !== -1 ) {
+    price = 'price_desc';
+  }
+
+  if ( hash.indexOf('category') !== -1 ) {
+    paramtype = 'category';
+    split = hash.split('+');
+    if ( hash.indexOf('price_asc' !== -1 ) || hash.indexOf('price_desc' !== -1 ) ) {
+      param = split[2];
+    } else {
+      param = split[1];
+    }
+  }
+
+  if ( hash.indexOf('brand') !== -1 ) {
+    paramtype = 'brand';
+    split = hash.split('+');
+    if ( hash.indexOf('price_asc' !== -1 ) || hash.indexOf('price_desc' !== -1 ) ) {
+      param = split[2];
+    } else {
+      param = split[1];
+    }
+  }
+
+  urlDataController(price, param, paramtype);
+}
+
+function sortUrl(price, param, paramtype) {
+  var h = window.location.hash,
+      href = window.location.href,
+      pri, par, pt,
+      hashBase = '#sort=',
+      paramArray = [],
+      base_url;
+
+  if ( h ) {
+    var base = href.split('#');
+    base_url = base[0];
+
+    if ( price ) {
+      pri = price;
+      paramArray.push(pri);
+    } else {
+      if ( h.indexOf('price_asc') !== -1 ) {
+        pri = 'price_asc';
+        paramArray.push(pri);
+      }
+      if ( h.indexOf('price_desc') !== -1 ) {
+        pri = 'price_desc';
+        paramArray.push(pri);
+      }
+    }
+
+    if ( param ) {
+      par = param;
+      pt = paramtype;
+      paramArray.push(pt);
+      paramArray.push(par);
+    } else {
+      if ( h.indexOf('category') !== -1 ) {
+        paramtype = 'category';
+        var getParam = h.split('category');
+        var cat = getParam[1].replace('+', '');
+        par = cat;
+        paramArray.push(paramtype);
+        paramArray.push(par);
+      }
+
+      if ( h.indexOf('brand') !== -1 ) {
+        paramtype = 'brand';
+        var getParam = h.split('brand');
+        var cat = getParam[1].replace('+', '');
+        par = cat;
+        paramArray.push(paramtype);
+        paramArray.push(par);
+      }
+    }
+
+
+  } else {
+    base_url = href;
+
+    if ( price ) {
+      pri = price;
+      paramArray.push(pri);
+    }
+
+    if ( param ) {
+      par = param;
+      pt = paramtype;
+      paramArray.push(pt);
+      paramArray.push(par);
+    }
+  }
+
+  var string = '';
+      string = hashBase;
+
+  var paramsLength = paramArray.length;
+  console.log(paramsLength);
+  $(paramArray).each(function(i, e) {
+    if ( i < (paramsLength-1) ) {
+      string += e + '+';
+    }
+    if ( i === (paramsLength-1) ) {
+      string += e;
+    }
+  });
+
+  setUrl(string);
+  urlDataController(pri, par, pt);
+}
+
+function setUrl(hash, href) {
+  console.log(hash, href);
+
+  if ( !href ) {
+    window.location.hash = hash;
+  } else {
+    window.location.href = href + hash;
+  }
+}
+
+function urlDataController(price, param, paramtype) {
+  console.log(price, param, paramtype);
+
+  // if ( price && paramtype ) {
+  //   var dataPromise = returnSortedMultiple(price, param, paramtype);
+
+  //   dataPromise.done(function(products) {
+  //     render(products);
+  //   })
+  //   .fail(function() {
+  //       console.log('failed price & param');
+  //   });
+  // }
+
+  // if ( price && (!param || !paramtype) ) {
+  //   var dataPromise = returnSortedMultiple(price);
+
+  //   dataPromise.done(function(products) {
+  //     render(products);
+  //   })
+  //   .fail(function() {
+  //       console.log('failed price & !param');
+  //   });
+  // }
+
+  if ( price && param && paramtype) {
+    var dataPromise = returnSortedMultiple(price, param, paramtype);
+
+    dataPromise.done(function(products) {
+      console.log(products);
+      render(products);
+    })
+    .fail(function() {
+        console.log('failed!');
+    });
+  }
+
+  sortPriceController();
+}
+
+function returnSortedMultiple(price, param, paramtype) {
+  console.log('trying to get data');
+  var sortdef = $.Deferred();
+
+  function getFirstList() {
+    var getFirst = $.Deferred();
+
+    if ( price ) {
+      console.log(price);
+      if ( price === 'price_asc' ) {
+        var init = returnSortedPriceLow();
+
+        init.then(function(products) {
+          getFirst.resolve(products);
+        });
+      }
+
+      if ( price === 'price_desc' ) {
+        var init = returnSortedPriceHigh();
+
+        init.then(function(products) {
+          getFirst.resolve(products);
+        });
+      }
+
+    } else {
+      getFirst.reject();
+    }
+    return getFirst;
+  }
+
+  var firstPromise = getFirstList();
+
+  firstPromise.then(function(products) {
+    console.log(products);
+
+    if ( param ) {
+      if ( paramtype === 'brand' ) {
+        var finalSort = returnSortedBrand(param, products);
+        finalSort.then(function(brandSorted) {
+          sortdef.resolve(brandSorted);
+        });
+      }
+
+      if ( paramtype === 'category' ) {
+        var finalSort = returnSortedCat(param, products);
+        finalSort.then(function(catSorted) {
+          sortdef.resolve(catSorted);
+        });
+      }
+    }
+  })
+  .fail(function() {
+    if ( param ) {
+      if ( paramtype === 'brand' ) {
+        var finalSort = returnSortedBrand(param);
+        finalSort.then(function(brandSorted) {
+          sortdef.resolve(brandSorted);
+        });
+      }
+
+      if ( paramtype === 'category' ) {
+        var finalSort = returnSortedCat(param);
+        finalSort.then(function(catSorted) {
+          sortdef.resolve(catSorted);
+        });
+      }
+    } else {
+      sortdef.reject();
+    }
+  });
+
+  return sortdef;
+}
+
+function returnSortedCat(param, products) {
+  var sorted = [],
+      defer = $.Deferred();
+
+  if ( !products ) {
+    var newProductsPromise = productsSupplyer();
+
+    newProductsPromise.then(function(newProducts) {
+      $(newProducts).each(function(i,e) {
+        var cats = e.categories;
+        if ( cats.indexOf(param) !== -1 ) {
+          sorted.push(e);
+        }
+      });
+
+      defer.resolve(sorted);
+    });
+  } else {
+    function sort() {
+      $(products).each(function(i,e) {
+        var brands = e.tags;
+        if ( brands.indexOf(param) !== -1 ) {
+          sorted.push(e);
+        }
+      });
+
+      defer.resolve(sorted);
+    }
+
+    sort();
+  }
+
+  return defer;
+}
+
+function returnSortedBrand(param, products) {
+  var sorted = [];
+  var defer = $.Deferred();
+
+  if ( !products ) {
+    var newProductsPromise = productsSupplyer();
+
+    newProductsPromise.then(function(newProducts) {
+      $(newProducts).each(function(i,e) {
+        var brands = e.tags;
+        if ( brands.indexOf(param) !== -1 ) {
+          sorted.push(e);
+        }
+      });
+
+      defer.resolve(sorted);
+    });
+  } else {
+    function sort() {
+      $(products).each(function(i,e) {
+        var brands = e.tags;
+        if ( brands.indexOf(param) !== -1 ) {
+          sorted.push(e);
+        }
+      });
+
+      defer.resolve(sorted);
+    }
+
+    sort();
+  }
+
+  return defer;
+}
+
+function returnSortedPriceLow() {
+  var newProductsPromise = productsSupplyer(),
+      defer = $.Deferred();
+
+  newProductsPromise.then(function(newProducts) {
+    var initArray = [],
+        sorted = [];
+
+    $(newProducts).each(function(i,e) {
+      var object = {
+        price: parseInt(e['regular_price']),
+        element: e
+      }
+      initArray.push(object);
+    });
+
+    function sortPrice(a,b) {
+      return a.price - b.price;
+    }
+
+    var initialSort = initArray.sort(sortPrice);
+
+    $(initialSort).each(function(j,f) {
+      sorted.push(f.element);
+    });
+
+    defer.resolve(sorted);
+  });
+
+  return defer;
+}
+
+function returnSortedPriceHigh() {
+  var newProductsPromise = productsSupplyer(),
+      defer = $.Deferred();
+
+  newProductsPromise.then(function(newProducts) {
+    var initArray = [],
+        sorted = [];
+
+    $(newProducts).each(function(i,e) {
+      var object = {
+        price: parseInt(e['regular_price']),
+        element: e
+      }
+      initArray.push(object);
+    });
+
+    function sortPrice(a,b) {
+      return a.price - b.price;
+    }
+
+    var initialSort = initArray.sort(sortPrice).reverse();
+
+    $(initialSort).each(function(j,f) {
+      sorted.push(f.element);
+    });
+
+    defer.resolve(sorted);
+  });
+
+  return defer;
+}
+
 
 function productsSupplyer() {
   var url = window.location.href;
@@ -253,6 +654,29 @@ function render(products) {
   }, 1500);
 }
 
+
+function setTemplate(e) {
+  var stockIcon;
+
+  if ( e.in_stock === 'false' ) {
+    stockIcon = '<div class="in-stock-icon"><span>PÅ LAGER: <i class="fa fa-minus-square"></span></div>';
+  } else {
+    stockIcon = '<div class="in-stock-icon"><span>PÅ LAGER: <i class="fa fa-check-square"></i></span></div>';
+  }
+
+  var desc = e.description;
+  var trunc = desc.split(" ").splice(0, 23).join(" ");
+
+  var template = '<li class="product" itemscope itemtype="http://schema.org/Product">' + stockIcon;
+      template += '<img src="' + e.featured_src + '" alt="' + e.title + ' product image produktbillede Sinus-store Copenhagen København Denmark" />';
+      template += '<div class="product-price">' + e.price_html + '<div class="add-button" data-href="' + e.id + '" data-title="' + e.title + '"><svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"x="0px" y="0px" viewBox="0 0 60 60" xml:space="preserve"><line class="svg-line" fill="none" stroke="#007c96" stroke-width="10" stroke-miterlimit="10" x1="30" y1="6" x2="30" y2="54"/><line class="svg-line" fill="none" stroke="#007c96" stroke-width="10" stroke-miterlimit="10" x1="6" y1="30" x2="54" y2="30"/></svg><span class="add-info">Tilføj til kurv</span></div></div>';
+      template += '<div class="sinus-product-info"><div class="product-title" itemprop="name"><h3>' + e.title + '</h3></div><div class="short-desc" itemprop="description">' + trunc + '</div></div>';
+      template += '</li>';
+
+  return template;
+}
+
+
 function sortTags(tags) {
   var menuLeft = $('body').find('.menu-left'),
       categoryContainer = $(menuLeft).find('.categories'),
@@ -290,7 +714,8 @@ function sortController() {
       pCat = $(categoryContainer).find('p'),
       pBrand = $(brandContainer).find('p'),
       products = $('body').find('li.product'),
-      pages = $('body').find('.page.products');
+      pages = $('body').find('.page.products'),
+      href = window.location.href;
 
   $(pCat).each(function(i,e) {
     var param = $(e).data('cat');
@@ -303,10 +728,10 @@ function sortController() {
           $(e).detach();
         }, 600+delay);
       });
-      var promise = returnSortedCat(param);
-      promise.then(function(products) {
-        render(products);
-      });
+      var paramtype = 'category';
+      var price = null;
+      sortUrl(price, param, paramtype);
+
     });
   });
 
@@ -321,115 +746,11 @@ function sortController() {
           $(e).detach();
         }, 600+delay);
       });
-      var promise = returnSortedBrand(param);
-      promise.then(function(products) {
-        render(products);
-      });
+      var paramtype = 'brand';
+      var price = null;
+      sortUrl(price, param, paramtype);
     });
   });
-}
-
-function returnSortedCat(param) {
-  var newProductsPromise = productsSupplyer(),
-      sorted = [],
-      defer = $.Deferred();
-
-  newProductsPromise.then(function(newProducts) {
-    $(newProducts).each(function(i,e) {
-      var cats = e.categories;
-
-      if ( cats.indexOf(param) !== -1 ) {
-        sorted.push(e);
-      }
-    });
-
-    defer.resolve(sorted);
-  });
-
-  return defer;
-}
-
-function returnSortedBrand(param) {
-  var newProductsPromise = productsSupplyer(),
-      sorted = [],
-      defer = $.Deferred();
-
-  newProductsPromise.then(function(newProducts) {
-    $(newProducts).each(function(i,e) {
-      var brands = e.tags;
-      if ( brands.indexOf(param) !== -1 ) {
-        sorted.push(e);
-      }
-    });
-
-    defer.resolve(sorted);
-  });
-
-  return defer;
-}
-
-function returnSortedPriceLow() {
-  var newProductsPromise = productsSupplyer(),
-      defer = $.Deferred();
-
-  newProductsPromise.then(function(newProducts) {
-    var initArray = [],
-        sorted = [];
-
-    $(newProducts).each(function(i,e) {
-      var object = {
-        price: parseInt(e['regular_price']),
-        element: e
-      }
-      initArray.push(object);
-    });
-
-    function sortPrice(a,b) {
-      return a.price - b.price;
-    }
-
-    var initialSort = initArray.sort(sortPrice);
-
-    $(initialSort).each(function(j,f) {
-      sorted.push(f.element);
-    });
-
-    defer.resolve(sorted);
-  });
-
-  return defer;
-}
-
-function returnSortedPriceHigh() {
-  var newProductsPromise = productsSupplyer(),
-      defer = $.Deferred();
-
-  newProductsPromise.then(function(newProducts) {
-    var initArray = [],
-        sorted = [];
-
-    $(newProducts).each(function(i,e) {
-      var object = {
-        price: parseInt(e['regular_price']),
-        element: e
-      }
-      initArray.push(object);
-    });
-
-    function sortPrice(a,b) {
-      return a.price - b.price;
-    }
-
-    var initialSort = initArray.sort(sortPrice).reverse();
-
-    $(initialSort).each(function(j,f) {
-      sorted.push(f.element);
-    });
-
-    defer.resolve(sorted);
-  });
-
-  return defer;
 }
 
 function sortPriceController() {
@@ -453,19 +774,16 @@ function sortPriceController() {
     var currentDir = getDirection();
 
     if ( currentDir === 'asc' ) {
-      var sortedPrice = returnSortedPriceLow();
       setDirection('desc');
-      sortedPrice.then(function(products) {
-        render(products);
-      });
+      var price = 'price_asc';
+      sortUrl(price);
+
     }
 
     if ( currentDir === 'desc' ) {
-      var sortedPrice = returnSortedPriceHigh();
       setDirection('asc');
-      sortedPrice.then(function(products) {
-        render(products);
-      });
+      var price = 'price_desc';
+      sortUrl(price);
     }
   });
 }
@@ -484,7 +802,7 @@ function scrollController() {
     var scroll = $(document).scrollTop(),
         height = $(content).height();
 
-    if ( scroll >= ((height - windowHeight) - 200) ) {
+    if ( scroll >= ((height - windowHeight) - 500) ) {
       window.requestAnimationFrame(function() {
         updateView();
       });
@@ -503,27 +821,6 @@ function scrollController() {
       }, 1000);
     }
   }
-}
-
-function setTemplate(e) {
-  var stockIcon;
-
-  if ( e.in_stock === 'false' ) {
-    stockIcon = '<div class="in-stock-icon"><span>PÅ LAGER: <i class="fa fa-minus-square"></span></div>';
-  } else {
-    stockIcon = '<div class="in-stock-icon"><span>PÅ LAGER: <i class="fa fa-check-square"></i></span></div>';
-  }
-
-  var desc = e.description;
-  var trunc = desc.split(" ").splice(0, 23).join(" ");
-
-  var template = '<li class="product" itemscope itemtype="http://schema.org/Product">' + stockIcon;
-      template += '<img src="' + e.featured_src + '" alt="' + e.title + ' product image produktbillede Sinus-store Copenhagen København Denmark" />';
-      template += '<div class="product-price">' + e.price_html + '<div class="add-button" data-href="' + e.id + '" data-title="' + e.title + '"><svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"x="0px" y="0px" viewBox="0 0 60 60" xml:space="preserve"><line class="svg-line" fill="none" stroke="#007c96" stroke-width="10" stroke-miterlimit="10" x1="30" y1="6" x2="30" y2="54"/><line class="svg-line" fill="none" stroke="#007c96" stroke-width="10" stroke-miterlimit="10" x1="6" y1="30" x2="54" y2="30"/></svg><span class="add-info">Tilføj til kurv</span></div></div>';
-      template += '<div class="sinus-product-info"><div class="product-title" itemprop="name"><h3>' + e.title + '</h3></div><div class="short-desc" itemprop="description">' + trunc + '</div></div>';
-      template += '</li>';
-
-  return template;
 }
 
 var fpBackgroundController = function() {
