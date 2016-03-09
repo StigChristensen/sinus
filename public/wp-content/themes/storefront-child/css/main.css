@@ -227,24 +227,6 @@ html, body {
     .site-content .content-area .site-main {
       margin: 20px 0 0 0; } }
 
-.border-left {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 50px;
-  height: 100%;
-  background-color: #2b2b2b;
-  display: none; }
-
-.border-right {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 50px;
-  height: 100%;
-  background-color: #2b2b2b;
-  display: none; }
-
 .menu-icon {
   position: fixed;
   top: 0px;
@@ -428,10 +410,15 @@ html, body {
     font-family: "Roboto", sans-serif;
     font-size: 12px;
     font-weight: 300;
-    color: #4fd5ca;
     padding: 7px 15px; }
-  .header-link-row a:hover {
+  .header-link-row a.green, .header-link-row p.green {
+    color: #4fd5ca; }
+  .header-link-row a.green:hover {
     color: #FDFDFD; }
+  .header-link-row a.white, .header-link-row p.white {
+    color: #FDFDFD; }
+  .header-link-row a.white:hover {
+    color: #007c96; }
 
 .header-link-row.hidden {
   top: -65px; }

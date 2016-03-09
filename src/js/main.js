@@ -9,7 +9,6 @@ jQuery(document).on('ready', function() {
 
   new CartController();
   new MenuController();
-  // new gridCartController();
   new embedVidController();
   new productTextController();
   new singleProductHeightController();
@@ -18,7 +17,6 @@ jQuery(document).on('ready', function() {
   new scrollHeaderController();
   new fpVideoController();
   new fpBackgroundController();
-  // productsController();
   urlListener();
 
   // labels for input fields
@@ -51,18 +49,20 @@ function urlListener() {
       initParams,
       base_url;
 
-  if ( !hash ) {
-    productsController();
+  if ( href.indexOf('/type/') === -1 && href.indexOf('/brand/') === -1 ) {
+    return;
   } else {
-    sortHash(hash);
+    if ( !hash ) {
+      productsController();
+    } else {
+      sortHash(hash);
+    }
   }
 
-  // window.onhashchange = function(inf) {
-  //   var hash = location.hash;
-  //   var parts = hash.split('=');
-
-  //   var params = parts[1].split('+');
-  // }
+  window.onhashchange = function(inf) {
+    var hash = location.hash;
+    sortHash(hash);
+  }
 }
 
 function sortHash(hash) {
@@ -96,6 +96,8 @@ function sortHash(hash) {
     }
   }
 
+  console.log(price, param, paramtype);
+  sortUrl(price, param, paramtype);
   urlDataController(price, param, paramtype);
 }
 
@@ -171,7 +173,6 @@ function sortUrl(price, param, paramtype) {
       string = hashBase;
 
   var paramsLength = paramArray.length;
-  console.log(paramsLength);
   $(paramArray).each(function(i, e) {
     if ( i < (paramsLength-1) ) {
       string += e + '+';
@@ -181,12 +182,11 @@ function sortUrl(price, param, paramtype) {
     }
   });
 
-  setUrl(string);
+  setUrl(string, base_url);
   urlDataController(pri, par, pt);
 }
 
 function setUrl(hash, href) {
-  console.log(hash, href);
 
   if ( !href ) {
     window.location.hash = hash;
@@ -196,35 +196,59 @@ function setUrl(hash, href) {
 }
 
 function urlDataController(price, param, paramtype) {
-  console.log(price, param, paramtype);
+  if ( price && param === undefined && param === undefined ) {
 
-  // if ( price && paramtype ) {
-  //   var dataPromise = returnSortedMultiple(price, param, paramtype);
+    if ( price === 'price_asc' ) {
+      var dataPromise = returnSortedPriceLow();
 
-  //   dataPromise.done(function(products) {
-  //     render(products);
-  //   })
-  //   .fail(function() {
-  //       console.log('failed price & param');
-  //   });
-  // }
+      dataPromise.done(function(products) {
+        render(products);
+      })
+      .fail(function() {
+          console.log('failed!');
+      });
+    }
 
-  // if ( price && (!param || !paramtype) ) {
-  //   var dataPromise = returnSortedMultiple(price);
+    if ( price === 'price_desc' ) {
+      var dataPromise = returnSortedPriceHigh();
 
-  //   dataPromise.done(function(products) {
-  //     render(products);
-  //   })
-  //   .fail(function() {
-  //       console.log('failed price & !param');
-  //   });
-  // }
+      dataPromise.done(function(products) {
+        render(products);
+      })
+      .fail(function() {
+          console.log('failed!');
+      });
+    }
+  }
+
+  if ( price === undefined && param && paramtype ) {
+    if ( paramtype === 'category' ) {
+      var dataPromise = returnSortedCat(param);
+
+      dataPromise.done(function(products) {
+        render(products);
+      })
+      .fail(function() {
+          console.log('failed!');
+      });
+    }
+
+    if ( paramtype === 'brand' ) {
+      var dataPromise = returnSortedBrand(param);
+
+      dataPromise.done(function(products) {
+        render(products);
+      })
+      .fail(function() {
+          console.log('failed!');
+      });
+    }
+  }
 
   if ( price && param && paramtype) {
     var dataPromise = returnSortedMultiple(price, param, paramtype);
 
     dataPromise.done(function(products) {
-      console.log(products);
       render(products);
     })
     .fail(function() {
@@ -236,75 +260,84 @@ function urlDataController(price, param, paramtype) {
 }
 
 function returnSortedMultiple(price, param, paramtype) {
-  console.log('trying to get data');
   var sortdef = $.Deferred();
 
   function getFirstList() {
     var getFirst = $.Deferred();
 
     if ( price ) {
-      console.log(price);
       if ( price === 'price_asc' ) {
         var init = returnSortedPriceLow();
 
-        init.then(function(products) {
-          getFirst.resolve(products);
+        init.then(function(sortedPrice) {
+          getFirst.resolve(sortedPrice);
         });
       }
 
       if ( price === 'price_desc' ) {
         var init = returnSortedPriceHigh();
 
-        init.then(function(products) {
-          getFirst.resolve(products);
+        init.then(function(sortedPrice) {
+          getFirst.resolve(sortedPrice);
         });
       }
 
     } else {
-      getFirst.reject();
+      getFirst.reject('first rejected');
     }
     return getFirst;
   }
 
-  var firstPromise = getFirstList();
+  function getSecondList() {
+    var getSecond = $.Deferred();
+    var firstPromise = getFirstList();
 
-  firstPromise.then(function(products) {
-    console.log(products);
+    firstPromise.then(function(sortedPrice) {
+      if ( sortedPrice ) {
 
-    if ( param ) {
-      if ( paramtype === 'brand' ) {
-        var finalSort = returnSortedBrand(param, products);
-        finalSort.then(function(brandSorted) {
-          sortdef.resolve(brandSorted);
-        });
+        if ( param ) {
+          if ( paramtype === 'brand' ) {
+            var finalSort = returnSortedBrand(param, sortedPrice);
+            finalSort.then(function(brandSorted) {
+              getSecond.resolve(brandSorted);
+            });
+          }
+
+          if ( paramtype === 'category' ) {
+            var finalSort = returnSortedCat(param, sortedPrice);
+            finalSort.then(function(catSorted) {
+              getSecond.resolve(catSorted);
+            });
+          }
+        } else {
+          getSecond.reject('rejected - no param', sortedPrice);
+        }
       }
 
-      if ( paramtype === 'category' ) {
-        var finalSort = returnSortedCat(param, products);
-        finalSort.then(function(catSorted) {
-          sortdef.resolve(catSorted);
-        });
-      }
-    }
-  })
-  .fail(function() {
-    if ( param ) {
-      if ( paramtype === 'brand' ) {
-        var finalSort = returnSortedBrand(param);
-        finalSort.then(function(brandSorted) {
-          sortdef.resolve(brandSorted);
-        });
-      }
+      if ( !sortedPrice && param ) {
+        if ( paramtype === 'brand' ) {
+            var finalSort = returnSortedBrand(param);
+            finalSort.then(function(brandSorted) {
+              getSecond.resolve(brandSorted);
+            });
+          }
 
-      if ( paramtype === 'category' ) {
-        var finalSort = returnSortedCat(param);
-        finalSort.then(function(catSorted) {
-          sortdef.resolve(catSorted);
-        });
+          if ( paramtype === 'category' ) {
+            var finalSort = returnSortedCat(param);
+            finalSort.then(function(catSorted) {
+              getSecond.resolve(catSorted);
+            });
+          }
+      } else {
+        getSecond.reject('rejected !products && param');
       }
-    } else {
-      sortdef.reject();
-    }
+    });
+
+    return getSecond;
+  }
+
+  $.when( getSecondList() ).then(function(data) {
+    sortdef.resolve(data);
   });
 
   return sortdef;
@@ -330,8 +363,8 @@ function returnSortedCat(param, products) {
   } else {
     function sort() {
       $(products).each(function(i,e) {
-        var brands = e.tags;
-        if ( brands.indexOf(param) !== -1 ) {
+        var categories = e.categories;
+        if ( categories.indexOf(param) !== -1 ) {
           sorted.push(e);
         }
       });

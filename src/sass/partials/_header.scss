@@ -1,22 +1,3 @@
-.border-left {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 50px;
-  height: 100%;
-  background-color: $black;
-  display: none;
-}
-
-.border-right {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 50px;
-  height: 100%;
-  background-color: $black;
-  display: none;
-}
 
 .menu-icon {
   position: fixed;
@@ -266,12 +247,23 @@
     font-family: $robot;
     font-size: 12px;
     font-weight: 300;
-    color: $mainGreen;
     padding: 7px 15px;
   }
 
-  a:hover {
+  a.green, p.green {
+    color: $mainGreen;
+  }
+
+  a.green:hover {
     color: $white;
+  }
+
+  a.white, p.white {
+    color: $white;
+  }
+
+  a.white:hover {
+    color: $mainBlue;
   }
 
 }

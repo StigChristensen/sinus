@@ -113,15 +113,19 @@
       </div>
   </div>
   <div class="header-link-row">
-    <a href="/type/hovedtelefoner">Hovedtelefoner</a>
-    <p>|</p>
-    <a href="/type/preamps">Preamps</a>
-    <p>|</p>
-    <a href="/type/dac">DAC</a>
-    <p>|</p>
-    <a href="/type/traadloese-hoejtalere">Højtalere</a>
-    <p>|</p>
-    <a href="/type/tilbehoer">Tilbehør</a>
+    <a class="green" href="/type/hovedtelefoner">Hovedtelefoner</a>
+    <p class="green">|</p>
+    <a class="green" href="/type/preamps">Preamps</a>
+    <p class="green" >|</p>
+    <a class="white" href="/om-os/">Om os</a>
+    <p class="white">|</p>
+    <a class="white" href="/faq/">FAQ</a>
+    <p class="green">|</p>
+    <a class="green" href="/type/dac">DAC</a>
+    <p class="green">|</p>
+    <a class="green" href="/type/traadloese-hoejtalere">Højtalere</a>
+    <p class="green">|</p>
+    <a class="green" href="/type/tilbehoer">Tilbehør</a>
   </div>
 
 
