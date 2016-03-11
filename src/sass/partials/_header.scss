@@ -50,7 +50,7 @@
   right: 0px;
   background-color: $black;
   border-left: 1px solid $blckBorder;
-  padding: 85px 50px 20px;
+  padding: 100px 50px 20px;
   z-index: 300000;
   @include trans(0.5s);
 
@@ -131,7 +131,7 @@
     z-index: 5;
     @include trans(0.5s);
 
-    form.search {
+    form.sinus-search {
       position: relative;
       width: 250px;
       height: 50px;
@@ -247,7 +247,7 @@
     font-family: $robot;
     font-size: 12px;
     font-weight: 300;
-    padding: 7px 15px;
+    padding: 7px 10px;
   }
 
   a.green, p.green {

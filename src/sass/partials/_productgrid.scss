@@ -1,9 +1,9 @@
 .menu-left {
   position: fixed;
-  width: 170px;
+  width: 200px;
   height: 100%;
   top: 65px;
-  padding-top: 50px;
+  padding-top: 30px;
   padding-left: 20px;
   left: 0;
   text-align: left;
@@ -11,13 +11,14 @@
   background-color: $black;
 
   h3 {
-    font-size: 20px;
+    font-size: 18px;
     color: $mainGreen;
   }
 
   span {
     font-size: 12px;
     color: $white;
+    opacity: 0.2;
     margin: 10px 0 10px 0;
   }
 
@@ -48,14 +49,16 @@
 }
 
 .product-list-grid {
-  width: calc(100% - 170px);
+  width: calc(100% - 200px);
   height: auto;
   float: left;
-  margin-left: 170px;
+  margin-left: 200px;
+  margin-bottom: 100px;
   text-align: center;
+  @include trans(0.5s);
 
   .page.products {
-    width: calc(100% - 170px);
+    width: 100%;
     height: calc(24px * 490px);
     height: auto;
     overflow: visible;
@@ -82,6 +85,7 @@
         overflow: hidden;
         position: relative;
         cursor: pointer;
+        background-color: $white;
 
         .in-stock-icon {
           position: absolute;
@@ -109,12 +113,12 @@
         img {
           width: auto;
           height: auto;
-          max-height: 350px;
-          max-width: 350px;
+          max-height: 365px;
+          max-width: 433px;
           position: absolute;
-          bottom: 50px;
-          left: 50px;
-          // @include center();
+          bottom: 48px;
+          left: 48px;
+          opacity: 1;
           opacity: 1;
           z-index: 1;
           filter: grayscale(0%);
@@ -205,38 +209,46 @@
           }
         }
 
+        .product-title {
+          width: 100%;
+          height: auto;
+          padding: 20px;
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          z-index: 1200;
+          text-align: left;
+          background-color: $white;
+          border: 1px solid $lightGrey;
+
+          h3 {
+            font-family: $robot;
+            font-weight: 400;
+            font-size: 18px;
+            color: $mainBlue;
+          }
+        }
+
         .sinus-product-info {
           position: absolute;
-          width: 200px;
-          height: 490px;
+          width: 220px;
+          height: 383px;
           bottom: 48px;
           right: 0px;
           z-index: 2;
-          background-color: $lightGrey;
+          background-color: $white;
+          border: 1px solid $lightGrey;
           @include trans(0.3s);
 
-          .product-title {
-            width: 200px;
-            height: auto;
-            padding: 10px;
-            float: right;
-            text-align: right;
-            margin: 100px 0 0 0;
-
-            h3 {
-              font-family: $robot;
-              font-weight: 400;
-              font-size: 18px;
-              color: $mainBlue;
-            }
-          }
 
           .short-desc {
-            width: 200px;
+            width: 220px;
             height: auto;
-            float: right;
-            padding: 10px 10px 0;
-            text-align: right;
+            position: absolute;
+            bottom: 20px;
+            right: 0;
+            padding: 20px;
+            text-align: left;
             color: $black;
 
             p, span, b {
@@ -301,4 +313,67 @@
     color: $white;
     text-transform: uppercase;
   }
+}
+
+.product-modal-overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.55);
+  z-index: 888888888;
+  opacity: 1;
+  @include trans(0.2s);
+}
+
+.product-modal-overlay.hidden {
+  opacity: 0;
+  z-index: -5;
+}
+
+.product-modal {
+  position: fixed;
+  width: 100;
+  height: 100%;
+  top: 0px;
+  left: 0;
+  @include center;
+  opacity: 1;
+  z-index: 9999999999;
+  background-color: $black;
+  box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.8);
+  @include trans(0.5s);
+
+  .modal-close-btn {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 15px;
+    right: 35px;
+    cursor: pointer;
+    z-index: 100;
+
+    i.fa {
+      font-size: 40px;
+      color: $mainGreen;
+    }
+  }
+
+  .modal-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    overflow: hidden;
+
+    @import 'singleproductModal';
+  }
+}
+
+.product-modal.hidden {
+  opacity: 0;
+  z-index: -5;
 }

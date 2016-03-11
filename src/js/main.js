@@ -6,18 +6,16 @@ if (/*@cc_on!@*/false && document.documentMode === 10) {
 jQuery(document).on('ready', function() {
   $ = jQuery;
 
-
   new CartController();
   new MenuController();
-  new embedVidController();
-  new productTextController();
-  new singleProductHeightController();
   new removeFromCartController();
   new reserveFormController();
   new scrollHeaderController();
+  new embedVidController();
   new fpVideoController();
   new fpBackgroundController();
   urlListener();
+  searchFormController();
 
   // labels for input fields
   $("form :input").focus(function() {
@@ -35,70 +33,367 @@ function scrollTo(value) {
   }, 700);
 }
 
+function show404(type) {
+  var container = $('body').find('.product-list-grid'),
+      spinner = $('body').find('.spinner');
+      html404;
+
+  if ( type === 'search' ) {
+    var message = 'Der er desværre ingen resultater, der matcher det du søger efter.';
+    var html404 = '<div class="contained-404 hidden"><h3>' + message + '</h3></div>';
+    $(container).html(html404);
+
+    $(container).css({
+        'background-color': '#000000',
+        'margin-bottom': 0
+      });
+
+    setTimeout(function() {
+      var mess = $(container).find('.contained-404');
+      animateIn(mess);
+    }, 200);
+  }
+
+  if ( type === 'remove' ) {
+    var mess = $(container).find('.contained-404');
+    if ( mess && !$(mess).hasClass('hidden') ) {
+      $(container).css({
+          'background-color': '#FDFDFD',
+          'margin-bottom': 100
+        });
+
+      setTimeout(function() {
+
+        animateOut(mess);
+      }, 200);
+    }
+  }
+
+  function animateIn(elem) {
+    if ( !$(spinner).hasClass('hidden') ) {
+      $(spinner).addClass('hidden');
+    }
+    $(elem).removeClass('hidden');
+  }
+
+  function animateOut(elem) {
+    // $(spinner).reClass('hidden');
+    $(elem).addClass('hidden');
+  }
+}
+
+var modalController = function() {
+  var prods = $('body').find('li.product'),
+      modal = $('body').find('.product-modal'),
+      content = $(modal).find('.modal-content');
+      modalOverlay = $('body').find('.product-modal-overlay'),
+      modalClose = $(modal).find('.modal-close-btn');
+
+  $(prods).each(function(i,e) {
+
+    $(e).on('click', function(event) {
+      var prod_id = $(e).data('singleid');
+      event.preventDefault();
+
+      var getData = get_content(prod_id);
+
+      getData.done(function(data) {
+        modalRender(data, modal);
+      })
+      .fail(function() {
+        return;
+      });
+    });
+  });
+
+  function modalRender(data) {
+    $(content).html(data);
+
+    setTimeout(function() {
+      new embedVidController();
+      new CartController();
+      addEventListeners();
+      animateIn();
+    }, 200);
+  }
+
+  function addEventListeners() {
+    $(modalOverlay).on('click', function() {
+      animateOut();
+    });
+
+    $(modalClose).on('click', function() {
+      animateOut();
+    });
+  }
+
+  function get_content(id) {
+    var contentDef = $.Deferred(),
+        id = id;
+        url = site.ajax_url + '?action=sinus_getsinglehtml',
+        dataObject = {
+          id: id
+        }
+
+    var data = JSON.stringify(dataObject);
+
+    $.ajax({
+      url: url,
+      type: "POST",
+      data: data,
+      success: function(response) {
+        contentDef.resolve(response);
+      },
+      error: function(response) {
+        contentDef.reject(response);
+      }
+    });
+    return contentDef;
+  }
+
+  function animateIn() {
+    $(modal).removeClass('hidden');
+    $(modalOverlay).removeClass('hidden');
+  }
+
+  function animateOut() {
+    $(modal).addClass('hidden');
+    $(modalOverlay).addClass('hidden');
+  }
+
+}
+
 function productsController() {
   var promise = productsSupplyer();
   promise.then(function(products) {
     render(products);
   });
-  sortPriceController();
+  sortPriceController('asc');
 }
 
 function urlListener() {
   var href = window.location.href,
       hash = window.location.hash,
+      type = href.indexOf('/type/'),
+      brands = href.indexOf('/brands/'),
+      search = href.indexOf('#s='),
       initParams,
       base_url;
 
-  if ( href.indexOf('/type/') === -1 && href.indexOf('/brand/') === -1 ) {
+  if ( type === -1 && brands === -1 && search === -1 ) {
     return;
   } else {
     if ( !hash ) {
-      productsController();
+        productsController();
+    } else {
+      if ( search !== -1 ) {
+        getSearchParams(hash);
+      } else {
+        console.log(search);
+        sortHash(hash);
+      }
+    }
+  }
+
+  window.onhashchange = function(event) {
+    hash = window.location.hash;
+    search = hash.indexOf('#s=');
+
+    if ( search !== -1 ) {
+      getSearchParams(hash);
     } else {
       sortHash(hash);
     }
   }
 
-  window.onhashchange = function(inf) {
-    var hash = location.hash;
-    sortHash(hash);
+  function getSearchParams(hash) {
+    var parts = hash.split('#s=');
+
+    var getParams = parts[1].split('&');
+    var searchParams = getParams[0].split('+');
+    searchController(searchParams);
   }
 }
 
+function searchFormController() {
+  var form = $('body').find('form.sinus-search'),
+      input = $(form).find('input[type=text]');
+
+  $(form).on('submit', function(event) {
+    event.preventDefault();
+    var val = $(input).val();
+
+    if ( val.length < 1 ) {
+      $(input).attr('placeholder', 'Mindst 3 tegn...');
+      return;
+    }
+
+    if ( val.length > 1 ) {
+      if ( val.indexOf(' ') !== -1 ) {
+        val.replace(' ', '+');
+      }
+
+      var encoded = encodeURI(val);
+      var hash = '#s=' + encoded;
+
+      setUrl(hash);
+    }
+  });
+}
+
+function searchController(searchParams) {
+  if ( searchParams ) {
+    var decodedParams = [];
+    $(searchParams).each(function(i,e) {
+      var p = decodeURIComponent(e);
+
+        if ( p.indexOf(' ') !== -1 ) {
+          var split = p.split(' ');
+          $(split).each(function(i, par) {
+            decodedParams.push(par);
+          });
+        } else {
+          decodedParams.push(p);
+        }
+    });
+
+    var getSearchProducts = returnSortedSearch(decodedParams);
+
+    getSearchProducts.then(function(products) {
+      render(products);
+    });
+
+  } else {
+    return;
+  }
+}
+
+function returnSortedSearch(params, products) {
+  var sorted = [],
+      defer = $.Deferred();
+
+  if ( !products ) {
+    var newProductsPromise = productsSupplyer();
+    newProductsPromise.then(function(newProducts) {
+      var results = sort(newProducts);
+    });
+  } else {
+    sort(products);
+  }
+
+  function sort(products) {
+    $(products).each(function(i,e) {
+      var cats = e.categories,
+          tags = e.tags,
+          title = e.title,
+          desc = e.description,
+          stripped = desc.replace(/<(?:.|\n)*?>/gm, '').toLowerCase(),
+          lowerCats = [],
+          lowerTags = [];
+
+      var lowerTitle = title.toLowerCase();
+      var lowerDesc = desc.toLowerCase();
+
+      $(cats).each(function(i, a) {
+        var b = a.toLowerCase();
+        lowerCats.push(b);
+      });
+
+      $(tags).each(function(i, a) {
+        var b = a.toLowerCase();
+        lowerTags.push(b);
+      });
+
+
+      for (var i = 0; i < params.length; i++) {
+        par = params[i].toLowerCase();
+
+        if ( lowerCats.indexOf(par) !== -1 ) {
+          sorted.push(e);
+        }
+
+        if ( lowerTags.indexOf(par) !== -1 ) {
+          sorted.push(e);
+        }
+
+        if ( title.indexOf(par) !== -1 ) {
+          sorted.push(e);
+        }
+
+        if ( stripped.indexOf(par) !== -1 ) {
+          sorted.push(e);
+        }
+      }
+
+    });
+
+    function sortByFrequency(array) {
+      var frequency = {};
+
+      array.forEach(function(value) { frequency[value] = 0; });
+
+      var uniques = array.filter(function(value) {
+          return ++frequency[value] == 1;
+      });
+
+      return uniques.sort(function(a, b) {
+          return frequency[b] - frequency[a];
+      });
+    }
+
+    var getTopHits = sorted.sort(sortByFrequency(sorted));
+
+    var uniq = _.uniq(getTopHits, true);
+
+    defer.resolve(uniq);
+  }
+
+  return defer;
+}
+
 function sortHash(hash) {
-  var price, param, paramtype;
+  var price, param, paramtype, splitHash, splitParams, newDirection;
+
+  if ( hash.indexOf('#s=') !== -1 ) {
+    return;
+  }
 
   if ( hash.indexOf('price_asc') !== -1 ) {
     price = 'price_asc';
+    newDirection = 'price_desc';
+    sortPriceController(newDirection);
   }
 
   if ( hash.indexOf('price_desc') !== -1 ) {
     price = 'price_desc';
+    newDirection = 'price_asc';
+    sortPriceController(newDirection);
   }
 
   if ( hash.indexOf('category') !== -1 ) {
     paramtype = 'category';
-    split = hash.split('+');
-    if ( hash.indexOf('price_asc' !== -1 ) || hash.indexOf('price_desc' !== -1 ) ) {
-      param = split[2];
-    } else {
-      param = split[1];
-    }
   }
 
   if ( hash.indexOf('brand') !== -1 ) {
     paramtype = 'brand';
-    split = hash.split('+');
-    if ( hash.indexOf('price_asc' !== -1 ) || hash.indexOf('price_desc' !== -1 ) ) {
-      param = split[2];
+  }
+
+  if ( paramtype ) {
+    splitHash = hash.split('=');
+    splitParams = splitHash[1].split('+');
+    var pAsc = splitParams.indexOf('price_asc');
+    var pDesc = splitParams.indexOf('price_desc');
+
+    if ( pAsc === 0 || pDesc === 0 ) {
+      param = splitParams[2];
     } else {
-      param = split[1];
+      param = splitParams[1];
     }
   }
 
-  console.log(price, param, paramtype);
+  console.log(price, paramtype, param);
+
   sortUrl(price, param, paramtype);
-  urlDataController(price, param, paramtype);
 }
 
 function sortUrl(price, param, paramtype) {
@@ -152,7 +447,6 @@ function sortUrl(price, param, paramtype) {
       }
     }
 
-
   } else {
     base_url = href;
 
@@ -187,7 +481,6 @@ function sortUrl(price, param, paramtype) {
 }
 
 function setUrl(hash, href) {
-
   if ( !href ) {
     window.location.hash = hash;
   } else {
@@ -343,6 +636,8 @@ function returnSortedMultiple(price, param, paramtype) {
   return sortdef;
 }
 
+
+
 function returnSortedCat(param, products) {
   var sorted = [],
       defer = $.Deferred();
@@ -481,8 +776,12 @@ function returnSortedPriceHigh() {
 function productsSupplyer() {
   var url = window.location.href;
   var def = $.Deferred();
+  var urlType = url.indexOf('/type/'),
+      urlBrands = url.indexOf('/brands/'),
+      urlSearch = url.indexOf('#s='),
+      urlProducts = url.indexOf('/products/');
 
-  if ( url.indexOf('/type/') === -1 && url.indexOf('/brands/') === -1 ) {
+  if ( urlType === -1 && urlBrands === -1 && urlSearch === -1 && urlProducts === -1 ) {
     console.log('Exited from productsModel');
     return;
   }
@@ -536,7 +835,7 @@ function productsSupplyer() {
 
   function setQueryType() {
     var parts;
-    if ( url.indexOf('/type/') !== -1 ) {
+    if ( urlType !== -1 ) {
       parts = url.split('/');
 
       query = {
@@ -545,12 +844,21 @@ function productsSupplyer() {
       }
     }
 
-    if ( url.indexOf('/brands/') !== -1 ) {
+    if ( urlBrands !== -1 ) {
       parts = url.split('/');
 
       query = {
         type: 'brand',
         param: parts[4]
+      }
+    }
+
+    if ( urlSearch !== -1 || urlProducts !== 1 ) {
+      parts = [];
+
+      query = {
+        type: 'all',
+        param: 'null'
       }
     }
   }
@@ -604,6 +912,11 @@ function productsSupplyer() {
       action = '?action=sinus_brand';
     }
 
+    if ( type === 'all' ) {
+      action = '?action=sinus_products';
+    }
+
+    console.log(type, queryType.param);
     var queryParams = {
         offset: 0,
         limit: -1,
@@ -631,6 +944,13 @@ function productsSupplyer() {
 }
 
 function render(products) {
+  if ( products.length > 0 ) {
+    show404('remove');
+  } else {
+    show404('search');
+    return;
+  }
+
   var grid = $('body').find('.product-list-grid'),
       spinner = $('body').find('.spinner'),
       pages = $('body').find('.page.products'),
@@ -641,72 +961,98 @@ function render(products) {
   }
 
   if ( pages ) {
-    $(pages).each(function(i,e) {
-      $(e).remove();
+    $(pages).each(function(pi,pe) {
+      $(pe).remove();
     });
   }
 
-  var pageIndex = 1;
-  var html = '<div class="page products page-1 hidden">';
-      html += '<ul class="products">';
+  function loop() {
+    loopDef = $.Deferred();
 
-  $(products).each(function(i, e) {
-    var k = i + 1;
+    var pageIndex = 1;
+    var html = '<div class="page products page-1 hidden">';
+        html += '<ul class="products">';
 
-    $(e.tags).each(function(i, e) {
-      tags.brands.push(e);
+    $(products).each(function(i, e) {
+      var k = i + 1;
+
+      var getTemplate = setTemplate(e);
+
+      getTemplate.then(function(template) {
+        html += template;
+      });
+
+      $(e.tags).each(function(ti, te) {
+        tags.brands.push(te);
+      });
+
+      $(e.categories).each(function(ci, ce) {
+        tags.categories.push(ce);
+      });
+
+      if ( k % 24 === 0 && i < length ) {
+        pageIndex++;
+        html += '</ul>';
+        html += '</div>';
+        html += '<div class="page products page-' + pageIndex + ' hidden">';
+        html += '<ul class="products">';
+      }
     });
 
-    $(e.categories).each(function(i, e) {
-      tags.categories.push(e);
-    });
+    html += '</ul>';
+    html += '</div>';
 
-    var template = setTemplate(e);
-    html += template;
+    loopDef.resolve(html);
+    return loopDef;
+  }
 
-    if ( k % 24 === 0 && i < length ) {
-      pageIndex++;
-      html += '</ul>';
-      html += '</div>';
-      html += '<div class="page products page-' + pageIndex + ' hidden">';
-      html += '<ul class="products">';
-    }
+  var loopPromise = loop();
+
+  loopPromise.then(function(html) {
+    $(grid).append(html);
+    sortTags(tags);
+    scrollController();
+    setMenuHeight();
+    var page = $('body').find('.page.page-1');
+    $(page).removeClass('hidden');
+    setTimeout(function() {
+      new gridCartController();
+      new modalController();
+    }, 1500);
   });
 
-  html += '</ul>';
-  html += '</div>';
-
-  $(grid).append(html);
-  sortTags(tags);
-  scrollController();
-  setMenuHeight();
-  var page = $('body').find('.page.page-1');
-  $(page).removeClass('hidden');
-  setTimeout(function() {
-    new gridCartController();
-  }, 1500);
 }
 
 
 function setTemplate(e) {
-  var stockIcon;
+  var stockIcon, template;
+      tempDefer = $.Deferred();
 
-  if ( e.in_stock === 'false' ) {
-    stockIcon = '<div class="in-stock-icon"><span>PÅ LAGER: <i class="fa fa-minus-square"></span></div>';
-  } else {
-    stockIcon = '<div class="in-stock-icon"><span>PÅ LAGER: <i class="fa fa-check-square"></i></span></div>';
+  function prepare() {
+    if ( e.stock_quantity === 0 ) {
+      stockIcon = '<div class="in-stock-icon"><span>PÅ LAGER: <i class="fa fa-minus-square"></i></span></div>';
+    }
+
+    if ( e.stock_quantity > 0 ) {
+      stockIcon = '<div class="in-stock-icon"><span>PÅ LAGER: <i class="fa fa-check-square"></i></span></div>';
+    }
+
+    var desc = e.description;
+    var stripped = desc.replace(/<(?:.|\n)*?>/gm, '');
+
+    var template = '<li class="product" itemscope itemtype="http://schema.org/Product" data-singleid="' + e.id + '">';
+        template += stockIcon;
+        template += '<img src="' + e.featured_src + '" alt="' + e.title + ' product image produkt billede Sinus-store Copenhagen København Denmark" />';
+        template += '<div class="product-title" itemprop="name"><h3>' + e.title + '</h3></div>';
+        template += '<div class="product-price">' + e.price_html + '<div class="add-button" data-href="' + e.id + '" data-title="' + e.title + '"><svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"x="0px" y="0px" viewBox="0 0 60 60" xml:space="preserve"><line class="svg-line" fill="none" stroke="#007c96" stroke-width="10" stroke-miterlimit="10" x1="30" y1="6" x2="30" y2="54"/><line class="svg-line" fill="none" stroke="#007c96" stroke-width="10" stroke-miterlimit="10" x1="6" y1="30" x2="54" y2="30"/></svg><span class="add-info">Tilføj til kurv</span></div></div>';
+        template += '<div class="sinus-product-info"><div class="short-desc" itemprop="description"><p>' + desc.split(" ").splice(0, 40).join(" ") + '... </p></div></div>';
+        template += '</li>';
+
+    tempDefer.resolve(template);
   }
 
-  var desc = e.description;
-  var trunc = desc.split(" ").splice(0, 23).join(" ");
-
-  var template = '<li class="product" itemscope itemtype="http://schema.org/Product">' + stockIcon;
-      template += '<img src="' + e.featured_src + '" alt="' + e.title + ' product image produktbillede Sinus-store Copenhagen København Denmark" />';
-      template += '<div class="product-price">' + e.price_html + '<div class="add-button" data-href="' + e.id + '" data-title="' + e.title + '"><svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"x="0px" y="0px" viewBox="0 0 60 60" xml:space="preserve"><line class="svg-line" fill="none" stroke="#007c96" stroke-width="10" stroke-miterlimit="10" x1="30" y1="6" x2="30" y2="54"/><line class="svg-line" fill="none" stroke="#007c96" stroke-width="10" stroke-miterlimit="10" x1="6" y1="30" x2="54" y2="30"/></svg><span class="add-info">Tilføj til kurv</span></div></div>';
-      template += '<div class="sinus-product-info"><div class="product-title" itemprop="name"><h3>' + e.title + '</h3></div><div class="short-desc" itemprop="description">' + trunc + '</div></div>';
-      template += '</li>';
-
-  return template;
+  prepare();
+  return tempDefer;
 }
 
 
@@ -786,8 +1132,8 @@ function sortController() {
   });
 }
 
-function sortPriceController() {
-  var direction = 'asc';
+function sortPriceController(initDirection) {
+  var direction = initDirection;
 
   function setDirection(dir) {
     direction = dir;
@@ -805,6 +1151,8 @@ function sortPriceController() {
 
   $(priceSorter).on('click', function() {
     var currentDir = getDirection();
+
+    console.log(currentDir);
 
     if ( currentDir === 'asc' ) {
       setDirection('desc');
@@ -835,7 +1183,7 @@ function scrollController() {
     var scroll = $(document).scrollTop(),
         height = $(content).height();
 
-    if ( scroll >= ((height - windowHeight) - 500) ) {
+    if ( scroll >= ((height - windowHeight) - 700) ) {
       window.requestAnimationFrame(function() {
         updateView();
       });
@@ -1290,7 +1638,7 @@ var embedVidController = function() {
         }
 
     var width = $(window).width(),
-        height = (width / 16) * 9;
+        height = (((width/100)*90) / 16) * 9;
 
     var constructedHtml = '<iframe width="' + width + '" height="' + height + '" src="https://www.youtube.com/embed/' + id + '?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>';
 
@@ -1502,9 +1850,19 @@ var MenuController = function() {
 
 var CartController = function() {
   var cartIcon = $('body').find('.cart-icon'),
-      cartContents = $('body').find('.cart-modal.cart-contents');
+      headerLinkRow = $('body').find('.header-link-row'),
+      cartContents = $('body').find('.cart-modal.cart-contents.hidden');
 
   $(cartIcon).on('click', function(e) {
+    if ( headerLinkRow.hasClass('hidden') ) {
+      $(cartContents).css({
+        'top': 65 + 'px'
+      });
+    } else {
+      $(cartContents).css({
+        'top': 95 + 'px'
+      });
+    }
     $(cartContents).toggleClass('hidden');
   });
 }

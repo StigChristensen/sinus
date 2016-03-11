@@ -17,9 +17,9 @@
 
       </div>
       <div class="footer-right">
-        <a href="/handelsvilkaar/">Handelsvilkår</a><br>
-        <a href="/om-os/">Om os</a><br>
-        <a href="/social/">Social</a><br>
+            <a class="text" href="/handelsvilkaar/">Handelsvilkår</a><br>
+            <a class="text link-last" href="/om-os/">Om os</a><br>
+            <a class="social" href="/social/"><i class="fa fa-facebook"></i> <i class="fa fa-instagram"></i></a><br>
       </div>
     </div>
 

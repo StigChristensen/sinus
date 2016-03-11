@@ -4,7 +4,7 @@
  */
 ?>
 
-<form class="search" action="/" method="get">
+<form class="search">
     <label for="search" class="search-label"><img class="black" src="<?php echo get_stylesheet_directory_uri() . '/img/searchicon_white.png'; ?>" alt="search sinus-store.dk icon"/></label>
     <input type="text" name="s" id="search" value="<?php the_search_query(); ?>" placeholder=""/>
     <input type="hidden" value="product" name="post_type" id="post_type" />

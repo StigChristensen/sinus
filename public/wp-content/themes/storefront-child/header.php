@@ -7,7 +7,7 @@
 <html <?php language_attributes(); ?> class="no-js">
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
-	<meta name="viewport" content="width=device-width">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <script>(function(){document.documentElement.className='js'})();</script>
 	<?php wp_head(); ?>
@@ -25,7 +25,6 @@
   ga('send', 'pageview');
 
 </script>
-
 
 <div class="menu-icon">
   <svg class="menu" version="1.1" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
@@ -90,9 +89,6 @@
 
 <div id="content" class="site-content">
 
-<div class="border-left"></div>
-<div class="border-right"></div>
-
   <?php global $woocommerce;
       $qty = $woocommerce->cart->get_cart_contents_count();
       $total = $woocommerce->cart->get_cart_total();
@@ -105,7 +101,10 @@
         <a href="<?php echo site_url(); ?>"><img src="<?php echo get_stylesheet_directory_uri() . '/img/sinus_logo_new3.png'; ?>" ></a>
       </div>
       <div class="search-form">
-        <?php get_search_form( true ); ?>
+        <form class="sinus-search">
+          <label for="sinus-search" class="search-label"><img class="black" src="<?php echo get_stylesheet_directory_uri() . '/img/searchicon_white.png'; ?>" alt="search sinus-store.dk icon"/></label>
+          <input type="text" name="sinus-search" id="sinus-search" placeholder=""/>
+        </form>
       </div>
         <div class="cart-icon">
           <h5><?php echo $qty; ?></h5>
@@ -120,6 +119,8 @@
     <a class="white" href="/om-os/">Om os</a>
     <p class="white">|</p>
     <a class="white" href="/faq/">FAQ</a>
+    <p class="white">|</p>
+    <a class="white" href="/social/"><i class="fa fa-facebook"></i> <i class="fa fa-instagram"></i></a>
     <p class="green">|</p>
     <a class="green" href="/type/dac">DAC</a>
     <p class="green">|</p>

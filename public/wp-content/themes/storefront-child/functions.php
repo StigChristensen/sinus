@@ -116,6 +116,8 @@ add_action( 'wp_ajax_sinus_add', 'sinus_cart_add' );
 add_action( 'wp_ajax_nopriv_sinus_add', 'sinus_cart_add' );
 add_action( 'wp_ajax_sinus_remove', 'sinus_cart_remove' );
 add_action( 'wp_ajax_nopriv_sinus_remove', 'sinus_cart_remove' );
+add_action( 'wp_ajax_sinus_getsinglehtml', 'sinus_get_single_html' );
+add_action( 'wp_ajax_nopriv_sinus_getsinglehtml', 'sinus_get_single_html' );
 
 // Get Woocommerce API
 add_action( 'wp_ajax_sinus_products', 'sinus_get_products' );
@@ -125,21 +127,42 @@ add_action( 'wp_ajax_nopriv_sinus_brand', 'sinus_get_products_by_brand' );
 add_action( 'wp_ajax_sinus_type', 'sinus_get_products_by_type' );
 add_action( 'wp_ajax_nopriv_sinus_type', 'sinus_get_products_by_type' );
 
-$fields = "id,title,categories,tags,regular_price,sale_price,price_html,featured_src,images,description,permalink,in_stock,visible";
+
+function sinus_get_single_html() {
+  $decoded = json_decode(file_get_contents("php://input"));
+  $id = intval($decoded->id);
+
+  $args = array( 'post_type' => 'product', 'posts_per_page' => 1, 'p' => $id );
+  $loop = new WP_Query( $args );
+    while ( $loop->have_posts() ) : $loop->the_post();
+    ob_start(); ?>
+    <?php wc_get_template_part('content', 'single-product'); ?>
+
+  <?php
+    $content = ob_get_contents();
+    endwhile;
+
+    ob_end_clean();
+    wp_reset_postdata();
+
+  echo $content;
+  wp_die();
+}
+
+
+$fields = "id,title,categories,tags,regular_price,sale_price,price_html,featured_src,images,description,permalink,stock_quantity,visible";
 
 function sinus_get_products() {
-  global $client;
+  global $client, $fields;
   $decoded = json_decode(file_get_contents("php://input"));
   $offset = $decoded->offset;
   $limit = $decoded->limit;
 
-  if ( !$offset ) {
-    $offset = 0;
-  }
   $products = $client->products->get(null,
     array(
-      'filter[limit]'   => $limit,
-      'filter[offset]'  => $offset,
+      'filter[limit]'   => -1,
+      'filter[offset]'  => 0,
+      'fields'          => $fields,
       )
   );
   echo json_encode($products);

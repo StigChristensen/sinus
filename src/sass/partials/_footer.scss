@@ -1,12 +1,12 @@
 footer, footer.site-footer {
   width: 100%;
   height: 450px;
-  margin: 150px 0 0 0;
+  margin: 0px 0 0 0;
   background-color: $black;
   float: left;
   position: relative;
   text-align: center;
-  border-top: 5px solid $mainBlue;
+  border-top: 1px solid $mainBlue;
 
   .footer-bar {
     width: 100%;
@@ -29,14 +29,14 @@ footer, footer.site-footer {
     .footer-left {
       width: 50%;
       height: 100%;
-      padding: 45px 0 0 0;
+      padding: 45px 10px 0 0;
       margin: 0;
       float: left;
-      text-align: left;
+      text-align: right;
 
       address.store-address {
         width: 100%;
-        padding: 0 50px 0 0;
+        padding: 0;
 
         h4 {
           color: $mainGreen;
@@ -62,16 +62,24 @@ footer, footer.site-footer {
     .footer-right {
       width: 50%;
       height: 100%;
-      padding: 45px 0 0 0;
+      padding: 73px 0 0 10px;
       margin: 0;
       float: right;
-      text-align: right;
+      text-align: left;
 
-      h4 {
+      a.text {
+        color: $mainBlue;
+        @include trans(0.3s);
       }
 
-      a {
-        color: $mainBlue;
+      a.text.link-last {
+        margin-bottom: 13px;
+      }
+
+      a.social {
+        font-size: 24px;
+        color: $mainGreen;
+        padding: 0;
         @include trans(0.3s);
       }
 
