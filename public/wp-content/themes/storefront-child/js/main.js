@@ -9,6 +9,7 @@ jQuery(document).on('ready', function() {
   new CartController();
   new MenuController();
   new removeFromCartController();
+  new gridCartController();
   new reserveFormController();
   new scrollHeaderController();
   new embedVidController();
@@ -44,7 +45,6 @@ function show404(type) {
     $(container).html(html404);
 
     $(container).css({
-        'background-color': '#000000',
         'margin-bottom': 0
       });
 
@@ -58,7 +58,6 @@ function show404(type) {
     var mess = $(container).find('.contained-404');
     if ( mess && !$(mess).hasClass('hidden') ) {
       $(container).css({
-          'background-color': '#FDFDFD',
           'margin-bottom': 100
         });
 
@@ -90,8 +89,9 @@ var modalController = function() {
       modalClose = $(modal).find('.modal-close-btn');
 
   $(prods).each(function(i,e) {
+    var clickArea = $(e).find('.click-area');
 
-    $(e).on('click', function(event) {
+    $(clickArea).on('click', function(event) {
       var prod_id = $(e).data('singleid');
       event.preventDefault();
 
@@ -111,7 +111,7 @@ var modalController = function() {
 
     setTimeout(function() {
       new embedVidController();
-      new CartController();
+      new gridCartController();
       addEventListeners();
       animateIn();
     }, 200);
@@ -775,10 +775,11 @@ function returnSortedPriceHigh() {
 
 function productsSupplyer() {
   var url = window.location.href;
+  var hash = window.location.hash;
   var def = $.Deferred();
   var urlType = url.indexOf('/type/'),
       urlBrands = url.indexOf('/brands/'),
-      urlSearch = url.indexOf('#s='),
+      urlSearch = hash.indexOf('#s='),
       urlProducts = url.indexOf('/products/');
 
   if ( urlType === -1 && urlBrands === -1 && urlSearch === -1 && urlProducts === -1 ) {
@@ -835,32 +836,45 @@ function productsSupplyer() {
 
   function setQueryType() {
     var parts;
-    if ( urlType !== -1 ) {
-      parts = url.split('/');
 
-      query = {
-        type: 'type',
-        param: parts[4]
-      }
-    }
-
-    if ( urlBrands !== -1 ) {
-      parts = url.split('/');
-
-      query = {
-        type: 'brand',
-        param: parts[4]
-      }
-    }
-
-    if ( urlSearch !== -1 || urlProducts !== 1 ) {
+    if ( urlSearch !== -1 ) {
       parts = [];
 
       query = {
         type: 'all',
         param: 'null'
       }
+    } else {
+
+      if ( urlType !== -1 ) {
+        parts = url.split('/');
+
+        query = {
+          type: 'type',
+          param: parts[4]
+        }
+      }
+
+      if ( urlBrands !== -1 ) {
+        parts = url.split('/');
+
+        query = {
+          type: 'brand',
+          param: parts[4]
+        }
+      }
+
+      if ( urlProducts !== -1 ) {
+        parts = [];
+
+        query = {
+          type: 'all',
+          param: 'null'
+        }
+      }
+
     }
+
   }
 
   function getQueryType() {
@@ -915,6 +929,8 @@ function productsSupplyer() {
     if ( type === 'all' ) {
       action = '?action=sinus_products';
     }
+
+    console.log(queryType);
 
     console.log(type, queryType.param);
     var queryParams = {
@@ -1041,11 +1057,12 @@ function setTemplate(e) {
     var stripped = desc.replace(/<(?:.|\n)*?>/gm, '');
 
     var template = '<li class="product" itemscope itemtype="http://schema.org/Product" data-singleid="' + e.id + '">';
+        template += '<div class="click-area"></div>';
         template += stockIcon;
         template += '<img src="' + e.featured_src + '" alt="' + e.title + ' product image produkt billede Sinus-store Copenhagen København Denmark" />';
         template += '<div class="product-title" itemprop="name"><h3>' + e.title + '</h3></div>';
         template += '<div class="product-price">' + e.price_html + '<div class="add-button" data-href="' + e.id + '" data-title="' + e.title + '"><svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"x="0px" y="0px" viewBox="0 0 60 60" xml:space="preserve"><line class="svg-line" fill="none" stroke="#007c96" stroke-width="10" stroke-miterlimit="10" x1="30" y1="6" x2="30" y2="54"/><line class="svg-line" fill="none" stroke="#007c96" stroke-width="10" stroke-miterlimit="10" x1="6" y1="30" x2="54" y2="30"/></svg><span class="add-info">Tilføj til kurv</span></div></div>';
-        template += '<div class="sinus-product-info"><div class="short-desc" itemprop="description"><p>' + desc.split(" ").splice(0, 40).join(" ") + '... </p></div></div>';
+        template += '<div class="sinus-product-info"><div class="short-desc" itemprop="description"><p>' + desc.split(" ").splice(0, 40).join(" ") + '... </p><i class="fa fa-chevron-circle-up"></i></div></div>';
         template += '</li>';
 
     tempDefer.resolve(template);
@@ -1548,13 +1565,13 @@ function shopMsg(title, msg) {
     $(atcModal).velocity({
       'opacity': [1, 0],
       'top': [150, 300],
-      'z-index': [5000, 5000]
+      'z-index': [999999999998, 999999999998]
     }, {duration: 400, delay: 0, easing: 'easeInOutSine'});
 
     $(atcModal).velocity({
       'opacity': [0, 1],
       'top': [300, 150],
-      'z-index': 5000
+      'z-index': [999999999998, 99999999998]
     }, {duration: 400, delay: 1400, easing: 'easeInOutSine'});
   }
 
@@ -1567,7 +1584,7 @@ function shopMsg(title, msg) {
     $(atcModal).css({
       'z-index': -1000
     });
-  }, 2000);
+  }, 2500);
 }
 
 
@@ -1651,12 +1668,12 @@ var gridCartController = function() {
   var addBtn = $('body').find('.add-button'),
       cart = $('body').find('.cart-contents');
 
-
   $(addBtn).each(function(i, e) {
     var id = $(this).attr('data-href'),
         prodTitle = $(this).attr('data-title');
 
     $(this).on('click', function(event) {
+      console.log('clicked');
       event.preventDefault();
       var cartNumber = $('body').find('.cart-icon h5'),
           cartInt = parseInt($('body').find('.cart-icon h5').text()),

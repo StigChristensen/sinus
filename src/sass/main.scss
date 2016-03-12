@@ -17,6 +17,7 @@
 @import 'partials/footer';
 @import 'partials/social';
 @import 'partials/faqpage';
+@import 'partials/handelsvilkaar';
 @import 'partials/omospage';
 @import 'partials/spinners';
 
@@ -27,7 +28,7 @@
 html {
   width: 100%;
   height: 100%;
-  background-color: #FFF;
+  background-color: #000000;
   margin: 0;
   padding: 0;
   position: relative;
@@ -40,7 +41,7 @@ html {
     height: 100%;
     margin: 0;
     padding: 0;
-    background-color: #FFF;
+    background-color: #000000;
     float: left;
 
     .contained-404 {

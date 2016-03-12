@@ -124,7 +124,7 @@
     <p class="green">|</p>
     <a class="green" href="/type/dac">DAC</a>
     <p class="green">|</p>
-    <a class="green" href="/type/traadloese-hoejtalere">Højtalere</a>
+    <a class="green" href="/type/traadloese-hoejttalere">Højtalere</a>
     <p class="green">|</p>
     <a class="green" href="/type/tilbehoer">Tilbehør</a>
   </div>

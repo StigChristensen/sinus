@@ -11,7 +11,7 @@ DEFINE("sec", "cs_fd8f68f1d64916548497311d92f38b9ece0a752f");
 require_once( 'inc/woocommerce-api.php' );
 $consumer_key = key;
 $consumer_secret = sec;
-$api_url = "https://sin.us";
+$api_url = "https://www.sinus-store.dk";
 
 $options = array(
     'ssl_verify'      => false,

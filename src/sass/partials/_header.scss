@@ -265,9 +265,27 @@
   a.white:hover {
     color: $mainBlue;
   }
-
 }
 
 .header-link-row.hidden {
   top: -65px;
+}
+
+@media screen and ( max-width: 1000px) {
+  .header-link-row {
+
+    a, p {
+      font-size: 12px;
+      padding: 7px 5px;
+    }
+  }
+
+}
+
+
+
+@media screen and (max-width: 767px) {
+  .header-link-row {
+    display: none;
+  }
 }

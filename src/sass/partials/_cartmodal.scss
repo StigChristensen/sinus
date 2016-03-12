@@ -13,8 +13,9 @@
     border-radius: 0px 0px 10px 10px;
     opacity: 1;
     text-align: left;
-    z-index: 1000;
-    border-top: 1px solid $mainGreen;
+    z-index: 100000;
+    border-top: 1px solid $blckBorder;
+    box-shadow: 0 3px 7px 0 rgba(0,0,0,0.5);
     @include trans(0.3s);
 
     .cart-empty {

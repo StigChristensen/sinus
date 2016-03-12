@@ -52,7 +52,7 @@ get_header(); ?>
 	.comingsoon {
 		position: absolute;
 		width: 245px;
-		top: 420px;
+		top: 380px;
 		z-index: 10;
 		left: 0; right: 0; margin-left: auto; margin-right: auto;
 		text-align: center;
@@ -88,6 +88,18 @@ get_header(); ?>
 
 	.body-text {
 		margin: 50px 0;
+		padding: 0 0 20px 0;
+	}
+
+	.first-letter {
+		font-family: $robotCon;
+	  font-size: 110px;
+	  line-height: 0.87;
+	  font-weight: 700;
+	  float: left;
+	  margin: -6px 5px 0 0;
+	  color: #FFF;
+	  padding: 0 15px 90px;
 	}
 
 	p.paragraph {
@@ -129,7 +141,7 @@ get_header(); ?>
 
 		.comingsoon {
 			width: 320px;
-			top: 420px;
+			top: 380px;
 		}
 
 		.more-info {
@@ -141,6 +153,17 @@ get_header(); ?>
 
 		.body-text {
 			margin: 50px 0;
+		}
+
+		.first-letter {
+			font-family: $robotCon;
+		  font-size: 110px;
+		  line-height: 0.87;
+		  font-weight: 700;
+		  float: left;
+		  margin: -6px 5px 0 0;
+		  color: #FFF;
+		  padding: 0 15px 140px;
 		}
 
 		p.paragraph {
@@ -179,7 +202,7 @@ get_header(); ?>
 
 		.comingsoon {
 			width: 320px;
-			top: 420px;
+			top: 380px;
 		}
 
 		.more-info {
@@ -229,7 +252,7 @@ get_header(); ?>
 
 		.comingsoon {
 			width: 320px;
-			top: 420px;
+			top: 320px;
 		}
 
 		.more-info {
@@ -279,7 +302,11 @@ get_header(); ?>
 
 		.comingsoon {
 			width: 320px;
-			top: 420px;
+			top: 320px;
+		}
+
+		.comingsoon h4 {
+			font-size: 18px;
 		}
 
 		.more-info {
@@ -329,7 +356,7 @@ get_header(); ?>
 
 		.comingsoon {
 			width: 320px;
-			top: 320px;
+			top: 260px;
 		}
 
 		.more-info {
@@ -370,9 +397,11 @@ get_header(); ?>
 			</div>
 
 			<div class="comingsoon">
-				<h4>Åbner snart:</h4>
-				<h4>Studiestræde 24, kld.</h4>
-				<h4>1455 København K</h4>
+				<h4>Butikken er nu åben!<br><br></h4>
+				<h4>Studiestræde 24,</h4>
+				<h4>kld. th.</h4>
+				<h4>1455 København K<br><br></h4>
+				<h4>Vores webshop åbner snart på <br>sinus-store.dk</h4>
 			</div>
 
 			<div class="more-info">

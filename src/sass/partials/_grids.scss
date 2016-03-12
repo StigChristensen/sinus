@@ -5,6 +5,7 @@
 	padding: 0;
 	float: left;
 	text-align: center;
+	background-color: #000000;
 
 	.content-area {
 		width: 100%;
@@ -13,6 +14,8 @@
 		.site-main {
 			width: 100%;
 			margin: 0;
+			float: left;
+			padding: 100px 0;
 			text-align: left;
 		}
 	}
