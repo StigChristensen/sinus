@@ -44,28 +44,64 @@
   <div class="menu-categories">
     <h3>Kategorier</h3>
     <ul class="menu-filter">
+      <li class="cat-item">
+        <a href="/type/hovedtelefoner/">Hovedtelefoner</a>
+        <!-- <ul class="children">
+          <li class="cat-item">
+            <a href="/type/hovedtelefoner/#sort=category+dj">DJ</a>
+            <a href="/type/hovedtelefoner/#sort=category+gaming">Gaming</a>
+            <a href="/type/hovedtelefoner/#sort=category+hifi">Hifi</a>
+            <a href="/type/hovedtelefoner/#sort=category+in-ear">In-Ear</a>
+            <a href="/type/hovedtelefoner/#sort=category+mikrofon">m. Mikrofon</a>
+            <a href="/type/hovedtelefoner/#sort=category+noise-cancelling">Noise-Cancelling</a>
+            <a href="/type/hovedtelefoner/#sort=category+sport">Sport</a>
+            <a href="/type/hovedtelefoner/#sort=category+street">Street</a>
+            <a href="/type/hovedtelefoner/#sort=category+studie">Wireless</a>
+          </li>
+        </ul> -->
+      </li>
+      <li class="cat-item">
+        <a href="/type/traadloese-hoejttalere/">Trådløse Højttalere</a>
+      </li>
+      <li class="cat-item">
+        <a href="/type/tilbehoer/">Tilbehør</a>
+        <!-- <ul class="children">
+          <li class="cat-item"><a href="/type/tilbehoer/kabler-og-stik/">Kabler og Stik</a></li>
+        </ul> -->
+      </li>
+      <li class="cat-item">
+        <a href="/type/preamps/">Preamps / Hovedtelefonforstærker</a>
+      </li>
+      <li class="cat-item">
+        <a href="/type/dac/">DAC</a>
+      </li>
+      <li class="cat-item">
+        <a href="/type/pladespillere/">Pladespillere</a>
+      </li>
+
+
       <?php
-        $args = array(
-          'show_option_all'    => '',
-          'orderby'            => 'name',
-          'order'              => 'ASC',
-          'style'              => 'list',
-          'show_count'         => 0,
-          'hide_empty'         => 1,
-          'use_desc_for_title' => 1,
-          'child_of'           => 0,
-          'hierarchical'       => 1,
-          'title_li'           => __( '' ),
-          'show_option_none'   => __( '' ),
-          'number'             => null,
-          'echo'               => 1,
-          'depth'              => 0,
-          'current_category'   => 0,
-          'pad_counts'         => 0,
-          'taxonomy'           => 'product_cat',
-          'walker'             => null
-        );
-        wp_list_categories( $args );
+        // $args = array(
+        //   'show_option_all'    => '',
+        //   'orderby'            => 'name',
+        //   'order'              => 'ASC',
+        //   'style'              => 'list',
+        //   'show_count'         => 0,
+        //   'hide_empty'         => 1,
+        //   'use_desc_for_title' => 1,
+        //   'child_of'           => 0,
+        //   'hierarchical'       => 1,
+        //   'title_li'           => __( '' ),
+        //   'show_option_none'   => __( '' ),
+        //   'number'             => null,
+        //   'echo'               => 1,
+        //   'depth'              => 0,
+        //   'current_category'   => 0,
+        //   'pad_counts'         => 0,
+        //   'taxonomy'           => 'product_cat',
+        //   'walker'             => null
+        // );
+        // wp_list_categories( $args );
       ?>
     </ul>
   </div>
@@ -84,6 +120,24 @@
           ?>
             <li class="filter"><a href="<?php echo get_term_link($tag->slug, 'product_tag'); ?>"><?php echo $tag->name; ?></a></li>
           <?php } ?>
+  </div>
+
+  <div class="menu-brands">
+    <h3>Sider</h3>
+      <ul class="menu-filter">
+        <li class="cat-item">
+          <a href="/faq/">FAQ</a>
+        </li>
+        <li class="cat-item">
+            <a href="/om-os/">OM OS</a>
+        </li>
+        <li class="cat-item">
+            <a href="/handelsvilkaar/">Handelsvilkår</a>
+        </li>
+        <li class="cat-item">
+            <a href="/social/">Social</a>
+        </li>
+      </ul>
   </div>
 </div>
 

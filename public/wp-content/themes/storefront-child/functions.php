@@ -57,7 +57,6 @@ function reg_scripts() {
 add_action( 'wp_enqueue_scripts', 'reg_scripts', 10 );
 
 
-
 // Flush rewrite rules for custom post types
 add_action( 'after_switch_theme', 'wd_flush_rewrite_rules' );
 
@@ -158,13 +157,19 @@ function sinus_get_products() {
   $offset = $decoded->offset;
   $limit = $decoded->limit;
 
-  $products = $client->products->get(null,
-    array(
-      'filter[limit]'   => -1,
-      'filter[offset]'  => 0,
-      'fields'          => $fields,
-      )
-  );
+  if ( false === ( $sinus_all_query = get_transient( 'sinus_all_query' ) ) ) {
+      $products = $client->products->get(null,
+      array(
+        'filter[limit]'   => -1,
+        'filter[offset]'  => 0,
+        'fields'          => $fields,
+        )
+      );
+       set_transient( 'sinus_all_query', $products, 12 * HOUR_IN_SECONDS );
+  } else {
+    $products = get_transient( 'sinus_all_query' );
+  }
+
   echo json_encode($products);
   wp_die();
 }
@@ -181,13 +186,14 @@ function sinus_get_products_by_brand() {
   }
 
   $products = $client->products->get(null,
-    array(
-      'filter[tag]'     => $brand,
-      'filter[limit]'   => $limit,
-      'filter[offset]'  => $offset,
-      'fields'          => $fields,
-    )
-  );
+      array(
+        'filter[tag]'     => $brand,
+        'filter[limit]'   => $limit,
+        'filter[offset]'  => $offset,
+        'fields'          => $fields,
+      )
+    );
+
   echo json_encode($products);
   wp_die();
 }
@@ -204,13 +210,13 @@ function sinus_get_products_by_type() {
   }
 
   $products = $client->products->get(null,
-    array(
-      'filter[category]'  => $type,
-      'filter[limit]'     => $limit,
-      'filter[offset]'    => $offset,
-      'fields'            => $fields,
-    )
-  );
+      array(
+        'filter[category]'  => $type,
+        'filter[limit]'     => $limit,
+        'filter[offset]'    => $offset,
+        'fields'            => $fields,
+      )
+    );
 
   echo json_encode($products);
   wp_die();
@@ -402,12 +408,4 @@ function reserve_in_store() {
 
 add_action( 'wp_ajax_reserve', 'reserve_in_store' );
 add_action( 'wp_ajax_nopriv_reserve', 'reserve_in_store' );
-
-
-function sinus_empty_function() {
-  // nothing here...
-}
-
-
-
 ?>

@@ -18,7 +18,7 @@ footer, footer.site-footer {
   }
 
   .footer-content {
-    width: 960px;
+    width: 100%;
     margin: 10px auto 0 auto;
     color: $white;
 
@@ -112,5 +112,125 @@ footer, footer.site-footer {
     font-weight: 700;
     color: $white;
     opacity: 0.2;
+  }
+}
+
+@media screen and ( max-width: 540px ) {
+  footer, footer.site-footer {
+    height: 400px;
+
+    .footer-content {
+
+      .footer-left {
+        padding: 45px 5px 0 0;
+
+        address.store-address {
+
+          h4 {
+            font-size: 18px;
+          }
+
+          p {
+            font-size: 12px;
+            margin: -1px 0 1px;
+          }
+
+          span {
+            font-size: 12px;
+          }
+
+          a {
+            font-size: 12px;
+          }
+        }
+      }
+
+      .footer-right {
+        padding: 65px 0 0 5px;
+
+        a {
+          font-size: 14px;
+          padding: 0 0 5px 0;
+        }
+
+        a.text.link-last {
+          margin-bottom: 13px;
+        }
+
+        a.social {
+          font-size: 18px;
+        }
+      }
+    }
+
+    address.sub {
+      font-size: 10px;
+      font-weight: 700;
+    }
+  }
+}
+
+@media screen and ( max-width: 414px ) {
+  footer, footer.site-footer {
+    height: 400px;
+
+    .footer-content {
+
+      .footer-left {
+        padding: 25px 5px 0 20px;
+
+        address.store-address {
+
+          h4 {
+            font-size: 16px;
+          }
+
+          p {
+            font-size: 10px;
+            margin: -1px 0 1px;
+          }
+
+          span {
+            font-size: 10px;
+          }
+
+          a {
+            font-size: 10px;
+          }
+        }
+
+        a {
+          p {
+            font-size: 10px;
+          }
+        }
+      }
+
+      .footer-right {
+        padding: 40px 0 0 5px;
+
+        a {
+          font-size: 14px;
+          padding: 0 0 5px 0;
+        }
+
+        a.text.link-last {
+          margin-bottom: 13px;
+        }
+
+        a.social {
+          font-size: 16px;
+        }
+      }
+    }
+
+    .map {
+      bottom: 80px;
+    }
+
+    address.sub {
+      font-size: 13px;
+      font-weight: 700;
+    }
   }
 }

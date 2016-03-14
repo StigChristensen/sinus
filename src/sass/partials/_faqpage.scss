@@ -77,3 +77,268 @@
     }
   }
 }
+
+@media screen and (max-width: 1024px) {
+  .faq-container {
+    padding: 0 0 100px 0;
+
+    .headline {
+      padding: 100px 5% 50px 5%;
+
+      h1 {
+        color: $mainGreen;
+      }
+    }
+
+    .faq-element {
+      width: 100%;
+      margin: 50px auto 0 auto;
+      padding: 100px;
+
+      .content-bg {
+        width: 110%;
+        height: 110%;
+
+        img {
+          min-width: 100%;
+          min-height: 100%;
+          margin: -100px 0 0 0;
+        }
+      }
+
+      .content-container {
+        padding: 50px 100px 50px 150px;
+        text-align: left;
+
+        .faq-icon {
+          top: 50px;
+          left: 25px;
+          width: 100px;
+          height: 100px;
+        }
+
+        h3 {
+          margin: 0 0 20px 0;
+        }
+
+        p {
+          font-size: 14px;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .faq-container {
+    padding: 0 0 100px 0;
+
+    .headline {
+      padding: 100px 5% 50px 5%;
+
+      h1 {
+        color: $mainGreen;
+      }
+    }
+
+    .faq-element {
+      width: 100%;
+      margin: 50px auto 0 auto;
+      padding: 50px;
+
+      .content-bg {
+        width: 110%;
+        height: 110%;
+
+        img {
+          min-width: 100%;
+          min-height: 100%;
+          margin: -100px 0 0 0;
+        }
+      }
+
+      .content-container {
+        padding: 50px 100px 50px 150px;
+        text-align: left;
+
+        .faq-icon {
+          top: 47px;
+          left: 25px;
+          width: 100px;
+          height: 100px;
+        }
+
+        h3 {
+          font-size: 24px;
+          margin: 0 0 20px 0;
+        }
+
+        p {
+          font-size: 14px;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .faq-container {
+    padding: 0 0 100px 0;
+
+    .headline {
+      padding: 100px 5% 50px 5%;
+
+      h1 {
+        color: $mainGreen;
+      }
+    }
+
+    .faq-element {
+      width: 100%;
+      margin: 50px auto 0 auto;
+      padding: 50px;
+
+      .content-bg {
+        width: 110%;
+        height: 110%;
+
+        img {
+          min-width: 100%;
+          min-height: 100%;
+          margin: -100px 0 0 0;
+        }
+      }
+
+      .content-container {
+        padding: 50px 50px 50px 100px;
+        text-align: left;
+
+        .faq-icon {
+          top: 47px;
+          left: 25px;
+          width: 70px;
+          height: 70px;
+        }
+
+        h3 {
+          font-size: 24px;
+          margin: 0 0 20px 0;
+        }
+
+        p {
+          font-size: 14px;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 414px) {
+  .faq-container {
+    padding: 0 0 100px 0;
+
+    .headline {
+      padding: 100px 5% 50px 5%;
+
+      h1 {
+        color: $mainGreen;
+      }
+    }
+
+    .faq-element {
+      width: 100%;
+      margin: 50px auto 0 auto;
+      padding: 30px;
+
+      .content-bg {
+        width: 110%;
+        height: 110%;
+
+        img {
+          min-width: 100%;
+          min-height: 100%;
+          margin: -50px 0 0 0;
+        }
+      }
+
+      .content-container {
+        padding: 30px 30px 30px 80px;
+        text-align: left;
+
+        .faq-icon {
+          top: 30px;
+          left: 17px;
+          width: 50px;
+          height: 50px;
+        }
+
+        h3 {
+          font-size: 20px;
+          margin: 0 0 20px 0;
+        }
+
+        p {
+          font-size: 12px;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .faq-container {
+    padding: 0 0 100px 0;
+
+    .headline {
+      padding: 100px 5% 50px 5%;
+
+      h1 {
+        color: $mainGreen;
+      }
+    }
+
+    .faq-element {
+      width: 100%;
+      margin: 50px auto 0 auto;
+      padding: 20px;
+
+      .content-bg {
+        width: 110%;
+        height: 110%;
+
+        img {
+          min-width: 100%;
+          min-height: 100%;
+          margin: -50px 0 0 0;
+        }
+      }
+
+      .content-container {
+        padding: 30px 30px 30px 80px;
+        text-align: left;
+
+        .faq-icon {
+          top: 30px;
+          left: 17px;
+          width: 50px;
+          height: 50px;
+        }
+
+        h3 {
+          font-size: 20px;
+          margin: 0 0 20px 0;
+        }
+
+        p {
+          font-size: 12px;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+}
+

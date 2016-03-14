@@ -76,7 +76,6 @@ function show404(type) {
   }
 
   function animateOut(elem) {
-    // $(spinner).reClass('hidden');
     $(elem).addClass('hidden');
   }
 }
@@ -86,7 +85,8 @@ var modalController = function() {
       modal = $('body').find('.product-modal'),
       content = $(modal).find('.modal-content');
       modalOverlay = $('body').find('.product-modal-overlay'),
-      modalClose = $(modal).find('.modal-close-btn');
+      modalClose = $(modal).find('.modal-close-btn'),
+      spinner = $('body').find('.spinner');
 
   $(prods).each(function(i,e) {
     var clickArea = $(e).find('.click-area');
@@ -94,10 +94,12 @@ var modalController = function() {
     $(clickArea).on('click', function(event) {
       var prod_id = $(e).data('singleid');
       event.preventDefault();
+      animateSpinnerIn();
 
       var getData = get_content(prod_id);
 
       getData.done(function(data) {
+        animateSpinnerOut();
         modalRender(data, modal);
       })
       .fail(function() {
@@ -118,9 +120,9 @@ var modalController = function() {
   }
 
   function addEventListeners() {
-    $(modalOverlay).on('click', function() {
-      animateOut();
-    });
+    // $(modalOverlay).on('click', function() {
+    //   animateOut();
+    // });
 
     $(modalClose).on('click', function() {
       animateOut();
@@ -151,14 +153,22 @@ var modalController = function() {
     return contentDef;
   }
 
+  function animateSpinnerIn() {
+    $(modalOverlay).removeClass('hidden');
+    $(spinner).removeClass('hidden');
+  }
+
+  function animateSpinnerOut() {
+    $(modalOverlay).addClass('hidden');
+    $(spinner).addClass('hidden');
+  }
+
   function animateIn() {
     $(modal).removeClass('hidden');
-    $(modalOverlay).removeClass('hidden');
   }
 
   function animateOut() {
     $(modal).addClass('hidden');
-    $(modalOverlay).addClass('hidden');
   }
 
 }
@@ -176,30 +186,39 @@ function urlListener() {
       hash = window.location.hash,
       type = href.indexOf('/type/'),
       brands = href.indexOf('/brands/'),
+      productsUrl = href.indexOf('/products/'),
       search = href.indexOf('#s='),
       initParams,
       base_url;
 
-  if ( type === -1 && brands === -1 && search === -1 ) {
-    return;
+  if ( type === -1 && brands === -1 && productsUrl === -1 ) {
+    console.log('Dont find products, just add listener');
   } else {
-    if ( !hash ) {
-        productsController();
-    } else {
+    if ( hash ) {
       if ( search !== -1 ) {
+        if ( productsUrl === -1 ) {
+          window.location.href = site.site_url + '/products/' + hash;
+        }
         getSearchParams(hash);
       } else {
-        console.log(search);
         sortHash(hash);
       }
+    } else {
+      if ( type !== -1 || brands !== -1 ) {
+          productsController();
+          console.log('products');
+        }
+      }
     }
-  }
 
   window.onhashchange = function(event) {
     hash = window.location.hash;
     search = hash.indexOf('#s=');
 
     if ( search !== -1 ) {
+      if ( productsUrl === -1 ) {
+        window.location.href = site.site_url + '/products/' + hash;
+      }
       getSearchParams(hash);
     } else {
       sortHash(hash);
@@ -342,7 +361,6 @@ function returnSortedSearch(params, products) {
     }
 
     var getTopHits = sorted.sort(sortByFrequency(sorted));
-
     var uniq = _.uniq(getTopHits, true);
 
     defer.resolve(uniq);
@@ -469,10 +487,10 @@ function sortUrl(price, param, paramtype) {
   var paramsLength = paramArray.length;
   $(paramArray).each(function(i, e) {
     if ( i < (paramsLength-1) ) {
-      string += e + '+';
+      string += e.toLowerCase() + '+';
     }
     if ( i === (paramsLength-1) ) {
-      string += e;
+      string += e.toLowerCase();
     }
   });
 
@@ -589,15 +607,16 @@ function returnSortedMultiple(price, param, paramtype) {
       if ( sortedPrice ) {
 
         if ( param ) {
+          var par = param.toLowerCase();
           if ( paramtype === 'brand' ) {
-            var finalSort = returnSortedBrand(param, sortedPrice);
+            var finalSort = returnSortedBrand(par, sortedPrice);
             finalSort.then(function(brandSorted) {
               getSecond.resolve(brandSorted);
             });
           }
 
           if ( paramtype === 'category' ) {
-            var finalSort = returnSortedCat(param, sortedPrice);
+            var finalSort = returnSortedCat(par, sortedPrice);
             finalSort.then(function(catSorted) {
               getSecond.resolve(catSorted);
             });
@@ -608,15 +627,16 @@ function returnSortedMultiple(price, param, paramtype) {
       }
 
       if ( !sortedPrice && param ) {
+        var par = param.toLowerCase();
         if ( paramtype === 'brand' ) {
-            var finalSort = returnSortedBrand(param);
+            var finalSort = returnSortedBrand(par);
             finalSort.then(function(brandSorted) {
               getSecond.resolve(brandSorted);
             });
           }
 
           if ( paramtype === 'category' ) {
-            var finalSort = returnSortedCat(param);
+            var finalSort = returnSortedCat(par);
             finalSort.then(function(catSorted) {
               getSecond.resolve(catSorted);
             });
@@ -646,9 +666,16 @@ function returnSortedCat(param, products) {
     var newProductsPromise = productsSupplyer();
 
     newProductsPromise.then(function(newProducts) {
+      var par = param.toLowerCase();
       $(newProducts).each(function(i,e) {
         var cats = e.categories;
-        if ( cats.indexOf(param) !== -1 ) {
+        var lower = [];
+
+        $(cats).each(function(j,c) {
+          lower.push(c.toLowerCase());
+        });
+
+        if ( lower.indexOf(par) !== -1 ) {
           sorted.push(e);
         }
       });
@@ -657,9 +684,16 @@ function returnSortedCat(param, products) {
     });
   } else {
     function sort() {
+      var par = param.toLowerCase();
       $(products).each(function(i,e) {
-        var categories = e.categories;
-        if ( categories.indexOf(param) !== -1 ) {
+        var cats = e.categories;
+        var lower = [];
+
+        $(cats).each(function(j,c) {
+          lower.push(c.toLowerCase());
+        });
+
+        if ( lower.indexOf(par) !== -1 ) {
           sorted.push(e);
         }
       });
@@ -681,9 +715,17 @@ function returnSortedBrand(param, products) {
     var newProductsPromise = productsSupplyer();
 
     newProductsPromise.then(function(newProducts) {
+      var par = param.toLowerCase();
+
       $(newProducts).each(function(i,e) {
         var brands = e.tags;
-        if ( brands.indexOf(param) !== -1 ) {
+        var lower = [];
+
+        $(brands).each(function(j,b) {
+          lower.push(b.toLowerCase());
+        });
+
+        if ( lower.indexOf(par) !== -1 ) {
           sorted.push(e);
         }
       });
@@ -692,9 +734,16 @@ function returnSortedBrand(param, products) {
     });
   } else {
     function sort() {
+      var par = param.toLowerCase();
       $(products).each(function(i,e) {
         var brands = e.tags;
-        if ( brands.indexOf(param) !== -1 ) {
+        var lower = [];
+
+        $(brands).each(function(j,c) {
+          lower.push(c.toLowerCase());
+        });
+
+        if ( lower.indexOf(par) !== -1 ) {
           sorted.push(e);
         }
       });
@@ -872,9 +921,7 @@ function productsSupplyer() {
           param: 'null'
         }
       }
-
     }
-
   }
 
   function getQueryType() {
@@ -908,9 +955,6 @@ function productsSupplyer() {
       } else {
         getPosts();
       }
-    } else {
-      // load something else, maybe
-      console.log('no localStorage for us');
     }
   }
 
@@ -932,7 +976,6 @@ function productsSupplyer() {
 
     console.log(queryType);
 
-    console.log(type, queryType.param);
     var queryParams = {
         offset: 0,
         limit: -1,
@@ -1062,7 +1105,7 @@ function setTemplate(e) {
         template += '<img src="' + e.featured_src + '" alt="' + e.title + ' product image produkt billede Sinus-store Copenhagen København Denmark" />';
         template += '<div class="product-title" itemprop="name"><h3>' + e.title + '</h3></div>';
         template += '<div class="product-price">' + e.price_html + '<div class="add-button" data-href="' + e.id + '" data-title="' + e.title + '"><svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"x="0px" y="0px" viewBox="0 0 60 60" xml:space="preserve"><line class="svg-line" fill="none" stroke="#007c96" stroke-width="10" stroke-miterlimit="10" x1="30" y1="6" x2="30" y2="54"/><line class="svg-line" fill="none" stroke="#007c96" stroke-width="10" stroke-miterlimit="10" x1="6" y1="30" x2="54" y2="30"/></svg><span class="add-info">Tilføj til kurv</span></div></div>';
-        template += '<div class="sinus-product-info"><div class="short-desc" itemprop="description"><p>' + desc.split(" ").splice(0, 40).join(" ") + '... </p><i class="fa fa-chevron-circle-up"></i></div></div>';
+        template += '<div class="sinus-product-info"><div class="short-desc" itemprop="description"><p>' + stripped.split(" ").splice(0, 40).join(" ") + '... </p><i class="fa fa-chevron-circle-up"></i></div></div>';
         template += '</li>';
 
     tempDefer.resolve(template);
@@ -1150,8 +1193,6 @@ function sortController() {
 }
 
 function sortPriceController(initDirection) {
-  var direction = initDirection;
-
   function setDirection(dir) {
     direction = dir;
   }
@@ -1167,21 +1208,30 @@ function sortPriceController(initDirection) {
   }
 
   $(priceSorter).on('click', function() {
-    var currentDir = getDirection();
-
-    console.log(currentDir);
+    console.log('cllcik');
+    if ( initDirection ) {
+      currentDir = initDirection;
+      setDirection(initDirection);
+    } else {
+      var currentDir = 'asc';
+    }
 
     if ( currentDir === 'asc' ) {
-      setDirection('desc');
+      changeDirection('desc');
       var price = 'price_asc';
       sortUrl(price);
-
     }
 
     if ( currentDir === 'desc' ) {
-      setDirection('asc');
+      changeDirection('asc');
       var price = 'price_desc';
       sortUrl(price);
+    }
+
+    function changeDirection(newDir) {
+      setTimeout(function () {
+        setDirection(newDir);
+      }, 1500);
     }
   });
 }
@@ -1263,8 +1313,8 @@ var fpBackgroundController = function() {
     var curImg = $(bgContainer).find('img.bg-' + j),
         newImg = $(bgContainer).find('img.bg-' + k);
 
-    window.requestAnimationFrame(animateIn(newImg));
-    window.requestAnimationFrame(animateOut(curImg));
+    animateIn(newImg);
+    animateOut(curImg);
 
     setIndex(k);
 

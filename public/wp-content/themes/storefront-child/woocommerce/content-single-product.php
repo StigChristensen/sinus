@@ -67,37 +67,44 @@ if ( ! defined( 'ABSPATH' ) ) {
       <div class="content-bg">
         <img src="<?php echo get_stylesheet_directory_uri() . '/img/bg/bg5.png'; ?>" alt="Content background image" />
       </div>
-      <div class="product-left">
-        <h1 class="single-product-title" itemprop="model"><?php the_title(); ?></h1>
-        <?php the_content(); ?>
-      </div>
+      <div class="p-content">
+        <div class="product-left">
+          <h1 class="single-product-title" itemprop="model"><?php the_title(); ?></h1>
+          <?php the_content(); ?>
 
-      <div class="product-right">
-        <?php
-        if ( $price ) { ?>
-          <div class="product-controls">
-            <div class="product-price">
-              <h2><?php echo $product->price . ',- kr.'; ?></h2>
+          <div class="share-product">
+            <p>Direkte link: </p>
+            <a href="<?php echo the_permalink(); ?>"><?php echo the_permalink(); ?></a>
+          </div>
+        </div>
+
+        <div class="product-right">
+          <?php
+          if ( $price ) { ?>
+            <div class="product-controls">
+              <div class="product-price">
+                <h2><?php echo $product->price . ',- kr.'; ?></h2>
+              </div>
+              <div class="add-button large" data-href="<?php echo $product->id; ?>" data-title="<?php do_action( 'woocommerce_shop_loop_item_title' ); ?>">
+                <h3>Læg i kurv</h3>
+              </div>
+              <?php echo '<h1>' . $quantity . '</h1>'; ?>
             </div>
-            <div class="add-button large" data-href="<?php echo $product->id; ?>" data-title="<?php do_action( 'woocommerce_shop_loop_item_title' ); ?>">
-              <h3>Læg i kurv</h3>
+          <?php } else { ?>
+            <div class="product-controls">
+              <span class="no-price">Kontakt os for information og pris.</span>
             </div>
-            <?php echo '<h1>' . $quantity . '</h1>'; ?>
-          </div>
-        <?php } else { ?>
-          <div class="product-controls">
-            <span class="no-price">Kontakt os for information og pris.</span>
-          </div>
-        <?php
-        }
+          <?php
+          }
 
-        if ( $specs) { ?>
-          <div class="product-text-right">
-            <h3 class="specs">Specifikationer:</h3>
-            <p class="specs"><?php the_field('specifikationer'); ?></p>
-          </div>
-        <?php } ?>
+          if ( $specs) { ?>
+            <div class="product-text-right">
+              <h3 class="specs">Specifikationer:</h3>
+              <p class="specs"><?php the_field('specifikationer'); ?></p>
+            </div>
+          <?php } ?>
 
+        </div>
       </div>
     </div>
 

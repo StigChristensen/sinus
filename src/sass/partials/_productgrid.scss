@@ -48,6 +48,46 @@
   }
 }
 
+@media screen and (max-width: 1440px) {
+  .menu-left {
+    position: fixed;
+    width: 160px;
+    height: 100%;
+    top: 65px;
+    padding-top: 30px;
+    padding-left: 20px;
+
+    h3 {
+      font-size: 14px;
+    }
+
+    span {
+      font-size: 12px;
+      margin: 2px 0 2px 0;
+    }
+
+    .categories, .brands, .sort-links {
+      margin: 10px 0;
+
+      p {
+        font-size: 12px;
+        padding: 2px 0 1px 0;
+
+        i.fa {
+          font-size: 12px;
+          margin: 0 5px 0 0;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .menu-left {
+    display: none;
+  }
+}
+
 .product-list-grid {
   width: calc(100% - 200px);
   height: auto;
@@ -73,6 +113,7 @@
       float: left;
       position: relative;
       margin: 0 auto 0 auto;
+      padding: 50px 0;
       top: 50px;
       opacity: 1;
       @include trans(0.5s);
@@ -101,7 +142,7 @@
         .in-stock-icon {
           position: absolute;
           bottom: 48px;
-          right: 0px;
+          right: 1px;
           z-index: 10;
           padding: 2px 10px;
           background-color: $obLight;
@@ -228,7 +269,8 @@
           z-index: 1200;
           text-align: left;
           background-color: $white;
-          border: 1px solid $lightGrey;
+          border-top: 1px solid $lightGrey;
+          border-right: 1px solid $lightGrey;
 
           h3 {
             font-family: $robot;
@@ -246,7 +288,7 @@
           right: 0px;
           z-index: 2;
           background-color: $white;
-          border: 1px solid $lightGrey;
+          border-right: 1px solid $lightGrey;
           @include trans(0.3s);
 
 
@@ -256,13 +298,13 @@
             position: absolute;
             bottom: 20px;
             right: 0;
-            padding: 20px;
+            padding: 23px;
             text-align: left;
             color: $black;
 
             p, span, b {
               font-family: $robotCon;
-              font-size: 14px;
+              font-size: 12px;
               font-weight: 400;
               color: $black;
             }
@@ -327,7 +369,6 @@
   background-color: rgba(0,0,0,0.55);
   z-index: 888888888;
   opacity: 1;
-  display: none;
   @include trans(0.2s);
 }
 
@@ -382,42 +423,10 @@
   z-index: -5;
 }
 
-@media screen and ( max-width: 1300px ) {
-  .menu-left {
-    width: 200px;
-    height: 100%;
-    top: 65px;
-    padding-top: 30px;
-    padding-left: 20px;
-    left: 0;
-
-    h3 {
-      font-size: 18px;
-    }
-
-    span {
-      font-size: 12px;
-      margin: 10px 0 10px 0;
-    }
-
-    .categories, .brands, .sort-links {
-      margin: 20px 0;
-
-      p {
-        font-size: 14px;
-        padding: 5px 0 5px 0;
-
-        i.fa {
-          font-size: 12px;
-          margin: 0 5px 0 0;
-        }
-      }
-    }
-  }
-
+@media screen and ( max-width: 1440px ) {
   .product-list-grid {
-    width: calc(100% - 200px);
-    margin-left: 200px;
+    width: calc(100% - 160px);
+    margin-left: 160px;
     margin-bottom: 100px;
 
     .page.products {
@@ -445,7 +454,7 @@
           img {
             max-height: 330px;
             bottom: 48px;
-            left: 0px;
+            left: 15px;
           }
 
           .product-price {
@@ -492,24 +501,24 @@
           }
 
           .sinus-product-info {
-            width: 200px;
+            width: 220px;
             height: 383px;
             bottom: 48px;
             right: 0px;
 
             .short-desc {
-              width: 200px;
+              width: 220px;
               bottom: 20px;
-              right: 0;
-              padding: 20px;
+              right: 10px;
+              padding: 23px;
 
               p, span, b {
-                font-size: 14px;
+                font-size: 12px;
 
               }
 
               i.fa {
-                font-size: 24px;
+                font-size: 20px;
                 }
             }
           }
@@ -521,41 +530,10 @@
 
 
 @media screen and ( max-width: 1150px ) {
-  .menu-left {
-    width: 200px;
-    height: 100%;
-    top: 65px;
-    padding-top: 30px;
-    padding-left: 20px;
-    left: 0;
-
-    h3 {
-      font-size: 18px;
-    }
-
-    span {
-      font-size: 12px;
-      margin: 10px 0 10px 0;
-    }
-
-    .categories, .brands, .sort-links {
-      margin: 20px 0;
-
-      p {
-        font-size: 14px;
-        padding: 5px 0 5px 0;
-
-        i.fa {
-          font-size: 12px;
-          margin: 0 5px 0 0;
-        }
-      }
-    }
-  }
 
   .product-list-grid {
-    width: calc(100% - 200px);
-    margin-left: 200px;
+    width: calc(100% - 160px);
+    margin-left: 160px;
     margin-bottom: 100px;
 
     .page.products {
@@ -658,41 +636,10 @@
 }
 
 @media screen and ( max-width: 950px ) {
-  .menu-left {
-    width: 200px;
-    height: 100%;
-    top: 65px;
-    padding-top: 20px;
-    padding-left: 20px;
-    left: 0;
-
-    h3 {
-      font-size: 16px;
-    }
-
-    span {
-      font-size: 12px;
-      margin: 10px 0 10px 0;
-    }
-
-    .categories, .brands, .sort-links {
-      margin: 20px 0;
-
-      p {
-        font-size: 13px;
-        padding: 2px 0 2px 0;
-
-        i.fa {
-          font-size: 12px;
-          margin: 0 5px 0 0;
-        }
-      }
-    }
-  }
 
   .product-list-grid {
-    width: calc(100% - 200px);
-    margin-left: 200px;
+    width: calc(100% - 160px);
+    margin-left: 160px;
     margin-bottom: 100px;
 
     .page.products {
@@ -795,41 +742,10 @@
 }
 
 @media screen and ( max-width: 768px ) {
-  .menu-left {
-    width: 200px;
-    height: 100%;
-    top: 65px;
-    padding-top: 20px;
-    padding-left: 20px;
-    left: 0;
-
-    h3 {
-      font-size: 16px;
-    }
-
-    span {
-      font-size: 12px;
-      margin: 10px 0 10px 0;
-    }
-
-    .categories, .brands, .sort-links {
-      margin: 20px 0;
-
-      p {
-        font-size: 13px;
-        padding: 2px 0 2px 0;
-
-        i.fa {
-          font-size: 12px;
-          margin: 0 5px 0 0;
-        }
-      }
-    }
-  }
 
   .product-list-grid {
-    width: calc(100% - 200px);
-    margin-left: 200px;
+    width: calc(100% - 160px);
+    margin-left: 160px;
     margin-bottom: 100px;
 
     .page.products {
