@@ -59,7 +59,7 @@ get_header();
       <img src="<?php echo get_stylesheet_directory_uri() . '/img/bg/bg5.png'; ?>" alt="Content background image" />
     </div>
     <div class="content-container">
-    <div class="faq-icon"><img src="<?php echo get_stylesheet_directory_uri() . '/img/faq/Dac.png'; ?>" /></div>
+    <div class="faq-icon"><img src="<?php echo get_stylesheet_directory_uri() . '/img/faq/DAC.png'; ?>" /></div>
     <div class="faq-q"><h3>DAC (Digital Audio Converter)</h3></div>
     <div class="faq-a"><p>Det der gør det muligt at omforme et digitalt signal til lydbølger, som kommer ud igennem vores hovedtelefoner, er en DAC. Der er indbygget en DAC i alle mobile enheder som vi kender i dag, men sjældent er kvaliteten af DACen i fx din telefon eller computer af særlig høj kvalitet, og den forringer lyden i dine hovedtelefoner væsentligt, i forhold til hovedtelefonens egentlige kvalitet. Der er enorm forskel på hvor meget du får ud af de 1’er og 0'er som fx din mobiltelefon leverer, afhængig af hvilken DAC der konverterer signalet til lydbølger.<br><br>En ekstern DAC kan derfor købes, hvis eneste formål er at videregive en så præcis og klar lydgengivelse som muligt. DAC’en kan opfange det digitale signal i fx iPhones via Lightning stikket, som du også bruger til at lade telefonen op med.<br><br>Hvis du vil få mest muligt ud af dine hovedtelefoner, så er en kvalitets DAC et helt uundværligt del af din lytteoplevelse.</p></div>
     </div>

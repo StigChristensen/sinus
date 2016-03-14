@@ -33,7 +33,7 @@ $total = WC()->cart->get_cart_total();
       $price = $product->price;
     ?>
       <a href="<?php the_permalink($ca['product_id']); ?>"><div class="cart-element">
-        <div class="remove-icon" data-id="<?php echo $ca['product_id']; ?>"><p>Fjern</p></div>
+        <div class="remove-icon" data-id="<?php echo $ca['product_id']; ?>"><p><i class="fa fa-times-circle-o"></i></p></div>
         <div class="elem-title"><h3><?php echo get_the_title($ca['product_id']); ?></h3></div>
         <div class="elem-qty-total" data-qty="<?php echo $ca['quantity']; ?>"><h3>
         <?php

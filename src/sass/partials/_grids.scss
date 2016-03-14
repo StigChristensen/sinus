@@ -17,6 +17,15 @@
 			float: left;
 			padding: 100px 0;
 			text-align: left;
+
+			article {
+				header {
+					h1 {
+						color: $mainGreen;
+						padding: 0 0 0 20px;
+					}
+				}
+			}
 		}
 	}
 }
@@ -60,6 +69,7 @@
 
 			.site-main {
 				margin: 20px 0 0 0;
+				padding: 0;
 			}
 		}
 	}
@@ -74,6 +84,7 @@
 
 			.site-main {
 				margin: 20px 0 0 0;
+				padding: 0;
 			}
 		}
 	}
