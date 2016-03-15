@@ -1,0 +1,70 @@
+.wrap-404 {
+  width: 100%;
+  height: 100%;
+  float: left;
+  text-align: center;
+  padding: 100px 0 100px 0;
+  background-color: $black;
+
+  h3 {
+    font-size: 30px;
+    color: $mainGreen;
+  }
+
+  h4 {
+    font-size: 20px;
+    color: $white;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .wrap-404 {
+    padding: 100px 80px 100px 80px;
+
+    h3 {
+      font-size: 20px;
+      color: $mainGreen;
+    }
+
+    h4 {
+      font-size: 16px;
+      color: $white;
+    }
+  }
+
+}
+
+@media screen and (max-width: 480px) {
+  .wrap-404 {
+    padding: 100px 60px 100px 60px;
+
+    h3 {
+      font-size: 16px;
+      color: $mainGreen;
+    }
+
+    h4 {
+      font-size: 14px;
+      color: $white;
+    }
+  }
+
+}
+
+@media screen and (max-width: 320px) {
+  .wrap-404 {
+    padding: 100px 50px 100px 50px;
+
+    h3 {
+      font-size: 14px;
+      color: $mainGreen;
+    }
+
+    h4 {
+      font-size: 12px;
+      color: $white;
+    }
+  }
+
+}
+

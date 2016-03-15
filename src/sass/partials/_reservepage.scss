@@ -88,5 +88,203 @@
   .validation.success {
     opacity: 0;
   }
+}
+
+@media screen and (max-width: 768px) {
+  .reserve-form-container {
+    padding: 100px 0;
+
+    .page-header {
+      margin: 50px 0 20px 0;
+
+      h1 {
+        color: $mainGreen;
+        font-size: 24px;
+      }
+    }
+
+    .text-content {
+      width: 100%;
+      height: auto;
+      padding: 30px;
+      margin: 0 auto 0 auto;
+
+      p {
+        line-height: 1.5;
+        font-size: 14px;
+        color: $white;
+      }
+    }
+
+    form.reserve {
+      width: 100%;
+      height: auto;
+      padding: 30px;
+      margin: 0px auto 60px auto;
+      text-align: center;
+      opacity: 1;
+      @include trans(0.5s);
+
+      input[type=text], input[type=email] {
+        width: 100%;
+        max-width: 400px;
+        padding: 15px 25px 15px 25px;
+        float:none;
+        margin: 20px auto 20px auto;
+        border: 2px solid $lightGrey;
+        font-size: 16px;
+        color: $white;
+        background-color: transparent;
+        margin: 0px auto 10px auto;
+        @include trans(0.5s);
+      }
+
+      input[type=text]:focus, input[type=email]:focus {
+        width: 100%;
+        max-width: 400px;
+        border-top: 2px solid rgba(255, 255, 255, 0);
+        border-left: 2px solid rgba(255, 255, 255, 0);
+        border-right: 2px solid rgba(255, 255, 255, 0);
+        border-bottom: 2px solid $mainGreen;
+        padding: 15px 35px 15px 35px;
+        outline: 0;
+      }
+
+      input[type=text].error, input[type=email].error {
+        border: 2px solid $red;
+      }
+
+      .submit-btn {
+        width: 220px;
+        height: 60px;
+        margin: 60px auto 0 auto;
+        @include trans(0.5s);
+
+        a {
+          padding: 13px 38px;
+          font-size: 18px;
+          text-transform: uppercase;
+          background-color: $mainBlue;
+          color: $white;
+          font-weight: 700;
+          @include trans(0.5s);
+        }
+      }
+
+      .submit-btn:hover {
+
+
+        a {
+          background-color: $white;
+          color: $mainBlue;
+        }
+      }
+    }
+
+    .validation.success {
+      opacity: 0;
+    }
+
+  }
 
 }
+
+@media screen and (max-width: 767px) {
+  .reserve-form-container {
+    padding: 100px 0;
+
+    .page-header {
+      margin: 30px 0 10px 0;
+
+      h1 {
+        color: $mainGreen;
+        font-size: 24px;
+      }
+    }
+
+    .text-content {
+      width: 100%;
+      height: auto;
+      padding: 30px;
+      margin: 0 auto 0 auto;
+
+      p {
+        line-height: 1.5;
+        font-size: 12px;
+        color: $white;
+      }
+    }
+
+    form.reserve {
+      width: 100%;
+      height: auto;
+      padding: 30px;
+      margin: 0px auto 60px auto;
+      text-align: center;
+      opacity: 1;
+      @include trans(0.5s);
+
+      input[type=text], input[type=email] {
+        width: 100%;
+        max-width: 400px;
+        padding: 15px 25px 15px 25px;
+        float:none;
+        margin: 20px auto 20px auto;
+        border: 2px solid $lightGrey;
+        font-size: 16px;
+        color: $white;
+        background-color: transparent;
+        margin: 0px auto 10px auto;
+        @include trans(0.5s);
+      }
+
+      input[type=text]:focus, input[type=email]:focus {
+        width: 100%;
+        max-width: 400px;
+        border-top: 2px solid rgba(255, 255, 255, 0);
+        border-left: 2px solid rgba(255, 255, 255, 0);
+        border-right: 2px solid rgba(255, 255, 255, 0);
+        border-bottom: 2px solid $mainGreen;
+        padding: 15px 35px 15px 35px;
+        outline: 0;
+      }
+
+      input[type=text].error, input[type=email].error {
+        border: 2px solid $red;
+      }
+
+      .submit-btn {
+        width: 220px;
+        height: 60px;
+        margin: 60px auto 0 auto;
+        @include trans(0.5s);
+
+        a {
+          padding: 13px 38px;
+          font-size: 18px;
+          text-transform: uppercase;
+          background-color: $mainBlue;
+          color: $white;
+          font-weight: 700;
+          @include trans(0.5s);
+        }
+      }
+
+      .submit-btn:hover {
+
+
+        a {
+          background-color: $white;
+          color: $mainBlue;
+        }
+      }
+    }
+
+    .validation.success {
+      opacity: 0;
+    }
+
+  }
+
+}
+

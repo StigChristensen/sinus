@@ -71,3 +71,9 @@
     transform: rotate(-359deg);
   }
 }
+
+@media screen and (max-width: 767px) {
+  .spinner {
+    top:90px;
+  }
+}

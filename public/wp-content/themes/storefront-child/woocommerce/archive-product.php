@@ -20,6 +20,10 @@ $args = array( 'taxonomy' => 'product_cat',);
 $terms = wp_get_post_terms($post->ID,'product_cat', $args);
 ?>
 
+<div class="menu-left-button">
+  <span>SORTER</span>
+</div>
+
 <div class="menu-left">
   <div class="sort-links">
     <h3>Sorter</h3>

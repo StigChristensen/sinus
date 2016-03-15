@@ -23,12 +23,12 @@ gulp.task('scripts', function() {
   return gulp.src('src/js/**/*.js')
     .pipe(concat('main.js'))
     .pipe(gulp.dest('public/wp-content/themes/storefront-child/js/'))
-    .pipe(sourcemaps.init())
+    // .pipe(sourcemaps.init())
     .pipe(uglify())
     .pipe(rename({
       suffix: '.min'
     }))
-    .pipe(sourcemaps.write("."))
+    // .pipe(sourcemaps.write("."))
     .pipe(gulp.dest('public/wp-content/themes/storefront-child/js/'));
 });
 
@@ -38,13 +38,13 @@ gulp.task('styles', function() {
   return gulp.src('src/sass/**/*.scss')
     .pipe(sass())
     .pipe(gulp.dest('public/wp-content/themes/storefront-child/css/'))
-    .pipe(sourcemaps.init())
+    // .pipe(sourcemaps.init())
     .pipe(autoprefixer({browsers: ['last 3 versions']}))
     .pipe(cssmin())
     .pipe(rename({
       suffix: '.min'
     }))
-    .pipe(sourcemaps.write("."))
+    // .pipe(sourcemaps.write("."))
     .pipe(gulp.dest('public/wp-content/themes/storefront-child/css/'));
 });
 

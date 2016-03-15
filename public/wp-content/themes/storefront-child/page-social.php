@@ -13,7 +13,7 @@ get_header(); ?>
       </div>
       <div class="content-container">
         <h3>Find os på de sociale medier!</h3>
-        <p>Besøg vores side på <a href="https://www.facebook.com/sinusstore/"><i class="fa fa-facebook"></i> FACEBOOK</a> <br>Eller se vores <a href="https://www.instagram.com/sinus_headphones/"><i class="fa fa-instagram"></i> INSTAGRAM</a> feed forneden. </p>
+        <p>Besøg vores side på <a href="https://www.facebook.com/sinusstore/"><i class="fa fa-facebook"></i></a> <br><br>Eller se vores <a href="https://www.instagram.com/sinus_headphones/"><i class="fa fa-instagram"></i></a> feed forneden. </p>
       </div>
     </div>
 

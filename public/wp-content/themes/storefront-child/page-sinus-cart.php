@@ -32,9 +32,9 @@ $total = WC()->cart->get_cart_total();
       $product = new WC_Product( $ca['product_id'] );
       $price = $product->price;
     ?>
-      <a href="<?php the_permalink($ca['product_id']); ?>"><div class="cart-element">
+      <div class="cart-element">
         <div class="remove-icon" data-id="<?php echo $ca['product_id']; ?>"><p><i class="fa fa-times-circle-o"></i></p></div>
-        <div class="elem-title"><h3><?php echo get_the_title($ca['product_id']); ?></h3></div>
+        <a href="<?php the_permalink($ca['product_id']); ?>"><div class="elem-title"><h3><?php echo get_the_title($ca['product_id']); ?></h3></div></a>
         <div class="elem-qty-total" data-qty="<?php echo $ca['quantity']; ?>"><h3>
         <?php
         if ( $ca['quantity'] > 1 ) {
@@ -43,7 +43,7 @@ $total = WC()->cart->get_cart_total();
           echo $price . ',- kr.';
         } ?>
         </h3></div>
-      </div></a>
+      </div>
 
     <?php } ?>
 
