@@ -28,6 +28,9 @@ $terms = wp_get_post_terms($post->ID,'product_cat', $args);
   <div class="sort-links">
     <h3>Sorter</h3>
     <p class="price-sorter"><i class="fa fa-search-plus"></i>Pris <i class="fa fa-sort-asc"></i><i class="fa fa-sort-desc"></i></p>
+    <h3>PÅ LAGER:</h3>
+    <input type='checkbox' class='instock' name='instock' value='checked' id="instock" checked /><label for="instock"><i class="fa fa-check-square"></i></label>
+    <input type='checkbox' class='outofstock' name='outofstock' value='checked' id="outofstock" checked /><label for="outofstock"><i class="fa fa-minus-square"></i></label>
   </div>
   <div class="categories">
     <h3>Kategorier</h3>

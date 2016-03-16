@@ -1348,6 +1348,7 @@ html, body {
   background-color: #2b2b2b; }
   .menu-left h3 {
     font-size: 18px;
+    margin: 10px 0 5px 0;
     color: #4fd5ca; }
   .menu-left span {
     font-size: 12px;
@@ -1369,6 +1370,42 @@ html, body {
         transition: all 0.3s cubic-bezier(0.24, 0.63, 0.5, 0.99); }
     .menu-left .categories p:hover i.fa, .menu-left .brands p:hover i.fa, .menu-left .sort-links p:hover i.fa {
       color: #FDFDFD; }
+  .menu-left .sort-links input[type=checkbox].instock, .menu-left .sort-links input[type=checkbox].outofstock {
+    display: none; }
+  .menu-left .sort-links input[type=checkbox].instock + label {
+    height: 20px;
+    width: 20px;
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.2);
+    display: inline-block;
+    padding: 0 0 0 0px;
+    margin: 0 5px 0 0;
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.24, 0.63, 0.5, 0.99); }
+  .menu-left .sort-links input[type=checkbox].instock:checked + label {
+    height: 20px;
+    width: 20px;
+    color: #4fd5ca;
+    display: inline-block;
+    padding: 0 0 0 0px;
+    margin: 0 5px 0 0; }
+  .menu-left .sort-links input[type=checkbox].outofstock + label {
+    height: 20px;
+    width: 20px;
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.2);
+    display: inline-block;
+    padding: 0 0 0 0px;
+    cursor: pointer;
+    margin: 0 5px 0 0;
+    transition: all 0.5s cubic-bezier(0.24, 0.63, 0.5, 0.99); }
+  .menu-left .sort-links input[type=checkbox].outofstock:checked + label {
+    height: 20px;
+    width: 20px;
+    color: #C72A2A;
+    display: inline-block;
+    margin: 0 5px 0 0;
+    padding: 0 0 0 0px; }
 
 @media screen and (max-width: 1440px) {
   .menu-left {
