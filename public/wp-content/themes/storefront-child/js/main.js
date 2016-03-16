@@ -1166,22 +1166,24 @@ function render(products) {
 
 
 function setTemplate(e) {
-  var stockIcon, template;
+  var stockIcon, template, stockClass,
       tempDefer = $.Deferred();
 
   function prepare() {
     if ( e.stock_quantity === 0 ) {
       stockIcon = '<div class="in-stock-icon"><span>PÅ LAGER: <i class="fa fa-minus-square"></i></span></div>';
+      stockClass = 'stock-false';
     }
 
     if ( e.stock_quantity > 0 ) {
       stockIcon = '<div class="in-stock-icon"><span>PÅ LAGER: <i class="fa fa-check-square"></i></span></div>';
+      stockClass = 'stock-true';
     }
 
     var desc = e.description;
     var stripped = desc.replace(/<(?:.|\n)*?>/gm, '');
 
-    var template = '<li class="product" itemscope itemtype="http://schema.org/Product" data-singleid="' + e.id + '">';
+    var template = '<li class="product ' + stockClass + '" itemscope itemtype="http://schema.org/Product" data-singleid="' + e.id + '">';
         template += '<div class="click-area"></div>';
         template += stockIcon;
         template += '<img src="' + e.featured_src + '" alt="' + e.title + ' product image produkt billede Sinus-store Copenhagen København Denmark" />';
