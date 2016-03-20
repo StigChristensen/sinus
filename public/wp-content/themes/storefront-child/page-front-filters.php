@@ -13,7 +13,7 @@ get_header(); ?>
 
         <div class="moving-content">
         <div class="catch">
-          <h3>The Soundtrack of your life, <br>deserves good sound!</h3>
+          <h3>The Soundtrack of your life <br>deserves good sound!</h3>
         </div>
 
 

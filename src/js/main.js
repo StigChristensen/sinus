@@ -37,62 +37,76 @@ function scrollTo(value) {
 }
 
 function thumbController() {
-  var mainImage = $('body').find('.main-image > img');
-  var mainCont = $('body').find('.main-image');
-  var thumbObj = $('body').find('.product-image');
-  var thumbImg = $('body').find('.product-image > img');
+  var mainCont = $('body').find('.main-image'),
+      clickTarget = $('body').find('.images-cntrl'),
+      src;
 
   function addEventListener() {
-    $(thumbImg).each(function(index, elem) {
+    $(clickTarget).on('click', function(event) {
+      var target = event.target,
+          parent = $(event.target).parent('.product-image'),
+          parentMain = $(event.target).parent('.main-image'),
+          mainImage = $('body').find('.main-image > img'),
+          mainSrc = $(mainImage).attr('src');
 
-      $(elem).on('click', function() {
-        var src = $(this).attr('src');
-        var mainSrc = $(mainImage).attr('src');
-        var parent = $(this).parent('.product-image');
+          console.log(mainImage, mainSrc);
 
-        var image1 = new Image();
-        image1.src = mainSrc;
-        var image2 = new Image();
-        image2.src = src;
-
-        animateOut(parent);
-
-        $(mainCont).html('');
-        $(mainCont).append(image2);
-        $(parent).html('');
-        $(parent).append(image1);
-
-        animateIn(this);
+      if ( parent.length === 1 && parentMain.length === 0 )  {
+        src = $(target).attr('src');
+        animateOut(parent, src);
 
         setTimeout(function() {
-          thumbController();
-        });
-      });
+          src = $(target).attr('src');
+          changeContent(parent, mainSrc, src);
 
+          setTimeout(function() {
+            animateIn(parent);
+          }, 200);
+        }, 600);
+      }
     });
+  }
+
+  function changeContent(parent, mainSrc, src) {
+    var image1 = new Image();
+    var image2 = new Image();
+
+      image1.src = mainSrc;
+      image2.src = src;
+
+    console.log(image1, image2);
+
+    $(parent).html(image1);
+    $(mainCont).html(image2);
   }
 
   function animateIn(parent) {
     $(mainCont).velocity({
-      'opacity': 1
-    }, {duration: 500, delay: 0, display: 'block', easing: [.24,.63,.5,.99]});
+      'opacity': 1,
+      'height': [700, 0]
+    }, {duration: 500, delay: 0, easing: [.24,.63,.5,.99]});
 
     $(parent).velocity({
-      'opacity': 1
-    }, {duration: 500, delay: 0, display: 'block', easing: [.24,.63,.5,.99]});
+      'opacity': 1,
+      'height': [150, 0],
+      'width': [150, 0]
+    }, {duration: 500, delay: 0, easing: [.24,.63,.5,.99]});
   }
 
-  function animateOut(elem) {
-    $(mainImage).velocity({
-      'opacity': 0
-    }, {duration: 500, delay: 0, display: 'block', easing: [.24,.63,.5,.99]});
+  function animateOut(parent) {
+    $(mainCont).velocity({
+      'opacity': 0,
+      'height': [0, 700]
+    }, {duration: 500, delay: 0, easing: [.24,.63,.5,.99]});
 
     $(parent).velocity({
-      'opacity': 0
-    }, {duration: 500, delay: 0, display: 'block', easing: [.24,.63,.5,.99]});
+      'opacity': 0,
+      'height': [0, 150],
+      'width': [0, 150]
+    }, {duration: 500, delay: 0, easing: [.24,.63,.5,.99]});
   }
 
-  addEventListener()
+  addEventListener();
 }
 
 function menuLeftController() {
@@ -197,6 +211,7 @@ var modalController = function() {
       new embedVidController();
       gridCartController();
       addEventListeners();
+      thumbController();
       animateIn();
     }, 200);
   }
@@ -916,7 +931,6 @@ function productsSupplyer() {
       urlProducts = url.indexOf('/products/');
 
   if ( urlType === -1 && urlBrands === -1 && urlSearch === -1 && urlProducts === -1 ) {
-    // console.log('Exited from productsModel');
     return;
   }
 
@@ -1033,8 +1047,11 @@ function productsSupplyer() {
 
     if ( storage ) {
       productsCache = localStorage,
-      products = JSON.parse(productsCache.getItem(key));
-      if (products) {
+      products = JSON.parse(productsCache.getItem(key)),
+      timeStamp = JSON.parse(productsCache.getItem('cachetime')),
+      timeWindow = new Date().setTime(timeStamp + 15*60*1000);
+      now = new Date().getTime();
+      if (products && now < timeWindow) {
         def.resolve(products);
       } else {
         getPosts();
@@ -1075,6 +1092,8 @@ function productsSupplyer() {
       success: function(response) {
         products = response.products;
         productsCache.setItem(key, JSON.stringify(products));
+        var timeStamp = new Date().getTime();
+        productsCache.setItem('cachetime', JSON.stringify(timeStamp));
         def.resolve(products);
       },
       error: function(response) {
