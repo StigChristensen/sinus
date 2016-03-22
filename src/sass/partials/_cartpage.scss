@@ -739,23 +739,23 @@
 
       a, .cart-element {
         width: 100%;
-        height: 75px;
+        height: 20px;
         float: left;
-        padding: 12px 0px;
+        padding: 5px 0px;
         position: relative;
 
         .remove-icon {
-        width: 15px;
-        height: 15px;
-        cursor: pointer;
-        position: absolute;
-        top: 40px;
-        left: 0px;
+          width: 15px;
+          height: 15px;
+          cursor: pointer;
+          position: absolute;
+          top: 40px;
+          left: 0px;
 
-        p {
-          color: $red;
-          font-size: 24px;
-        }
+          p {
+            color: $red;
+            font-size: 24px;
+          }
         }
 
         .elem-title {

@@ -2,7 +2,7 @@
   .front-page.wrapper {
     width: 100%;
     height: auto;
-    min-height: 1000px;
+    min-height: 1900px;
     float: left;
     position: relative;
     margin: -55px 0 0 0;
@@ -35,7 +35,9 @@
     .moving-content {
       width: 100%;
       height: auto;
-      position: absolute;
+      min-height: 1900px;
+      position: relative;
+      float: left;
       top: 80px;
       left: 0;
       z-index: 10;
@@ -55,10 +57,11 @@
 
       .bg-container {
         width: 100%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
-        top: 200px;
+        height: auto;
+        position: relative;
+        top: 0px;
         left: 0;
+        float: left;
         z-index: 1;
 
         img {
@@ -131,119 +134,70 @@
           }
         }
       }
+
+      .banner-container {
+        width: 100%;
+        height: auto;
+        position: relative;
+        top: 720px;
+        margin: 0;
+        padding: 0;
+        float: left;
+        z-index: 100;
+
+        .banner {
+          width: 100%;
+          height: auto;
+          float: left;
+
+          a {
+            width: 100%;
+            height: auto;
+            float: left;
+
+            img {
+              width: 100%;
+              height: auto;
+              margin: 0;
+              padding: 0;
+            }
+          }
+        }
+      }
     }
   }
 
-@media screen and (min-width: 1600px) {
-.front-page.wrapper {
-    width: 100%;
-    height: auto;
-    min-height: 1500px;
-    float: left;
-    position: relative;
+@media screen and (min-width: 1900px) {
+ .front-page.wrapper {
+    min-height: 3200px;
     margin: -55px 0 0 0;
     padding: 20px 0;
-    background-color: $black;
-    z-index: 1;
-
-    .front-video-container {
-      width: 100%;
-      height: 0px;
-      position: absolute;
-      background-color: #000;
-      top: 30px;
-      left: 0;
-      overflow: hidden;
-      text-align: center;
-
-      .spinner {
-        display: none;
-      }
-
-      video {
-        display: none;
-        width: 80%;
-        height: auto;
-        margin: 0 auto 0 auto;
-      }
-    }
 
     .moving-content {
-      width: 100%;
-      height: auto;
-      position: absolute;
+      min-height: 3200px;
       top: 80px;
-      left: 0;
-      z-index: 10;
-
-      .catch {
-        width: 100%;
-        height: 200px;
-        padding: 70px 0;
-        background-color: #000;
-        border-bottom: 1px solid $mainGreen;
-
-        h3 {
-          font-size: 20px;
-          color: $mainGreen;
-        }
-      }
 
       .bg-container {
-        width: 100%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
-        top: 200px;
-        left: 0;
-        z-index: 1;
-
-        img {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: auto;
-          opacity: 0;
-        }
+        top: 0px;
       }
 
       .filters.first {
-        width: 50%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
         top: 350px;
         left: 70px;
-        z-index: 100;
-        text-align: left;
       }
 
       .filters.second {
-        width: 50%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
         top: 350px;
         right: 70px;
-        z-index: 100;
-        text-align: right;
       }
 
       .filters {
         ul.front-filter {
-
           li.cat-item, li.filter {
             a {
-              color: $mainGreen;
-              background-color: $obLight;
-              padding: 8px 10px;
-              outline: none;
-              font-size: 18px;
-              font-weight: 700;
+              padding: 5px 10px;
+              font-size: 14px;
               line-height: 2;
-              @include trans(0.3s);
-            }
-
-            a:hover {
-              color: $white;
             }
 
             ul.children {
@@ -251,136 +205,53 @@
 
               li.cat-item {
                 a {
-                  color: $white;
-                  outline: none;
                   font-size: 14px;
-                  font-weight: 300;
                   padding: 0 0 5px 0;
-                  @include trans(0.3s);
-                }
-
-                a:hover {
-                  color: $mainGreen;
                 }
               }
             }
           }
         }
+      }
+
+      .banner-container {
+        top: 1280px;
       }
     }
   }
 }
 
-@media screen and (min-width: 1280px) and (max-width: 1599px) {
-.front-page.wrapper {
-    width: 100%;
-    height: auto;
-    min-height: 1200px;
-    float: left;
-    position: relative;
+@media screen and (min-width: 1600px) and (max-width: 1899px) {
+ .front-page.wrapper {
+    min-height: 2600px;
     margin: -55px 0 0 0;
     padding: 20px 0;
-    background-color: $black;
-    z-index: 1;
-
-    .front-video-container {
-      width: 100%;
-      height: 0px;
-      position: absolute;
-      background-color: #000;
-      top: 30px;
-      left: 0;
-      overflow: hidden;
-      text-align: center;
-
-      .spinner {
-        display: none;
-      }
-
-      video {
-        display: none;
-        width: 80%;
-        height: auto;
-        margin: 0 auto 0 auto;
-      }
-    }
 
     .moving-content {
-      width: 100%;
-      height: auto;
-      position: absolute;
+      min-height: 2600px;
       top: 80px;
-      left: 0;
-      z-index: 10;
-
-      .catch {
-        width: 100%;
-        height: 200px;
-        padding: 70px 0;
-        background-color: #000;
-        border-bottom: 1px solid $mainGreen;
-
-        h3 {
-          font-size: 20px;
-          color: $mainGreen;
-        }
-      }
 
       .bg-container {
-        width: 100%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
-        top: 200px;
-        left: 0;
-        z-index: 1;
-
-        img {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: auto;
-          opacity: 0;
-        }
+        top: 0px;
       }
 
       .filters.first {
-        width: 50%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
         top: 350px;
         left: 70px;
-        z-index: 100;
-        text-align: left;
       }
 
       .filters.second {
-        width: 50%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
         top: 350px;
         right: 70px;
-        z-index: 100;
-        text-align: right;
       }
 
       .filters {
         ul.front-filter {
-
           li.cat-item, li.filter {
             a {
-              color: $mainGreen;
-              background-color: $obLight;
-              padding: 6px 10px;
-              outline: none;
-              font-size: 18px;
-              font-weight: 700;
+              padding: 5px 10px;
+              font-size: 14px;
               line-height: 2;
-              @include trans(0.3s);
-            }
-
-            a:hover {
-              color: $white;
             }
 
             ul.children {
@@ -388,21 +259,127 @@
 
               li.cat-item {
                 a {
-                  color: $white;
-                  outline: none;
                   font-size: 14px;
-                  font-weight: 300;
                   padding: 0 0 5px 0;
-                  @include trans(0.3s);
-                }
-
-                a:hover {
-                  color: $mainGreen;
                 }
               }
             }
           }
         }
+      }
+
+      .banner-container {
+        top: 1080px;
+      }
+    }
+  }
+}
+
+
+@media screen and (min-width: 1281px) and (max-width: 1599px) {
+ .front-page.wrapper {
+    min-height: 2600px;
+    margin: -55px 0 0 0;
+    padding: 20px 0;
+
+    .moving-content {
+      min-height: 2600px;
+      top: 80px;
+
+      .bg-container {
+        top: 0px;
+      }
+
+      .filters.first {
+        top: 350px;
+        left: 70px;
+      }
+
+      .filters.second {
+        top: 350px;
+        right: 70px;
+      }
+
+      .filters {
+        ul.front-filter {
+          li.cat-item, li.filter {
+            a {
+              padding: 5px 10px;
+              font-size: 14px;
+              line-height: 2;
+            }
+
+            ul.children {
+              margin: 5px 25px 5px 0px;
+
+              li.cat-item {
+                a {
+                  font-size: 14px;
+                  padding: 0 0 5px 0;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .banner-container {
+        top: 1000px;
+      }
+    }
+  }
+}
+
+
+@media screen and (max-width: 980px) {
+ .front-page.wrapper {
+    min-height: 1600px;
+    margin: -55px 0 0 0;
+    padding: 20px 0;
+
+    .moving-content {
+      min-height: 1600px;
+      top: 80px;
+
+      .bg-container {
+        top: 0px;
+      }
+
+      .filters.first {
+        top: 350px;
+        left: 70px;
+      }
+
+      .filters.second {
+        top: 350px;
+        right: 70px;
+      }
+
+      .filters {
+        ul.front-filter {
+          li.cat-item, li.filter {
+            a {
+              padding: 5px 10px;
+              font-size: 14px;
+              line-height: 2;
+            }
+
+            ul.children {
+              margin: 5px 25px 5px 0px;
+
+              li.cat-item {
+                a {
+                  font-size: 14px;
+                  padding: 0 0 5px 0;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .banner-container {
+        top: 560px;
       }
     }
   }
@@ -410,91 +387,36 @@
 
 
 @media screen and (max-width: 800px) {
-  .front-page.wrapper {
-    min-height: 800px;
+ .front-page.wrapper {
+    min-height: 1300px;
     margin: -55px 0 0 0;
     padding: 20px 0;
 
-    .front-video-container {
-
-    }
-
     .moving-content {
-      width: 100%;
-      height: auto;
-      position: absolute;
+      min-height: 1300px;
       top: 80px;
-      left: 0;
-      z-index: 10;
-
-      .catch {
-        width: 100%;
-        height: 200px;
-        padding: 70px 0;
-        background-color: #000;
-        border-bottom: 1px solid $mainGreen;
-
-        h3 {
-          font-size: 20px;
-          color: $mainGreen;
-        }
-      }
 
       .bg-container {
-        width: 100%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
-        top: 200px;
-        left: 0;
-        z-index: 1;
-
-        img {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: auto;
-          opacity: 0;
-        }
+        top: 0px;
       }
 
       .filters.first {
-        width: 50%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
-        top: 300px;
+        top: 250px;
         left: 70px;
-        z-index: 100;
-        text-align: left;
       }
 
       .filters.second {
-        width: 50%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
-        top: 300px;
+        top: 250px;
         right: 70px;
-        z-index: 100;
-        text-align: right;
       }
 
       .filters {
         ul.front-filter {
-
           li.cat-item, li.filter {
             a {
-              color: $mainGreen;
-              background-color: $obLight;
               padding: 5px 10px;
-              outline: none;
               font-size: 14px;
-              font-weight: 700;
               line-height: 2;
-              @include trans(0.3s);
-            }
-
-            a:hover {
-              color: $white;
             }
 
             ul.children {
@@ -502,227 +424,54 @@
 
               li.cat-item {
                 a {
-                  color: $white;
-                  outline: none;
                   font-size: 14px;
-                  font-weight: 300;
                   padding: 0 0 5px 0;
-                  @include trans(0.3s);
-                }
-
-                a:hover {
-                  color: $mainGreen;
                 }
               }
             }
           }
         }
       }
+
+      .banner-container {
+        top: 460px;
+      }
     }
   }
+
 }
 
-
-@media screen and (max-width: 666px) {
-  .front-page.wrapper {
-    min-height: 800px;
+@media screen and (max-width: 640px) {
+ .front-page.wrapper {
+    min-height: 1300px;
     margin: -55px 0 0 0;
     padding: 20px 0;
 
-    .front-video-container {
-
-    }
-
     .moving-content {
-      width: 100%;
-      height: auto;
-      position: absolute;
+      min-height: 1300px;
       top: 80px;
-      left: 0;
-      z-index: 10;
-
-      .catch {
-        width: 100%;
-        height: 200px;
-        padding: 70px 0;
-        background-color: #000;
-        border-bottom: 1px solid $mainGreen;
-
-        h3 {
-          font-size: 20px;
-          color: $mainGreen;
-        }
-      }
 
       .bg-container {
-        width: 100%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
-        top: 200px;
-        left: 0;
-        z-index: 1;
-
-        img {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: auto;
-          opacity: 0;
-        }
+        top: 0px;
       }
 
       .filters.first {
-        width: 50%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
-        top: 250px;
-        left: 70px;
-        z-index: 100;
-        text-align: left;
+        top: 230px;
+        left: 40px;
       }
 
       .filters.second {
-        width: 50%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
-        top: 250px;
-        right: 70px;
-        z-index: 100;
-        text-align: right;
+        top: 230px;
+        right: 40px;
       }
 
       .filters {
         ul.front-filter {
-
           li.cat-item, li.filter {
             a {
-              color: $mainGreen;
-              background-color: $obLight;
               padding: 5px 10px;
-              outline: none;
-              font-size: 14px;
-              font-weight: 700;
-              line-height: 2;
-              @include trans(0.3s);
-            }
-
-            a:hover {
-              color: $white;
-            }
-
-            ul.children {
-              margin: 5px 25px 5px 0px;
-
-              li.cat-item {
-                a {
-                  color: $white;
-                  outline: none;
-                  font-size: 14px;
-                  font-weight: 300;
-                  padding: 0 0 5px 0;
-                  @include trans(0.3s);
-                }
-
-                a:hover {
-                  color: $mainGreen;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-
-@media screen and (max-width: 580px) {
-  .front-page.wrapper {
-    min-height: 800px;
-    margin: -55px 0 0 0;
-    padding: 20px 0;
-
-    .front-video-container {
-
-    }
-
-    .moving-content {
-      width: 100%;
-      height: auto;
-      position: absolute;
-      top: 80px;
-      left: 0;
-      z-index: 10;
-
-      .catch {
-        width: 100%;
-        height: 160px;
-        padding: 40px 0;
-        background-color: #000;
-        border-bottom: 1px solid $mainGreen;
-
-        h3 {
-          font-size: 20px;
-          color: $mainGreen;
-        }
-      }
-
-      .bg-container {
-        width: 100%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
-        top: 160px;
-        left: 0;
-        z-index: 1;
-
-        img {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: auto;
-          opacity: 0;
-        }
-      }
-
-      .filters.first {
-        width: 50%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
-        top: 200px;
-        left: 50px;
-        z-index: 100;
-        text-align: left;
-      }
-
-      .filters.second {
-        width: 50%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
-        top: 200px;
-        right: 50px;
-        z-index: 100;
-        text-align: right;
-      }
-
-      .filters {
-        ul.front-filter {
-
-          li.cat-item, li.filter {
-            a {
-              color: $mainGreen;
-              background-color: $obLight;
-              padding: 5px 10px;
-              outline: none;
               font-size: 12px;
-              font-weight: 700;
               line-height: 2;
-              @include trans(0.3s);
-            }
-
-            a:hover {
-              color: $white;
             }
 
             ul.children {
@@ -730,113 +479,54 @@
 
               li.cat-item {
                 a {
-                  color: $white;
-                  outline: none;
-                  font-size: 14px;
-                  font-weight: 300;
+                  font-size: 12px;
                   padding: 0 0 5px 0;
-                  @include trans(0.3s);
-                }
-
-                a:hover {
-                  color: $mainGreen;
                 }
               }
             }
           }
         }
+     }
+
+      .banner-container {
+        top: 460px;
       }
-    }
+   }
   }
 }
 
 
 @media screen and (max-width: 480px) {
-  .front-page.wrapper {
-    min-height: 800px;
+ .front-page.wrapper {
+    min-height: 1300px;
     margin: -55px 0 0 0;
     padding: 20px 0;
 
-    .front-video-container {
-
-    }
-
     .moving-content {
-      width: 100%;
-      height: auto;
-      position: absolute;
+      min-height: 1300px;
       top: 80px;
-      left: 0;
-      z-index: 10;
-
-      .catch {
-        width: 100%;
-        height: 160px;
-        padding: 40px 0;
-        background-color: #000;
-        border-bottom: 1px solid $mainGreen;
-
-        h3 {
-          font-size: 20px;
-          color: $mainGreen;
-        }
-      }
 
       .bg-container {
-        width: 100%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
-        top: 160px;
-        left: 0;
-        z-index: 1;
-
-        img {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: auto;
-          opacity: 0;
-        }
+        top: 0px;
       }
 
       .filters.first {
-        width: 50%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
-        top: 460px;
-        left: 40px;
-        z-index: 100;
-        text-align: left;
+        top: 500px;
+        left: 30px;
       }
 
       .filters.second {
-        width: 50%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
-        top: 460px;
-        right: 40px;
-        z-index: 100;
-        text-align: right;
+        top: 500px;
+        right: 30px;
       }
 
       .filters {
         ul.front-filter {
-
           li.cat-item, li.filter {
             a {
-              color: $mainGreen;
-              background-color: $obLight;
               padding: 5px 10px;
-              outline: none;
               font-size: 12px;
-              font-weight: 700;
               line-height: 2;
-              @include trans(0.3s);
-            }
-
-            a:hover {
-              color: $white;
             }
 
             ul.children {
@@ -844,21 +534,17 @@
 
               li.cat-item {
                 a {
-                  color: $white;
-                  outline: none;
-                  font-size: 14px;
-                  font-weight: 300;
+                  font-size: 12px;
                   padding: 0 0 5px 0;
-                  @include trans(0.3s);
-                }
-
-                a:hover {
-                  color: $mainGreen;
                 }
               }
             }
           }
         }
+      }
+
+      .banner-container {
+        top: 620px;
       }
     }
   }
@@ -866,91 +552,36 @@
 
 
 @media screen and (max-width: 414px) {
-  .front-page.wrapper {
-    min-height: 800px;
+ .front-page.wrapper {
+    min-height: 1300px;
     margin: -55px 0 0 0;
     padding: 20px 0;
 
-    .front-video-container {
-
-    }
-
     .moving-content {
-      width: 100%;
-      height: auto;
-      position: absolute;
+      min-height: 1300px;
       top: 80px;
-      left: 0;
-      z-index: 10;
-
-      .catch {
-        width: 100%;
-        height: 160px;
-        padding: 40px 0;
-        background-color: #000;
-        border-bottom: 1px solid $mainGreen;
-
-        h3 {
-          font-size: 20px;
-          color: $mainGreen;
-        }
-      }
 
       .bg-container {
-        width: 100%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
-        top: 160px;
-        left: 0;
-        z-index: 1;
-
-        img {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: auto;
-          opacity: 0;
-        }
+        top: 0px;
       }
 
       .filters.first {
-        width: 50%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
-        top: 450px;
-        left: 20px;
-        z-index: 100;
-        text-align: left;
+        top: 480px;
+        left: 30px;
       }
 
       .filters.second {
-        width: 50%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
-        top: 450px;
-        right: 20px;
-        z-index: 100;
-        text-align: right;
+        top: 480px;
+        right: 30px;
       }
 
       .filters {
         ul.front-filter {
-
           li.cat-item, li.filter {
             a {
-              color: $mainGreen;
-              background-color: $obLight;
-              padding: 4px 8px;
-              outline: none;
+              padding: 5px 10px;
               font-size: 12px;
-              font-weight: 700;
               line-height: 2;
-              @include trans(0.3s);
-            }
-
-            a:hover {
-              color: $white;
             }
 
             ul.children {
@@ -958,112 +589,53 @@
 
               li.cat-item {
                 a {
-                  color: $white;
-                  outline: none;
-                  font-size: 14px;
-                  font-weight: 300;
+                  font-size: 12px;
                   padding: 0 0 5px 0;
-                  @include trans(0.3s);
-                }
-
-                a:hover {
-                  color: $mainGreen;
                 }
               }
             }
           }
         }
+      }
+
+      .banner-container {
+        top: 620px;
       }
     }
   }
 }
 
 @media screen and (max-width: 375px) {
-  .front-page.wrapper {
-    min-height: 850px;
+ .front-page.wrapper {
+    min-height: 1300px;
     margin: -55px 0 0 0;
     padding: 20px 0;
 
-    .front-video-container {
-
-    }
-
     .moving-content {
-      width: 100%;
-      height: auto;
-      position: absolute;
+      min-height: 1300px;
       top: 80px;
-      left: 0;
-      z-index: 10;
-
-      .catch {
-        width: 100%;
-        height: 160px;
-        padding: 40px 0;
-        background-color: #000;
-        border-bottom: 1px solid $mainGreen;
-
-        h3 {
-          font-size: 20px;
-          color: $mainGreen;
-        }
-      }
 
       .bg-container {
-        width: 100%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
-        top: 160px;
-        left: 0;
-        z-index: 1;
-
-        img {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: auto;
-          opacity: 0;
-        }
+        top: 0px;
       }
 
       .filters.first {
-        width: 50%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
-        top: 400px;
+        top: 480px;
         left: 20px;
-        z-index: 100;
-        text-align: left;
       }
 
       .filters.second {
-        width: 50%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
-        top: 400px;
+        top: 480px;
         right: 20px;
-        z-index: 100;
-        text-align: right;
       }
 
       .filters {
         ul.front-filter {
-
           li.cat-item, li.filter {
             a {
-              color: $mainGreen;
-              background-color: $obLight;
-              padding: 4px 8px;
-              outline: none;
+              padding: 5px 10px;
               font-size: 11px;
-              font-weight: 700;
               line-height: 2;
-              @include trans(0.3s);
-            }
-
-            a:hover {
-              color: $white;
             }
 
             ul.children {
@@ -1071,112 +643,53 @@
 
               li.cat-item {
                 a {
-                  color: $white;
-                  outline: none;
-                  font-size: 14px;
-                  font-weight: 300;
+                  font-size: 11px;
                   padding: 0 0 5px 0;
-                  @include trans(0.3s);
-                }
-
-                a:hover {
-                  color: $mainGreen;
                 }
               }
             }
           }
         }
+      }
+
+      .banner-container {
+        top: 620px;
       }
     }
   }
 }
 
 @media screen and (max-width: 320px) {
-  .front-page.wrapper {
-    min-height: 700px;
+ .front-page.wrapper {
+    min-height: 1100px;
     margin: -55px 0 0 0;
     padding: 20px 0;
 
-    .front-video-container {
-
-    }
-
     .moving-content {
-      width: 100%;
-      height: auto;
-      position: absolute;
+      min-height: 1100px;
       top: 80px;
-      left: 0;
-      z-index: 10;
-
-      .catch {
-        width: 100%;
-        height: 160px;
-        padding: 40px 0;
-        background-color: #000;
-        border-bottom: 1px solid $mainGreen;
-
-        h3 {
-          font-size: 20px;
-          color: $mainGreen;
-        }
-      }
 
       .bg-container {
-        width: 100%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
-        top: 160px;
-        left: 0;
-        z-index: 1;
-
-        img {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: auto;
-          opacity: 0;
-        }
+        top: 0px;
       }
 
       .filters.first {
-        width: 50%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
-        top: 370px;
+        top: 450px;
         left: 20px;
-        z-index: 100;
-        text-align: left;
       }
 
       .filters.second {
-        width: 50%;
-        height: ((100% / 16px) * 9px);
-        position: absolute;
-        top: 370px;
+        top: 450px;
         right: 20px;
-        z-index: 100;
-        text-align: right;
       }
 
       .filters {
         ul.front-filter {
-
           li.cat-item, li.filter {
             a {
-              color: $mainGreen;
-              background-color: $obLight;
-              padding: 4px 8px;
-              outline: none;
-              font-size: 11px;
-              font-weight: 700;
+              padding: 5px 10px;
+              font-size: 10px;
               line-height: 2;
-              @include trans(0.3s);
-            }
-
-            a:hover {
-              color: $white;
             }
 
             ul.children {
@@ -1184,21 +697,17 @@
 
               li.cat-item {
                 a {
-                  color: $white;
-                  outline: none;
-                  font-size: 14px;
-                  font-weight: 300;
+                  font-size: 10px;
                   padding: 0 0 5px 0;
-                  @include trans(0.3s);
-                }
-
-                a:hover {
-                  color: $mainGreen;
                 }
               }
             }
           }
         }
+      }
+
+      .banner-container {
+        top: 520px;
       }
     }
   }

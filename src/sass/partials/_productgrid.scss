@@ -50,9 +50,9 @@
     margin: 20px 0;
 
     p {
-      font-size: 14px;
+      font-size: 12px;
       color: $white;
-      padding: 5px 0 5px 0;
+      padding: 4px 0 4px 0;
       cursor: pointer;
       @include trans(0.3s);
 
@@ -511,7 +511,7 @@
     width: 40px;
     height: 40px;
     top: 15px;
-    right: 35px;
+    right: 13px;
     cursor: pointer;
     z-index: 100;
 
@@ -1164,9 +1164,9 @@
 
             .short-desc {
               width: 100%;
-              bottom: 0px;
+              top: 0px;
               left: 0;
-              padding: 10px 20px;
+              padding: 5px 20px;
 
               p, span, b {
                 font-size: 12px;
