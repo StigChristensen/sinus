@@ -6,20 +6,16 @@
 get_header(); ?>
 
       <div class="front-page wrapper">
-        <div class="front-video-container">
-          <div class="spinner"><div class="circle"></div><div class="circle1"></div></div>
-          <video id="frontpage-video" src="<?php echo get_stylesheet_directory_uri() . '/img/video/sinus_intro_1.mp4'; ?>"></video>
-        </div>
 
         <div class="moving-content">
-        <div class="catch">
-          <h3>The Soundtrack of your life <br>deserves good sound!</h3>
-        </div>
+          <div class="catch">
+            <h3>The Soundtrack of your life <br>deserves good sound!</h3>
+          </div>
 
 
-        <div class="bg-container">
-          <img class="bg-1" src="<?php echo get_stylesheet_directory_uri() . '/img/bg/bg1.png'; ?>" alt="">
-        </div>
+          <div class="bg-container">
+            <img class="bg-1" src="<?php echo get_stylesheet_directory_uri() . '/img/bg/bg1.png'; ?>" alt="">
+          </div>
 
           <div class="filters first">
             <ul class="front-filter">
@@ -61,26 +57,27 @@ get_header(); ?>
             </ul>
           </div>
 
-          <div class="banner-container">
+            <div class="banner-container">
 
-          <?php $args = array( 'post_type' => 'banner', 'posts_per_page' => 1 );
-                $loop = new WP_Query( $args );
-                while ( $loop->have_posts() ) : $loop->the_post();
+            <?php $args = array( 'post_type' => 'banner', 'posts_per_page' => -1 );
+                  $loop = new WP_Query( $args );
+                  while ( $loop->have_posts() ) : $loop->the_post();
 
-                $should_show = get_field('showing');
+                  $should_show = get_field('showing');
 
-                if ($should_show) { ?>
+                  if ($should_show) { ?>
 
-                <div class="banner">
-                  <a href="<?php the_field('banner_link'); ?>" target="_parent">
-                    <img src="<?php the_field('banner_image'); ?>" alt="Sinus Store Headphones and Audio Front Page Banner"/>
-                  </a>
-                </div>
+                  <div class="banner">
+                    <a href="<?php the_field('banner_link'); ?>" target="_parent">
+                      <img src="<?php the_field('banner_image'); ?>" alt="Sinus Store Headphones and Audio Front Page Banner"/>
+                    </a>
+                  </div>
 
-          <?php } ?>
+            <?php } ?>
 
-          <?php endwhile; ?>
-          </div>
+            <?php endwhile; ?>
+            </div>
+
         </div>
 
       </div>

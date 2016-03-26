@@ -1425,11 +1425,26 @@ function scrollController() {
 var fpBackgroundController = function() {
   var bgContainer = $('body').find('.bg-container'),
       firstImg = $(bgContainer).find('img'),
+      width = $(window).width(),
+      containerHeight = Math.round(((width / 16) * 9)) + 1,
       index;
 
   if ( !bgContainer ) {
     return;
   }
+
+  $(bgContainer).css({
+    'height': containerHeight + 'px'
+  });
+
+  $(window).on('resize', function() {
+    width = $(window).width(),
+    containerHeight = Math.round(((width / 16) * 9)) + 1;
+
+    $(bgContainer).css({
+      'height': containerHeight + 'px'
+    });
+  });
 
   if ( firstImg && firstImg[0] ) {
     if (firstImg[0].complete) {

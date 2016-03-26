@@ -503,36 +503,18 @@ html, body {
 .front-page.wrapper {
   width: 100%;
   height: auto;
-  min-height: 1900px;
   float: left;
   position: relative;
   margin: -55px 0 0 0;
   padding: 20px 0;
   background-color: #2b2b2b;
   z-index: 1; }
-  .front-page.wrapper .front-video-container {
-    width: 100%;
-    height: 0px;
-    position: absolute;
-    background-color: #000;
-    top: 30px;
-    left: 0;
-    overflow: hidden;
-    text-align: center; }
-    .front-page.wrapper .front-video-container .spinner {
-      display: none; }
-    .front-page.wrapper .front-video-container video {
-      display: none;
-      width: 80%;
-      height: auto;
-      margin: 0 auto 0 auto; }
   .front-page.wrapper .moving-content {
     width: 100%;
     height: auto;
-    min-height: 1900px;
     position: relative;
     float: left;
-    top: 80px;
+    top: 65px;
     left: 0;
     z-index: 10; }
     .front-page.wrapper .moving-content .catch {
@@ -546,11 +528,12 @@ html, body {
         color: #4fd5ca; }
     .front-page.wrapper .moving-content .bg-container {
       width: 100%;
-      height: auto;
+      height: 1000px;
       position: relative;
       top: 0px;
       left: 0;
       float: left;
+      border-bottom: 1px solid #202020;
       z-index: 1; }
       .front-page.wrapper .moving-content .bg-container img {
         position: absolute;
@@ -561,7 +544,7 @@ html, body {
         opacity: 0; }
     .front-page.wrapper .moving-content .filters.first {
       width: 50%;
-      height: 56.25%;
+      height: calc((100% / 16px) * 9px);
       position: absolute;
       top: 350px;
       left: 70px;
@@ -569,7 +552,7 @@ html, body {
       text-align: left; }
     .front-page.wrapper .moving-content .filters.second {
       width: 50%;
-      height: 56.25%;
+      height: calc((100% / 16px) * 9px);
       position: absolute;
       top: 350px;
       right: 70px;
@@ -601,15 +584,16 @@ html, body {
       width: 100%;
       height: auto;
       position: relative;
-      top: 720px;
       margin: 0;
-      padding: 0;
+      padding: 0 0 100px 0;
       float: left;
       z-index: 100; }
       .front-page.wrapper .moving-content .banner-container .banner {
         width: 100%;
         height: auto;
-        float: left; }
+        float: left;
+        margin: 0px 0 -3px 0;
+        border-bottom: 1px solid #202020; }
         .front-page.wrapper .moving-content .banner-container .banner a {
           width: 100%;
           height: auto;
@@ -620,285 +604,280 @@ html, body {
             margin: 0;
             padding: 0; }
 
-@media screen and (min-width: 1900px) {
+@media screen and (min-width: 1280px) {
   .front-page.wrapper {
-    min-height: 3200px;
     margin: -55px 0 0 0;
     padding: 20px 0; }
     .front-page.wrapper .moving-content {
-      min-height: 3200px;
-      top: 80px; }
+      top: 65px; }
+      .front-page.wrapper .moving-content .catch {
+        height: 200px;
+        padding: 70px 0; }
+        .front-page.wrapper .moving-content .catch h3 {
+          font-size: 20px; }
       .front-page.wrapper .moving-content .bg-container {
         top: 0px; }
       .front-page.wrapper .moving-content .filters.first {
-        top: 350px;
+        top: 400px;
         left: 70px; }
       .front-page.wrapper .moving-content .filters.second {
-        top: 350px;
+        top: 400px;
+        right: 70px; }
+      .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item a, .front-page.wrapper .moving-content .filters ul.front-filter li.filter a {
+        padding: 6px 10px;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 2; }
+      .front-page.wrapper .moving-content .banner-container {
+        padding: 0 0 100px 0; } }
+
+@media screen and (max-width: 1000px) {
+  .front-page.wrapper {
+    margin: -55px 0 0 0;
+    padding: 20px 0; }
+    .front-page.wrapper .moving-content {
+      top: 65px; }
+      .front-page.wrapper .moving-content .catch {
+        height: 200px;
+        padding: 70px 0; }
+        .front-page.wrapper .moving-content .catch h3 {
+          font-size: 20px; }
+      .front-page.wrapper .moving-content .bg-container {
+        top: 0px; }
+      .front-page.wrapper .moving-content .filters.first {
+        top: 325px;
+        left: 70px; }
+      .front-page.wrapper .moving-content .filters.second {
+        top: 325px;
         right: 70px; }
       .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item a, .front-page.wrapper .moving-content .filters ul.front-filter li.filter a {
         padding: 5px 10px;
         font-size: 14px;
+        font-weight: 700;
         line-height: 2; }
-      .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item ul.children, .front-page.wrapper .moving-content .filters ul.front-filter li.filter ul.children {
-        margin: 5px 25px 5px 0px; }
-        .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item ul.children li.cat-item a, .front-page.wrapper .moving-content .filters ul.front-filter li.filter ul.children li.cat-item a {
-          font-size: 14px;
-          padding: 0 0 5px 0; }
       .front-page.wrapper .moving-content .banner-container {
-        top: 1280px; } }
+        padding: 0 0 100px 0; } }
 
-@media screen and (min-width: 1600px) and (max-width: 1899px) {
+@media screen and (max-width: 1000px) {
   .front-page.wrapper {
-    min-height: 2600px;
     margin: -55px 0 0 0;
     padding: 20px 0; }
     .front-page.wrapper .moving-content {
-      min-height: 2600px;
-      top: 80px; }
+      top: 65px; }
+      .front-page.wrapper .moving-content .catch {
+        height: 200px;
+        padding: 70px 0; }
+        .front-page.wrapper .moving-content .catch h3 {
+          font-size: 20px; }
       .front-page.wrapper .moving-content .bg-container {
         top: 0px; }
       .front-page.wrapper .moving-content .filters.first {
-        top: 350px;
+        top: 325px;
         left: 70px; }
       .front-page.wrapper .moving-content .filters.second {
-        top: 350px;
+        top: 325px;
         right: 70px; }
       .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item a, .front-page.wrapper .moving-content .filters ul.front-filter li.filter a {
         padding: 5px 10px;
         font-size: 14px;
+        font-weight: 700;
         line-height: 2; }
-      .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item ul.children, .front-page.wrapper .moving-content .filters ul.front-filter li.filter ul.children {
-        margin: 5px 25px 5px 0px; }
-        .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item ul.children li.cat-item a, .front-page.wrapper .moving-content .filters ul.front-filter li.filter ul.children li.cat-item a {
-          font-size: 14px;
-          padding: 0 0 5px 0; }
       .front-page.wrapper .moving-content .banner-container {
-        top: 1080px; } }
+        padding: 0 0 100px 0; } }
 
-@media screen and (min-width: 1281px) and (max-width: 1599px) {
+@media screen and (max-width: 888px) {
   .front-page.wrapper {
-    min-height: 2600px;
     margin: -55px 0 0 0;
     padding: 20px 0; }
     .front-page.wrapper .moving-content {
-      min-height: 2600px;
-      top: 80px; }
+      top: 65px; }
+      .front-page.wrapper .moving-content .catch {
+        height: 200px;
+        padding: 70px 0; }
+        .front-page.wrapper .moving-content .catch h3 {
+          font-size: 20px; }
       .front-page.wrapper .moving-content .bg-container {
         top: 0px; }
       .front-page.wrapper .moving-content .filters.first {
-        top: 350px;
+        top: 300px;
         left: 70px; }
       .front-page.wrapper .moving-content .filters.second {
-        top: 350px;
+        top: 300px;
         right: 70px; }
       .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item a, .front-page.wrapper .moving-content .filters ul.front-filter li.filter a {
         padding: 5px 10px;
         font-size: 14px;
+        font-weight: 700;
         line-height: 2; }
-      .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item ul.children, .front-page.wrapper .moving-content .filters ul.front-filter li.filter ul.children {
-        margin: 5px 25px 5px 0px; }
-        .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item ul.children li.cat-item a, .front-page.wrapper .moving-content .filters ul.front-filter li.filter ul.children li.cat-item a {
-          font-size: 14px;
-          padding: 0 0 5px 0; }
       .front-page.wrapper .moving-content .banner-container {
-        top: 1000px; } }
+        padding: 0 0 100px 0; } }
 
-@media screen and (max-width: 980px) {
+@media screen and (max-width: 768px) {
   .front-page.wrapper {
-    min-height: 1600px;
     margin: -55px 0 0 0;
     padding: 20px 0; }
     .front-page.wrapper .moving-content {
-      min-height: 1600px;
-      top: 80px; }
-      .front-page.wrapper .moving-content .bg-container {
-        top: 0px; }
-      .front-page.wrapper .moving-content .filters.first {
-        top: 350px;
-        left: 70px; }
-      .front-page.wrapper .moving-content .filters.second {
-        top: 350px;
-        right: 70px; }
-      .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item a, .front-page.wrapper .moving-content .filters ul.front-filter li.filter a {
-        padding: 5px 10px;
-        font-size: 14px;
-        line-height: 2; }
-      .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item ul.children, .front-page.wrapper .moving-content .filters ul.front-filter li.filter ul.children {
-        margin: 5px 25px 5px 0px; }
-        .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item ul.children li.cat-item a, .front-page.wrapper .moving-content .filters ul.front-filter li.filter ul.children li.cat-item a {
-          font-size: 14px;
-          padding: 0 0 5px 0; }
-      .front-page.wrapper .moving-content .banner-container {
-        top: 560px; } }
-
-@media screen and (max-width: 800px) {
-  .front-page.wrapper {
-    min-height: 1300px;
-    margin: -55px 0 0 0;
-    padding: 20px 0; }
-    .front-page.wrapper .moving-content {
-      min-height: 1300px;
-      top: 80px; }
+      top: 65px; }
+      .front-page.wrapper .moving-content .catch {
+        height: 200px;
+        padding: 70px 0; }
+        .front-page.wrapper .moving-content .catch h3 {
+          font-size: 18px; }
       .front-page.wrapper .moving-content .bg-container {
         top: 0px; }
       .front-page.wrapper .moving-content .filters.first {
         top: 250px;
-        left: 70px; }
-      .front-page.wrapper .moving-content .filters.second {
-        top: 250px;
-        right: 70px; }
-      .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item a, .front-page.wrapper .moving-content .filters ul.front-filter li.filter a {
-        padding: 5px 10px;
-        font-size: 14px;
-        line-height: 2; }
-      .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item ul.children, .front-page.wrapper .moving-content .filters ul.front-filter li.filter ul.children {
-        margin: 5px 25px 5px 0px; }
-        .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item ul.children li.cat-item a, .front-page.wrapper .moving-content .filters ul.front-filter li.filter ul.children li.cat-item a {
-          font-size: 14px;
-          padding: 0 0 5px 0; }
-      .front-page.wrapper .moving-content .banner-container {
-        top: 460px; } }
-
-@media screen and (max-width: 640px) {
-  .front-page.wrapper {
-    min-height: 1300px;
-    margin: -55px 0 0 0;
-    padding: 20px 0; }
-    .front-page.wrapper .moving-content {
-      min-height: 1300px;
-      top: 80px; }
-      .front-page.wrapper .moving-content .bg-container {
-        top: 0px; }
-      .front-page.wrapper .moving-content .filters.first {
-        top: 230px;
         left: 40px; }
       .front-page.wrapper .moving-content .filters.second {
-        top: 230px;
+        top: 250px;
         right: 40px; }
       .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item a, .front-page.wrapper .moving-content .filters ul.front-filter li.filter a {
-        padding: 5px 10px;
+        padding: 4px 10px;
         font-size: 12px;
+        font-weight: 700;
         line-height: 2; }
-      .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item ul.children, .front-page.wrapper .moving-content .filters ul.front-filter li.filter ul.children {
-        margin: 5px 25px 5px 0px; }
-        .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item ul.children li.cat-item a, .front-page.wrapper .moving-content .filters ul.front-filter li.filter ul.children li.cat-item a {
-          font-size: 12px;
-          padding: 0 0 5px 0; }
       .front-page.wrapper .moving-content .banner-container {
-        top: 460px; } }
+        padding: 0 0 100px 0; } }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 599px) {
   .front-page.wrapper {
-    min-height: 1300px;
     margin: -55px 0 0 0;
     padding: 20px 0; }
     .front-page.wrapper .moving-content {
-      min-height: 1300px;
-      top: 80px; }
+      top: 65px; }
+      .front-page.wrapper .moving-content .catch {
+        height: 200px;
+        padding: 70px 0; }
+        .front-page.wrapper .moving-content .catch h3 {
+          font-size: 18px; }
       .front-page.wrapper .moving-content .bg-container {
         top: 0px; }
       .front-page.wrapper .moving-content .filters.first {
-        top: 500px;
+        top: 600px;
         left: 30px; }
       .front-page.wrapper .moving-content .filters.second {
-        top: 500px;
+        top: 600px;
         right: 30px; }
       .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item a, .front-page.wrapper .moving-content .filters ul.front-filter li.filter a {
-        padding: 5px 10px;
+        padding: 4px 10px;
         font-size: 12px;
+        font-weight: 700;
         line-height: 2; }
-      .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item ul.children, .front-page.wrapper .moving-content .filters ul.front-filter li.filter ul.children {
-        margin: 5px 25px 5px 0px; }
-        .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item ul.children li.cat-item a, .front-page.wrapper .moving-content .filters ul.front-filter li.filter ul.children li.cat-item a {
-          font-size: 12px;
-          padding: 0 0 5px 0; }
       .front-page.wrapper .moving-content .banner-container {
-        top: 620px; } }
+        margin: 450px 0 -3px 0;
+        padding: 0 0 100px 0; } }
+
+@media screen and (max-width: 490px) {
+  .front-page.wrapper {
+    margin: -55px 0 0 0;
+    padding: 20px 0; }
+    .front-page.wrapper .moving-content {
+      top: 65px; }
+      .front-page.wrapper .moving-content .catch {
+        height: 200px;
+        padding: 70px 0; }
+        .front-page.wrapper .moving-content .catch h3 {
+          font-size: 18px; }
+      .front-page.wrapper .moving-content .bg-container {
+        top: 0px; }
+      .front-page.wrapper .moving-content .filters.first {
+        top: 550px;
+        left: 30px; }
+      .front-page.wrapper .moving-content .filters.second {
+        top: 550px;
+        right: 30px; }
+      .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item a, .front-page.wrapper .moving-content .filters ul.front-filter li.filter a {
+        padding: 4px 10px;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 2; }
+      .front-page.wrapper .moving-content .banner-container {
+        margin: 450px 0 -3px 0;
+        padding: 0 0 100px 0; } }
 
 @media screen and (max-width: 414px) {
   .front-page.wrapper {
-    min-height: 1300px;
     margin: -55px 0 0 0;
     padding: 20px 0; }
     .front-page.wrapper .moving-content {
-      min-height: 1300px;
-      top: 80px; }
+      top: 65px; }
+      .front-page.wrapper .moving-content .catch {
+        height: 200px;
+        padding: 70px 0; }
+        .front-page.wrapper .moving-content .catch h3 {
+          font-size: 18px; }
       .front-page.wrapper .moving-content .bg-container {
         top: 0px; }
       .front-page.wrapper .moving-content .filters.first {
-        top: 480px;
-        left: 30px; }
+        top: 500px;
+        left: 20px; }
       .front-page.wrapper .moving-content .filters.second {
-        top: 480px;
-        right: 30px; }
+        top: 500px;
+        right: 20px; }
       .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item a, .front-page.wrapper .moving-content .filters ul.front-filter li.filter a {
-        padding: 5px 10px;
-        font-size: 12px;
+        padding: 4px 10px;
+        font-size: 11px;
+        font-weight: 700;
         line-height: 2; }
-      .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item ul.children, .front-page.wrapper .moving-content .filters ul.front-filter li.filter ul.children {
-        margin: 5px 25px 5px 0px; }
-        .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item ul.children li.cat-item a, .front-page.wrapper .moving-content .filters ul.front-filter li.filter ul.children li.cat-item a {
-          font-size: 12px;
-          padding: 0 0 5px 0; }
       .front-page.wrapper .moving-content .banner-container {
-        top: 620px; } }
+        margin: 400px 0 -3px 0;
+        padding: 0 0 100px 0; } }
 
 @media screen and (max-width: 375px) {
   .front-page.wrapper {
-    min-height: 1300px;
     margin: -55px 0 0 0;
     padding: 20px 0; }
     .front-page.wrapper .moving-content {
-      min-height: 1300px;
-      top: 80px; }
+      top: 65px; }
+      .front-page.wrapper .moving-content .catch {
+        height: 200px;
+        padding: 70px 0; }
+        .front-page.wrapper .moving-content .catch h3 {
+          font-size: 18px; }
       .front-page.wrapper .moving-content .bg-container {
         top: 0px; }
       .front-page.wrapper .moving-content .filters.first {
-        top: 480px;
+        top: 470px;
         left: 20px; }
       .front-page.wrapper .moving-content .filters.second {
-        top: 480px;
+        top: 470px;
         right: 20px; }
       .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item a, .front-page.wrapper .moving-content .filters ul.front-filter li.filter a {
-        padding: 5px 10px;
+        padding: 4px 10px;
         font-size: 11px;
+        font-weight: 700;
         line-height: 2; }
-      .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item ul.children, .front-page.wrapper .moving-content .filters ul.front-filter li.filter ul.children {
-        margin: 5px 25px 5px 0px; }
-        .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item ul.children li.cat-item a, .front-page.wrapper .moving-content .filters ul.front-filter li.filter ul.children li.cat-item a {
-          font-size: 11px;
-          padding: 0 0 5px 0; }
       .front-page.wrapper .moving-content .banner-container {
-        top: 620px; } }
+        margin: 370px 0 -3px 0;
+        padding: 0 0 100px 0; } }
 
 @media screen and (max-width: 320px) {
   .front-page.wrapper {
-    min-height: 1100px;
     margin: -55px 0 0 0;
     padding: 20px 0; }
     .front-page.wrapper .moving-content {
-      min-height: 1100px;
-      top: 80px; }
+      top: 65px; }
+      .front-page.wrapper .moving-content .catch {
+        height: 200px;
+        padding: 70px 0; }
+        .front-page.wrapper .moving-content .catch h3 {
+          font-size: 18px; }
       .front-page.wrapper .moving-content .bg-container {
         top: 0px; }
       .front-page.wrapper .moving-content .filters.first {
-        top: 450px;
-        left: 20px; }
+        top: 420px;
+        left: 10px; }
       .front-page.wrapper .moving-content .filters.second {
-        top: 450px;
-        right: 20px; }
+        top: 420px;
+        right: 10px; }
       .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item a, .front-page.wrapper .moving-content .filters ul.front-filter li.filter a {
-        padding: 5px 10px;
+        padding: 4px 10px;
         font-size: 10px;
+        font-weight: 700;
         line-height: 2; }
-      .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item ul.children, .front-page.wrapper .moving-content .filters ul.front-filter li.filter ul.children {
-        margin: 5px 25px 5px 0px; }
-        .front-page.wrapper .moving-content .filters ul.front-filter li.cat-item ul.children li.cat-item a, .front-page.wrapper .moving-content .filters ul.front-filter li.filter ul.children li.cat-item a {
-          font-size: 10px;
-          padding: 0 0 5px 0; }
       .front-page.wrapper .moving-content .banner-container {
-        top: 520px; } }
+        margin: 330px 0 -3px 0;
+        padding: 0 0 100px 0; } }
 
 .site-main .banner-container {
   width: 100%;
