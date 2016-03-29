@@ -226,7 +226,8 @@ var modalController = function() {
       content = $(modal).find('.modal-content');
       modalOverlay = $('body').find('.product-modal-overlay'),
       modalClose = $(modal).find('.modal-close-btn'),
-      spinner = $('body').find('.spinner');
+      spinner = $('body').find('.spinner'),
+      modalScroll = $(modal).find('.modal-scroll-indicator');
 
   $(prods).each(function(i,e) {
     var clickArea = $(e).find('.click-area');
@@ -257,7 +258,7 @@ var modalController = function() {
       addEventListeners();
       thumbController();
       animateIn();
-      calcHeight();
+      scrollIndicator();
     }, 100);
   }
 
@@ -307,13 +308,22 @@ var modalController = function() {
 
   function animateOut() {
     $(modal).addClass('hidden');
+
+    setTimeout(function() {
+      $(modalScroll).removeClass('hidden');
+    }, 500);
   }
 
-  function calcHeight() {
-    setTimeout(function() {
-      var height = $(content).height();
-      console.log(height);
-    }, 500);
+  function scrollIndicator() {
+    var productContainer = $(content).find('.single-product-container');
+
+    $(productContainer).on('scroll', function(e) {
+      var amount = $(e.target).scrollTop();
+
+      if ( amount > 400 ) {
+        $(modalScroll).addClass('hidden');
+      }
+    });
   }
 
 }

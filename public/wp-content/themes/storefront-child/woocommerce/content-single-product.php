@@ -13,11 +13,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 
-<div class="scroll-indicator hidden">
-  <i class="fa fa-angle-down first"></i>
-  <i class="fa fa-angle-down second"></i>
-</div>
-
 <div class="single-product-container">
 
 <?php

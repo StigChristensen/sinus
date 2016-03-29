@@ -48,6 +48,10 @@ $terms = wp_get_post_terms($post->ID,'product_cat', $args);
 
 <div class="product-modal hidden">
   <div class="modal-close-btn"><i class="fa fa-times-circle-o"></i></div>
+  <div class="modal-scroll-indicator">
+    <i class="fa fa-angle-down first"></i>
+    <i class="fa fa-angle-down second"></i>
+  </div>
   <div class="modal-content"></div>
 </div>
 <div class="product-modal-overlay hidden"></div>

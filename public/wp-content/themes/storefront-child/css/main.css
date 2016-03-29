@@ -1305,6 +1305,44 @@ html, body {
     .product-modal .modal-close-btn i.fa {
       font-size: 40px;
       color: #4fd5ca; }
+  .product-modal .modal-scroll-indicator {
+    width: 30px;
+    height: 30px;
+    position: fixed;
+    top: 120px;
+    z-index: 999999999999;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    animation: modalscrollindicator 3s infinite ease-in-out; }
+    .product-modal .modal-scroll-indicator i.fa {
+      font-size: 34px;
+      color: #007c96; }
+    .product-modal .modal-scroll-indicator i.fa.first {
+      position: absolute;
+      top: 0;
+      left: 0; }
+    .product-modal .modal-scroll-indicator i.fa.second {
+      position: absolute;
+      top: 10px;
+      left: 0; }
+  .product-modal .modal-scroll-indicator.hidden {
+    opacity: 0;
+    z-index: 1; }
+    .product-modal .modal-scroll-indicator.hidden i.fa {
+      opacity: 0; }
+
+@keyframes modalscrollindicator {
+  0% {
+    opacity: 0;
+    top: 100px; }
+  60% {
+    opacity: 1;
+    top: 125px; }
+  100% {
+    opacity: 0;
+    top: 130px; } }
   .product-modal .modal-content {
     position: relative;
     width: 100%;
@@ -2517,7 +2555,7 @@ html, body {
           font-size: 15px; }
     .single-product-container .sinus.single-product .related-container {
       width: calc(100% - 100px);
-      margin: 100px 50px 100px 50px; }
+      margin: 50px 50px 100px 50px; }
       .single-product-container .sinus.single-product .related-container .related-products, .single-product-container .sinus.single-product .related-container .product-variants {
         width: 100%;
         height: auto;

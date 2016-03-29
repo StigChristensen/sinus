@@ -553,6 +553,60 @@
     }
   }
 
+  .modal-scroll-indicator {
+    width: 30px;
+    height: 30px;
+    position: fixed;
+    top: 120px;
+    z-index: 999999999999;
+    @include center();
+    animation: modalscrollindicator 3s infinite ease-in-out;
+
+    i.fa {
+      font-size: 34px;
+      color: $mainBlue;
+    }
+
+    i.fa.first {
+      position: absolute;
+      top: 0;
+      left: 0;
+
+    }
+
+    i.fa.second {
+      position: absolute;
+      top: 10px;
+      left: 0;
+    }
+  }
+
+  .modal-scroll-indicator.hidden {
+    opacity: 0;
+    z-index: 1;
+
+    i.fa {
+      opacity: 0;
+    }
+  }
+
+  @keyframes modalscrollindicator {
+    0% {
+      opacity: 0;
+      top: 100px;
+    }
+
+    60% {
+      opacity: 1;
+      top: 125px;
+    }
+
+    100% {
+      opacity: 0;
+      top: 130px;
+    }
+  }
+
   .modal-content {
     position: relative;
     width: 100%;
@@ -561,7 +615,7 @@
     left: 0;
     z-index: 1;
     overflow: hidden;
-    // overflow-y: scroll;
+
 
     @import 'singleproductModal';
   }
