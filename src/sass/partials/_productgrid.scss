@@ -118,6 +118,10 @@
       padding: 0 0 0 0px;
     }
   }
+
+  .close-left {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 1440px) {
@@ -161,17 +165,18 @@
 
   .menu-left {
     position: fixed;
-    width: 160px;
-    height: 100%;
+    width: 100%;
+    height: auto;
     top: 65px;
-    left: -180px;
-    padding-top: 30px;
-    padding-left: 20px;
+    left: -768px;
+    padding: 30px 0px 0px 0px;
     z-index: 2500;
+    background-color: $black;
     @include trans(0.5s);
 
     h3 {
-      font-size: 14px;
+      font-size: 13px;
+      margin: 5px 0 2px 0;
     }
 
     span {
@@ -180,23 +185,50 @@
     }
 
     .categories, .brands, .sort-links {
-      margin: 10px 0;
+      padding: 0 0 0 10px;
+      width: auto;
+      float: left;
+      // padding: 0;
 
       p {
-        font-size: 12px;
-        padding: 2px 0 1px 0;
+        font-size: 11px;
+        padding: 3px 0 3px 0;
 
         i.fa {
-          font-size: 12px;
-          margin: 0 5px 0 0;
+          font-size: 11px;
+          margin: 0 3px 0 0;
         }
+      }
+    }
+
+    .sort-links {
+      width: 100%;
+    }
+
+    .categories, .brands {
+      width: 50%;
+    }
+
+    .close-left {
+      display: block;
+      width: 100%;
+      height: auto;
+      float: left;
+      padding: 10px;
+      margin: 25px 0px 0;
+      cursor: pointer;
+      background-color: $mainGreen;
+
+      i.fa {
+        font-size: 30px;
+        color: $black;
       }
     }
   }
 
   .menu-left.showing {
     left: 0px;
-    position: fixed;
+    top: 65px;
     z-index: 2500;
     @include trans(0.5s);
   }
@@ -529,6 +561,7 @@
     left: 0;
     z-index: 1;
     overflow: hidden;
+    // overflow-y: scroll;
 
     @import 'singleproductModal';
   }
@@ -1151,7 +1184,7 @@
             padding: 20px;
 
             h3 {
-              font-size: 18px;
+              font-size: 14px;
               color: $mainBlue;
             }
           }

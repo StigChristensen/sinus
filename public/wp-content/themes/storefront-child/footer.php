@@ -10,7 +10,7 @@
           <p itemprop="name">Headphones & Audio</p>
           <span itemprop="streetAddress">Studiestræde 24, Kld. Th.</span><br>
           <span itemprop="addressRegion">DK-1455 København</span><br>
-          <span itemprop="phoneNumber">TLF:<a href="tel:+4561458215">(+45) 61 45 82 15</a></span>
+          <span>TLF:<a href="tel:+4561458215" itemprop="phoneNumber">(+45) 61 45 82 15</a></span>
         </address>
         </a>
         <a href="mailto:info@sinus-store.dk" itemprop="email"><p>info@sinus-store.dk</p></a><br>
@@ -30,7 +30,7 @@
       <span itemprop="name">Sinus IVS / </span>
       <span itemprop="streetAddress">Studiestræde 24, kld. th. / </span>
       <span itemprop="addressRegion">1455 København K / </span>
-      <span itemprop="cvr">CVR: 36 97 80 90</span>
+      <span>CVR: 36 97 80 90</span>
     </address>
 
   </footer>

@@ -5,6 +5,11 @@
 
 get_header(); ?>
 
+<div class="scroll-indicator hidden">
+  <i class="fa fa-angle-down first"></i>
+  <i class="fa fa-angle-down second"></i>
+</div>
+
       <div class="front-page wrapper">
 
         <div class="moving-content">

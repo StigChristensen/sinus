@@ -77,3 +77,60 @@
     top:90px;
   }
 }
+
+// Scroll Indicator
+.scroll-indicator {
+  width: 30px;
+  height: 30px;
+  position: fixed;
+  bottom: 70px;
+  z-index: 999999999999;
+  @include center();
+  animation: scrollindicator 2s infinite ease-in-out;
+
+  i.fa {
+    font-size: 34px;
+    color: $mainGreen;
+  }
+
+  i.fa.first {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+  }
+
+  i.fa.second {
+    position: absolute;
+    top: 10px;
+    left: 0;
+  }
+}
+
+.scroll-indicator.hidden {
+  opacity: 0;
+  z-index: 1;
+
+  i.fa {
+    opacity: 0;
+  }
+
+}
+
+@keyframes scrollindicator {
+  0% {
+    opacity: 0;
+    bottom: 60px;
+  }
+
+  60% {
+    opacity: 1;
+    bottom: 45px;
+  }
+
+  100% {
+    opacity: 0;
+    bottom: 40px;
+  }
+}
+

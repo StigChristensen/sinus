@@ -13,6 +13,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 
+<div class="scroll-indicator hidden">
+  <i class="fa fa-angle-down first"></i>
+  <i class="fa fa-angle-down second"></i>
+</div>
+
 <div class="single-product-container">
 
 <?php
@@ -69,7 +74,7 @@ if ( ! defined( 'ABSPATH' ) ) {
       </div>
       <div class="p-content">
         <div class="product-left">
-          <h1 class="single-product-title" itemprop="model"><?php the_title(); ?></h1>
+          <h1 class="single-product-title" itemprop="name"><?php the_title(); ?></h1>
           <?php the_content(); ?>
 
           <div class="share-product">

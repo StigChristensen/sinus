@@ -40,6 +40,10 @@ $terms = wp_get_post_terms($post->ID,'product_cat', $args);
     <h3>Brands</h3>
     <span>I denne liste:</span>
   </div>
+
+  <div class="close-left">
+    <i class="fa fa-angle-left"></i>
+  </div>
 </div>
 
 <div class="product-modal hidden">

@@ -19,6 +19,7 @@ jQuery(document).on('ready', function() {
   searchFormController();
   menuLeftController();
   thumbController();
+  trigScrollIndicator();
 
   // labels for input fields
   $("form :input").focus(function() {
@@ -35,6 +36,44 @@ function scrollTo(value) {
     scrollTop: value
   }, 700);
 }
+
+function trigScrollIndicator() {
+  var scrollInd = $('body').find('.scroll-indicator');
+
+  function addEventListener() {
+    var initScrollAmount = $(window).scrollTop();
+
+    if ( initScrollAmount >= 600 ) {
+      animateOut();
+      return;
+    } else {
+      animateIn();
+    }
+
+    $(window).on('scroll', function() {
+      var scrollAmount = $(window).scrollTop();
+
+      if ( scrollAmount >= 600 ) {
+        animateOut();
+      }
+    });
+  }
+
+  function animateIn() {
+    if ( $(scrollInd).hasClass('hidden') ) {
+      $(scrollInd).removeClass('hidden');
+    }
+  }
+
+  function animateOut() {
+    if ( !$(scrollInd).hasClass('hidden') ) {
+      $(scrollInd).addClass('hidden');
+    }
+  }
+
+  addEventListener();
+}
+
 
 function thumbController() {
   var mainCont = $('body').find('.main-image'),
@@ -74,7 +113,7 @@ function thumbController() {
       image1.src = mainSrc;
       image2.src = src;
 
-    console.log(image1, image2);
+    // console.log(image1, image2);
 
     $(parent).html(image1);
     $(mainCont).html(image2);
@@ -112,17 +151,22 @@ function thumbController() {
 function menuLeftController() {
   var width = $(window).width(),
       menuLeft = $('body').find('.menu-left'),
-      links = $(menuLeft).find('p');
-      menuLeftBtn = $('body').find('.menu-left-button');
+      links = $(menuLeft).find('p'),
+      menuLeftBtn = $('body').find('.menu-left-button'),
+      closeBtn = $(menuLeft).find('.close-left');
 
   function addEventListeners() {
     $(menuLeftBtn).on('click', function() {
       $(menuLeft).toggleClass('showing');
     });
 
+    $(closeBtn).on('click', function() {
+      $(menuLeft).toggleClass('showing');
+    });
+
     $(links).each(function(i,e) {
       $(e).on('click', function() {
-       $(menuLeft).removeClass('showing');
+       $(menuLeft).toggleClass('showing');
       });
     });
   }
@@ -137,7 +181,7 @@ function show404(type) {
 
   if ( type === 'search' ) {
     var message = 'Der er desværre ingen resultater, der matcher det du søger efter.';
-    var html404 = '<div class="contained-404 hidden"><h3>' + message + '</h3></div>';
+    var html404 = '<div class="contained-404 hidden"><h4>' + message + '</h4></div>';
     $(container).html(html404);
 
     $(container).css({
@@ -213,14 +257,11 @@ var modalController = function() {
       addEventListeners();
       thumbController();
       animateIn();
-    }, 200);
+      calcHeight();
+    }, 100);
   }
 
   function addEventListeners() {
-    // $(modalOverlay).on('click', function() {
-    //   animateOut();
-    // });
-
     $(modalClose).on('click', function() {
       animateOut();
     });
@@ -266,6 +307,13 @@ var modalController = function() {
 
   function animateOut() {
     $(modal).addClass('hidden');
+  }
+
+  function calcHeight() {
+    setTimeout(function() {
+      var height = $(content).height();
+      console.log(height);
+    }, 500);
   }
 
 }

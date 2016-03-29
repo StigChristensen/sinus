@@ -980,6 +980,8 @@ html, body {
     display: inline-block;
     margin: 0 5px 0 0;
     padding: 0 0 0 0px; }
+  .menu-left .close-left {
+    display: none; }
 
 @media screen and (max-width: 1440px) {
   .menu-left {
@@ -1008,30 +1010,49 @@ html, body {
     display: block; }
   .menu-left {
     position: fixed;
-    width: 160px;
-    height: 100%;
+    width: 100%;
+    height: auto;
     top: 65px;
-    left: -180px;
-    padding-top: 30px;
-    padding-left: 20px;
+    left: -768px;
+    padding: 30px 0px 0px 0px;
     z-index: 2500;
+    background-color: #2b2b2b;
     transition: all 0.5s cubic-bezier(0.24, 0.63, 0.5, 0.99); }
     .menu-left h3 {
-      font-size: 14px; }
+      font-size: 13px;
+      margin: 5px 0 2px 0; }
     .menu-left span {
       font-size: 12px;
       margin: 2px 0 2px 0; }
     .menu-left .categories, .menu-left .brands, .menu-left .sort-links {
-      margin: 10px 0; }
+      padding: 0 0 0 10px;
+      width: auto;
+      float: left; }
       .menu-left .categories p, .menu-left .brands p, .menu-left .sort-links p {
-        font-size: 12px;
-        padding: 2px 0 1px 0; }
+        font-size: 11px;
+        padding: 3px 0 3px 0; }
         .menu-left .categories p i.fa, .menu-left .brands p i.fa, .menu-left .sort-links p i.fa {
-          font-size: 12px;
-          margin: 0 5px 0 0; }
+          font-size: 11px;
+          margin: 0 3px 0 0; }
+    .menu-left .sort-links {
+      width: 100%; }
+    .menu-left .categories, .menu-left .brands {
+      width: 50%; }
+    .menu-left .close-left {
+      display: block;
+      width: 100%;
+      height: auto;
+      float: left;
+      padding: 10px;
+      margin: 25px 0px 0;
+      cursor: pointer;
+      background-color: #4fd5ca; }
+      .menu-left .close-left i.fa {
+        font-size: 30px;
+        color: #2b2b2b; }
   .menu-left.showing {
     left: 0px;
-    position: fixed;
+    top: 65px;
     z-index: 2500;
     transition: all 0.5s cubic-bezier(0.24, 0.63, 0.5, 0.99); } }
 
@@ -1705,7 +1726,7 @@ html, body {
           .product-list-grid .page.products ul.products li.product .product-title {
             padding: 20px; }
             .product-list-grid .page.products ul.products li.product .product-title h3 {
-              font-size: 18px;
+              font-size: 14px;
               color: #007c96; }
           .product-list-grid .page.products ul.products li.product .sinus-product-info {
             width: 100%;
@@ -2499,7 +2520,7 @@ html, body {
       margin: 100px 50px 100px 50px; }
       .single-product-container .sinus.single-product .related-container .related-products, .single-product-container .sinus.single-product .related-container .product-variants {
         width: 100%;
-        height: 250px;
+        height: auto;
         margin: 20px 0 20px 0; }
         .single-product-container .sinus.single-product .related-container .related-products h4, .single-product-container .sinus.single-product .related-container .product-variants h4 {
           color: #007c96;
@@ -4935,6 +4956,46 @@ footer, footer.site-footer {
 @media screen and (max-width: 767px) {
   .spinner {
     top: 90px; } }
+
+.scroll-indicator {
+  width: 30px;
+  height: 30px;
+  position: fixed;
+  bottom: 70px;
+  z-index: 999999999999;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  animation: scrollindicator 2s infinite ease-in-out; }
+  .scroll-indicator i.fa {
+    font-size: 34px;
+    color: #4fd5ca; }
+  .scroll-indicator i.fa.first {
+    position: absolute;
+    top: 0;
+    left: 0; }
+  .scroll-indicator i.fa.second {
+    position: absolute;
+    top: 10px;
+    left: 0; }
+
+.scroll-indicator.hidden {
+  opacity: 0;
+  z-index: 1; }
+  .scroll-indicator.hidden i.fa {
+    opacity: 0; }
+
+@keyframes scrollindicator {
+  0% {
+    opacity: 0;
+    bottom: 60px; }
+  60% {
+    opacity: 1;
+    bottom: 45px; }
+  100% {
+    opacity: 0;
+    bottom: 40px; } }
 
 .wrap-404 {
   width: 100%;
