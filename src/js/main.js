@@ -162,11 +162,13 @@ function menuLeftController() {
 
     $(closeBtn).on('click', function() {
       $(menuLeft).toggleClass('showing');
+      scrollTo(0);
     });
 
     $(links).each(function(i,e) {
       $(e).on('click', function() {
        $(menuLeft).toggleClass('showing');
+       scrollTo(0);
       });
     });
   }
