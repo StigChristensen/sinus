@@ -1056,6 +1056,71 @@ html, body {
     z-index: 2500;
     transition: all 0.5s cubic-bezier(0.24, 0.63, 0.5, 0.99); } }
 
+.category-description {
+  width: calc(100% - 200px);
+  height: auto;
+  float: left;
+  position: relative;
+  margin: 70px 0 0px 200px;
+  padding: 50px;
+  text-align: left;
+  background-color: #000000; }
+  .category-description h3 {
+    color: #4fd5ca; }
+  .category-description .more-btn {
+    position: absolute;
+    bottom: 0;
+    left: 50px;
+    cursor: pointer;
+    z-index: 5;
+    opacity: 0; }
+    .category-description .more-btn p {
+      text-transform: uppercase;
+      color: #4fd5ca; }
+  .category-description .desc-esc {
+    height: auto;
+    padding: 0;
+    opacity: 0; }
+  .category-description .desc-more {
+    height: 0;
+    padding: 0;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.24, 0.63, 0.5, 0.99); }
+  .category-description .desc-more.showing {
+    height: auto;
+    opacity: 1;
+    display: block; }
+  .category-description p {
+    color: #FDFDFD;
+    font-size: 14px;
+    line-height: 1.5; }
+
+@media screen and (max-width: 767px) {
+  .category-description {
+    width: 100%;
+    margin: 50px 0 0px 0px;
+    padding: 20px; }
+    .category-description .more-btn {
+      bottom: 0;
+      left: 20px; }
+      .category-description .more-btn p {
+        font-size: 12px; }
+    .category-description .desc-esc {
+      height: auto;
+      padding: 0; }
+    .category-description .desc-more {
+      height: 0;
+      padding: 0;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.24, 0.63, 0.5, 0.99); }
+    .category-description .desc-more.showing {
+      height: auto;
+      opacity: 1;
+      display: initial; }
+    .category-description p {
+      color: #FDFDFD;
+      font-size: 12px; } }
+
 .product-list-grid {
   width: calc(100% - 200px);
   height: auto;
@@ -4937,7 +5002,7 @@ footer, footer.site-footer {
 .spinner {
   position: fixed;
   width: 50px;
-  top: 200px;
+  top: 300px;
   left: 0;
   right: 0;
   margin-left: auto;

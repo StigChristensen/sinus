@@ -2,7 +2,7 @@
 .spinner {
 	position: fixed;
 	width: 50px;
-	top:200px;
+	top:300px;
 	@include center();
 	z-index: 999999999;
 	opacity: 1;

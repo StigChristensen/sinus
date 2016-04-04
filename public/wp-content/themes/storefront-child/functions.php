@@ -125,6 +125,8 @@ add_action( 'wp_ajax_sinus_brand', 'sinus_get_products_by_brand' );
 add_action( 'wp_ajax_nopriv_sinus_brand', 'sinus_get_products_by_brand' );
 add_action( 'wp_ajax_sinus_type', 'sinus_get_products_by_type' );
 add_action( 'wp_ajax_nopriv_sinus_type', 'sinus_get_products_by_type' );
+add_action( 'wp_ajax_sinus_catbrands', 'sinus_get_cats_and_brands' );
+add_action( 'wp_ajax_nopriv_sinus_catbrands', 'sinus_get_cats_and_brands' );
 
 
 function sinus_get_single_html() {
@@ -145,6 +147,29 @@ function sinus_get_single_html() {
     wp_reset_postdata();
 
   echo $content;
+  wp_die();
+}
+
+function sinus_get_cats_and_brands() {
+  global $client;
+
+  // $args = array(
+  //   'orderby'      => 'name',
+  //   'order'        => 'ASC',
+  //   'hide_empty'   => 1
+  // );
+  // $tags = get_terms('product_tag', $args);
+
+  $tags = "tags";
+
+  $categories = $client->products->get_categories();
+
+  $data = array(
+    "categories" => $categories,
+    "brands" => $tags
+  );
+
+  echo json_encode($data);
   wp_die();
 }
 

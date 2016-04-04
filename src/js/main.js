@@ -20,6 +20,7 @@ jQuery(document).on('ready', function() {
   menuLeftController();
   thumbController();
   trigScrollIndicator();
+  readMore();
 
   // labels for input fields
   $("form :input").focus(function() {
@@ -35,6 +36,100 @@ function scrollTo(value) {
   $('html, body').animate({
     scrollTop: value
   }, 700);
+}
+
+var cats = [];
+
+function getCategoryDesc(param, paramtype) {
+  function getCatsAndBrands() {
+    var action = '?action=sinus_catbrands';
+
+    $.ajax({
+      url: site.ajax_url + action,
+      type: "POST",
+      dataType: 'json',
+      success: function(response) {
+        console.log('we queried the server');
+        cats = response.categories.product_categories;
+        handleData(cats);
+      },
+      error: function(response) {
+        console.log(response);
+      }
+    });
+  }
+
+  function handleData(cats) {
+    $(cats).each(function(i,e) {
+        if ( param.toLowerCase() === e.name.toLowerCase() ) {
+          var comps = {
+            'desc': e.description,
+            'name': e.name
+          };
+
+          render(comps);
+        }
+    });
+  }
+
+  function render(comps) {
+    var parts = comps.desc.split('"break"'),
+        desc_first = $('body').find('.desc-esc'),
+        desc_more = $('body').find('.desc-more'),
+        moreBtn = $('body').find('.more-btn'),
+        elemArray = [desc_first, moreBtn];
+
+    var htmlFirst = '<h3>' + comps.name + '</h3>';
+        htmlFirst += '<p>' + parts[0] + '</p>';
+    var htmlSec = '<p>' + parts[1] + '</p>';
+
+    $(desc_first).html(htmlFirst);
+    $(desc_more).html(htmlSec);
+
+    $(elemArray).each(function(i,e) {
+      var delay = 200*i;
+      $(e).velocity({
+        'opacity': 1
+      }, {duration: 500, delay: delay, easing: [.24,.63,.5,.99]});
+    });
+
+  }
+
+
+  if ( !param && !paramtype ) {
+    return
+  } else {
+    if ( cats.length > 0 ) {
+      handleData(cats);
+    } else {
+      getCatsAndBrands();
+    }
+  }
+}
+
+
+function readMore() {
+  var moreBtn = $('body').find('.more-btn');
+
+  if ( !moreBtn ) {
+    return;
+    console.log('no more');
+  } else {
+    addEventListener();
+  }
+
+  function addEventListener() {
+    var more = $('body').find('.desc-more');
+    $(moreBtn).on('click', function() {
+      if ( !$(more).hasClass('showing') ) {
+        $(more).addClass('showing');
+        $(moreBtn).html('<p>Skjul</p>');
+      } else {
+        $(more).removeClass('showing');
+        $(moreBtn).html('<p>Læs mere...</p>');
+      }
+    });
+  }
 }
 
 function trigScrollIndicator() {
@@ -350,7 +445,7 @@ function urlListener() {
       base_url;
 
   if ( type === -1 && brands === -1 && productsUrl === -1 ) {
-
+    // Nothing
   } else {
     if ( hash ) {
       if ( search !== -1 ) {
@@ -364,7 +459,12 @@ function urlListener() {
     } else {
       if ( type !== -1 || brands !== -1 ) {
           productsController();
-          // console.log('products');
+
+          var hrefParts = href.split('/');
+          var pType = hrefParts[3],
+              par = hrefParts[4];
+
+          getCategoryDesc(par, pType);
         }
       }
     }
@@ -480,7 +580,6 @@ function returnSortedSearch(params, products) {
         var b = a.toLowerCase();
         lowerTags.push(b);
       });
-
 
       for (var i = 0; i < params.length; i++) {
         par = params[i].toLowerCase();
@@ -654,6 +753,7 @@ function sortUrl(price, param, paramtype) {
 
   setUrl(string, base_url);
   urlDataController(pri, par, pt);
+  getCategoryDesc(par, pt);
 }
 
 function setUrl(hash, href) {
@@ -1134,8 +1234,6 @@ function productsSupplyer() {
     if ( type === 'all' ) {
       action = '?action=sinus_products';
     }
-
-    // console.log(queryType);
 
     var queryParams = {
         offset: 0,
