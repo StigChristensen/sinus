@@ -4,13 +4,13 @@
 Plugin Name: WooCommerce QuickPay
 Plugin URI: http://wordpress.org/plugins/woocommerce-quickpay/
 Description: Integrates your QuickPay payment getway into your WooCommerce installation.
-Version: 4.4.1
+Version: 4.4.4
 Author: Perfect Solution
 Text Domain: woo-quickpay
 Author URI: http://perfect-solution.dk
 */
 
-define( 'WCQP_VERSION', '4.4.1' );
+define( 'WCQP_VERSION', '4.4.4' );
 
 add_action('plugins_loaded', 'init_quickpay_gateway', 0);
 
@@ -111,11 +111,9 @@ function init_quickpay_gateway() {
         public static function filter_load_instances( $methods ) {
             require_once( 'classes/instances/instance.php' );
             require_once( 'classes/instances/mobilepay.php' );
-            require_once( 'classes/instances/paii.php' );
             require_once( 'classes/instances/viabill.php' );
 
             $methods[] = 'WC_QuickPay_MobilePay';
-            $methods[] = 'WC_QuickPay_Paii';
             $methods[] = 'WC_QuickPay_ViaBill';
 
             return $methods;
@@ -516,8 +514,7 @@ function init_quickpay_gateway() {
                 // Validate if the url is valid
                 if( WC_QuickPay_Helper::is_url( $link->url ) )
                 {
-                    $woocommerce->cart->empty_cart();
-
+                	$woocommerce->cart->empty_cart();
                     return array(
                         'result' 	=> 'success',
                         'redirect'	=>  $link->url
@@ -576,6 +573,15 @@ function init_quickpay_gateway() {
             }
 
             return FALSE;
+        }
+
+        /**
+         * Clear cart in case its not already done.
+         * @return [type] [description]
+         */
+        public function thankyou_page() {
+        	global $woocommerce;
+        	$woocommerce->cart->empty_cart();
         }
 
 
@@ -1044,7 +1050,7 @@ function init_quickpay_gateway() {
 				// Insert transaction id and payment status if any
 				$transaction_id = $order->get_transaction_id();
 
-				if( $transaction_id )
+				if( $transaction_id && in_array( get_post_meta( $post->ID, '_payment_method', TRUE ), array( 'quickpay', 'mobilepay', 'viabill' )) )
 				{
                     echo "<div data-quickpay-transaction-id=\"{$transaction_id}\" data-quickpay-post-id=\"{$post->ID}\" class=\"quickpay-loader\">";
                         echo "<small class=\"meta\" data-quickpay-show=\"id\"></small>";

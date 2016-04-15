@@ -109,9 +109,9 @@ class WC_QuickPay_API_Payment extends WC_QuickPay_API_Transaction
         if( $amount === NULL ) 
         {
             // No custom amount set. Default to the order total
-            $amount = $order->get_total();   
+            $amount = $order->get_total();
         }
-    
+
         $request = $this->post( sprintf( '%d/%s', $transaction_id, "refund" ), array( 'amount' =>  WC_QuickPay_Helper::price_multiply( $amount ) ) );
     }
 

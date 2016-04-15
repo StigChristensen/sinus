@@ -84,6 +84,7 @@ class WC_QuickPay_API_Subscription extends WC_QuickPay_API_Transaction
             'auto_capture' => TRUE,
             'autofee' => WC_QuickPay_Helper::option_is_enabled( WC_QP()->s( 'quickpay_autofee' ) ),
             'text_on_statement' => WC_QP()->s('quickpay_text_on_statement'),
+            'order_post_id' => $order->post->ID,
         ), TRUE );
 
         return $request;

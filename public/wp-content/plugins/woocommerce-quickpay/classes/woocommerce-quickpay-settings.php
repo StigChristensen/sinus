@@ -184,6 +184,9 @@ class WC_QuickPay_Settings {
                         'description' => __( 'Text that will be placed on cardholder’s bank statement (currently only supported by Clearhaus).', 'woo-quickpay' ), 
                         'default' => '',
                         'desc_tip' => true,
+                        'custom_attributes' => array(
+                            'maxlength' => 22,
+                        ),
                     ),  
 
         

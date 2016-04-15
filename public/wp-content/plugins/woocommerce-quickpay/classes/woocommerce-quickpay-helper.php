@@ -68,7 +68,7 @@ class WC_QuickPay_Helper {
 	* @return void
 	*/
 	public static function load_i18n() {
-		load_plugin_textdomain( 'woo-quickpay' , FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
+		load_plugin_textdomain( 'woo-quickpay' , FALSE, dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/' );
 	}
 
 
@@ -93,8 +93,14 @@ class WC_QuickPay_Helper {
 	* @access public
 	* @return string
 	*/
-	public static function get_callback_url() {
-		return add_query_arg( 'wc-api', 'WC_QuickPay', site_url( '/' ) );
+	public static function get_callback_url( $post_id = NULL ) {
+		$args = array( 'wc-api' => 'WC_QuickPay');
+
+		if( $post_id !== NULL ) {
+			$args['order_post_id'] = $post_id;
+		}
+
+		return add_query_arg( $args , site_url( '/' ) );
 	}
 
 

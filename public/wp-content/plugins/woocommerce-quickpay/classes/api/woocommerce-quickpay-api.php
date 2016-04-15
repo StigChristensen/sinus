@@ -100,7 +100,7 @@ class WC_QuickPay_API
     public function post( $path, $form = array(), $return_array = FALSE ) 
     {
     	// Instantiate a new instance
-        $this->remote_instance();
+        $this->remote_instance( $this->get_post_id_from_form_object( $form ) );
 
         // Set the request params
         $this->set_url( $path );
@@ -121,14 +121,14 @@ class WC_QuickPay_API
     public function put( $path, $form = array(), $return_array = FALSE ) 
     {
     	// Instantiate a new instance
-        $this->remote_instance();
+        $this->remote_instance( $this->get_post_id_from_form_object( $form ) );
 
         // Set the request params
         $this->set_url( $path );
 
         // Start the request and return the response
         return $this->execute('PUT', $form, $return_array);
-    }	
+    }
 
 
    	/**
@@ -147,16 +147,16 @@ class WC_QuickPay_API
  	{
  		// Set the HTTP request type
  		curl_setopt( $this->ch, CURLOPT_CUSTOMREQUEST, $request_type );
-        
+
         // Prepare empty variable passed to any exception thrown
         $request_form_data = '';
-        
+
  		// If additional data is delivered, we will send it along with the API request
  		if( is_array( $form ) && ! empty( $form ) )
  		{
             // Build a string query based on the form array values
             $request_form_data = http_build_query( $form, '', '&' );
-            
+
             // Prepare to post the data string
  			curl_setopt( $this->ch, CURLOPT_POSTFIELDS, $request_form_data );
  		}
@@ -235,7 +235,7 @@ class WC_QuickPay_API
 	* @access public
 	* @return cURL object
 	*/
-	protected function remote_instance() 
+	protected function remote_instance( $post_id = NULL ) 
 	{
 		if( $this->ch === NULL ) 
 		{
@@ -247,7 +247,7 @@ class WC_QuickPay_API
             	'Authorization: Basic ' . base64_encode(':' . WC_QP()->s( 'quickpay_apikey' ) ),
                 'Accept-Version: v10',
                 'Accept: application/json',
-                'QuickPay-Callback-Url: ' . WC_QuickPay_Helper::get_callback_url(),
+                'QuickPay-Callback-Url: ' . WC_QuickPay_Helper::get_callback_url( $post_id ),
             ));
 		}
 
@@ -270,4 +270,16 @@ class WC_QuickPay_API
 			curl_close( $this->ch );
 		}		
 	}
+
+    /**
+     * Returns the POST ID if available in the form data object
+     * @param  [type] $form_data [description]
+     * @return [type]            [description]
+     */
+    private function get_post_id_from_form_object( $form_data ) {
+        if( array_key_exists( 'order_post_id', $form_data ) ) {
+            return $form_data['order_post_id'];
+        }
+        return NULL;
+    }
 }

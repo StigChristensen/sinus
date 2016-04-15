@@ -15,7 +15,7 @@ $api_url = "https://www.sinus-store.dk";
 
 $options = array(
     'ssl_verify'      => false,
-    'debug'           => true,
+    'debug'           => false,
     'return_as_array' => false,
 );
 
@@ -190,7 +190,7 @@ function sinus_get_products() {
         'fields'          => $fields,
         )
       );
-       set_transient( 'sinus_all_query', $products, 12 * HOUR_IN_SECONDS );
+       set_transient( 'sinus_all_query', $products, 24 * HOUR_IN_SECONDS );
   } else {
     $products = get_transient( 'sinus_all_query' );
   }

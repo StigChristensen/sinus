@@ -516,6 +516,10 @@ class WC_QuickPay_Order extends WC_Order {
 		{
 			return $callback_data->variables->order_post_id;
 		}
+		else if( isset( $_GET['order_post_id'] ) )
+		{
+			return trim($_GET['order_post_id']);
+		}
 
 		// Fallback
 		preg_match( '/\d{4,}$/', $callback_data->order_id, $order_number );
