@@ -13,10 +13,6 @@ get_header(); ?>
       <div class="front-page wrapper">
 
         <div class="moving-content">
-          <div class="catch">
-            <h3>The Soundtrack of your life <br>deserves good sound!</h3>
-          </div>
-
 
           <div class="bg-container">
             <img class="bg-1" src="<?php echo get_stylesheet_directory_uri() . '/img/bg/bg1.png'; ?>" alt="">
@@ -39,7 +35,7 @@ get_header(); ?>
             </ul>
           </div>
 
-          <div class="filters second">
+          <!-- <div class="filters second">
             <ul class="front-filter">
            <li class="cat-item">
                 <a href="/type/hovedtelefoner/">Hovedtelefoner</a>
@@ -60,7 +56,7 @@ get_header(); ?>
                 <a href="/type/pladespillere/">Pladespillere</a>
               </li>
             </ul>
-          </div>
+          </div> -->
 
             <div class="banner-container">
 

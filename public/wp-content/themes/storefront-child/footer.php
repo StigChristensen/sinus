@@ -3,6 +3,31 @@
 	<footer id="colophon" class="site-footer" role="contentinfo">
     <div class="footer-bar"></div>
     <div class="footer-content">
+
+    <div class="opening-hours">
+        <h4>Åbningstider</h4>
+        <div class="open-left">
+            <span>Man:</span><br>
+            <span>Tir:</span><br>
+            <span>Ons:</span><br>
+            <span>Tor:</span><br>
+            <span>Fre:</span><br>
+            <span>Lør:</span><br>
+            <span>Søn:</span>
+        </div>
+        <div class="open-right">
+            <span>11-18</span><br>
+            <span>11-18</span><br>
+            <span>11-18</span><br>
+            <span>11-18</span><br>
+            <span>11-18</span><br>
+            <span>11-15</span><br>
+            <span>Lukket</span>
+
+        </div>
+    </div>
+
+
       <div class="footer-left" itemscope itemtype="http://schema.org/Organization">
         <a class="maplink" href="https://www.google.com/maps/place/Studiestr%C3%A6de+24,+1455+K%C3%B8benhavn+K,+Denmark/@55.6784408,12.5665802,17z/data=!3m1!4b1!4m2!3m1!1s0x4652530e3be1ef31:0x5d7d53361e137078" target="_blank">
         <address class="store-address" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">

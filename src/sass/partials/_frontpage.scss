@@ -54,7 +54,7 @@
         width: 50%;
         height: calc((100% / 16px) * 9px);
         position: absolute;
-        top: 350px;
+        top: 100px;
         left: 70px;
         z-index: 100;
         text-align: left;
@@ -76,7 +76,7 @@
           li.cat-item, li.filter {
             a {
               color: $mainGreen;
-              background-color: $obLight;
+              background-color: $oB;
               padding: 5px 10px;
               outline: none;
               font-size: 14px;
@@ -124,18 +124,20 @@
           width: 100%;
           height: auto;
           float: left;
-          margin: 0px 0 -3px 0;
+          margin: 71px 0 0px 0;
           border-bottom: 1px solid $blckBorder;
+          border-top: 1px solid $blckBorder;
 
           a {
             width: 100%;
             height: auto;
             float: left;
+            margin: 0 0 -1px 0;
 
             img {
               width: 100%;
               height: auto;
-              margin: 0;
+              margin: 0 0 -3px 0;
               padding: 0;
             }
           }
@@ -166,7 +168,7 @@
       }
 
       .filters.first {
-        top: 350px;
+        top: 100px;
         left: 70px;
       }
 
@@ -191,6 +193,10 @@
 
       .banner-container {
         padding: 0 0 100px 0;
+
+        .banner {
+          margin: 71px 0 0px 0;
+        }
       }
     }
   }
@@ -218,7 +224,7 @@
       }
 
       .filters.first {
-        top: 285px;
+        top: 85px;
         left: 70px;
       }
 
@@ -271,7 +277,7 @@
       }
 
       .filters.first {
-        top: 250px;
+        top: 60px;
         left: 70px;
       }
 
@@ -324,7 +330,7 @@
       }
 
       .filters.first {
-        top: 250px;
+        top: 55px;
         left: 70px;
       }
 
@@ -376,7 +382,7 @@
       }
 
       .filters.first {
-        top: 230px;
+        top: 40px;
         left: 70px;
       }
 
@@ -429,7 +435,7 @@
       }
 
       .filters.first {
-        top: 220px;
+        top: 25px;
         left: 40px;
       }
 
@@ -481,7 +487,7 @@
       }
 
       .filters.first {
-        top: 620px;
+        top: 460px;
         left: 30px;
       }
 
@@ -534,7 +540,7 @@
       }
 
       .filters.first {
-        top: 580px;
+        top: 410px;
         left: 30px;
       }
 
@@ -560,6 +566,10 @@
       .banner-container {
         margin: 450px 0 -3px 0;
         padding: 0 0 100px 0;
+
+        .banner {
+          margin: 21px 0 0px 0;
+        }
       }
     }
   }
@@ -588,7 +598,7 @@
       }
 
       .filters.first {
-        top: 550px;
+        top: 380px;
         left: 30px;
       }
 
@@ -614,6 +624,10 @@
       .banner-container {
         margin: 450px 0 -3px 0;
         padding: 0 0 100px 0;
+
+        .banner {
+          margin: 20px 0 0px 0;
+        }
       }
     }
   }
@@ -641,8 +655,8 @@
       }
 
       .filters.first {
-        top: 500px;
-        left: 20px;
+        top: 360px;
+        left: 40px;
       }
 
       .filters.second {
@@ -667,6 +681,10 @@
       .banner-container {
         margin: 500px 0 -3px 0;
         padding: 0 0 100px 0;
+
+        .banner {
+          margin: 20px 0 0px 0;
+        }
       }
     }
   }
@@ -695,8 +713,8 @@
       }
 
       .filters.first {
-        top: 470px;
-        left: 20px;
+        top: 310px;
+        left: 30px;
       }
 
       .filters.second {
@@ -721,6 +739,10 @@
       .banner-container {
         margin: 470px 0 -3px 0;
         padding: 0 0 100px 0;
+
+        .banner {
+          margin: 20px 0 0px 0;
+        }
       }
     }
   }
@@ -748,13 +770,13 @@
       }
 
       .filters.first {
-        top: 420px;
-        left: 10px;
+        top: 250px;
+        left: 30px;
       }
 
       .filters.second {
         top: 420px;
-        right: 10px;
+        right: 30px;
       }
 
       .filters {
@@ -774,6 +796,10 @@
       .banner-container {
         margin: 430px 0 -3px 0;
         padding: 0 0 100px 0;
+
+        .banner {
+          margin: 20px 0 0px 0;
+        }
       }
     }
   }

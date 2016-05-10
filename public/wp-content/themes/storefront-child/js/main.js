@@ -429,9 +429,10 @@ function productsController() {
   var promise = productsSupplyer();
   promise.then(function(products) {
     render(products);
+    // sortPriceController('asc');
+    // sortStockController();
   });
-  sortPriceController('asc');
-  sortStockController();
+
 }
 
 function urlListener() {
@@ -824,9 +825,6 @@ function urlDataController(price, param, paramtype) {
         // console.log('failed!');
     });
   }
-
-  sortPriceController();
-  sortStockController();
 }
 
 function returnSortedMultiple(price, param, paramtype) {
@@ -1248,6 +1246,7 @@ function productsSupplyer() {
       data: dataObj,
       dataType: 'json',
       success: function(response) {
+        console.log(response);
         products = response.products;
         productsCache.setItem(key, JSON.stringify(products));
         var timeStamp = new Date().getTime();
@@ -1338,7 +1337,9 @@ function render(products) {
     setTimeout(function() {
       gridCartController();
       new modalController();
-    }, 1500);
+      sortPriceController();
+      sortStockController();
+    }, 700);
   });
 
 }
@@ -2275,7 +2276,4 @@ var CartController = function() {
     }
   });
 }
-
-
-// http://sin.us/wp-json/posts?type=product&filter[product_cat]=hifi&filter[orderby]=price&filter[order]=asc
 

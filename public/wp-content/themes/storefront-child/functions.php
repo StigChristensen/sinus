@@ -65,6 +65,45 @@ function wd_flush_rewrite_rules() {
   flush_rewrite_rules();
 }
 
+/**
+ * Optimize WooCommerce Scripts
+ * Remove WooCommerce Generator tag, styles, and scripts from non WooCommerce pages.
+ */
+add_action( 'wp_enqueue_scripts', 'child_manage_woocommerce_styles', 99 );
+
+function child_manage_woocommerce_styles() {
+ //remove generator meta tag
+ remove_action( 'wp_head', array( $GLOBALS['woocommerce'], 'generator' ) );
+
+ //first check that woo exists to prevent fatal errors
+ if ( function_exists( 'is_woocommerce' ) ) {
+ //dequeue scripts and styles
+ if ( ! is_woocommerce() && ! is_cart() && ! is_checkout() ) {
+ wp_dequeue_style( 'woocommerce_frontend_styles' );
+ wp_dequeue_style( 'woocommerce_fancybox_styles' );
+ wp_dequeue_style( 'woocommerce_chosen_styles' );
+ wp_dequeue_style( 'woocommerce_prettyPhoto_css' );
+ wp_dequeue_script( 'wc_price_slider' );
+ wp_dequeue_script( 'wc-single-product' );
+ wp_dequeue_script( 'wc-add-to-cart' );
+ wp_dequeue_script( 'wc-cart-fragments' );
+ wp_dequeue_script( 'wc-checkout' );
+ wp_dequeue_script( 'wc-add-to-cart-variation' );
+ wp_dequeue_script( 'wc-single-product' );
+ wp_dequeue_script( 'wc-cart' );
+ wp_dequeue_script( 'wc-chosen' );
+ wp_dequeue_script( 'woocommerce' );
+ wp_dequeue_script( 'prettyPhoto' );
+ wp_dequeue_script( 'prettyPhoto-init' );
+ wp_dequeue_script( 'jquery-blockui' );
+ wp_dequeue_script( 'jquery-placeholder' );
+ wp_dequeue_script( 'fancybox' );
+ wp_dequeue_script( 'jqueryui' );
+ }
+ }
+
+}
+
 function create_banner() {
   register_post_type( 'Banner', /* (http://codex.wordpress.org/Function_Reference/register_post_type) */
     array( 'labels' => array(
@@ -237,7 +276,7 @@ function sinus_get_products_by_type() {
   $products = $client->products->get(null,
       array(
         'filter[category]'  => $type,
-        'filter[limit]'     => $limit,
+        'filter[limit]'     => -1,
         'filter[offset]'    => $offset,
         'fields'            => $fields,
       )
@@ -245,6 +284,13 @@ function sinus_get_products_by_type() {
 
   echo json_encode($products);
   wp_die();
+
+  // $url = "inc/type_hovedtelefoner.json";
+  // $get_file = json_decode(file_get_contents("inc/type_hovedtelefoner.json"));
+
+  // echo $get_file;
+  // // echo json_encode($get_file);
+  // wp_die();
 }
 
 

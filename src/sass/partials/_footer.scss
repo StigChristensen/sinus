@@ -26,6 +26,38 @@ footer, footer.site-footer {
       color: $white;
     }
 
+    .opening-hours {
+      position: absolute;
+      right: 50px;
+      top: 60px;
+      width: 88px;
+      height: auto;
+      text-align: left;
+
+      .open-left {
+        width: 45px;
+        float: left;
+        text-align: left;
+      }
+
+      .open-right {
+        width: 43px;
+        float: right;
+        text-align: right;
+      }
+
+      h4 {
+        color: $mainGreen;
+        font-size: 15px;
+      }
+
+      span {
+        font-size: 12px;
+        color: $white;
+      }
+    }
+
+
     .footer-left {
       width: 50%;
       height: 100%;
@@ -44,7 +76,7 @@ footer, footer.site-footer {
         }
 
         p {
-          font-size: 15px;
+          font-size: 13px;
           font-weight: 700;
           color: $mainBlue;
           text-transform: uppercase;
@@ -52,7 +84,7 @@ footer, footer.site-footer {
         }
 
         span {
-          font-size: 15px;
+          font-size: 13px;
           font-weight: 700;
           text-transform: uppercase;
         }
@@ -65,6 +97,7 @@ footer, footer.site-footer {
       padding: 73px 0 0 10px;
       margin: 0;
       float: right;
+      position: relative;
       text-align: left;
 
       a.text {
@@ -115,11 +148,17 @@ footer, footer.site-footer {
   }
 }
 
-@media screen and ( max-width: 540px ) {
+@media screen and ( max-width: 640px ) {
   footer, footer.site-footer {
-    height: 400px;
+    height: 550px;
 
     .footer-content {
+
+      .opening-hours {
+        @include center();
+        top: 190px;
+        text-align: center;
+      }
 
       .footer-left {
         padding: 45px 5px 0 0;
@@ -172,9 +211,86 @@ footer, footer.site-footer {
 
 @media screen and ( max-width: 414px ) {
   footer, footer.site-footer {
-    height: 400px;
+    height: 550px;
 
     .footer-content {
+
+      .opening-hours {
+        @include center();
+        top: 165px;
+        text-align: center;
+      }
+
+      .footer-left {
+        padding: 25px 5px 0 20px;
+
+        address.store-address {
+
+          h4 {
+            font-size: 16px;
+          }
+
+          p {
+            font-size: 10px;
+            margin: -1px 0 1px;
+          }
+
+          span {
+            font-size: 10px;
+          }
+
+          a {
+            font-size: 10px;
+          }
+        }
+
+        a {
+          p {
+            font-size: 10px;
+          }
+        }
+      }
+
+      .footer-right {
+        padding: 40px 0 0 5px;
+
+        a {
+          font-size: 14px;
+          padding: 0 0 5px 0;
+        }
+
+        a.text.link-last {
+          margin-bottom: 13px;
+        }
+
+        a.social {
+          font-size: 16px;
+        }
+      }
+    }
+
+    .map {
+      bottom: 80px;
+    }
+
+    address.sub {
+      font-size: 13px;
+      font-weight: 700;
+    }
+  }
+}
+
+@media screen and ( max-width: 320px ) {
+  footer, footer.site-footer {
+    height: 555px;
+
+    .footer-content {
+
+      .opening-hours {
+        @include center();
+        top: 180px;
+        text-align: center;
+      }
 
       .footer-left {
         padding: 25px 5px 0 20px;
