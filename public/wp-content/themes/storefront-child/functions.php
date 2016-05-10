@@ -140,6 +140,44 @@ function create_banner() {
   // adding the function to the Wordpress init
 add_action( 'init', 'create_banner');
 
+function create_article() {
+  register_post_type( 'Article', /* (http://codex.wordpress.org/Function_Reference/register_post_type) */
+    array( 'labels' => array(
+      'name' => 'Article', /* This is the Title of the Group */
+      'singular_name' => 'Article', /* This is the individual type */
+      'all_items' => 'All Articles', /* the all items menu item */
+      'add_new' => 'Add new', /* The add new menu item */
+      'add_new_item' => 'Add new Article', /* Add New Display Title */
+      'edit' => 'Edit', /* Edit Dialog */
+      'edit_item' => 'Edit Article', /* Edit Display Title */
+      'new_item' => 'New Article', /* New Display Title */
+      'view_item' => 'See Article', /* View Display Title */
+      'search_items' => 'Search for Article', /* Search Custom Type Title */
+      'not_found' =>  'Nothing found in the database', /* This displays if there are no entries yet */
+      'not_found_in_trash' => 'Nothing found in the trash can.', /* This displays if there is nothing in the trash */
+      'parent_item_colon' => ''
+      ), /* end of arrays */
+      'public' => true,
+      'publicly_queryable' => true,
+      'exclude_from_search' => true,
+      'show_ui' => true,
+      'query_var' => true,
+      'menu_position' => 4, /* this is what order you want it to appear in on the left hand side menu */
+      // 'menu_icon' => get_stylesheet_directory_uri() . '/library/images/custom-post-icon.png', /* the icon for the custom post type menu */
+      'rewrite' => array( 'slug' => 'Articles', 'with_front' => false ), /* you can specify its url slug */
+      'has_archive' => 'Article', /* you can rename the slug here */
+      'capability_type' => 'post',
+      'hierarchical' => false,
+      /* the next one is important, it tells what's enabled in the post editor */
+      'supports' => array( 'title', 'custom_fields' )
+    ) /* end of options */
+  ); /* end of register post type */
+}
+  // adding the function to the Wordpress init
+add_action( 'init', 'create_Article');
+
+
+
 // remove empty p tags
 function remove_empty_p( $content ) {
     $content = force_balance_tags( $content );
