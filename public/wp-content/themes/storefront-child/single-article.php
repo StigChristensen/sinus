@@ -14,7 +14,7 @@ get_header(); ?>
       <img src="<?php echo get_stylesheet_directory_uri() . '/img/bg/bg4.png'; ?>" alt="Content background image" />
     </div>
     <div class="content-container">
-    <div class="om-os-text">
+    <div class="om-os-text article">
     <?php the_field('article_content'); ?>
     </div>
   </div>

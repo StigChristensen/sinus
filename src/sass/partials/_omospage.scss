@@ -70,6 +70,24 @@
           padding: 0px 100px 50px 0;
         }
       }
+
+      .om-os-text.article {
+        height: auto;
+        padding: 50px 25px 150px;
+
+        p {
+          a {
+            color: $mainBlue;
+
+            img {
+              height: auto;
+              width: 30%;
+              margin-right: 1%;
+              float: left;
+            }
+          }
+        }
+      }
     }
   }
 }
@@ -231,6 +249,24 @@
             font-size: 12px;
           }
         }
+
+        .om-os-text.article {
+          height: auto;
+          padding: 50px 25px 800px;
+
+          p {
+            a {
+              color: $mainBlue;
+
+              img {
+                width: 250px;
+                height: auto;
+                float: left;
+                margin-bottom: 10px;
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -310,6 +346,24 @@
             font-weight: 400;
             padding: 0px 10px 50px 0;
             font-size: 12px;
+          }
+        }
+
+        .om-os-text.article {
+          height: auto;
+          padding: 50px 25px 600px;
+
+          p {
+            a {
+              color: $mainBlue;
+
+              img {
+                width: 200px;
+                height: auto;
+                float: left;
+                margin-bottom: 10px;
+              }
+            }
           }
         }
       }

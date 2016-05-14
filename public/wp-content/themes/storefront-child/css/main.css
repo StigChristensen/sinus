@@ -4964,6 +4964,16 @@ footer, footer.site-footer {
           color: #2b2b2b;
           font-weight: 400;
           padding: 0px 100px 50px 0; }
+      .om-os-container .page-element .content-container .om-os-text.article {
+        height: auto;
+        padding: 50px 25px 150px; }
+        .om-os-container .page-element .content-container .om-os-text.article p a {
+          color: #007c96; }
+          .om-os-container .page-element .content-container .om-os-text.article p a img {
+            height: auto;
+            width: 30%;
+            margin-right: 1%;
+            float: left; }
 
 @media screen and (max-width: 1000px) {
   .om-os-container {
@@ -5081,7 +5091,17 @@ footer, footer.site-footer {
             color: #2b2b2b;
             font-weight: 400;
             padding: 0px 20px 50px 0;
-            font-size: 12px; } }
+            font-size: 12px; }
+        .om-os-container .page-element .content-container .om-os-text.article {
+          height: auto;
+          padding: 50px 25px 800px; }
+          .om-os-container .page-element .content-container .om-os-text.article p a {
+            color: #007c96; }
+            .om-os-container .page-element .content-container .om-os-text.article p a img {
+              width: 250px;
+              height: auto;
+              float: left;
+              margin-bottom: 10px; } }
 
 @media screen and (max-width: 320px) {
   .om-os-container {
@@ -5140,7 +5160,17 @@ footer, footer.site-footer {
             color: #2b2b2b;
             font-weight: 400;
             padding: 0px 10px 50px 0;
-            font-size: 12px; } }
+            font-size: 12px; }
+        .om-os-container .page-element .content-container .om-os-text.article {
+          height: auto;
+          padding: 50px 25px 600px; }
+          .om-os-container .page-element .content-container .om-os-text.article p a {
+            color: #007c96; }
+            .om-os-container .page-element .content-container .om-os-text.article p a img {
+              width: 200px;
+              height: auto;
+              float: left;
+              margin-bottom: 10px; } }
 
 .spinner {
   position: fixed;
