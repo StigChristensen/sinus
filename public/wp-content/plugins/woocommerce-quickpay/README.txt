@@ -22,6 +22,8 @@ With WooCommerce QuickPay, you are able to integrate your QuickPay gateway to yo
 6. You are good to go.
 
 == Changelog ==
+= 4.4.5=
+* Add support for multiple subscriptions.
 
 = 4.4.4 =
 * Fix problem with Paii attempted to be loaded after removal.

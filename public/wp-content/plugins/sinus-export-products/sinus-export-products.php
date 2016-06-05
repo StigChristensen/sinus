@@ -11,7 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
   exit; // Exit if accessed directly
 }
 
-$filename = 'sinus_products.csv';
+$time = time();
+$filename = 'sinus_products_'.$time.'.csv';
 $dir = plugin_dir_path( __FILE__ );
 
 function register_admin_page() {
@@ -30,7 +31,7 @@ add_action( 'wp_ajax_export_products', 'sinus_export' );
 
 function sinus_export() {
   global $client;
-  $csv_fields = "title,categories,regular_price";
+  $csv_fields = "title,categories,regular_price,sale_price";
 
   try {
     $export_products = $client->products->get(null,
@@ -64,8 +65,9 @@ function export_file($rows) {
 
     $title = str_replace(",", ".", $row['title']);
     $price = str_replace(".00", "", $row['regular_price']);
+    $sale = str_replace(".00", "", $row['sale_price']);
 
-    $filecontent .= ",".$title.",".$cats.",".$title.",".$title.",".$price.".000000".",,,,,,,,"."Y"."\r\n";
+    $filecontent .= ",".$title.",".$cats.",".$title.",".$title.",".$price.".000000".",,".$title.' Tilbud'.",".$sale.".000000".",,,,,"."Y"."\r\n";
   }
 
   echo $dir . $filename;

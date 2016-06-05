@@ -4,13 +4,13 @@
 Plugin Name: WooCommerce QuickPay
 Plugin URI: http://wordpress.org/plugins/woocommerce-quickpay/
 Description: Integrates your QuickPay payment getway into your WooCommerce installation.
-Version: 4.4.4
+Version: 4.4.5
 Author: Perfect Solution
 Text Domain: woo-quickpay
 Author URI: http://perfect-solution.dk
 */
 
-define( 'WCQP_VERSION', '4.4.4' );
+define( 'WCQP_VERSION', '4.4.5' );
 
 add_action('plugins_loaded', 'init_quickpay_gateway', 0);
 
@@ -84,7 +84,8 @@ function init_quickpay_gateway() {
 		    	'subscription_amount_changes',
 		    	'subscription_date_changes',
 		    	'subscription_payment_method_change',
-                'refunds'
+                'refunds',
+				'multiple_subscriptions'
 		    );
 
             $this->log = new WC_QuickPay_Log();

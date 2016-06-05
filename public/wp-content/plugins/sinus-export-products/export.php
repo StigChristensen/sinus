@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 global $client;
-$csv_fields = "title,categories,regular_price";
+$csv_fields = "title,categories,regular_price,sale_price";
 
 try {
   $export_products = $client->products->get(null,
@@ -35,7 +35,7 @@ if ( $export_products ) {
     foreach ($row['categories'] as $c ) {
       $cats .= $c. " ";
     }
-    $filecontent .= ",".$row['title'].",".$cats.",".$row['title'].",".$row['title'].",".$row['regular_price'].".000000".",,,,,,,,"."Y"."\r\n";
+    $filecontent .= ",".$row['title'].",".$cats.",".$row['title'].",".$row['title'].",".$row['regular_price'].".000000".",,".$row['title'].' Tilbud'.",".$row['sale_price'].",,,,,"."Y"."\r\n";
   }
 
   echo $filecontent;
