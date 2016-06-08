@@ -9,18 +9,26 @@ jQuery(document).on('ready', function() {
   new CartController();
   new MenuController();
   new removeFromCartController();
-  // new gridCartController();
   new reserveFormController();
   new scrollHeaderController();
   new embedVidController();
   // new fpVideoController();
-  new fpBackgroundController();
+  // new fpBackgroundController();
+
   urlListener();
   searchFormController();
   menuLeftController();
   thumbController();
   trigScrollIndicator();
   readMore();
+
+  var href = window.location.href;
+
+  // if ( href.indexOf('/type/') === -1 ) {
+  //   console.log('not archive');
+  //   new gridCartController();
+  //   new modalController();
+  // }
 
   // labels for input fields
   $("form :input").focus(function() {
@@ -1335,7 +1343,7 @@ function render(products) {
     var page = $('body').find('.page.page-1');
     $(page).removeClass('hidden');
     setTimeout(function() {
-      gridCartController();
+      new gridCartController();
       new modalController();
       sortPriceController();
       sortStockController();

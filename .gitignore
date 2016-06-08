@@ -15,3 +15,4 @@ public/wp-content/dbbackups/*
 public/wp-content/languages/*
 node_modules/*
 social-app/node_modules/*
+fpalt/node_modules/*

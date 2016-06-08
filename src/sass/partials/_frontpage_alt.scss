@@ -1,0 +1,68 @@
+.fp-wrap {
+  width: 100%;
+  height: auto;
+  min-height: 1200px;
+  float: left;
+  margin: 0;
+  padding: 0;
+
+  .front.top.content {
+    width: 100%;
+    height: auto;
+    float: left;
+    margin: 0px 0 0;
+
+    .top {
+      width: 50%;
+      height: 300px;
+      padding: 50px;
+    }
+
+    .top.left {
+      background-color: $mainGreen;
+      float: left;
+    }
+
+    .top.right {
+      background-color: $mainBlue;
+      float: right;
+    }
+
+    .banner-container {
+      width: 100%;
+      height: 200px;
+      padding: 50px;
+      float: left;
+      background-color: #000;
+      overflow: hidden;
+
+      a {
+        img {
+          max-width: 60%;
+          height: auto;
+        }
+      }
+    }
+  }
+
+  .products-container.frontpage {
+    width: 100%;
+    height: auto;
+    float: left;
+    margin: 50px 0;
+    position: absolute;
+    top: 800px;
+    left: 0;
+
+    .menu-left {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .product-list-grid.front {
+
+    }
+
+  }
+}

@@ -5,10 +5,10 @@
 
 get_header(); ?>
 
-<div class="scroll-indicator hidden">
+<!-- <div class="scroll-indicator hidden">
   <i class="fa fa-angle-down first"></i>
   <i class="fa fa-angle-down second"></i>
-</div>
+</div> -->
 
 <?php
 global $post;
@@ -17,99 +17,119 @@ $terms = wp_get_post_terms($post->ID,'product_cat', $args);
 ?>
 
 
-<div class="frontpage top content">
+<div class="fp-wrap">
 
-<div class="top left"></div>
-<div class="top right"></div>
+  <div class="front top content">
 
-  <div class="frontpage banner-container">
+  <div class="top left">
+    <span><h2>Sinus</h2> er Danmarks mest specialiserede forretning indenfor hovedtelefoner og transportabel lyd.</span>
 
-  <?php $args = array( 'post_type' => 'banner', 'posts_per_page' => -1 );
-        $loop = new WP_Query( $args );
-        while ( $loop->have_posts() ) : $loop->the_post();
+  </div>
+  <div class="top right">
 
-        $should_show = get_field('showing');
-
-        if ($should_show) { ?>
-
-        <div class="banner">
-          <a href="<?php the_field('banner_link'); ?>" target="_parent">
-            <img src="<?php the_field('banner_image'); ?>" alt="Sinus Store Headphones and Audio Front Page Banner"/>
-          </a>
-        </div>
-
-  <?php } ?>
-
-  <?php endwhile; ?>
   </div>
 
-</div>
+    <div class="banner-container front">
 
+    <?php $args = array( 'post_type' => 'banner', 'posts_per_page' => 1 );
+          $loop = new WP_Query( $args );
+          while ( $loop->have_posts() ) : $loop->the_post();
 
-<?php // List of top selling products ?>
-<div class="products top frontpage">
-  <?php
-  $top = get_field('top_sellers');
+          $should_show = get_field('showing');
 
-  if ( $top ): ?>
-    <ul class="products list">
-    <h2>Mest solgte:</h2>
-      <?php foreach ($top as $post ) {
-        setup_postdata($post); ?>
-        <?php wc_get_template_part('content', 'widget-product'); ?>
-  <?php }
-    wp_reset_postdata(); ?>
-    </ul>
-  <?php endif; ?>
-</div>
+          if ($should_show) { ?>
 
+          <div class="banner">
+            <a href="<?php the_field('banner_link'); ?>" target="_parent">
+              <img src="<?php the_field('banner_image'); ?>" alt="Sinus Store Headphones and Audio Front Page Banner"/>
+            </a>
+          </div>
 
+    <?php } ?>
 
-
-<div class="products-container">
-  <div class="menu-left-button">
-    <span>SORTER</span>
-  </div>
-
-  <div class="menu-left">
-    <div class="sort-links">
-      <h3>Sorter</h3>
-      <p class="price-sorter"><i class="fa fa-search-plus"></i>Pris <i class="fa fa-sort-asc"></i><i class="fa fa-sort-desc"></i></p>
-      <h3>PÅ LAGER:</h3>
-      <input type='checkbox' class='instock' name='instock' value='checked' id="instock" checked /><label for="instock"><i class="fa fa-check-square"></i></label>
-      <input type='checkbox' class='outofstock' name='outofstock' value='checked' id="outofstock" checked /><label for="outofstock"><i class="fa fa-minus-square"></i></label>
-    </div>
-    <div class="categories">
-      <h3>Kategorier</h3>
-      <span>I denne liste:</span>
-    </div>
-    <div class="brands">
-      <h3>Brands</h3>
-      <span>I denne liste:</span>
+    <?php endwhile; ?>
     </div>
 
-    <div class="close-left">
-      <i class="fa fa-angle-left"></i>
+  </div>
+
+
+  <?php // List of top selling products ?>
+  <div class="products top frontpage">
+    <?php
+    $top = get_field('top_sellers');
+
+    if ( $top ): ?>
+      <ul class="products list">
+      <h2>Mest solgte:</h2>
+        <?php foreach ($top as $post ) {
+          setup_postdata($post); ?>
+          <?php wc_get_template_part('content', 'widget-product'); ?>
+    <?php }
+      wp_reset_postdata(); ?>
+      </ul>
+    <?php endif; ?>
+  </div>
+
+
+
+
+  <div class="products-container frontpage">
+    <div class="menu-left-button">
+      <span>SORTER</span>
+    </div>
+
+    <div class="menu-left">
+      <div class="sort-links">
+        <h3>Sorter</h3>
+        <p class="price-sorter"><i class="fa fa-search-plus"></i>Pris <i class="fa fa-sort-asc"></i><i class="fa fa-sort-desc"></i></p>
+        <h3>PÅ LAGER:</h3>
+        <input type='checkbox' class='instock' name='instock' value='checked' id="instock" checked /><label for="instock"><i class="fa fa-check-square"></i></label>
+        <input type='checkbox' class='outofstock' name='outofstock' value='checked' id="outofstock" checked /><label for="outofstock"><i class="fa fa-minus-square"></i></label>
+      </div>
+      <div class="categories">
+        <h3>Kategorier</h3>
+        <span>I denne liste:</span>
+      </div>
+      <div class="brands">
+        <h3>Brands</h3>
+        <span>I denne liste:</span>
+      </div>
+
+      <div class="close-left">
+        <i class="fa fa-angle-left"></i>
+      </div>
+    </div>
+
+    <div class="product-list-grid">
+
+    <div class="page products front">
+      <ul class="products front">
+
+      <?php $args = array( 'post_type' => 'product', 'posts_per_page' => 20 );
+          $loop = new WP_Query( $args );
+          while ( $loop->have_posts() ) : $loop->the_post();
+
+          wc_get_template_part('content', 'single-product-grid'); ?>
+
+    <?php endwhile; ?>
+      </ul>
+
+    </div>
+
     </div>
   </div>
 
-  <div class="product-list-grid">
 
-  <?php // reg product list ?>
-
-
+  <div class="product-modal hidden">
+    <div class="modal-close-btn"><i class="fa fa-times-circle-o"></i></div>
+    <div class="modal-scroll-indicator">
+      <i class="fa fa-angle-down first"></i>
+      <i class="fa fa-angle-down second"></i>
+    </div>
+    <div class="modal-content"></div>
   </div>
-</div>
+  <div class="product-modal-overlay hidden"></div>
 
-
-<div class="product-modal hidden">
-  <div class="modal-close-btn"><i class="fa fa-times-circle-o"></i></div>
-  <div class="modal-scroll-indicator">
-    <i class="fa fa-angle-down first"></i>
-    <i class="fa fa-angle-down second"></i>
-  </div>
-  <div class="modal-content"></div>
 </div>
-<div class="product-modal-overlay hidden"></div>
 
 <?php get_footer(); ?>
