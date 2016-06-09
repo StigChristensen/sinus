@@ -26,11 +26,42 @@ $terms = wp_get_post_terms($post->ID,'product_cat', $args);
 
   </div>
   <div class="top right">
+    <ul class="articles front">
 
+      <?php $args = array( 'post_type' => 'article', 'posts_per_page' => 5, 'fields' => 'ID,permalink,title' );
+          $loop = new WP_Query( $args );
+          while ( $loop->have_posts() ) : $loop->the_post(); ?>
+            <li class="article-title">
+              <a href="<?php the_permalink(); ?>">
+                <?php the_title(); ?>
+              </a>
+            </li>
+
+    <?php endwhile; ?>
+      </ul>
   </div>
 
-    <div class="banner-container front">
 
+  <div class="top-container front">
+    <?php // List of top selling products ?>
+      <?php
+      $top = get_field('top_sellers');
+
+      if ( $top ): ?>
+        <ul class="products list">
+        <h2>Mest solgte:</h2>
+          <?php foreach ($top as $post ) {
+            setup_postdata($post); ?>
+            <?php wc_get_template_part('content', 'single-product-list'); ?>
+      <?php }
+         ?>
+        </ul>
+      <?php endif; ?>
+  </div>
+
+
+
+    <div class="banner-container front">
     <?php $args = array( 'post_type' => 'banner', 'posts_per_page' => 1 );
           $loop = new WP_Query( $args );
           while ( $loop->have_posts() ) : $loop->the_post();
@@ -71,8 +102,6 @@ $terms = wp_get_post_terms($post->ID,'product_cat', $args);
   </div>
 
 
-
-
   <div class="products-container frontpage">
     <div class="menu-left-button">
       <span>SORTER</span>
@@ -100,7 +129,7 @@ $terms = wp_get_post_terms($post->ID,'product_cat', $args);
       </div>
     </div>
 
-    <div class="product-list-grid">
+    <div class="product-list-grid front">
 
     <div class="page products front">
       <ul class="products front">

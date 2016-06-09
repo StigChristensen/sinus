@@ -537,13 +537,198 @@ html, body {
     height: auto;
     float: left;
     margin: 50px 0;
-    position: absolute;
-    top: 800px;
-    left: 0; }
+    position: relative; }
     .fp-wrap .products-container.frontpage .menu-left {
       position: absolute;
-      top: 0;
-      left: 0; }
+      top: -1px;
+      left: 0;
+      width: 200px; }
+    .fp-wrap .products-container.frontpage .product-list-grid.front {
+      width: calc(100% - 150px);
+      height: auto;
+      min-height: 250px;
+      float: left;
+      margin-left: 200px;
+      margin-bottom: 100px;
+      text-align: center;
+      background-color: #000000;
+      transition: all 0.5s cubic-bezier(0.24, 0.63, 0.5, 0.99); }
+      .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front {
+        width: 100%;
+        height: auto;
+        padding: 0 0 50px 0;
+        overflow: visible;
+        float: left;
+        opacity: 1;
+        transition: all 0.5s cubic-bezier(0.24, 0.63, 0.5, 0.99); }
+        .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front ul.products.front {
+          width: 100%;
+          height: auto;
+          float: left;
+          position: relative;
+          margin: 0 auto 0 auto;
+          padding: 0px 0;
+          top: 0px;
+          opacity: 1;
+          transition: all 0.5s cubic-bezier(0.24, 0.63, 0.5, 0.99); }
+          .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front ul.products.front li.product {
+            width: 40%;
+            min-width: 400px;
+            height: 290px;
+            margin: 0;
+            float: left;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            background-color: #FDFDFD; }
+            .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front ul.products.front li.product .click-area {
+              width: 100%;
+              height: 290px;
+              position: absolute;
+              top: 0;
+              left: 0;
+              z-index: 1300;
+              background-color: transparent; }
+            .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front ul.products.front li.product .in-stock-icon {
+              position: absolute;
+              bottom: 48px;
+              right: 5px;
+              z-index: 10;
+              padding: 2px 10px;
+              background-color: #2b2b2b; }
+              .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front ul.products.front li.product .in-stock-icon span {
+                font-size: 10px;
+                color: #FDFDFD; }
+              .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front ul.products.front li.product .in-stock-icon i.fa.fa-minus-square {
+                color: #C72A2A; }
+              .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front ul.products.front li.product .in-stock-icon i.fa.fa-check-square {
+                color: #4fd5ca; }
+            .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front ul.products.front li.product img {
+              width: auto;
+              height: auto;
+              max-height: 244px;
+              max-width: 100%;
+              position: absolute;
+              bottom: 46px;
+              left: 0;
+              right: 0;
+              margin-left: auto;
+              margin-right: auto;
+              opacity: 1;
+              z-index: 1;
+              transition: all 0.5s cubic-bezier(0.24, 0.63, 0.5, 0.99); }
+            .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front ul.products.front li.product .product-price {
+              position: absolute;
+              width: 100%;
+              height: 48px;
+              bottom: 0px;
+              left: 0;
+              padding: 12px 22px 12px 30px;
+              background-color: #2b2b2b;
+              color: #FDFDFD;
+              text-align: right;
+              z-index: 100;
+              border-right: 5px solid #007c96; }
+              .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front ul.products.front li.product .product-price span {
+                font-size: 18px;
+                font-weight: 700; }
+                .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front ul.products.front li.product .product-price span del {
+                  float: left;
+                  margin: 0 10px 0 30px;
+                  color: #C72A2A; }
+                .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front ul.products.front li.product .product-price span ins {
+                  text-decoration: none; }
+              .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front ul.products.front li.product .product-price span.onsale {
+                display: none; }
+              .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front ul.products.front li.product .product-price .add-button {
+                position: absolute;
+                top: 0;
+                left: 8px;
+                width: 48px;
+                height: 48px;
+                cursor: pointer; }
+                .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front ul.products.front li.product .product-price .add-button svg {
+                  position: absolute;
+                  top: 14px;
+                  left: 14px;
+                  width: 20px;
+                  height: 20px; }
+                  .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front ul.products.front li.product .product-price .add-button svg line.svg-line {
+                    stroke: #019db6;
+                    transition: all 0.3s cubic-bezier(0.24, 0.63, 0.5, 0.99); }
+                .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front ul.products.front li.product .product-price .add-button span.add-info {
+                  position: absolute;
+                  top: -17px;
+                  left: -8px;
+                  width: 100px;
+                  font-size: 10px;
+                  color: #FDFDFD;
+                  font-weight: 300;
+                  text-transform: uppercase;
+                  text-align: center;
+                  background-color: rgba(0, 0, 0, 0.7);
+                  padding: 2px 10px 2px 10px;
+                  margin: 0 auto 0 auto;
+                  opacity: 0;
+                  transition: all 0.3s cubic-bezier(0.24, 0.63, 0.5, 0.99); }
+              .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front ul.products.front li.product .product-price .add-button:hover svg line.svg-line {
+                stroke: #FFFFFF; }
+              .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front ul.products.front li.product .product-price .add-button:hover span.add-info {
+                opacity: 1; }
+            .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front ul.products.front li.product .product-title {
+              width: 100%;
+              height: auto;
+              padding: 20px;
+              position: absolute;
+              top: 0px;
+              left: 0px;
+              z-index: 1200;
+              text-align: left;
+              background-color: rgba(255, 255, 255, 0.85);
+              border-top: 1px solid #F1F1F1;
+              border-right: 5px solid #F1F1F1; }
+              .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front ul.products.front li.product .product-title h3 {
+                font-family: "Roboto", sans-serif;
+                font-weight: 400;
+                font-size: 14px;
+                color: #007c96; }
+            .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front ul.products.front li.product .sinus-product-info {
+              position: absolute;
+              width: 120px;
+              height: 290px;
+              bottom: 48px;
+              right: 0px;
+              z-index: 2;
+              background-color: rgba(255, 255, 255, 0.85);
+              border-right: 5px solid #F1F1F1;
+              transition: all 0.3s cubic-bezier(0.24, 0.63, 0.5, 0.99); }
+              .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front ul.products.front li.product .sinus-product-info .short-desc {
+                width: 120px;
+                height: auto;
+                position: absolute;
+                bottom: 20px;
+                right: 0;
+                padding: 23px;
+                text-align: left;
+                color: #2b2b2b; }
+                .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front ul.products.front li.product .sinus-product-info .short-desc p, .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front ul.products.front li.product .sinus-product-info .short-desc span, .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front ul.products.front li.product .sinus-product-info .short-desc b {
+                  font-family: "Roboto Condensed", sans-serif;
+                  font-size: 12px;
+                  font-weight: 400;
+                  color: #2b2b2b; }
+                .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.front ul.products.front li.product .sinus-product-info .short-desc i.fa {
+                  font-size: 24px;
+                  color: #2b2b2b;
+                  float: right;
+                  margin: 15px 15px 0 0; }
+      .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.hidden {
+        width: calc(100% - 150px);
+        height: 0px;
+        overflow: hidden;
+        opacity: 0; }
+        .fp-wrap .products-container.frontpage .product-list-grid.front .page.products.hidden ul.products {
+          height: 0px;
+          opacity: 0; }
 
 .site-main .banner-container {
   width: 100%;
