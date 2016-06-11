@@ -84,32 +84,36 @@
   height: 30px;
   position: fixed;
   bottom: 70px;
+  right: 20px;
   z-index: 999999999999;
-  @include center();
+  background-color: $mainGreen;
+  border-radius: 50%;
+  // @include center();
   animation: scrollindicator 2s infinite ease-in-out;
 
   i.fa {
-    font-size: 34px;
-    color: $mainGreen;
+    font-size: 16px;
+    color: $black;
   }
 
   i.fa.first {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 7px;
+    @include center();
 
   }
 
   i.fa.second {
     position: absolute;
-    top: 10px;
-    left: 0;
+    top: 11px;
+    @include center();
   }
 }
 
 .scroll-indicator.hidden {
   opacity: 0;
   z-index: 1;
+  background-color: rgba(0,0,0,0);
 
   i.fa {
     opacity: 0;

@@ -5,10 +5,10 @@
 
 get_header(); ?>
 
-<!-- <div class="scroll-indicator hidden">
+<div class="scroll-indicator hidden">
   <i class="fa fa-angle-down first"></i>
   <i class="fa fa-angle-down second"></i>
-</div> -->
+</div>
 
 <?php
 global $post;
@@ -20,36 +20,22 @@ $terms = wp_get_post_terms($post->ID,'product_cat', $args);
 <div class="fp-wrap">
 
   <div class="front top content">
+    <div class="bg-color"></div>
 
-  <div class="top left">
-    <span><h2>Sinus</h2> er Danmarks mest specialiserede forretning indenfor hovedtelefoner og transportabel lyd.</span>
-
-  </div>
-  <div class="top right">
-    <ul class="articles front">
-
-      <?php $args = array( 'post_type' => 'article', 'posts_per_page' => 5, 'fields' => 'ID,permalink,title' );
-          $loop = new WP_Query( $args );
-          while ( $loop->have_posts() ) : $loop->the_post(); ?>
-            <li class="article-title">
-              <a href="<?php the_permalink(); ?>">
-                <?php the_title(); ?>
-              </a>
-            </li>
-
-    <?php endwhile; ?>
-      </ul>
+  <div class="top left animate">
+    <h4>Sinus</h4><span> er Danmarks mest specialiserede forretning indenfor hovedtelefoner og transportabel lyd.
+    Vi har i takt med den teknologiske udvikling nået et punkt hvor hovedparten af den musik vi hører i løbet af en dag, lyttes til igennem vores hovedtelefoner. Og vi mener at musikken i dit liv fortjener god lyd.<br><br>
+Men hovedtelefoner er ikke bare den gode lyd til dit livs soundtrack. Hovedtelefoner er mode, hovedtelefoner er frihed fra omverdenens støj, hovedtelefoner er in-ear, on-ear, over-ear, med eller uden bluetooth og vigtigst af alt hovedtelefoner skal matche dig og dine behov – og det kan og vil vi hjælpe med.
+    </span>
   </div>
 
-
-  <div class="top-container front">
-    <?php // List of top selling products ?>
-      <?php
+  <div class="top center">
+    <h4>Top 10</h4>
+    <?php
       $top = get_field('top_sellers');
 
       if ( $top ): ?>
         <ul class="products list">
-        <h2>Mest solgte:</h2>
           <?php foreach ($top as $post ) {
             setup_postdata($post); ?>
             <?php wc_get_template_part('content', 'single-product-list'); ?>
@@ -57,6 +43,27 @@ $terms = wp_get_post_terms($post->ID,'product_cat', $args);
          ?>
         </ul>
       <?php endif; ?>
+
+  </div>
+
+  <div class="top right">
+    <h4>Nyheder</h4>
+    <ul class="articles front">
+      <?php $args = array( 'post_type' => 'article', 'posts_per_page' => 3 );
+          $loop = new WP_Query( $args );
+          while ( $loop->have_posts() ) : $loop->the_post(); ?>
+            <li class="article list animate">
+              <a href="<?php the_permalink(); ?>">
+                <img src="<?php the_field('article_image'); ?>" alt="Sinus Copenhagen Sinus-Store - <?php the_title(); ?>">
+
+                <div class="article-title">
+                  <span class="article"><?php the_title(); ?></span>
+                </div>
+              </a>
+            </li>
+
+    <?php endwhile; ?>
+      </ul>
   </div>
 
 
@@ -134,11 +141,17 @@ $terms = wp_get_post_terms($post->ID,'product_cat', $args);
     <div class="page products front">
       <ul class="products front">
 
-      <?php $args = array( 'post_type' => 'product', 'posts_per_page' => 20 );
-          $loop = new WP_Query( $args );
+      <?php
+          $query_args = array(
+             'post_type' => 'product',
+             'posts_per_page' => 30,
+             'product_cat' => 'hovedtelefoner',
+           );
+          $loop = new WP_Query( $query_args );
           while ( $loop->have_posts() ) : $loop->the_post();
 
-          wc_get_template_part('content', 'single-product-grid'); ?>
+          wc_get_template_part('content', 'single-product-grid');
+      ?>
 
     <?php endwhile; ?>
       </ul>
@@ -148,17 +161,8 @@ $terms = wp_get_post_terms($post->ID,'product_cat', $args);
     </div>
   </div>
 
-
-  <div class="product-modal hidden">
-    <div class="modal-close-btn"><i class="fa fa-times-circle-o"></i></div>
-    <div class="modal-scroll-indicator">
-      <i class="fa fa-angle-down first"></i>
-      <i class="fa fa-angle-down second"></i>
-    </div>
-    <div class="modal-content"></div>
-  </div>
-  <div class="product-modal-overlay hidden"></div>
-
 </div>
 
 <?php get_footer(); ?>
+
+<script src="<?php echo get_stylesheet_directory_uri() . '/js/fp.js'; ?>"></script>

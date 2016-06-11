@@ -10,9 +10,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 global $product, $post;
 $qty = $product->get_stock_quantity();
+$terms = get_the_terms( $post->ID, 'product_cat' );
+$classes = array();
+foreach ( $terms as $term ){
+    $category_id = $term->term_id;
+    $category_name = $term->name;
+    $category_slug = $term->slug;
+    $classes[] = $category_name;
+    break;
+}
 ?>
 
 <?php
+$class = var_export($classes, true);
 if ( $qty == 0 ) {
   $stockIcon = '<div class="in-stock-icon"><span>PÅ LAGER: <i class="fa fa-minus-square"></i></span></div>';
   $stockClass = 'stock-false';
@@ -23,8 +33,8 @@ if ( $qty > 0 ) {
   $stockClass = 'stock-true';
 } ?>
 
-<li class="product <?php echo $stockClass; ?>" itemscope itemtype="http://schema.org/Product" data-singleid="<?php the_ID(); ?>">
-  <div class="click-area"></div>
+<li class="product <?php echo $class;  ?>" itemscope itemtype="http://schema.org/Product" data-singleid="<?php the_ID(); ?>">
+  <a href="<?php the_permalink(); ?>"><div class="click-area"></div></a>
   <?php echo $stockIcon; ?>
   <?php echo $product->get_image(); ?>
   <div class="product-title" itemprop="name"><h3><?php the_title(); ?></h3></div>

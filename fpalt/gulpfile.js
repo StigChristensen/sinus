@@ -14,12 +14,12 @@ function compile(watch) {
   function rebundle() {
     bundler.bundle()
       .on('error', function(err) { console.error(err); this.emit('end'); })
-      .pipe(source('socialApp.js'))
+      .pipe(source('fp.js'))
       .pipe(buffer())
       .pipe(uglify())
       .pipe(sourcemaps.init({ loadMaps: true }))
-      .pipe(sourcemaps.write('./maps'))
-      .pipe(gulp.dest('../public/wp-content/themes/storefront-child/js/fp.js'));
+      .pipe(sourcemaps.write())
+      .pipe(gulp.dest('../public/wp-content/themes/storefront-child/js'));
   }
 
   if (watch) {
