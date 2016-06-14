@@ -124,11 +124,10 @@ Men hovedtelefoner er ikke bare den gode lyd til dit livs soundtrack. Hovedtelef
       </div>
       <div class="categories">
         <h3>Kategorier</h3>
-        <span>I denne liste:</span>
       </div>
       <div class="brands">
         <h3>Brands</h3>
-        <span>I denne liste:</span>
+
       </div>
 
       <div class="close-left">
@@ -149,7 +148,6 @@ Men hovedtelefoner er ikke bare den gode lyd til dit livs soundtrack. Hovedtelef
            );
           $loop = new WP_Query( $query_args );
           while ( $loop->have_posts() ) : $loop->the_post();
-
           wc_get_template_part('content', 'single-product-grid');
       ?>
 
