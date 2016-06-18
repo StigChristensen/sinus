@@ -18,21 +18,35 @@ module.exports = {
   menuControllerFixed: ()=> {
     $(window).on('scroll', function() {
       let scroll = $(window).scrollTop(),
-          menuLeft = $('body').find('.menu-left');
+          curWidth = $(window).width(),
+          menuLeft = $('body').find('.menu-left'),
+          limit;
 
-      if ( scroll >= 852 ) {
-        if ( $(menuLeft).hasClass('fixed') ) {
-          return;
-        } else {
-          $(menuLeft).addClass('fixed');
-        }
+      if ( curWidth >= 900 ) {
+        limit = 972;
+        setClass(limit);
       }
 
-      if ( scroll < 852 ) {
-        if ( !$(menuLeft).hasClass('fixed') ) {
-          return;
-        } else {
-          $(menuLeft).removeClass('fixed');
+      if ( curWidth <= 899 && curWidth >= 769 ) {
+        limit = 1330;
+        setClass(limit);
+      }
+
+      function setClass(limit) {
+        if ( scroll >= limit ) {
+          if ( $(menuLeft).hasClass('fixed') ) {
+            return;
+          } else {
+            $(menuLeft).addClass('fixed');
+          }
+        }
+
+        if ( scroll < limit ) {
+          if ( !$(menuLeft).hasClass('fixed') ) {
+            return;
+          } else {
+            $(menuLeft).removeClass('fixed');
+          }
         }
       }
     });

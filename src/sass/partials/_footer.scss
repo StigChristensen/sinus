@@ -61,10 +61,17 @@ footer, footer.site-footer {
     .footer-left {
       width: 50%;
       height: 100%;
-      padding: 45px 10px 0 0;
+      padding: 52px 10px 0 0;
       margin: 0;
       float: left;
       text-align: right;
+
+      a, p {
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1.5;
+        text-transform: uppercase;
+      }
 
       address.store-address {
         width: 100%;
@@ -76,16 +83,17 @@ footer, footer.site-footer {
         }
 
         p {
-          font-size: 13px;
+          font-size: 12px;
           font-weight: 700;
           color: $mainBlue;
           text-transform: uppercase;
           margin: -1px 0 1px;
         }
 
-        span {
-          font-size: 13px;
+        span, a {
+          font-size: 12px;
           font-weight: 700;
+          line-height: 1.5;
           text-transform: uppercase;
         }
       }
@@ -94,13 +102,17 @@ footer, footer.site-footer {
     .footer-right {
       width: 50%;
       height: 100%;
-      padding: 73px 0 0 10px;
+      padding: 81px 0 0 10px;
       margin: 0;
       float: right;
       position: relative;
       text-align: left;
 
       a.text {
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1.7;
+        text-transform: uppercase;
         color: $mainBlue;
         @include trans(0.3s);
       }

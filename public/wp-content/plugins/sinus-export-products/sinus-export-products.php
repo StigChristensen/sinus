@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $time = time();
-$filename = 'sinus_products_'.$time.'.csv';
+$filename = 'sinus_products_.csv';
 $dir = plugin_dir_path( __FILE__ );
 
 function register_admin_page() {
@@ -22,7 +22,8 @@ add_action('admin_menu', 'register_admin_page');
 
 function export_assets() {
   wp_enqueue_script( 'export_js', plugins_url() . '/sinus-export-products/js/export.js', array('jquery'), '1.0.0', true );
-  wp_localize_script('export_js', 'exp', array( 'export_url' => admin_url( 'admin-ajax.php' ) ));
+  wp_enqueue_style( 'export_js', plugins_url() . '/sinus-export-products/css/export_css.css' );
+  wp_localize_script('export_js', 'exp', array( 'export_url' => admin_url( 'admin-ajax.php' ), 'site' => site_url() ));
 }
 add_action( 'admin_init','export_assets');
 
@@ -46,7 +47,7 @@ function sinus_export() {
 
   if ( $export_products ) {
     $rows = json_decode(json_encode($export_products->products), true);
-     export_file($rows);
+    export_file($rows);
   }
 
  wp_die();
@@ -65,29 +66,51 @@ function export_file($rows) {
 
     $title = str_replace(",", ".", $row['title']);
     $price = str_replace(".00", "", $row['regular_price']);
-    $sale = str_replace(".00", "", $row['sale_price']);
 
-    $filecontent .= ",".$title.",".$cats.",".$title.",".$title.",".$price.".000000".",,".$title.' Tilbud'.",".$sale.".000000".",,,,,"."Y"."\r\n";
+    if ( $row['sale_price'] ) {
+      $sale = str_replace(".00", ".000000", $row['sale_price']);
+    } else {
+      $sale = "";
+    }
+
+    $filecontent .= ",".$title.",".$cats.",".$title.",".$title.",".$price.".000000".",,".$title.' Tilbud'.",".$sale.",,,,,"."Y"."\r\n";
   }
-
-  echo $dir . $filename;
 
   $csv_filename = $filename;
   $fd = fopen ($dir . $csv_filename, "w");
   if ( $fd ) {
     fputs($fd, $filecontent);
     fclose($fd);
-    echo "Success";
+    $return = $dir . $filename;
   } else {
-    echo "Error";
+    $return = 'Error';
   }
 
+  echo json_encode($return);
+
+  wp_die();
 }
 
 // show something on the page
 function export_products_callback() {
-  echo '<h1>Sinus Store - Export Products</h1>';
-  echo '<a class="export-btn" href="#"><h3>EXPORT</h3></a>';
+  $imgurl_a = plugins_url() . '/sinus-export-products/img/img1.png';
+  $imgurl_b = plugins_url() . '/sinus-export-products/img/img2.png';
+
+
+  echo '<div class="export top"><h1>Sinus Store - Export Products</h1>';
+  echo '<p>Klik på EXPORT knappen og afvent, at linket til filen kommer frem. Klik på den, eller højre-klik på den og vælg "Gem som..." eller lignende.</p><br>';
+  echo '<a class="export-btn" href="#">EXPORT</a>';
+
+  echo '<div class="export result"><div class="export-spin"><h4>...</h4></div>';
+  echo '<div class="link"></div></div>';
+
+  echo '<p>Log ind på square-up. Og klik "IMPORT/EXPORT" -> "Import Items"</p>';
+  echo '<img src="' . $imgurl_a . '" />';
+  echo '<p>Vælg "Replace Library"</p>';
+  echo '<img src="' . $imgurl_b . '" />';
+  echo '<p>Upload filen og tryk godkend, når den er gået igennem.</p></div>';
+
+
 }
 
 ?>

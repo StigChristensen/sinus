@@ -1,0 +1,86 @@
+
+.export.top {
+  padding: 50px;
+  width: 90%;
+  float: left;
+  margin: 0 0 20px 0;
+  background-color: #FCFCFC;
+  border: 1px solid #DEDEDE;
+}
+
+.export.result {
+  width: 90%;
+  height: auto;
+  min-height: 40px;
+  padding: 20px;
+  margin: 50px 0 50px 0;
+  text-align: center;
+  background-color: #FCFCFC;
+  border: 1px solid #DEDEDE;
+  position: relative;
+}
+
+.export-spin {
+  position: absolute;
+  top: 0px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: none;
+  opacity: 0;
+  animation: exportspin 2s infinite ease-in-out;
+}
+
+.link {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  right: 0;
+}
+
+img {
+  width: 300px;
+  height: auto;
+}
+
+a.export-btn {
+  background-color: #4fd5ca;
+  padding: 8px 25px 8px 25px;
+  margin: 30px 0 50px;
+  font-size: 20px;
+  text-transform: uppercase;
+  line-height: 1.5;
+  color: #000;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(.24,.63,.5,.99);
+}
+
+a.export-btn:hover {
+  color: #FFF;
+}
+
+h1 {
+  margin: 0 0 50px 0;
+  text-transform: uppercase;
+}
+
+h4 {
+  color: #4fd5ca;
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+@keyframes exportspin {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }

@@ -51,15 +51,17 @@ var cats = [];
 function getCategoryDesc(param, paramtype) {
   function getCatsAndBrands() {
     var action = '?action=sinus_catbrands';
+    var url = site.site_url + '/wp-json/taxonomies/product_cat/terms/';
+
+    console.log(url);
 
     $.ajax({
-      url: site.ajax_url + action,
-      type: "POST",
+      url: url,
+      type: "GET",
       dataType: 'json',
       success: function(response) {
-        console.log('we queried the server');
-        cats = response.categories.product_categories;
-        handleData(cats);
+        console.log(response);
+        handleData(response);
       },
       error: function(response) {
         console.log(response);
@@ -69,7 +71,7 @@ function getCategoryDesc(param, paramtype) {
 
   function handleData(cats) {
     $(cats).each(function(i,e) {
-        if ( param.toLowerCase() === e.name.toLowerCase() ) {
+        if ( param.toLowerCase() === e.slug ) {
           var comps = {
             'desc': e.description,
             'name': e.name
@@ -1971,24 +1973,6 @@ function shopMsg(title, msg) {
 }
 
 
-var productTextController = function() {
-  var textIcon = $('body').find('.text-icon'),
-      productLeft = $('body').find('.product-left'),
-      productRight = $('body').find('.product-right');
-
-  $(textIcon).on('click', function() {
-    toggleClass();
-  });
-
-  function toggleClass() {
-    $(textIcon).toggleClass('off');
-    $(productLeft).toggleClass('off');
-    $(productRight).toggleClass('off');
-  }
-
-  setTimeout(toggleClass, 800);
-}
-
 var singleProductHeightController = function() {
   var mainImage = $('.main-image img'),
       iFrame = $('body').find('iframe');
@@ -2284,4 +2268,3 @@ var CartController = function() {
     }
   });
 }
-
