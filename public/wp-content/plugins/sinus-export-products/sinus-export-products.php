@@ -22,7 +22,7 @@ add_action('admin_menu', 'register_admin_page');
 
 function export_assets() {
   wp_enqueue_script( 'export_js', plugins_url() . '/sinus-export-products/js/export.js', array('jquery'), '1.0.0', true );
-  wp_enqueue_style( 'export_js', plugins_url() . '/sinus-export-products/css/export_css.css' );
+  wp_enqueue_style( 'export_css', plugins_url() . '/sinus-export-products/css/export_css.css' );
   wp_localize_script('export_js', 'exp', array( 'export_url' => admin_url( 'admin-ajax.php' ), 'site' => site_url() ));
 }
 add_action( 'admin_init','export_assets');

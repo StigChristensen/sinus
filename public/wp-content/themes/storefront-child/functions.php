@@ -52,7 +52,7 @@ function reg_scripts() {
 
   wp_localize_script('app', 'site', array( 'theme_path' => get_stylesheet_directory_uri(), 'ajax_url' => admin_url( 'admin-ajax.php' ), 'site_url' => get_site_url(), 'key' => key, 'sec' => sec ));
 
-	wp_enqueue_style( 'main', get_stylesheet_directory_uri() . '/css/main.css', array(), '0.0.1' );
+	wp_enqueue_style( 'main', get_stylesheet_directory_uri() . '/css/main.min.css', array(), '0.0.1' );
 }
 add_action( 'wp_enqueue_scripts', 'reg_scripts', 10 );
 
