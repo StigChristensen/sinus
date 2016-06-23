@@ -8,6 +8,7 @@
 .zip
 *.crt
 *.key
+*.csv
 backups/*
 public/wp-config-live.php
 public/wp-content/uploads/*
@@ -16,3 +17,4 @@ public/wp-content/languages/*
 node_modules/*
 social-app/node_modules/*
 fpalt/node_modules/*
+public/google50414660455d3d4d.html

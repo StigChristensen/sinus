@@ -4,7 +4,7 @@
 //   window.jQuery = window.$ = require('../../node_modules/jquery/dist/jquery.min.js');
 // }
 
-import jQuery from 'jquery';
+// import jQuery from 'jquery';
 import velocity from 'velocity-animate';
 import AnimationController from './components/animationController.js';
 import sortController from './components/sortController.js';
