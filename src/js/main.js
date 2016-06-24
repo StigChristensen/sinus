@@ -23,14 +23,6 @@ jQuery(document).on('ready', function() {
   trigScrollIndicator();
   readMore();
 
-  var href = window.location.href;
-
-  // if ( href.indexOf('/type/') === -1 ) {
-  //   console.log('not archive');
-  //   new gridCartController();
-  //   new modalController();
-  // }
-
   // labels for input fields
   $("form :input").focus(function() {
     $("label[for='" + this.id + "']").addClass("focus");

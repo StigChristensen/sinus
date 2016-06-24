@@ -63,7 +63,109 @@ final class BackWPup_Admin {
 		return self::$instance;
 	}
 
-	private function __clone() {}
+	/**
+	 * Admin init function
+	 */
+	public static function admin_css() {
+
+		//register js and css for BackWPup
+		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
+			wp_enqueue_style( 'backwpup', BackWPup::get_plugin_data( 'URL' ) . '/assets/css/backwpup.css', array(), time(), 'screen' );
+		} else {
+			wp_enqueue_style( 'backwpup', BackWPup::get_plugin_data( 'URL' ) . '/assets/css/backwpup.min.css', array(), BackWPup::get_plugin_data( 'Version' ), 'screen' );
+		}
+	}
+
+	/**
+	 * Load for all BackWPup pages
+	 */
+	public static function init_general() {
+
+		add_thickbox();
+
+		//register js and css for BackWPup
+		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
+			wp_register_script( 'backwpupgeneral', BackWPup::get_plugin_data( 'URL' ) . '/assets/js/general.js', array( 'jquery' ), time(), false );
+		} else {
+			wp_register_script( 'backwpupgeneral', BackWPup::get_plugin_data( 'URL' ) . '/assets/js/general.min.js', array( 'jquery' ), BackWPup::get_plugin_data( 'Version' ), false );
+		}
+
+		//add Help
+		BackWPup_Help::help();
+	}
+
+	/**
+	 * Add Message (across site loadings)
+	 *
+	 * @param $message string Message test
+	 * @param $error bool ist it a error message
+	 */
+	public static function message( $message, $error = FALSE ) {
+
+		if ( empty( $message ) ) {
+			return;
+		}
+
+		$saved_message = self::get_messages();
+
+		if ( $error )
+			$saved_message[ 'error' ][] = $message;
+		else
+			$saved_message[ 'updated' ][] = $message;
+
+		update_site_option( 'backwpup_messages', $saved_message );
+	}
+
+	/**
+	 * Get all Message that not displayed
+	 *
+	 * @return array
+	 */
+	public static function get_messages() {
+
+		return get_site_option( 'backwpup_messages', array() );
+	}
+
+	/**
+	 * Display Messages
+	 *
+	 * @param bool $echo
+	 * @return string
+	 */
+	public static function display_messages( $echo = TRUE ) {
+
+		$message_updated= '';
+		$message_error	= '';
+		$saved_message 	= self::get_messages();
+		$message_id 	= ' id="message"';
+
+		if( empty( $saved_message ) )
+			return '';
+
+		if ( ! empty( $saved_message[ 'updated' ] ) ) {
+			foreach( $saved_message[ 'updated' ] as $msg )
+				$message_updated .= '<p>' .  $msg  . '</p>';
+		}
+		if ( ! empty( $saved_message[ 'error' ] ) ) {
+			foreach( $saved_message[ 'error' ] as $msg )
+				$message_error .= '<p>' .  $msg  . '</p>';
+		}
+
+		update_site_option( 'backwpup_messages', array() );
+
+		if ( ! empty( $message_updated ) ) {
+			$message_updated = '<div' . $message_id . ' class="updated">' . $message_updated . '</div>';
+			$message_id = '';
+		}
+		if ( ! empty( $message_error ) ) {
+			$message_error = '<div' . $message_id . ' class="error">' . $message_error . '</div>';
+		}
+
+		if ( $echo )
+			echo $message_updated . $message_error;
+
+		return $message_updated . $message_error;
+	}
 
 	/**
 	 * Admin init function
@@ -92,25 +194,6 @@ final class BackWPup_Admin {
 			}
 		}
 
-		//display about page after Update
-		if ( ! defined( 'DOING_AJAX' ) && ! get_site_option( 'backwpup_about_page', FALSE ) && ! isset( $_GET['activate-multi'] ) ) {
-			update_site_option( 'backwpup_about_page', TRUE );
-			wp_redirect( network_admin_url( 'admin.php' ) . '?page=backwpupabout' );
-			exit();
-		}
-	}
-
-	/**
-	 * Admin init function
-	 */
-	public static function admin_css() {
-
-		//register js and css for BackWPup
-		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
-			wp_enqueue_style( 'backwpup', BackWPup::get_plugin_data( 'URL' ) . '/assets/css/backwpup.css', array(), time(), 'screen' );
-		} else {
-			wp_enqueue_style( 'backwpup', BackWPup::get_plugin_data( 'URL' ) . '/assets/css/backwpup.min.css', array(), BackWPup::get_plugin_data( 'Version' ), 'screen' );
-		}
 	}
 
 	/**
@@ -145,7 +228,6 @@ final class BackWPup_Admin {
 		$this->page_hooks = apply_filters( 'backwpup_admin_pages' ,$this->page_hooks );
 
 	}
-
 
 	/**
 	 * @param $page_hooks
@@ -234,26 +316,6 @@ final class BackWPup_Admin {
 		return $page_hooks;
 	}
 
-
-	/**
-	 * Load for all BackWPup pages
-	 */
-	public static function init_general() {
-
-		add_thickbox();
-
-		//register js and css for BackWPup
-		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
-			wp_register_script( 'backwpupgeneral', BackWPup::get_plugin_data( 'URL' ) . '/assets/js/general.js', array( 'jquery' ), time(), false );
-		} else {
-			wp_register_script( 'backwpupgeneral', BackWPup::get_plugin_data( 'URL' ) . '/assets/js/general.min.js', array( 'jquery' ), BackWPup::get_plugin_data( 'Version' ), false );
-		}
-
-		//add Help
-		BackWPup_Help::help();
-	}
-
-
 	/**
 	 * Called on save form. Only POST allowed.
 	 */
@@ -299,79 +361,6 @@ final class BackWPup_Admin {
 	}
 
 	/**
-	 * Add Message (across site loadings)
-	 *
-	 * @param $message string Message test
-	 * @param $error bool ist it a error message
-	 */
-	public static function message( $message, $error = FALSE ) {
-
-		if ( empty( $message ) ) {
-			return;
-		}
-
-		$saved_message = self::get_messages();
-
-		if ( $error )
-			$saved_message[ 'error' ][] = $message;
-		else
-			$saved_message[ 'updated' ][] = $message;
-
-		update_site_option( 'backwpup_messages', $saved_message );
-	}
-
-	/**
-	 * Get all Message that not displayed
-	 *
-	 * @return array
-	 */
-	public static function get_messages() {
-
-		return get_site_option( 'backwpup_messages', array() );
-	}
-
-	/**
-	 * Display Messages
-	 *
-	 * @param bool $echo
-	 * @return string
-	 */
-	public static function display_messages( $echo = TRUE ) {
-
-		$message_updated= '';
-		$message_error	= '';
-		$saved_message 	= self::get_messages();
-		$message_id 	= ' id="message"';
-
-		if( empty( $saved_message ) )
-			return '';
-
-		if ( ! empty( $saved_message[ 'updated' ] ) ) {
-			foreach( $saved_message[ 'updated' ] as $msg )
-				$message_updated .= '<p>' .  $msg  . '</p>';
-		}
-		if ( ! empty( $saved_message[ 'error' ] ) ) {
-			foreach( $saved_message[ 'error' ] as $msg )
-				$message_error .= '<p>' .  $msg  . '</p>';
-		}
-
-		update_site_option( 'backwpup_messages', array() );
-
-		if ( ! empty( $message_updated ) ) {
-			$message_updated = '<div' . $message_id . ' class="updated">' . $message_updated . '</div>';
-			$message_id = '';
-		}
-		if ( ! empty( $message_error ) ) {
-			$message_error = '<div' . $message_id . ' class="error">' . $message_error . '</div>';
-		}
-
-		if ( $echo )
-			echo $message_updated . $message_error;
-
-		return $message_updated . $message_error;
-	}
-
-	/**
 	 * Overrides WordPress text in Footer
 	 *
 	 * @param $admin_footer_text string
@@ -411,7 +400,6 @@ final class BackWPup_Admin {
 
 		return $update_footer_text;
 	}
-
 
 	/**
 	 *  Add filed for selecting user role in user section
@@ -523,5 +511,7 @@ final class BackWPup_Admin {
 
 		return;
 	}
+
+	private function __clone() {}
 
 }

@@ -1,3 +1,4 @@
+.
 // Test if ie10 - adds class "ie10" to HTML tag, if true. - Excludes IE11
 if (/*@cc_on!@*/false && document.documentMode === 10) {
     document.documentElement.className+=' ie10';
@@ -21,14 +22,6 @@ jQuery(document).on('ready', function() {
   thumbController();
   trigScrollIndicator();
   readMore();
-
-  var href = window.location.href;
-
-  // if ( href.indexOf('/type/') === -1 ) {
-  //   console.log('not archive');
-  //   new gridCartController();
-  //   new modalController();
-  // }
 
   // labels for input fields
   $("form :input").focus(function() {

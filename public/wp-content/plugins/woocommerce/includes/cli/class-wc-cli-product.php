@@ -144,6 +144,9 @@ class WC_CLI_Product extends WC_CLI_Command {
 		$id = 0;
 
 		try {
+			$porcelain = isset( $assoc_args['porcelain'] );
+			unset( $assoc_args['porcelain'] );
+
 			$data = apply_filters( 'woocommerce_cli_create_product_data', $this->unflatten_array( $assoc_args ) );
 
 			// Check if product title is specified
@@ -168,13 +171,13 @@ class WC_CLI_Product extends WC_CLI_Command {
 
 			// Enable description html tags.
 			$post_content = isset( $data['description'] ) ? wc_clean( $data['description'] ) : '';
-			if ( $post_content && isset( $data['enable_html_description'] ) && true === $data['enable_html_description'] ) {
+			if ( $post_content && isset( $data['enable_html_description'] ) && $this->is_true( $data['enable_html_description'] ) ) {
 				$post_content = $data['description'];
 			}
 
 			// Enable short description html tags.
 			$post_excerpt = isset( $data['short_description'] ) ? wc_clean( $data['short_description'] ) : '';
-			if ( $post_excerpt && isset( $data['enable_html_short_description'] ) && true === $data['enable_html_short_description'] ) {
+			if ( $post_excerpt && isset( $data['enable_html_short_description'] ) && $this->is_true( $data['enable_html_short_description'] ) ) {
 				$post_excerpt = $data['short_description'];
 			}
 
@@ -213,7 +216,11 @@ class WC_CLI_Product extends WC_CLI_Command {
 			// Clear cache/transients
 			wc_delete_product_transients( $id );
 
-			WP_CLI::success( "Created product $id." );
+			if ( $porcelain ) {
+				WP_CLI::line( $id );
+			} else {
+				WP_CLI::success( "Created product $id." );
+			}
 		} catch ( WC_CLI_Exception $e ) {
 			// Remove the product when fails
 			$this->clear_product( $id );
@@ -623,7 +630,7 @@ class WC_CLI_Product extends WC_CLI_Command {
 			// Product short description.
 			if ( isset( $data['short_description'] ) ) {
 				// Enable short description html tags.
-				$post_excerpt = ( isset( $data['enable_html_short_description'] ) && true === $data['enable_html_short_description'] ) ? $data['short_description'] : wc_clean( $data['short_description'] );
+				$post_excerpt = ( isset( $data['enable_html_short_description'] ) && $this->is_true( $data['enable_html_short_description'] ) ) ? $data['short_description'] : wc_clean( $data['short_description'] );
 
 				wp_update_post( array( 'ID' => $id, 'post_excerpt' => $post_excerpt ) );
 			}
@@ -631,7 +638,7 @@ class WC_CLI_Product extends WC_CLI_Command {
 			// Product description.
 			if ( isset( $data['description'] ) ) {
 				// Enable description html tags.
-				$post_content = ( isset( $data['enable_html_description'] ) && true === $data['enable_html_description'] ) ? $data['description'] : wc_clean( $data['description'] );
+				$post_content = ( isset( $data['enable_html_description'] ) && $this->is_true( $data['enable_html_description'] ) ) ? $data['description'] : wc_clean( $data['description'] );
 
 				wp_update_post( array( 'ID' => $id, 'post_content' => $post_content ) );
 			}
@@ -1081,7 +1088,7 @@ class WC_CLI_Product extends WC_CLI_Command {
 
 		// Virtual
 		if ( isset( $data['virtual'] ) ) {
-			update_post_meta( $product_id, '_virtual', ( true === $data['virtual'] ) ? 'yes' : 'no' );
+			update_post_meta( $product_id, '_virtual', ( $this->is_true( $data['virtual'] ) ) ? 'yes' : 'no' );
 		}
 
 		// Tax status
@@ -1106,7 +1113,7 @@ class WC_CLI_Product extends WC_CLI_Command {
 
 		// Featured Product
 		if ( isset( $data['featured'] ) ) {
-			update_post_meta( $product_id, '_featured', ( true === $data['featured'] ) ? 'yes' : 'no' );
+			update_post_meta( $product_id, '_featured', ( $this->is_true( $data['featured'] ) ) ? 'yes' : 'no' );
 		}
 
 		// Shipping data
@@ -1177,7 +1184,7 @@ class WC_CLI_Product extends WC_CLI_Command {
 						wp_set_object_terms( $product_id, $values, $taxonomy );
 					}
 
-					if ( $values ) {
+					if ( ! empty( $values ) ) {
 						// Add attribute to array, but don't set values
 						$attributes[ $taxonomy ] = array(
 							'name'         => $taxonomy,
@@ -1211,16 +1218,7 @@ class WC_CLI_Product extends WC_CLI_Command {
 				}
 			}
 
-			if ( ! function_exists( 'attributes_cmp' ) ) {
-				function attributes_cmp( $a, $b ) {
-					if ( $a['position'] == $b['position'] ) {
-						return 0;
-					}
-
-					return ( $a['position'] < $b['position'] ) ? -1 : 1;
-				}
-			}
-			uasort( $attributes, 'attributes_cmp' );
+			uasort( $attributes, 'wc_product_attribute_uasort_comparison' );
 
 			update_post_meta( $product_id, '_product_attributes', $attributes );
 		}
@@ -1311,7 +1309,7 @@ class WC_CLI_Product extends WC_CLI_Command {
 				$clear_parent_ids[] = $product_id;
 			}
 
-			if ( $clear_parent_ids ) {
+			if ( ! empty( $clear_parent_ids ) ) {
 				foreach ( $clear_parent_ids as $clear_id ) {
 
 					$children_by_price = get_posts( array(
@@ -1336,12 +1334,12 @@ class WC_CLI_Product extends WC_CLI_Command {
 
 		// Sold Individually
 		if ( isset( $data['sold_individually'] ) ) {
-			update_post_meta( $product_id, '_sold_individually', ( true === $data['sold_individually'] ) ? 'yes' : '' );
+			update_post_meta( $product_id, '_sold_individually', ( $this->is_true( $data['sold_individually'] ) ) ? 'yes' : '' );
 		}
 
 		// Stock status
 		if ( isset( $data['in_stock'] ) ) {
-			$stock_status = ( true === $data['in_stock'] ) ? 'instock' : 'outofstock';
+			$stock_status = ( $this->is_true( $data['in_stock'] ) ) ? 'instock' : 'outofstock';
 		} else {
 			$stock_status = get_post_meta( $product_id, '_stock_status', true );
 
@@ -1354,7 +1352,7 @@ class WC_CLI_Product extends WC_CLI_Command {
 		if ( 'yes' == get_option( 'woocommerce_manage_stock' ) ) {
 			// Manage stock
 			if ( isset( $data['managing_stock'] ) ) {
-				$managing_stock = ( true === $data['managing_stock'] ) ? 'yes' : 'no';
+				$managing_stock = ( $this->is_true( $data['managing_stock'] ) ) ? 'yes' : 'no';
 				update_post_meta( $product_id, '_manage_stock', $managing_stock );
 			} else {
 				$managing_stock = get_post_meta( $product_id, '_manage_stock', true );
@@ -1365,7 +1363,7 @@ class WC_CLI_Product extends WC_CLI_Command {
 				if ( 'notify' == $data['backorders'] ) {
 					$backorders = 'notify';
 				} else {
-					$backorders = ( true === $data['backorders'] ) ? 'yes' : 'no';
+					$backorders = ( $this->is_true( $data['backorders'] ) ) ? 'yes' : 'no';
 				}
 
 				update_post_meta( $product_id, '_backorders', $backorders );
@@ -1462,7 +1460,7 @@ class WC_CLI_Product extends WC_CLI_Command {
 
 		// Downloadable
 		if ( isset( $data['downloadable'] ) ) {
-			$is_downloadable = ( true === $data['downloadable'] ) ? 'yes' : 'no';
+			$is_downloadable = ( $this->is_true( $data['downloadable'] ) ) ? 'yes' : 'no';
 			update_post_meta( $product_id, '_downloadable', $is_downloadable );
 		} else {
 			$is_downloadable = get_post_meta( $product_id, '_downloadable', true );
@@ -1505,7 +1503,7 @@ class WC_CLI_Product extends WC_CLI_Command {
 
 		// Reviews allowed
 		if ( isset( $data['reviews_allowed'] ) ) {
-			$reviews_allowed = ( true === $data['reviews_allowed'] ) ? 'open' : 'closed';
+			$reviews_allowed = ( $this->is_true( $data['reviews_allowed'] ) ) ? 'open' : 'closed';
 
 			$wpdb->update( $wpdb->posts, array( 'comment_status' => $reviews_allowed ), array( 'ID' => $product_id ) );
 		}
@@ -1611,13 +1609,13 @@ class WC_CLI_Product extends WC_CLI_Command {
 
 			// Virtual variation
 			if ( isset( $variation['virtual'] ) ) {
-				$is_virtual = ( true === $variation['virtual'] ) ? 'yes' : 'no';
+				$is_virtual = ( $this->is_true( $variation['virtual'] ) ) ? 'yes' : 'no';
 				update_post_meta( $variation_id, '_virtual', $is_virtual );
 			}
 
 			// Downloadable variation
 			if ( isset( $variation['downloadable'] ) ) {
-				$is_downloadable = ( true === $variation['downloadable'] ) ? 'yes' : 'no';
+				$is_downloadable = ( $this->is_true( $variation['downloadable'] ) ) ? 'yes' : 'no';
 				update_post_meta( $variation_id, '_downloadable', $is_downloadable );
 			} else {
 				$is_downloadable = get_post_meta( $variation_id, '_downloadable', true );
@@ -1628,7 +1626,7 @@ class WC_CLI_Product extends WC_CLI_Command {
 
 			// Stock handling
 			if ( isset( $variation['managing_stock'] ) ) {
-				$managing_stock = ( true === $variation['managing_stock'] ) ? 'yes' : 'no';
+				$managing_stock = ( $this->is_true( $variation['managing_stock'] ) ) ? 'yes' : 'no';
 				update_post_meta( $variation_id, '_manage_stock', $managing_stock );
 			} else {
 				$managing_stock = get_post_meta( $variation_id, '_manage_stock', true );
@@ -1636,16 +1634,16 @@ class WC_CLI_Product extends WC_CLI_Command {
 
 			// Only update stock status to user setting if changed by the user, but do so before looking at stock levels at variation level
 			if ( isset( $variation['in_stock'] ) ) {
-				$stock_status = ( true === $variation['in_stock'] ) ? 'instock' : 'outofstock';
+				$stock_status = ( $this->is_true( $variation['in_stock'] ) ) ? 'instock' : 'outofstock';
 				wc_update_product_stock_status( $variation_id, $stock_status );
 			}
 
 			if ( 'yes' === $managing_stock ) {
 				if ( isset( $variation['backorders'] ) ) {
-					if ( 'notify' == $variation['backorders'] ) {
+					if ( 'notify' === $variation['backorders'] ) {
 						$backorders = 'notify';
 					} else {
-						$backorders = ( true === $variation['backorders'] ) ? 'yes' : 'no';
+						$backorders = ( $this->is_true( $variation['backorders'] ) ) ? 'yes' : 'no';
 					}
 				} else {
 					$backorders = 'no';
@@ -1751,16 +1749,12 @@ class WC_CLI_Product extends WC_CLI_Command {
 			if ( isset( $variation['attributes'] ) ) {
 				$updated_attribute_keys = array();
 
-				foreach ( $variation['attributes'] as $attribute_key => $attribute ) {
-					if ( ! isset( $attribute['name'] ) ) {
-						continue;
-					}
-
-					$taxonomy   = sanitize_title( $attribute['name'] );
+				foreach ( $variation['attributes'] as $slug => $value ) {
+					$taxonomy   = sanitize_title( $slug );
 					$_attribute = array();
 
-					if ( isset( $attribute['slug'] ) ) {
-						$taxonomy = $this->get_attribute_taxonomy_by_slug( $attribute['slug'] );
+					if ( $this->get_attribute_taxonomy_by_slug( $slug ) !== null ) {
+						$taxonomy = $this->get_attribute_taxonomy_by_slug( $slug );
 					}
 
 					if ( isset( $attributes[ $taxonomy ] ) ) {
@@ -1769,7 +1763,7 @@ class WC_CLI_Product extends WC_CLI_Command {
 
 					if ( isset( $_attribute['is_variation'] ) && $_attribute['is_variation'] ) {
 						$attribute_key   = 'attribute_' . sanitize_title( $_attribute['name'] );
-						$attribute_value = isset( $attribute['option'] ) ? sanitize_title( stripslashes( $attribute['option'] ) ) : '';
+						$attribute_value = ! empty( $value ) ? sanitize_title( stripslashes( $value ) ) : '';
 						$updated_attribute_keys[] = $attribute_key;
 
 						update_post_meta( $variation_id, $attribute_key, $attribute_value );
@@ -1918,7 +1912,7 @@ class WC_CLI_Product extends WC_CLI_Command {
 
 		// Virtual
 		if ( isset( $data['virtual'] ) ) {
-			$virtual = ( true === $data['virtual'] ) ? 'yes' : 'no';
+			$virtual = ( $this->is_true( $data['virtual'] ) ) ? 'yes' : 'no';
 
 			if ( 'yes' == $virtual ) {
 				update_post_meta( $id, '_weight', '' );
@@ -2063,10 +2057,10 @@ class WC_CLI_Product extends WC_CLI_Command {
 	}
 
 	/**
-	 * Get product image as attachment
+	 * Sets product image as attachment and returns the attachment ID.
 	 *
 	 * @since  2.5.0
-	 * @param  int $upload
+	 * @param  array $upload
 	 * @param  int $id
 	 * @return int
 	 */
