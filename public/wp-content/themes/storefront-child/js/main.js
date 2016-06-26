@@ -1,4 +1,4 @@
-.
+
 // Test if ie10 - adds class "ie10" to HTML tag, if true. - Excludes IE11
 if (/*@cc_on!@*/false && document.documentMode === 10) {
     document.documentElement.className+=' ie10';
@@ -22,6 +22,7 @@ jQuery(document).on('ready', function() {
   thumbController();
   trigScrollIndicator();
   readMore();
+  pageCartController();
 
   // labels for input fields
   $("form :input").focus(function() {
@@ -29,7 +30,56 @@ jQuery(document).on('ready', function() {
   }).blur(function() {
     $("label").removeClass("focus");
   });
+
 }); // End Ready
+
+
+
+function pageCartController() {
+  var addBtn = $('body').find('.add-button.large'),
+      cart = $('body').find('.cart-contents');
+
+  $(addBtn).each(function(i, e) {
+    var id = $(this).attr('data-href'),
+        prodTitle = $(this).attr('data-title');
+
+    $(this).on('click', function(event) {
+      event.preventDefault();
+      var cartNumber = $('body').find('.cart-icon h5'),
+          cartInt = parseInt($('body').find('.cart-icon h5').text()),
+          url = site.ajax_url + '?action=sinus_add',
+          dataObject = {
+            'product_id': id
+          }
+
+      data = JSON.stringify(dataObject);
+
+      $.ajax({
+        url: url,
+        type: 'POST',
+        data: data,
+        dataType: 'html',
+        success: function(response) {
+          var updatedNum = cartInt + 1;
+          cartNumber.html(updatedNum);
+          $(cart).html(response);
+          shopMsg(prodTitle);
+
+          // setTimeout(function() {
+          //   window.location.href = window.location.href;
+          // }, 1000);
+        },
+        error: function(response) {
+          console.log('error -', response);
+        }
+      });
+    });
+  });
+};
+
+
+
+
 
 var documentHeight;
 

@@ -201,7 +201,7 @@
             $price = $product->price;
           ?>
             <div class="cart-element">
-              <div class="remove-icon" data-id="<?php echo $ca['product_id']; ?>"><p>X</p></div>
+              <div class="remove-icon" data-id="<?php echo $ca['product_id']; ?>"><p><i class="fa fa-times-circle-o"></i></p></div>
               <div class="elem-title"><p><?php echo get_the_title($ca['product_id']); ?></p></div>
               <div class="elem-qty-total" data-qty="<?php echo $ca['quantity']; ?>"><p>
               <?php
