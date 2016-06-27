@@ -8,7 +8,7 @@ var babel = require('babelify');
 var uglify = require('gulp-uglify');
 
 function compile(watch) {
-  var bundler = watchify(browserify('src/js/front.js', { debug: true }).transform(babel.configure({presets: ["es2015"]}))
+  var bundler = watchify(browserify('src/productgrid/grid.js', { debug: true }).transform(babel.configure({presets: ["es2015"]}))
 );
 
   function rebundle() {

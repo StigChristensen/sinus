@@ -67,11 +67,6 @@ $terms = wp_get_post_terms($post->ID,'product_cat', $args);
 
     <div class="product-list-grid">
 
-
-
-
-
-
     </div>
 </div>
 
