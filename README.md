@@ -1,4 +1,4 @@
 # Sinus
 ==================
 
-Updating templates, refeactoring JS, etc.
+    Updating templates, refectoring JS, etc.
