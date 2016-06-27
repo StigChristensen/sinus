@@ -1,9 +1,6 @@
 <?php
 /**
- * The Template for displaying product archives, including the main shop page which is a post type archive.
- *
- * Override this template by copying it to yourtheme/woocommerce/archive-product.php
- *
+ * product tag equals Product TYPE
  * @author    WooThemes
  * @package   WooCommerce/Templates
  * @version     9.0.0
@@ -20,7 +17,9 @@ $args = array( 'taxonomy' => 'product_cat');
 $terms = wp_get_post_terms($post->ID,'product_cat', $args);
 ?>
 
-<div class="products-container" data-cat="<?php echo $terms[0]->slug; ?>">
+<h1>Product Category - <?php echo $terms[0]->slug; ?></h1>
+
+<div class="products-container" data-type="<?php echo $terms[0]->slug; ?>" data-template="type">
     <div class="spinner"><div class="circle"></div><div class="circle1"></div></div>
 
     <div class="category-description">

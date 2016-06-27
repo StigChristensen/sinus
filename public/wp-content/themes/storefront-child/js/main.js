@@ -78,9 +78,6 @@ function pageCartController() {
 };
 
 
-
-
-
 var documentHeight;
 
 function scrollTo(value) {
@@ -95,8 +92,6 @@ function getCategoryDesc(param, paramtype) {
   function getCatsAndBrands() {
     var action = '?action=sinus_catbrands';
     var url = site.site_url + '/wp-json/taxonomies/product_cat/terms/';
-
-    console.log(url);
 
     $.ajax({
       url: url,

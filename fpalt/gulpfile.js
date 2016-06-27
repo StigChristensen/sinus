@@ -14,7 +14,7 @@ function compile(watch) {
   function rebundle() {
     bundler.bundle()
       .on('error', function(err) { console.error(err); this.emit('end'); })
-      .pipe(source('fp.js'))
+      .pipe(source('grid.js'))
       .pipe(buffer())
       .pipe(uglify())
       // .pipe(sourcemaps.init({ loadMaps: true }))
