@@ -19,7 +19,7 @@ foreach ( $terms as $term ){
 
 $class_string = implode(" ", $classes);
 $content = get_the_content();
-$trimmed = wp_trim_words($content, 13, '...');
+$trimmed = wp_trim_words($content, 28, ' ... KLIK FOR MERE');
 ?>
 
 <?php
@@ -43,7 +43,3 @@ if ( $qty > 0 ) {
   <div class="product-price"><?php echo $product->get_price_html(); ?><div class="add-button" data-href="<?php the_ID(); ?>" data-title="<?php the_title(); ?>"><svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"x="0px" y="0px" viewBox="0 0 60 60" xml:space="preserve"><line class="svg-line" fill="none" stroke="#007c96" stroke-width="10" stroke-miterlimit="10" x1="30" y1="6" x2="30" y2="54"/><line class="svg-line" fill="none" stroke="#007c96" stroke-width="10" stroke-miterlimit="10" x1="6" y1="30" x2="54" y2="30"/></svg><span class="add-info">Tilføj til kurv</span></div></div>
   <div class="sinus-product-info"><div class="short-desc" itemprop="description"><p><?php echo $trimmed; ?></p><i class="fa fa-chevron-circle-up"></i></div></div>
 </li>
-
-
-
-

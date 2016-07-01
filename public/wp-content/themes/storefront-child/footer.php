@@ -2,34 +2,11 @@
 
 	<footer id="colophon" class="site-footer" role="contentinfo">
     <div class="footer-bar"></div>
-    <div class="footer-content">
 
-    <div class="opening-hours">
-        <h4>Åbningstider</h4>
-        <div class="open-left">
-            <span>Man:</span><br>
-            <span>Tir:</span><br>
-            <span>Ons:</span><br>
-            <span>Tor:</span><br>
-            <span>Fre:</span><br>
-            <span>Lør:</span><br>
-            <span>Søn:</span>
-        </div>
-        <div class="open-right">
-            <span>11-18</span><br>
-            <span>11-18</span><br>
-            <span>11-18</span><br>
-            <span>11-18</span><br>
-            <span>11-18</span><br>
-            <span>11-15</span><br>
-            <span>Lukket</span>
-
-        </div>
-    </div>
-
+		<div class="footer-content">
 
       <div class="footer-left" itemscope itemtype="http://schema.org/Organization">
-        <a class="maplink" href="https://www.google.com/maps/place/Studiestr%C3%A6de+24,+1455+K%C3%B8benhavn+K,+Denmark/@55.6784408,12.5665802,17z/data=!3m1!4b1!4m2!3m1!1s0x4652530e3be1ef31:0x5d7d53361e137078" target="_blank">
+        <a class="maplink" href="https://www.google.com/maps/place/Sinus+-+Headphones+and+audio/@55.6784408,12.5665802,17z/data=!4m13!1m7!3m6!1s0x4652530e3be1ef31:0x5d7d53361e137078!2sStudiestr%C3%A6de+24,+1455+K%C3%B8benhavn,+Denmark!3b1!8m2!3d55.6784408!4d12.5687689!3m4!1s0x4652530e3be1ef31:0x2b63b5908391c716!8m2!3d55.6784408!4d12.5687689" target="_blank">
         <address class="store-address" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
           <h4 itemprop="name">Sinus</h4>
           <p itemprop="name">Headphones & Audio</p>
@@ -41,15 +18,42 @@
         <a href="mailto:info@sinus-store.dk" itemprop="email"><p>info@sinus-store.dk</p></a><br>
 
       </div>
+
+			<div class="footer-center">
+				<div class="opening-hours">
+						<h4>Åbningstider</h4>
+						<div class="open-left">
+								<span>Man:</span><br>
+								<span>Tir:</span><br>
+								<span>Ons:</span><br>
+								<span>Tor:</span><br>
+								<span>Fre:</span><br>
+								<span>Lør:</span><br>
+								<span>Søn:</span>
+						</div>
+						<div class="open-right">
+								<span>11-18</span><br>
+								<span>11-18</span><br>
+								<span>11-18</span><br>
+								<span>11-18</span><br>
+								<span>11-18</span><br>
+								<span>11-15</span><br>
+								<span>Lukket</span>
+
+						</div>
+				</div>
+			</div>
+
       <div class="footer-right">
-            <a class="text" href="/handelsvilkaar/">Handelsvilkår</a><br>
-            <a class="text link-last" href="/om-os/">Om os</a><br>
-            <a class="social" href="/social/"><i class="fa fa-facebook"></i> <i class="fa fa-instagram"></i></a><br>
+      	<a class="text" href="/handelsvilkaar/">Handelsvilkår</a><br>
+        <a class="text link-last" href="/om-os/">Om os</a><br>
+        <a class="social" href="https://www.facebook.com/sinusstore"><i class="fa fa-facebook"></i> Facebook</a><br>
+				<a class="social" href="https://www.instagram.com/sinus_headphones/"><i class="fa fa-instagram"></i> Instagram</a><br>
       </div>
-    </div>
 
-        <div class="map" id="storemap"></div>
+		</div>
 
+    <div class="map" id="storemap"></div>
 
     <address class="sub" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
       <span itemprop="name">Sinus IVS / </span>
@@ -99,7 +103,7 @@
         "elementType": "labels.text.fill",
         "stylers": [
             {
-                "color": "#FAFAFA"
+                "color": "#2b2b2b"
             }
         ]
     },
@@ -181,6 +185,9 @@
         "stylers": [
             {
                 "visibility": "simplified"
+            },
+						{
+                "color": "#2b2b2b"
             }
         ]
     },
@@ -201,7 +208,7 @@
                 "saturation": -100
             },
             {
-                "lightness": 45
+                "lightness": -200
             }
         ]
     },
@@ -210,7 +217,10 @@
         "elementType": "geometry.fill",
         "stylers": [
             {
-                "visibility": "on"
+                "visibility": "off"
+            },
+						{
+                "color": "#ABABAB"
             }
         ]
     },
@@ -219,7 +229,7 @@
         "elementType": "geometry.stroke",
         "stylers": [
             {
-                "visibility": "on"
+                "visibility": "off"
             }
         ]
     },
@@ -231,10 +241,10 @@
                 "visibility": "simplified"
             },
             {
-                "lightness": "100"
+                "lightness": "15"
             },
             {
-                "weight": "1"
+                "weight": "15"
             }
         ]
     },
@@ -249,10 +259,10 @@
     },
     {
         "featureType": "road.highway",
-        "elementType": "geometry.fill",
+        "elementType": "geometry.stroke",
         "stylers": [
             {
-                "visibility": "on"
+                "visibility": "off"
             },
             {
                 "color": "#acb1b0"
@@ -270,7 +280,7 @@
         "elementType": "geometry.fill",
         "stylers": [
             {
-                "visibility": "on"
+                "visibility": "off"
             },
             {
                 "color": "#4fd5ca"
@@ -339,7 +349,7 @@
                 "color": "#4fd5ca"
             },
             {
-                "lightness": "25"
+                "lightness": "15"
             }
         ]
     },
@@ -353,6 +363,9 @@
             {
                 "lightness": "10"
             },
+						{
+                "color": "#CCCCCC"
+            }
         ]
     },
     {

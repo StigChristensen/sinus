@@ -4,7 +4,6 @@
   margin: 0px auto 0px auto;
   padding: 24px;
   background-color: #000;
-  // border: 1px solid rgba(255, 255, 255, 0.1);
 
   .filters-expand-btn {
     display: none;
@@ -43,7 +42,7 @@
     height: auto;
     float: left;
     text-align: center;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid $bord;
 
     input[type=checkbox] {
       display:none;
@@ -60,8 +59,8 @@
       margin: 0 auto 0 auto;
       cursor: pointer;
       text-align: left;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid $bord;
+      border-right: 1px solid $bord;
       @include trans(0.5s);
 
       i.fa {
@@ -98,7 +97,7 @@
   }
 
   .filters.left {
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 1px solid $bord;
 
     input[type=checkbox] + label {
       border-right: none;
@@ -106,15 +105,15 @@
   }
 
   .filters.center-left {
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 1px solid $bord;
   }
 
   .filters.bottom {
     width: 404px;
     float: left;
     margin: 10px auto 0 auto;
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 1px solid $bord;
+    border-right: 1px solid $bord;
 
     input[type=checkbox] + label {
       position: relative;
@@ -127,7 +126,7 @@
       margin: 0 auto 0 auto;
       cursor: pointer;
       text-align: left;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid $bord;
       @include trans(0.5s);
 
       i.fa {

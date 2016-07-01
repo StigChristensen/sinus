@@ -2490,7 +2490,83 @@ html, body {
     height: auto;
     float: left;
     text-align: center;
-    margin: 40px auto 80px auto; }
+    margin: 50px auto 50px auto; }
+  .product-template.wrapper .template.products-container {
+    width: 100%;
+    height: auto;
+    float: left;
+    margin: 0;
+    padding: 0;
+    text-align: center; }
+    .product-template.wrapper .template.products-container .product-list-grid {
+      width: 858px;
+      margin: 0 auto 0 auto;
+      height: auto;
+      float: none;
+      padding: 24px; }
+    .product-template.wrapper .template.products-container .template.page.products ul.template.products {
+      top: 0; }
+      .product-template.wrapper .template.products-container .template.page.products ul.template.products li.product {
+        top: 0;
+        margin: 0px 5px 40px 0;
+        height: 480px;
+        width: 400px;
+        min-width: 300px; }
+        .product-template.wrapper .template.products-container .template.page.products ul.template.products li.product a .click-area {
+          height: 432px; }
+        .product-template.wrapper .template.products-container .template.page.products ul.template.products li.product img {
+          max-width: 400px;
+          max-height: 302px;
+          height: auto;
+          left: 0px;
+          bottom: 130px;
+          left: 0;
+          right: 0;
+          margin-left: auto;
+          margin-right: auto; }
+        .product-template.wrapper .template.products-container .template.page.products ul.template.products li.product .product-title {
+          background-color: rgba(0, 0, 0, 0.9);
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+          border-left: 1px solid rgba(255, 255, 255, 0.1);
+          border-right: 1px solid rgba(255, 255, 255, 0.1); }
+          .product-template.wrapper .template.products-container .template.page.products ul.template.products li.product .product-title h3 {
+            font-size: 14px;
+            font-weight: 400;
+            color: #4fd5ca; }
+        .product-template.wrapper .template.products-container .template.page.products ul.template.products li.product .sinus-product-info {
+          width: 400px;
+          height: 82px;
+          bottom: 48px;
+          left: 0px;
+          background-color: rgba(0, 0, 0, 0.9);
+          border-right: 1px solid rgba(255, 255, 255, 0.1); }
+          .product-template.wrapper .template.products-container .template.page.products ul.template.products li.product .sinus-product-info .short-desc {
+            width: 400px;
+            height: 82px;
+            bottom: 0;
+            padding: 14px 20px 10px 30px; }
+            .product-template.wrapper .template.products-container .template.page.products ul.template.products li.product .sinus-product-info .short-desc p {
+              font-size: 11px;
+              color: rgba(255, 255, 255, 0.5); }
+            .product-template.wrapper .template.products-container .template.page.products ul.template.products li.product .sinus-product-info .short-desc i.fa {
+              display: none; }
+        .product-template.wrapper .template.products-container .template.page.products ul.template.products li.product .in-stock-icon {
+          bottom: 15px;
+          left: 8px;
+          right: initial;
+          z-index: 300; }
+        .product-template.wrapper .template.products-container .template.page.products ul.template.products li.product .product-price {
+          padding: 15px 52px 12px 30px;
+          background-color: #000;
+          border-left: 1px solid rgba(255, 255, 255, 0.1);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          border-right: 1px solid rgba(255, 255, 255, 0.1); }
+          .product-template.wrapper .template.products-container .template.page.products ul.template.products li.product .product-price span {
+            font-size: 14px;
+            font-weight: 400; }
+          .product-template.wrapper .template.products-container .template.page.products ul.template.products li.product .product-price .add-button {
+            left: initial;
+            right: 8px; }
 
 .filters-container.headphones {
   width: 858px;
@@ -4771,7 +4847,7 @@ footer, footer.site-footer {
     border-bottom: 1px solid #202020;
     border-top: 1px solid #202020; }
     footer .map .gm-style-cc, footer.site-footer .map .gm-style-cc {
-      opacity: 0.2; }
+      opacity: 0.05; }
   footer address.sub, footer.site-footer address.sub {
     position: absolute;
     bottom: 0px;
