@@ -1,6 +1,6 @@
 <?php
 /**
- * product tag equals Product TYPE
+ * product cat equals Product TYPE in the frontend
  * @author    WooThemes
  * @package   WooCommerce/Templates
  * @version     9.0.0
@@ -19,8 +19,16 @@ $terms = wp_get_post_terms($post->ID,'product_cat', $args);
 
 <h1>Product Category - <?php echo $terms[0]->slug; ?></h1>
 
+<?php
+
+
+// get_template_part( 'content', 'filtering-headphones' );
+
+
+?>
+
 <div class="products-container" data-type="<?php echo $terms[0]->slug; ?>" data-template="type">
-    <div class="spinner"><div class="circle"></div><div class="circle1"></div></div>
+    <!-- <div class="spinner"><div class="circle"></div><div class="circle1"></div></div> -->
 
     <div class="category-description">
       <div class="desc-esc"></div>
