@@ -171,17 +171,18 @@
     <p class="green">|</p>
     <a class="green" href="/type/preamps">Preamps</a>
     <p class="green" >|</p>
-    <a class="white" href="/om-os/">Om os</a>
+    <a class="green" href="/type/dac">DAC</a>
+		<p class="white">|</p>
+		<a class="white" href="/om-os/">Om os</a>
     <p class="white">|</p>
     <a class="white" href="/faq/">FAQ</a>
-    <p class="white">|</p>
-    <a class="white" href="/social/"><i class="fa fa-facebook"></i> <i class="fa fa-instagram"></i></a>
-    <p class="green">|</p>
-    <a class="green" href="/type/dac">DAC</a>
-    <p class="green">|</p>
+		<p class="white">|</p>
     <a class="green" href="/type/traadloese-hoejttalere">Højttalere</a>
     <p class="green">|</p>
+		<a class="green" href="/type/pladespillere">Pladespillere</a>
+    <p class="green">|</p>
     <a class="green" href="/type/tilbehoer">Tilbehør</a>
+
   </div>
 
 
@@ -229,4 +230,3 @@
   </div>
 
 <div class="atc-modal"></div>
-

@@ -1,9 +1,10 @@
 <?php
 /**
 * The template for displaying the filtering options on product pages
- *
- * @version 92.5.1
- */
+*
+* HOVEDTELEFONER
+*
+*/
 
 if ( ! defined( 'ABSPATH' ) ) {
   exit; // Exit if accessed directly
@@ -47,11 +48,11 @@ $brands = wp_get_post_terms($post->ID,'product_tag', $args);
     </div>
 
     <div class="filters bottom">
-      <input type='checkbox' class='price_low' name='price_low' value='' id="price_low" unchecked /><label for="price_low"><i class="fa fa-check-square"></i> <h4>Pris: 0-1000 kr.</h4></label>
+      <input type='checkbox' class='pris_lav' name='pris_lav' data-range="0-1000" value='' id="pris_lav" unchecked /><label for="pris_lav"><i class="fa fa-check-square"></i> <h4>Pris: 0-1000 kr.</h4></label>
 
-      <input type='checkbox' class='price_med' name='price_med' value='' id="price_med" unchecked /><label for="price_med"><i class="fa fa-check-square"></i> <h4>Pris: 1000-3000 kr.</h4></label>
+      <input type='checkbox' class='pris_med' name='pris_med' data-range="1000-3000" value='' id="pris_med" unchecked /><label for="pris_med"><i class="fa fa-check-square"></i> <h4>Pris: 1000-3000 kr.</h4></label>
 
-      <input type='checkbox' class='price_hi' name='price_hi' value='' id="price_hi" unchecked /><label for="price_hi"><i class="fa fa-check-square"></i> <h4>Pris: 3000-???? kr.</h4></label>
+      <input type='checkbox' class='pris_top' name='pris_top' data-range="3000-30000" value='' id="pris_top" unchecked /><label for="pris_top"><i class="fa fa-check-square"></i> <h4>Pris: 3000-???? kr.</h4></label>
 
     </div>
 

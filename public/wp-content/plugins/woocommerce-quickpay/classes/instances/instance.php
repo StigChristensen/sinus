@@ -15,7 +15,7 @@ class WC_QuickPay_Instance extends WC_QuickPay {
     
     public function setup() {
         $this->hooks_and_filters();
-        
+
         // Keep a reference
         $this->main_settings = $this->settings;
         
@@ -72,7 +72,7 @@ class WC_QuickPay_Instance extends WC_QuickPay {
     * @access public
     * @return string
     */
-    public function s( $key ) 
+    public function s( $key, $default = NULL )
     {
         if( isset( $this->settings[$key] ) ) {
             return $this->settings[$key];
@@ -82,7 +82,7 @@ class WC_QuickPay_Instance extends WC_QuickPay {
             return $this->main_settings[$key];
         }
 
-        return '';
+        return ! is_null( $default ) ? $default : '';
     }
     
     

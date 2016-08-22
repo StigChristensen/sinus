@@ -16,22 +16,52 @@ get_header();
 global $post;
 $args = array( 'taxonomy' => 'product_tag');
 $terms = wp_get_post_terms($post->ID,'product_tag', $args);
+
+$q = get_queried_object();
+$template_type = "brand";
+
+if ( $q->parent === 0 ) {
+  $header = $q->name;
+  $parent_term = $q->name;
+} else {
+  $t = get_term($q->parent);
+  $parent_term = $t->name;
+  $sub_cat = $q->name;
+  $header = $parent_term . " - " . $sub_cat;
+}
+
 ?>
 
-<h1>Product Brand - <?php echo $terms[0]->slug; ?></h1>
-
-<div class="products-container" data-brand="<?php echo $terms[0]->slug; ?>" data-template="type">
-    <div class="spinner"><div class="circle"></div><div class="circle1"></div></div>
-
-    <div class="category-description">
-      <div class="desc-esc"></div>
-      <div class="desc-more"></div>
-      <div class="more-btn"><p>Læs mere...</p></div>
+<div class="product-template wrapper">
+  <div class="product-header">
+    <div class="product-headline">
+      <h1>- <?php echo $header; ?></h1>
     </div>
 
-    <div class="product-list-grid">
-
+    <div class="template-description">
+      <span class="desc"><?php echo $q->description; ?></span>
     </div>
+  </div>
+
+  <div class="filters-wrap">
+    <?php
+      // Get product filtering template
+      get_template_part( 'content', 'filtering-headphones' );
+    ?>
 </div>
 
-<?php get_footer( 'shop' ); ?>
+      <div class="template brand products-container" data-templatetype="<?php echo $template_type; ?>" data-brand="<?php echo $parent_term; ?>" >
+          <div class="product-list-grid">
+            <div class="template page products">
+              <ul class="template products">
+              <?php while ( have_posts() ) : the_post(); ?>
+
+                <?php wc_get_template_part( 'content', 'single-product-grid' ); ?>
+
+              <?php endwhile; // end of the loop. ?>
+              </ul>
+            </div>
+          </div>
+      </div>
+</div>
+<?php get_footer(); ?>

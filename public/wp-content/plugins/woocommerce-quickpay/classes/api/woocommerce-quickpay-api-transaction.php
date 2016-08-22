@@ -115,15 +115,16 @@ class WC_QuickPay_API_Transaction extends WC_QuickPay_API
     /**
 	* create_link function.
 	* 
-	* Creates a new payment link via the API
+	* Creates or updates a payment link via the API
 	*
+ 	* @since  4.5.0 
 	* @access public
 	* @param  int $transaction_id
 	* @param  WC_QuickPay_Order $order
 	* @return object
 	* @throws QuickPay_API_Exception
 	*/   
-    public function create_link( $transaction_id, WC_QuickPay_Order $order ) 
+    public function patch_link($transaction_id, WC_QuickPay_Order $order ) 
     {         
         $cardtypelock = WC_QP()->s( 'quickpay_cardtypelock' );
 
@@ -152,5 +153,119 @@ class WC_QuickPay_API_Transaction extends WC_QuickPay_API
     	$payment_link = $this->put( sprintf( '%d/link', $transaction_id ), $params);
 
         return $payment_link;
-    } 
+    }
+	
+	
+	/**
+	 * get_cardtype function
+	 * 
+	 * Returns the payment type / card type used on the transaction
+	 * @since  4.5.0
+	 * @return mixed
+	 * @throws QuickPay_API_Exception
+	 */
+	public function get_brand() {
+		if( ! is_object( $this->resource_data ) )
+		{
+			throw new QuickPay_API_Exception( 'No API payment resource data available.', 0 );
+		}
+		return $this->resource_data->metadata->brand;
+	}
+	
+	/**
+	 * get_balance function
+	 *
+	 * Returns the transaction balance
+	 * @since  4.5.0
+	 * @return mixed
+	 * @throws QuickPay_API_Exception
+	 */
+	public function get_balance() {
+		if( ! is_object( $this->resource_data ) )
+		{
+			throw new QuickPay_API_Exception( 'No API payment resource data available.', 0 );
+		}
+		return $this->resource_data->balance;		
+	}
+	
+	/**
+	 * get_formatted_balance function
+	 *
+	 * Returns a formatted transaction balance
+	 * @since  4.5.0
+	 * @return mixed
+	 * @throws QuickPay_API_Exception
+	 */	
+	public function get_formatted_balance() {
+		return WC_QuickPay_Helper::price_normalize( $this->get_balance() );
+	}
+
+	/**
+	 * get_currency function
+	 *
+	 * Returns a transaction currency
+	 * @since  4.5.0
+	 * @return mixed
+	 * @throws QuickPay_API_Exception
+	 */
+	public function get_currency() {
+		if( ! is_object( $this->resource_data ) )
+		{
+			throw new QuickPay_API_Exception( 'No API payment resource data available.', 0 );
+		}
+		return $this->resource_data->currency;
+	}
+	
+	/**
+	 * get_remaining_balance function
+	 *
+	 * Returns a remaining balance
+	 * @since  4.5.0
+	 * @return mixed
+	 * @throws QuickPay_API_Exception
+	 */	
+	public function get_remaining_balance() {
+		$balance = $this->get_balance();
+		$amount = $this->resource_data->operations[0]->amount;
+
+		$remaining = $amount;
+
+		if ($balance > 0) {
+			$remaining = $amount - $balance;
+		}
+
+		return $remaining;
+	}
+	
+	/**
+	 * get_formatted_remaining_balance function
+	 *
+	 * Returns a formatted transaction balance
+	 * @since  4.5.0
+	 * @return mixed
+	 * @throws QuickPay_API_Exception
+	 */
+	public function get_formatted_remaining_balance() {
+		return WC_QuickPay_Helper::price_normalize( $this->get_remaining_balance() );
+	}
+
+	/**
+	 * Checks if either a specific operation or the last operation was successful.
+	 * @param null $operation
+	 * @return bool
+	 * @since 4.5.0
+	 * @throws QuickPay_API_Exception
+	 */
+	public function is_operation_approved( $operation = NULL ) {
+		if( ! is_object( $this->resource_data ) )
+		{
+			throw new QuickPay_API_Exception( 'No API payment resource data available.', 0 );
+		}
+
+		if( $operation === NULL ) {
+			$operation = $this->get_last_operation();
+		}
+
+		return $this->resource_data->accepted && $operation->qp_status_code == 20000 && $operation->aq_status_code == 20000;
+	}
 }

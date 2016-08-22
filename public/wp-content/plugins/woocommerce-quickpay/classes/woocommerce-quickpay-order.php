@@ -93,6 +93,14 @@ class WC_QuickPay_Order extends WC_Order {
 		return $transaction_id;
 	}
 
+	/**
+	 * Sets the order transaction id
+	 * @param $transaction_id
+	 */
+	public function set_transaction_id( $transaction_id ) {
+		update_post_meta( $this->id, '_transaction_id', $transaction_id );
+	}
+
 
 	/**
 	* get_payment_id function
@@ -553,6 +561,18 @@ class WC_QuickPay_Order extends WC_Order {
 		}
 		return $order_number;
 	}
-}
 
-?>
+	/**
+	 * has_quickpay_payment function
+	 * 
+	 * Checks if the order is paid with the QuickPay module.
+	 * 
+	 * @since  4.5.0
+	 * @access public
+	 * @return bool
+	 */
+	public function has_quickpay_payment()
+    {
+        return in_array(get_post_meta($this->post->ID, '_payment_method', TRUE), array('quickpay', 'mobilepay', 'viabill'));
+    }
+}

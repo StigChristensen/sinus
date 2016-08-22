@@ -34,9 +34,30 @@ class WC_QuickPay_Helper {
 	* @return float
 	*/
 	public static function price_normalize( $price ) {
+		return number_format($price / 100, 2, wc_get_price_decimal_separator(), '');
+	}
+
+	/**
+	 * @param $price
+	 * @return string
+	 */
+	public static function price_multiplied_to_float( $price ) {
 		return number_format($price / 100, 2, '.', '');
 	}
 
+	/**
+	 * Multiplies a custom formatted price based on the WooCommerce decimal- and thousand separators
+	 * @param $price
+	 */
+	public static function price_custom_to_multiplied( $price ) {
+		$decimal_separator = get_option( 'woocommerce_price_decimal_sep' );
+		$thousand_separator = get_option( 'woocommerce_price_thousand_sep' );
+		
+		$price = str_replace( $thousand_separator, '', $price );
+		$price = str_replace( $decimal_separator, '.', $price );
+		
+		return self::price_multiply($price);
+	}
 
 	/**
 	* enqueue_javascript_backend function.
@@ -114,6 +135,45 @@ class WC_QuickPay_Helper {
 	*/
 	public static function is_url( $url ) {
 		return ! filter_var($url, FILTER_VALIDATE_URL) === FALSE;
+	}
+
+	/**
+	 * @since 4.5.0
+	 * @param $payment_type
+	 * @return null
+	 */
+	public static function get_payment_type_logo( $payment_type ) {
+		$logos = array(
+			"american-express" => "americanexpress.png",
+			"dankort" => "dankort.png",
+			"diners" => "diners.png",
+			"edankort" => "edankort.png",
+			"fbg1886" => "forbrugsforeningen.png",
+			"jcb" => "jcb.png",
+			"maestro" => "maestro.png",
+			"mastercard" => "mastercard.png",
+			"mastercard-debet" => "mastercard.png",
+			"mobilepay" => "mobilepay.png",
+			"visa" => "visa.png",
+			"visa-electron" => "visaelectron.png",
+			"paypal" => "paypal.png",
+			"sofort" => "sofort.png",
+			"viabill" => "viabill.png",
+			"klarna" => "klarna.png",
+		);
+
+		if( array_key_exists( trim($payment_type), $logos ) ) {
+			return WC_QP()->plugin_url( 'assets/images/cards/' . $logos[$payment_type] );
+		}
+
+		return NULL;
+	}
+
+	/**
+	 * Checks if WooCommerce Pre-Orders is active
+	 */
+	public static function has_preorder_plugin() {
+		return class_exists('WC_Pre_Orders');
 	}
 }
 ?>

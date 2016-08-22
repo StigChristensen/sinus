@@ -35,7 +35,7 @@ if ( $qty > 0 ) {
 
 ?>
 
-<li class="product <?php echo $class_string; echo ' ' . $stockClass; ?>" itemscope itemtype="http://schema.org/Product" data-singleid="<?php the_ID(); ?>" data-sort="<?php echo $class_string; ?>">
+<li class="product <?php echo $class_string . ' ' . $stockClass; ?>" itemscope itemtype="http://schema.org/Product" data-singleid="<?php the_ID(); ?>" data-sort="<?php echo $class_string; ?>" data-stock="<?php echo $stockClass; ?>">
   <a href="<?php the_permalink(); ?>"><div class="click-area"></div></a>
   <?php echo $stockIcon; ?>
   <?php echo $product->get_image(); ?>

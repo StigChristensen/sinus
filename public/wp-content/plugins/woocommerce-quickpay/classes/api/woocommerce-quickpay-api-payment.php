@@ -72,7 +72,7 @@ class WC_QuickPay_API_Payment extends WC_QuickPay_API_Transaction
             $amount = $order->get_total();   
         }
         
-    	$request = $this->post( sprintf( '%d/%s', $transaction_id, "capture" ), array( 'amount' => WC_QuickPay_Helper::price_multiply( $amount ) ) );
+    	$this->post( sprintf( '%d/%s', $transaction_id, "capture" ), array( 'amount' => WC_QuickPay_Helper::price_multiply( $amount ) ) );
     }
 
 
@@ -88,7 +88,7 @@ class WC_QuickPay_API_Payment extends WC_QuickPay_API_Transaction
 	*/   
     public function cancel( $transaction_id ) 
     {
-    	$request = $this->post( sprintf( '%d/%s', $transaction_id, "cancel" ) );
+    	$this->post( sprintf( '%d/%s', $transaction_id, "cancel" ) );
     }
 
     
@@ -112,7 +112,7 @@ class WC_QuickPay_API_Payment extends WC_QuickPay_API_Transaction
             $amount = $order->get_total();
         }
 
-        $request = $this->post( sprintf( '%d/%s', $transaction_id, "refund" ), array( 'amount' =>  WC_QuickPay_Helper::price_multiply( $amount ) ) );
+		$this->post( sprintf( '%d/%s', $transaction_id, "refund" ), array( 'amount' =>  WC_QuickPay_Helper::price_multiply( $amount ) ) );
     }
 
 
@@ -127,6 +127,7 @@ class WC_QuickPay_API_Payment extends WC_QuickPay_API_Transaction
 	public function is_action_allowed( $action ) 
     {
 		$state = $this->get_current_type();
+		$remaining_balance = $this->get_remaining_balance();
 
 		$allowed_states = array(
 			'capture' => array( 'authorize' ),
@@ -138,9 +139,9 @@ class WC_QuickPay_API_Payment extends WC_QuickPay_API_Transaction
             'standard_actions' => array( 'authorize' )
 		);
 
-		if( $action == 'splitcapture' ) 
-		{
-			$allowed_states['capture'] = array( 'authorize', 'capture' );
+		// We wants to still allow captures if there is a remaining balance.
+		if ( 'capture' == $state && $remaining_balance > 0 ) {
+			return TRUE;
 		}
 
 		return in_array( $state, $allowed_states[$action] );
