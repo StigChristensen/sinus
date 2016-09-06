@@ -29,7 +29,7 @@
 
 
       <div class="footer-left" itemscope itemtype="http://schema.org/Organization">
-        <a class="maplink" href="https://www.google.com/maps/place/Studiestr%C3%A6de+24,+1455+K%C3%B8benhavn+K,+Denmark/@55.6784408,12.5665802,17z/data=!3m1!4b1!4m2!3m1!1s0x4652530e3be1ef31:0x5d7d53361e137078" target="_blank">
+        <a class="maplink" href="https://www.google.com/maps/place/Sinus+-+Headphones+and+audio/@55.6784408,12.5665802,17z/data=!4m13!1m7!3m6!1s0x4652530e3be1ef31:0x5d7d53361e137078!2sStudiestr%C3%A6de+24,+1455+K%C3%B8benhavn,+Denmark!3b1!8m2!3d55.6784408!4d12.5687689!3m4!1s0x4652530e3be1ef31:0x2b63b5908391c716!8m2!3d55.6784408!4d12.5687689" target="_blank">
         <address class="store-address" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
           <h4 itemprop="name">Sinus</h4>
           <p itemprop="name">Headphones & Audio</p>

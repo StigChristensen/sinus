@@ -29,7 +29,7 @@ class WC_QuickPay_API
 
 	/**
 	 * Contains a resource data object
-	 * @access private
+	 * @access protected
 	 */
 	protected $resource_data;
     
@@ -247,13 +247,13 @@ class WC_QuickPay_API
             	'Authorization: Basic ' . base64_encode(':' . WC_QP()->s( 'quickpay_apikey' ) ),
                 'Accept-Version: v10',
                 'Accept: application/json',
-                'QuickPay-Callback-Url: ' . WC_QuickPay_Helper::get_callback_url( $post_id ),
+                'QuickPay-Callback-Url: ' . WC_QuickPay_Helper::get_callback_url( $post_id )
             ));
 		}
 
 		return $this->ch;		 	
 	}
-
+	
     
 	/**
 	* shutdown function.
@@ -276,7 +276,7 @@ class WC_QuickPay_API
      * @param  [type] $form_data [description]
      * @return [type]            [description]
      */
-    private function get_post_id_from_form_object( $form_data ) {
+    public function get_post_id_from_form_object( $form_data ) {
         if( array_key_exists( 'order_post_id', $form_data ) ) {
             return $form_data['order_post_id'];
         }

@@ -4,7 +4,6 @@
 	QuickPay.prototype.init = function() {
 		// Add event handlers
 		this.actionBox.on( 'click', '[data-action]', $.proxy( this.callAction, this ) );
-		this.actionBox.on( 'keyup', ':input[name="quickpay_split_amount"]', $.proxy( this.balancer, this ) );
 	};
 
 	QuickPay.prototype.callAction = function( e ) {
@@ -13,7 +12,7 @@
 		var action = target.attr( 'data-action' );
 
 		if( typeof this[action] !== 'undefined' ) {
-			var message = target.attr('data-notify') || 'Are you sure you want to continue?';
+			var message = target.attr('data-confirm') || 'Are you sure you want to continue?';
 			if( confirm( message ) ) {
 				this[action]();	
 			}
@@ -23,6 +22,13 @@
 	QuickPay.prototype.capture = function() {
 		var request = this.request( {
 			quickpay_action : 'capture'
+		} );
+	};
+
+	QuickPay.prototype.captureAmount = function () {
+		var request = this.request({
+			quickpay_action: 'capture',
+			quickpay_amount: $('#qp-balance__amount-field').val()
 		} );
 	};
 
@@ -82,25 +88,6 @@
 		}
 	};
 
-	QuickPay.prototype.balancer = function(e) {
-		var remainingField = $('.quickpay-remaining');
-		var balanceField = $('.quickpay-balance');
-		var amountField = $(':input[name="quickpay_split_amount"]');
-		var btnCaptureSplit = $('#quickpay_split_button');
-		var btnSplitFinalize = $('#quickpay_split_finalize_button');
-		var amount = parseFloat(amountField.val().replace(',','.'));
-
-		if( amount > parseFloat(remainingField.text()) || amount <= 0 || isNaN(amount) || amount == '') {
-			amountField.addClass('warning');
-			btnCaptureSplit.fadeOut().prop('disabled', true);
-			btnSplitFinalize.fadeOut().prop('disabled', true);
-		} else {
-			amountField.removeClass('warning');
-			btnCaptureSplit.fadeIn().prop('disabled', false);
-			btnSplitFinalize.fadeIn().prop('disabled', false);
-		}
-	};
-    
     
     QuickPayAjaxStatus.prototype.init = function() {
         var self = this;
@@ -124,7 +111,7 @@
     QuickPayAjaxStatus.prototype.handleTransactionData = function($element, transactionData) {
         $.each(transactionData, function(key, data) {
             var contentElement = $element.find('[data-quickpay-show="' + key + '"]');
-                contentElement.text(data.value);
+                contentElement.html(data.value);
             
             if (data.hasOwnProperty('attr')) {
                 $.each(data.attr, function(attr, attrValue) {

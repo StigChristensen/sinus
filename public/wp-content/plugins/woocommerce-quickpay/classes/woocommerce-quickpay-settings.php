@@ -278,6 +278,20 @@ class WC_QuickPay_Settings {
                         'default' => '',
                         'desc_tip' => true,
                     ),
+
+				'ShopAdminSetup' => array(
+					'type' => 'title',
+					'title' => __( 'Shop Admin Setup', 'woo-quickpay' ),
+				),
+
+					'quickpay_orders_transaction_info' => array(
+						'title' => __( 'Fetch Transaction Info', 'woo-quickpay' ),
+						'type' => 'checkbox',
+						'label' => __( 'Enable/Disable', 'woo-quickpay' ),
+						'description' => __( 'Show transaction information in the order overview.', 'woo-quickpay' ),
+						'default' => 'yes',
+						'desc_tip' => false,
+					),
             
                 'CustomVariables' => array(
 					'type' => 'title',

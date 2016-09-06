@@ -77,10 +77,6 @@ function pageCartController() {
   });
 };
 
-
-
-
-
 var documentHeight;
 
 function scrollTo(value) {
@@ -1389,7 +1385,6 @@ function render(products) {
     $(page).removeClass('hidden');
     setTimeout(function() {
       new gridCartController();
-      new modalController();
       sortPriceController();
       sortStockController();
     }, 700);

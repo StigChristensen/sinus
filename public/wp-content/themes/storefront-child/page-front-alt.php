@@ -49,7 +49,7 @@ Men hovedtelefoner er ikke bare den gode lyd til dit livs soundtrack. Hovedtelef
   <div class="top right">
     <h4>Nyheder</h4>
     <ul class="articles front">
-      <?php $args = array( 'post_type' => 'article', 'posts_per_page' => 3, 'post_status' => 'publish' );
+      <?php $args = array( 'post_type' => 'article', 'posts_per_page' => 5, 'post_status' => 'publish' );
           $loop = new WP_Query( $args );
           while ( $loop->have_posts() ) : $loop->the_post(); ?>
             <li class="article list animate">

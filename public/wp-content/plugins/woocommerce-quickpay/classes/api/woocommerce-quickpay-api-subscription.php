@@ -63,7 +63,7 @@ class WC_QuickPay_API_Subscription extends WC_QuickPay_API_Transaction
 	* @return $request
 	* @throws QuickPay_API_Exception
 	*/
-    public function recurring( $subscription_id, $order, $amount = NULL )
+    public function recurring( $subscription_id, $order, $amount = NULL, $init_auto )
     {
         // Check if a custom amount ha been set
         if( $amount === NULL )
@@ -78,7 +78,11 @@ class WC_QuickPay_API_Subscription extends WC_QuickPay_API_Transaction
 
         $order_number = $order->get_order_number_for_api();
 
-    	$request = $this->post( sprintf( '%d/%s', $subscription_id, "recurring" ), array(
+		if ($init_auto) {
+			$order_number .= '-initial';
+		}
+		
+    	$request = $this->post( sprintf( '%d/%s?synchronized', $subscription_id, "recurring" ), array(
             'amount' => WC_QuickPay_Helper::price_multiply( $amount ),
             'order_id' => sprintf('%s', $order_number ),
             'auto_capture' => TRUE,

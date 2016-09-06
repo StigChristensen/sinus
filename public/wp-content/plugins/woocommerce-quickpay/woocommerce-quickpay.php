@@ -4,13 +4,14 @@
 Plugin Name: WooCommerce QuickPay
 Plugin URI: http://wordpress.org/plugins/woocommerce-quickpay/
 Description: Integrates your QuickPay payment getway into your WooCommerce installation.
-Version: 4.4.5
+Version: 4.5.6
 Author: Perfect Solution
 Text Domain: woo-quickpay
 Author URI: http://perfect-solution.dk
 */
 
-define( 'WCQP_VERSION', '4.4.5' );
+define( 'WCQP_VERSION', '4.5.6' );
+define( 'WCQP_URL', plugins_url( __FILE__ ) );
 
 add_action('plugins_loaded', 'init_quickpay_gateway', 0);
 
@@ -83,9 +84,10 @@ function init_quickpay_gateway() {
 		    	'subscription_suspension' ,
 		    	'subscription_amount_changes',
 		    	'subscription_date_changes',
-		    	'subscription_payment_method_change',
+				'subscription_payment_method_change_customer',
                 'refunds',
-				'multiple_subscriptions'
+				'multiple_subscriptions',
+				'pre-orders'
 		    );
 
             $this->log = new WC_QuickPay_Log();
@@ -131,49 +133,62 @@ function init_quickpay_gateway() {
 		*/
 		public function hooks_and_filters()
 		{
-		    add_action( 'init', 'WC_QuickPay_Helper::load_i18n' );
 		    add_action( 'woocommerce_api_wc_' . $this->id, array( $this, 'callback_handler' ) );
 		    add_action( 'woocommerce_receipt_' . $this->id, array( $this, 'receipt_page' ) );
             add_action( 'woocommerce_order_status_completed', array( $this, 'woocommerce_order_status_completed' ) );
-		    add_action( 'woocommerce_email_before_order_table', array( $this, 'email_instructions' ), 10, 2 );
             add_action( 'in_plugin_update_message-woocommerce-quickpay/woocommerce-quickpay.php', array( __CLASS__, 'in_plugin_update_message' ) );
 
             // WooCommerce Subscriptions hooks/filters
 			add_action( 'woocommerce_scheduled_subscription_payment_' . $this->id, array( $this, 'scheduled_subscription_payment' ), 10, 2 );
-			add_action( 'woocommerce_subscription_cancelled_' . $this->id, array( $this, 'subscription_cancellation') )	;
+			add_action( 'woocommerce_subscription_cancelled_' . $this->id, array( $this, 'subscription_cancellation' ) )	;
+			add_action( 'woocommerce_subscription_payment_method_updated_to_' . $this->id, array( $this, 'on_subscription_payment_method_updated_to_quickpay' ), 10, 2 );
+
+			// WooCommerce Pre-Orders
+			add_action( 'wc_pre_orders_process_pre_order_completion_payment_' . $this->id, array( $this, 'process_pre_order_payments' ) );
 
 			if( is_admin() ) {
 			    add_action( 'admin_menu', 'WC_QuickPay_Helper::enqueue_stylesheet' );
 			    add_action( 'admin_menu', 'WC_QuickPay_Helper::enqueue_javascript_backend' );
-		    	add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		    	add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
 				add_action( 'wp_ajax_quickpay_manual_transaction_actions', array( $this, 'ajax_quickpay_manual_transaction_actions' ) );
 				add_action( 'wp_ajax_quickpay_get_transaction_information', array( $this, 'ajax_quickpay_get_transaction_information' ) );
 				add_action( 'wp_ajax_quickpay_empty_logs', array( $this, 'ajax_empty_logs' ) );
                 add_action( 'in_plugin_update_message-woocommerce-quickpay/woocommerce-quickpay.php', array( __CLASS__, 'in_plugin_update_message' ) );
-
-		    	add_filter( 'manage_shop_order_posts_custom_column', array( $this, 'apply_custom_order_data' ) );
 			}
 
-            add_filter( 'woocommerce_gateway_icon', array( $this, 'apply_gateway_icons' ), 2, 3 );
+			// Make sure not to add these actions multiple times
+			if ( ! has_action('init', 'WC_QuickPay_Helper::load_i18n')) {
+				add_action( 'woocommerce_email_before_order_table', array( $this, 'email_instructions' ), 10, 2 );
+				add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
+
+				if( WC_QuickPay_Helper::option_is_enabled( $this->s( 'quickpay_orders_transaction_info', 'yes' ) ) ) {
+					add_filter( 'manage_shop_order_posts_custom_column', array( $this, 'apply_custom_order_data' ) );
+				}
+			}
+
+			add_action( 'init', 'WC_QuickPay_Helper::load_i18n' );
+
+			add_filter( 'woocommerce_gateway_icon', array( $this, 'apply_gateway_icons' ), 2, 3 );
 		}
 
 
 		/**
-		* s function.
-		*
-		* Returns a setting if set. Introduced to prevent undefined key when introducing new settings.
-		*
-		* @access public
-		* @return string
-		*/
-		public function s( $key )
+		 * s function.
+		 *
+		 * Returns a setting if set. Introduced to prevent undefined key when introducing new settings.
+		 *
+		 * @access public
+		 * @param $key
+		 * @param null $default
+		 * @return string
+		 */
+		public function s( $key, $default = NULL )
 		{
 			if( isset( $this->settings[$key] ) ) {
 				return $this->settings[$key];
 			}
 
-			return '';
+			return ! is_null( $default ) ? $default : '';
 		}
 
 
@@ -237,8 +252,11 @@ function init_quickpay_gateway() {
 					{
 						// Check if the action method is available in the payment class
 						if( method_exists( $payment, $param_action ) ) {
+							// Fetch amount if sent.
+							$amount = isset( $_REQUEST['quickpay_amount'] ) ?  WC_QuickPay_Helper::price_custom_to_multiplied($_REQUEST['quickpay_amount']) : $payment->get_remaining_balance();
+
 							// Call the action method and parse the transaction id and order object
-							call_user_func_array( array( $payment, $param_action ), array( $transaction_id, $order ) );
+							call_user_func_array( array( $payment, $param_action ), array( $transaction_id, $order, WC_QuickPay_Helper::price_multiplied_to_float( $amount ) ) );
 						}
 						else
 						{
@@ -285,7 +303,6 @@ function init_quickpay_gateway() {
                     $transaction_id = $_REQUEST['quickpay-transaction-id'];
 
                     $data_transaction_id = $transaction_id;
-                    $data_status = '';
                     $data_test = '';
                     $data_order = $order->get_transaction_order_id();
 
@@ -334,6 +351,9 @@ function init_quickpay_gateway() {
                                 'style' => empty($data_test) ? '' : 'color:red'
                             )
                         ),
+						'cardtype' => array(
+							'value' => sprintf('<img src="%s" />', WC_QuickPay_Helper::get_payment_type_logo( $transaction->get_brand() ) )
+						)
                     );
 
                     echo json_encode( $response );
@@ -368,29 +388,6 @@ function init_quickpay_gateway() {
         	$this->log->clear();
     		echo json_encode( array( 'status' => 'success', 'message' => 'Logs successfully emptied' ) ); exit;
         }
-
-
-		/**
-		* prepare_extras function.
-		*
-		* Prepares extra data used to parse into the action router
-		*
-		* @access public
-		* @param $action - the api action
-		* @param $request - the POST request object
-		* @return array
-		*/
-		public function prepare_extras( $action, $request ) {
-			$extras = array();
-
-			if( $action == 'splitcapture' ) {
-				$extras['amount'] = $request['amount'];
-				$extras['finalize'] = $request['finalize'];
-			}
-
-			return $extras;
-		}
-
 
 		/**
 		* woocommerce_order_status_completed function.
@@ -459,16 +456,19 @@ function init_quickpay_gateway() {
 			echo $this->generate_quickpay_form( $order );
 		}
 
+		/**
+		 * Processing payments on checkout
+		 * @param $order_id
+		 * @return array
+		 */
 		public function process_payment( $order_id )
 		{
-			global $woocommerce;
-
             try {
                 // Instantiate order object
                 $order = new WC_QuickPay_Order( $order_id );
 
                 // Instantiate API Payment object
-                if( ! $order->contains_subscription() )
+                if( ! $order->contains_subscription() && !$order->is_request_to_change_payment() )
                 {
                     $api_transaction = new WC_QuickPay_API_Payment();
                 }
@@ -476,7 +476,6 @@ function init_quickpay_gateway() {
                 {
                     $api_transaction = new WC_QuickPay_API_Subscription();
                 }
-
 
                 // Create a new object
                 $payment = new stdClass();
@@ -487,9 +486,8 @@ function init_quickpay_gateway() {
                 // If a payment link exists, go get it
                 $link->url = $order->get_payment_link();
 
-
                 // If the order does not already have a payment ID,
-                // we will create on an attach it to the order
+                // we will create one an attach it to the order
                 // We also check if a payment already exists. If a link exists, we don't
                 // need to create a payment.
                 if( empty($payment->id) && empty($link->url) )
@@ -498,24 +496,17 @@ function init_quickpay_gateway() {
                     $order->set_payment_id( $payment->id );
                 }
 
-
-                // If the order does not already have a payment ID,
-                // we will create on an attach it to the order
-                if( empty($link->url) )
-                {
-                    $link = $api_transaction->create_link( $payment->id, $order );
-
-                    if( WC_QuickPay_Helper::is_url($link->url) )
-                    {
-                        $order->set_payment_link( $link->url );
-                    }
-                }
-
+                // Create or update the payment link. This is necessary to do EVERY TIME
+				// to avoid fraud with changing amounts.
+				$link = $api_transaction->patch_link( $payment->id, $order );
+				if( WC_QuickPay_Helper::is_url($link->url) )
+				{
+					$order->set_payment_link( $link->url );
+				}
 
                 // Validate if the url is valid
                 if( WC_QuickPay_Helper::is_url( $link->url ) )
                 {
-                	$woocommerce->cart->empty_cart();
                     return array(
                         'result' 	=> 'success',
                         'redirect'	=>  $link->url
@@ -526,6 +517,58 @@ function init_quickpay_gateway() {
             {
                 $e->write_to_logs();
             }
+		}
+
+		/**
+		 * HOOK: Handles pre-order payments
+		 */
+		public function process_pre_order_payments( $order ) {
+			// Set order object
+			$order = new WC_QuickPay_Order( $order );
+
+			// Get transaction ID
+			$transaction_id = $order->get_transaction_id();
+
+			// Check if there is a transaction ID
+			if( $transaction_id )
+			{
+				try
+				{
+					// Set payment object
+					$payment = new WC_QuickPay_API_Payment();
+
+					// Retrieve resource data about the transaction
+					$payment->get( $transaction_id );
+
+					// Check if the transaction can be captured
+					if( $payment->is_action_allowed( 'capture' ) )
+					{
+						try
+						{
+							// Capture the payment
+							$payment->capture( $transaction_id, $order );
+						}
+						// Payment failed
+						catch(QuickPay_API_Exception $e)
+						{
+							$this->log->add(
+								sprintf( "Could not process pre-order payment for order: #%s with transaction id: %s. Payment failed. Exception: %s",
+									$order->get_clean_order_number(), $transaction_id, $e->getMessage() )
+							);
+
+							$order->update_status( 'failed' );
+						}
+					}
+				}
+				catch(QuickPay_API_Exception $e)
+				{
+					$this->log->add(
+						sprintf( "Could not process pre-order payment for order: #%s with transaction id: %s. Transaction not found. Exception: %s",
+							$order->get_clean_order_number(), $transaction_id, $e->getMessage() )
+					);
+				}
+
+			}
 		}
 
         /**
@@ -594,34 +637,49 @@ function init_quickpay_gateway() {
 		* @access public
 		* @return void
 		*/
-		public function scheduled_subscription_payment( $amount_to_charge, $order, $first_renewal = FALSE )
+		public function scheduled_subscription_payment( $amount_to_charge, $renewal_order, $init_auto = FALSE )
 		{
-            $order = new WC_QuickPay_Order( $order->id );
-
             try
             {
                 // Create subscription instance
                 $subscription = new WC_QuickPay_API_Subscription();
 
                 // Capture a recurring payment with fixed amount
-                $subscription->recurring( WC_QuickPay_Subscription::get_initial_subscription_transaction_id( $order ), $order, $amount_to_charge );
+                list($response) = $subscription->recurring( WC_QuickPay_Subscription::get_initial_subscription_transaction_id( $renewal_order ), $renewal_order, $amount_to_charge, $init_auto );
+
+				if( ! $response->accepted) {
+					throw new QuickPay_Exception("Recurring payment not accepted by acquirer.");
+				}
             }
             catch ( QuickPay_Exception $e )
             {
                 // Set the payment as failed
-                WC_Subscriptions_Manager::process_subscription_payment_failure_on_order( $order->id );
+				$renewal_order->update_status('failed', 'Automatic renewal of ' . $renewal_order->get_order_number() . ' failed. Message: ' . $e->getMessage());
 
-                // Write debug information to the logs
+				// Write debug information to the logs
+				$e->write_to_logs();
+			}
+			catch ( QuickPay_API_Exception $e )
+			{
+				// Set the payment as failed
+				$renewal_order->update_status('failed', 'Automatic renewal of ' . $renewal_order->get_order_number() . ' failed. Message: ' . $e->getMessage());
+
+				// Write debug information to the logs
                 $e->write_to_logs();
             }
-            catch ( QuickPay_API_Exception $e )
-            {
-                // Set the payment as failed
-                WC_Subscriptions_Manager::process_subscription_payment_failure_on_order( $order->id );
+		}
 
-                // Write debug information to the logs
-                $e->write_to_logs();
-            }
+		/**
+		 * Triggered when customers are changing payment method to QuickPay.
+		 *
+		 * @param $new_payment_method
+		 * @param $subscription
+		 * @param $old_payment_method
+		 */
+		public function on_subscription_payment_method_updated_to_quickpay( $subscription, $old_payment_method )
+		{
+			$order = new WC_QuickPay_Order( $subscription->id );
+			$order->increase_payment_method_change_count();
 		}
 
 
@@ -639,19 +697,24 @@ function init_quickpay_gateway() {
             try
             {
                 $order = new WC_QuickPay_Order( $order );
+				$transaction_id = WC_QuickPay_Subscription::get_initial_subscription_transaction_id( $order );
+
                 $subscription = new WC_QuickPay_API_Subscription();
-                $subscription->cancel(  WC_QuickPay_Subscription::get_initial_subscription_transaction_id( $order ) );
+				$subscription->get($transaction_id);
+
+				if ($subscription->is_action_allowed('cancel')) {
+					$subscription->cancel( $transaction_id );
+				}
             }
             catch ( QuickPay_Exception $e )
             {
-                $e->write_to_logs();
+				$e->write_to_logs();
             }
             catch ( QuickPay_API_Exception $e )
             {
                 $e->write_to_logs();
             }
 		}
-
 
 		/**
 		* on_order_cancellation function.
@@ -679,7 +742,6 @@ function init_quickpay_gateway() {
 			$woocommerce->add_error( '<p><strong>' . __( 'Payment cancelled', 'woo-quickpay' ) . '</strong>: ' . __( 'Due to cancellation of your payment, the order process was not completed. Please fulfill the payment to complete your order.', 'woo-quickpay' ) .'</p>' );
 		}
 
-
 		/**
 		* callback_handler function.
 		*
@@ -690,24 +752,26 @@ function init_quickpay_gateway() {
 		*/
 		public function callback_handler()
 		{
+			// Get callback body
             $request_body = file_get_contents("php://input");
 
+			// Decode the body into JSON
             $json = json_decode( $request_body );
 
-       		$payment = new WC_QuickPay_API_Payment( $request_body );
+			// Instantiate payment object
+       		$payment = new WC_QuickPay_API_Payment( $json );
 
-            if( $payment->is_authorized_callback( $request_body ) ) {
+			// Fetch order number;
+			$order_number = WC_QuickPay_Order::get_order_id_from_callback( $json );
 
-                // Fetch order number;
-				$order_number = WC_QuickPay_Order::get_order_id_from_callback( $json );
-
+			if( $payment->is_authorized_callback( $request_body ) ) {
                 // Instantiate order object
                 $order = new WC_QuickPay_Order( $order_number );
 
                 // Get last transaction in operation history
                 $transaction = end( $json->operations );
 
-                // Is the transaction accepted?
+                // Is the transaction accepted and approved by QP / Acquirer?
                 if( $json->accepted )
                 {
                     // Add order transaction fee
@@ -722,18 +786,17 @@ function init_quickpay_gateway() {
                             // Cancel callbacks are currently not supported by the QuickPay API
                             //
                             case 'cancel' :
-                                if( WC_QuickPay_Subscription::plugin_is_active() )
-                                {
-                                    if( $order->contains_subscription() )
-                                    {
-                                        WC_Subscriptions_Manager::cancel_subscriptions_for_order( $order->id );
-                                    }
-                                }
+								if( $order->contains_subscription() )
+								{
+									WC_Subscriptions_Manager::cancel_subscriptions_for_order( $order->id );
+								}
                                 // Write a note to the order history
                                 $order->note( __( 'Payment cancelled.', 'woo-quickpay' ) );
                                 break;
 
                             case 'capture' :
+								$order->payment_complete( $json->id );
+
                                 // Write a note to the order history
                                 $order->note( __( 'Payment captured.', 'woo-quickpay' ) );
                                 break;
@@ -765,43 +828,61 @@ function init_quickpay_gateway() {
                                 // Subscription authorization
                                 if( isset( $json->type ) AND strtolower($json->type) == 'subscription' )
                                 {
-                                	$order->payment_complete( $json->id );
-                                	
-                                	// Process the subscription signup
-                                	WC_QuickPay_Subscription::process_recurring_response( $json, $order );
+									if( isset($json->variables->change_payment) ) {
+										// Find parent order
+										$parent = new WC_QuickPay_Order($order->post->post_parent);
+										$parent->set_transaction_id( $json->id );
+									} else {
+										$order->payment_complete( $json->id );
 
-                                    // Create subscription instance
-                                    $subscription = new WC_QuickPay_API_Subscription( $request_body );
+										// Process the subscription signup
+										WC_QuickPay_Subscription::process_recurring_response( $json, $order );
 
-                                    // Write log
-                                    $order->note( sprintf( __( 'Subscription authorized. Transaction ID: %s', 'woo-quickpay' ), $json->id ) );
+										// Write log
+										$order->note( sprintf( __( 'Subscription authorized. Transaction ID: %s', 'woo-quickpay' ), $json->id ) );
 
-                                    // If 'capture first payment on subscription' is enabled
-                                    if( WC_QuickPay_Helper::option_is_enabled( $this->s( 'quickpay_autodraw_subscription' ) ) )
-                                    {
-                    					// Check if there is an initial payment on the subscription
-                                        $subscription_initial_payment = $order->get_total();
+										// If 'capture first payment on subscription' is enabled
+										if( WC_QuickPay_Helper::option_is_enabled( $this->s( 'quickpay_autodraw_subscription' ) ) )
+										{
+											// Check if there is an initial payment on the subscription
+											$subscription_initial_payment = $order->get_total();
 
-                                        // Only make an instant payment if there is an initial payment
-                                        if( $subscription_initial_payment > 0 )
-                                        {
-	                           				// Check if this is an order containing a subscription
-						                    if ( !wcs_is_subscription( $order->id ) && $order->contains_subscription() ) {
-						                    	// Get the actual subscription order id and make a recurring payment
-							                    $subscriptions = wcs_get_subscriptions_for_order( $order->id, array( 'order_type' => 'parent' ) );
-												$subscription = end( $subscriptions );
+											// Only make an instant payment if there is an initial payment
+											if( $subscription_initial_payment > 0 )
+											{
+												// Check if this is an order containing a subscription
+												if ( !wcs_is_subscription( $order->id ) && $order->contains_subscription() ) {
+													// Get the actual subscription order id and make a recurring payment
+													$subscriptions = wcs_get_subscriptions_for_order( $order->id, array( 'order_type' => 'parent' ) );
+													$subscription = end( $subscriptions );
 
-		                						$this->scheduled_subscription_payment( $subscription_initial_payment, $subscription );
-						                    }
-                                        }
-                                    }
+													$this->scheduled_subscription_payment( $subscription_initial_payment, $subscription, TRUE );
+												}
+											}
+										}
+									}
+
+
                                 }
 
                                 // Regular payment authorization
                                 else
                                 {
-                                	// Register the payment on the order
-                                    $order->payment_complete( $json->id );
+									// Check for pre-order
+									if( WC_QuickPay_Helper::has_preorder_plugin() && WC_Pre_Orders_Order::order_contains_pre_order( $order ) && WC_Pre_Orders_Order::order_requires_payment_tokenization( $order->id ))
+									{
+										// Set transaction ID without marking the payment as complete
+										$order->set_transaction_id( $json->id );
+										WC_Pre_Orders_Order::mark_order_as_pre_ordered( $order );
+									}
+
+									// Regular product
+									else
+									{
+										// Register the payment on the order
+										$order->payment_complete( $json->id );
+									}
+
                                     // Write a note to the order history
                                     $order->note( sprintf( __( 'Payment authorized. Transaction ID: %s', 'woo-quickpay' ), $json->id ) );
                                 }
@@ -818,23 +899,30 @@ function init_quickpay_gateway() {
                 // The transaction was not accepted.
                 // Print debug information to logs
                 else {
-                    // Write debug information
-                    $this->log->separator();
-                    $this->log->add( sprintf( __( 'Transaction failed for #%s.', 'woo-quickpay'), $order_number ) );
-                    $this->log->add( sprintf( __( 'QuickPay status code: %s.', 'woo-quickpay' ), $transaction->qp_status_code ) );
-                    $this->log->add( sprintf( __( 'QuickPay status message: %s.', 'woo-quickpay' ), $transaction->qp_status_msg ) );
-                    $this->log->add( sprintf( __( 'Acquirer status code: %s', 'woo-quickpay' ), $transaction->aq_status_code ) );
-                    $this->log->add( sprintf( __( 'Acquirer status message: %s', 'woo-quickpay' ), $transaction->aq_status_msg ) );
-                    $this->log->separator();
+					// Write debug information
+					$this->log->separator();
+					$this->log->add( sprintf( __( 'Transaction failed for #%s.', 'woo-quickpay'), $order_number ) );
+					$this->log->add( sprintf( __( 'QuickPay status code: %s.', 'woo-quickpay' ), $transaction->qp_status_code ) );
+					$this->log->add( sprintf( __( 'QuickPay status message: %s.', 'woo-quickpay' ), $transaction->qp_status_msg ) );
+					$this->log->add( sprintf( __( 'Acquirer status code: %s', 'woo-quickpay' ), $transaction->aq_status_code ) );
+					$this->log->add( sprintf( __( 'Acquirer status message: %s', 'woo-quickpay' ), $transaction->aq_status_msg ) );
+					$this->log->separator();
 
-                    // Update the order statuses
-					if( $transaction->type == 'subscribe' OR $transaction->type == 'recurring' )
-                    {
+					if( $transaction->type == 'recurring' )
+					{
 						WC_Subscriptions_Manager::process_subscription_payment_failure_on_order( $order );
 					}
-                    else
-                    {
-						$order->update_status( 'failed' );
+
+					if( 'rejected' != $json->state ) {
+						// Update the order statuses
+						if( $transaction->type == 'subscribe' )
+						{
+							WC_Subscriptions_Manager::process_subscription_payment_failure_on_order( $order );
+						}
+						else
+						{
+							$order->update_status( 'failed' );
+						}
 					}
                 }
             } else {
@@ -892,7 +980,12 @@ function init_quickpay_gateway() {
 		*/
 		public function add_meta_boxes()
 		{
-			 add_meta_box( 'quickpay-payment-actions', __( 'QuickPay Payment', 'woo-quickpay' ), array( &$this, 'meta_box_payment' ), 'shop_order', 'side', 'high' );
+			if( isset( $_GET['post'] ) ) {
+				$order = new WC_QuickPay_Order( $_GET['post'] );
+				if ($order->has_quickpay_payment()) {
+					add_meta_box( 'quickpay-payment-actions', __( 'QuickPay Payment', 'woo-quickpay' ), array( &$this, 'meta_box_payment' ), 'shop_order', 'side', 'high' );
+				}
+			}
 		}
 
 
@@ -906,11 +999,11 @@ function init_quickpay_gateway() {
 		*/
 		public function meta_box_payment()
 		{
-			global $post, $woocommerce;
+			global $post;
 			$order = new WC_QuickPay_Order( $post->ID );
 
 			$transaction_id	= $order->get_transaction_id();
-			if( $transaction_id )
+			if( $transaction_id && $order->has_quickpay_payment() )
 			{
 				try
 				{
@@ -934,53 +1027,33 @@ function init_quickpay_gateway() {
 
                     if( $transaction->is_action_allowed( 'standard_actions' ) )
                     {
-                        echo "<h4><strong>" . __( 'Standard actions', 'woo-quickpay' ) . "</strong></h4>";
+                        echo "<h4><strong>" . __( 'Actions', 'woo-quickpay' ) . "</strong></h4>";
                         echo "<ul class=\"order_action\">";
 
                         if( $transaction->is_action_allowed( 'capture' ) ) {
-                            echo "<li class=\"left\"><a class=\"button\" data-action=\"capture\" data-confirm=\"". __( 'You are about to CAPTURE this payment', 'woo-quickpay' ) . "\">" . __( 'Capture', 'woo-quickpay' ) . "</a></li>";
+                            echo "<li class=\"qp-full-width\"><a class=\"button button-primary\" data-action=\"capture\" data-confirm=\"". __( 'You are about to CAPTURE this payment', 'woo-quickpay' ) . "\">" . sprintf( __( 'Capture Full Amount (%s)', 'woo-quickpay' ), $transaction->get_formatted_remaining_balance() ) . "</a></li>";
                         }
 
-                        if( $transaction->is_action_allowed( 'cancel' ) ) {
-                            echo "<li class=\"right\"><a class=\"button\" data-action=\"cancel\" data-confirm=\"". __( 'You are about to CANCEL this payment', 'woo-quickpay' ) . "\">" . __( 'Cancel', 'woo-quickpay' ) . "</a></li>";
+						printf("<li class=\"qp-balance\"><span class=\"qp-balance__label\">%s:</span><span class=\"qp-balance__amount\"><span class='qp-balance__currency'>%s</span>%s</span></li>", __('Remaining balance', 'woo-quickpay'), $transaction->get_currency(), $transaction->get_formatted_remaining_balance());
+						printf("<li class=\"qp-balance last\"><span class=\"qp-balance__label\">%s:</span><span class=\"qp-balance__amount\"><span class='qp-balance__currency'>%s</span><input id='qp-balance__amount-field' type='text' value='%s' /></span></li>", __('Capture amount', 'woo-quickpay'), $transaction->get_currency(), $transaction->get_formatted_remaining_balance());
+
+						if( $transaction->is_action_allowed( 'capture' ) ) {
+							echo "<li class=\"qp-full-width\"><a class=\"button\" data-action=\"captureAmount\" data-confirm=\"". __( 'You are about to CAPTURE this payment', 'woo-quickpay' ) . "\">" . __( 'Capture Specified Amount', 'woo-quickpay' ) . "</a></li>";
+						}
+
+
+						if( $transaction->is_action_allowed( 'cancel' ) ) {
+                            echo "<li class=\"qp-full-width\"><a class=\"button\" data-action=\"cancel\" data-confirm=\"". __( 'You are about to CANCEL this payment', 'woo-quickpay' ) . "\">" . __( 'Cancel', 'woo-quickpay' ) . "</a></li>";
                         }
 
-                        echo	"<li>&nbsp;</li>";
                         echo "</ul>";
-
-
-                        echo "<br />";
                     }
 
-					if( WC_QuickPay_Helper::option_is_enabled( $this->s( 'quickpay_splitcapture' ) ) )
-					{
-						$currency = $this->get_gateway_currency( $order );
-
-						if( $api->is_action_allowed( 'splitcapture', $state ) AND $balance < WC_QuickPay_Helper::price_multiply( $order->get_total() ) )
-						{
-							echo "<div class=\"quickpay-split-container\">";
-								echo "<h4><strong>" . __( 'Split payment', 'woo-quickpay' ) . "</strong></h4>";
-								echo "<div class=\"totals_groups\">";
-									echo "<h4><span class=\"inline_total\">{$currency}</span>" . __( 'Currency', 'woo-quickpay' ) . "</h4>";
-									echo "<h4><span class=\"quickpay-balance inline_total\">" . WC_QuickPay_Helper::price_normalize( $balance ) ."</span>" .  __( 'Balance', 'woo-quickpay' ) . "</h4>";
-									echo "<h4><span class=\"quickpay-remaining inline_total\">" . WC_QuickPay_Helper::price_normalize( WC_QuickPay_Helper::price_multiply( $order->get_total() )  - $balance ) ."</span>" .  __( 'Remaining', 'woo-quickpay' ) . "</h4>";
-									echo "<h4><span class=\"quickpay-remaining inline_total\"><input type=\"text\" style=\"width:50px;text-align:right;\" id=\"quickpay_split_amount\" name=\"quickpay_split_amount\" /></span><strong>" .  __( 'Amount to capture', 'woo-quickpay' ) . "</strong></h4>";
-								echo "</div>";
-
-								echo "<ul>
-										<li>
-											<p>
-												<span><a id=\"quickpay_split_button\" data-action=\"split_capture\" style=\"display:none;\" class=\"button\" data-notify=\"", __( 'You are about to SPLIT CAPTURE this payment. This means that you will capture the amount stated in the input field. The payment state will remain open.', 'woo-quickpay' ), "\" href=\"" . admin_url( 'post.php?post={$post->ID}&action=edit&quickpay_action=splitcapture' ) . "\">" . __( 'Split Capture', 'woo-quickpay' ) . "</a></span>
-												<span><a id=\"quickpay_split_finalize_button\" data-action=\"split_finalize\" style=\"display:none;\" class=\"button\" data-notify=\"", __( 'You are about to SPLIT CAPTURE and FINALIZE this payment. This means that you will capture the amount stated in the input field and that you can no longer capture money from this transaction.', 'woo-quickpay' ), "\" href=\"" . admin_url( 'post.php?post={$post->ID}&action=edit&quickpay_action=splitcapture&quickpay_finalize=yes' ) . "\">" . __( 'Split and finalize', 'woo-quickpay' ) . "</a></span>
-											</p>
-										</li>
-									  </ul>
-									";
-							echo "</div>";
-						}
-					}
-
-					printf('<p><small><strong>%s:</strong> %d</small>', __( 'Transaction ID', 'woo-quickpay'), $transaction_id );
+					printf('<p><small><strong>%s:</strong> %d <span class="qp-meta-card"><img src="%s" /></span></small>',
+						__( 'Transaction ID', 'woo-quickpay'),
+						$transaction_id,
+						WC_Quickpay_Helper::get_payment_type_logo( $transaction->get_brand() )
+					);
 
 					$transaction_order_id = $order->get_transaction_order_id();
 					if( isset( $transaction_order_id ) && ! empty( $transaction_order_id) ) {
@@ -1051,10 +1124,13 @@ function init_quickpay_gateway() {
 				// Insert transaction id and payment status if any
 				$transaction_id = $order->get_transaction_id();
 
-				if( $transaction_id && in_array( get_post_meta( $post->ID, '_payment_method', TRUE ), array( 'quickpay', 'mobilepay', 'viabill' )) )
+				if( $transaction_id && $order->has_quickpay_payment() )
 				{
                     echo "<div data-quickpay-transaction-id=\"{$transaction_id}\" data-quickpay-post-id=\"{$post->ID}\" class=\"quickpay-loader\">";
-                        echo "<small class=\"meta\" data-quickpay-show=\"id\"></small>";
+                        echo "<small class=\"meta\">
+							<span data-quickpay-show=\"id\"></span>
+							<span data-quickpay-show=\"cardtype\"></span>
+						</small>";
                         echo "<small class=\"meta\" data-quickpay-show=\"order\"></small>";
                         echo "<small class=\"meta\" data-quickpay-show=\"status\"></small>";
                         echo "<small class=\"meta\" data-quickpay-show=\"test\"></small>";
@@ -1213,6 +1289,18 @@ function init_quickpay_gateway() {
 
             return wp_kses_post( $upgrade_notice );
         }
+
+		/**
+		 * path
+		 *
+		 * Returns a plugin URL path
+		 *
+		 * @param $path
+		 * @return mixed
+		 */
+		public function plugin_url( $path ) {
+			return plugins_url( $path, __FILE__ );
+		}
 	}
 
 	// Make the object available for later use
@@ -1259,5 +1347,3 @@ register_activation_hook( __FILE__, function() {
 		}
 	}
 } );
-
-?>
