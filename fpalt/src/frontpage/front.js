@@ -20,4 +20,3 @@ jQuery(document).on('ready', function() {
   cartController.removeFromCartController();
 
 });
-
