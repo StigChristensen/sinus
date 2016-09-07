@@ -2,16 +2,17 @@
 /**
  * The template for displaying product content in the single-product.php template
  *
- * @see       http://docs.woothemes.com/document/template-structure/
- * @author    WooThemes
- * @package   WooCommerce/Templates
- * @version     1.6.4
+ * @see
+ * @author
+ * @package
+ * @version   99.6.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
   exit; // Exit if accessed directly
 }
 ?>
+<script src="<?php echo get_stylesheet_directory_uri() . '/js/singleProductPage.js'; ?>" async defer></script>
 
 <div class="single-product-container">
 
@@ -31,10 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
       if ( has_post_thumbnail() ) {
         $image_title  = esc_attr( get_the_title( get_post_thumbnail_id() ) );
         $image_caption  = get_post( get_post_thumbnail_id() )->post_excerpt;
-        $image        = get_the_post_thumbnail( $post->ID, apply_filters( 'single_product_large_thumbnail_size', 'shop_single' ), array(
-          'title' => $image_title,
-          'alt' => $image_title
-          ) );
+        $image = get_the_post_thumbnail( $post->ID, apply_filters( 'single_product_large_thumbnail_size', 'shop_single' ), array('title' => $image_title, 'alt' => $image_title) );
       } else {
         echo apply_filters( 'woocommerce_single_product_image_html', sprintf( '<img src="%s" alt="%s" />', wc_placeholder_img_src(), __( 'Placeholder', 'woocommerce' ) ), $post->ID );
       }
@@ -42,31 +40,35 @@ if ( ! defined( 'ABSPATH' ) ) {
       $attachment_count = count( $image_ids );
 
       if ( $attachment_count >= 1 ) {
+        $main_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), "large" );
 
-        echo apply_filters( 'woocommerce_single_product_image_html', sprintf( '<div class="main-image" itemprop="image">%s</div>', $image ), $post->ID );
+        var_dump($main_src);
+
+        echo apply_filters( 'woocommerce_single_product_image_html', sprintf( '<div class="main-image" itemprop="image" data-fullsrc="' . $main_src[0] . '">%s</div>', $image ), $post->ID );
 
         $img_loop = 0; ?>
 
         <div class="product-images thumbs">
         <?php
         foreach( $image_ids as $id ) {
+            $large_src = wp_get_attachment_image_src($id, $size = 'large', false);
+
             $image = wp_get_attachment_image( $id,  apply_filters( 'single_product_large_thumbnail_size', 'shop_single' ), 0, $attr = array('title' => $image_title, 'alt' => $image_title) );
-              echo apply_filters( 'woocommerce_single_product_image_html', sprintf( '<div class="product-image image-%s"  itemprop="image">%s</div>', $img_loop, $image ), $id, $post->ID );
+
+              echo apply_filters( 'woocommerce_single_product_image_html', sprintf( '<div class="product-image image-%s" itemprop="product image" data-fullsrc="' . $large_src[0] . '">%s</div>', $img_loop, $image ), $id, $post->ID );
+
             $img_loop++;
         } ?>
         </div>
 
       <?php } elseif ( $attachment_count < 1 ) {
-        echo apply_filters( 'woocommerce_single_product_image_html', sprintf( '<div class="main-image single" itemprop="image">%s</div>', $image ), $post->ID );
+        $main_src = wp_get_attachment_image_src($post->ID, $size = 'large', false);
+        echo apply_filters( 'woocommerce_single_product_image_html', sprintf( '<div class="main-image single" itemprop="product image" data-fullsrc="' . $main_src[0] . '">%s</div>', $image ), $post->ID );
       }
     ?>
     </div>
 
-
     <div class="product-content">
-      <div class="content-bg">
-        <img src="<?php echo get_stylesheet_directory_uri() . '/img/bg/bg5.png'; ?>" alt="Content background image" />
-      </div>
       <div class="p-content">
         <div class="product-left">
           <h1 class="single-product-title" itemprop="name"><?php the_title(); ?></h1>

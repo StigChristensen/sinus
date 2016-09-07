@@ -28,7 +28,7 @@ if ( empty( $woocommerce_loop['loop'] ) ) {
 
 // Store column count for displaying the grid
 if ( empty( $woocommerce_loop['columns'] ) ) {
-	$woocommerce_loop['columns'] = apply_filters( 'loop_shop_columns', 4 );
+	$woocommerce_loop['columns'] = apply_filters('loop_shop_columns', 4 );
 }
 
 // Ensure visibility
