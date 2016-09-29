@@ -143,6 +143,7 @@
     overflow: hidden;
     z-index: 5;
     @include trans(0.5s);
+    display: none;
 
     form.sinus-search {
       position: relative;
@@ -334,8 +335,8 @@
 
 .header-link-row {
   width: 100%;
-  height: 30px;
-  background-color: $black;
+  height: 60px;
+  background-color: rgba(0,0,0,0.8);
   text-align: center;
   position: fixed;
   top: 65px;
@@ -349,24 +350,27 @@
     display: inline-block;
     font-family: $robot;
     font-size: 12px;
-    font-weight: 300;
-    padding: 7px 10px;
+    font-weight: 400;
+    padding: 22px 12px;
+    letter-spacing: 2px;
   }
 
   a.green, p.green {
-    color: $mainGreen;
+    color: rgba(255, 255, 255, 0.6);
   }
 
   a.green:hover {
-    color: $white;
+    color: rgba(255, 255, 255, 1);
+    letter-spacing: 1px;
   }
 
   a.white, p.white {
-    color: $white;
+    color: rgba(255, 255, 255, 0.7);
   }
 
   a.white:hover {
-    color: $mainBlue;
+    color: rgba(255, 255, 255, 1);
+    letter-spacing: 1px;
   }
 }
 

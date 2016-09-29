@@ -1,6 +1,34 @@
-<?php ?>
+<?php // Footer ?>
+
+	</div>
+
+	<div class="bottom-info">
+		<h2>Værd at vide... </h2>
+		<div class="left">
+			<div class="binfo-element">
+				<span>Ved køb over 1000kr får du fri fragt.</span>
+			</div>
+			<div class="binfo-element">
+				<span>Du kan få varen leveret til nærmeste Postnord Boks</span>
+			</div>
+			<div class="binfo-element">
+				<span>Er varen ikke på lager, kan vi typisk få den hurtigt (muligvis fra dag til dag). Det afhænger af leverandøren og varen. Vi kontakter dig med en leveringstid. Du er også velkommen til at <a href="mailto:info@sinus-store.dk">kontakte</a> os.</span>
+			</div>
+		</div>
+		<div class="right">
+			<div class="binfo-element">
+				<span>Du kan også få sendt varen direkte til dig eller til din arbejdsplads</span>
+			</div>
+
+			<div class="binfo-element">
+				<span>Har du spørgsmål til varen, leveringstid eller andet, er du altid velkommen til at kontakte os. Enten på <a href="mailto:info@sinus-store.dk">mail</a>, eller på <a href="tel:+4561458215">telefon: 61 45 82 15</a>.</span>
+			</div>
+		</div>
+	</div>
+
 
 	<footer id="colophon" class="site-footer" role="contentinfo">
+
     <div class="footer-bar"></div>
 
 		<div class="footer-content">

@@ -39,7 +39,12 @@ html {
   position: relative;
   overflow-x: hidden;
   overflow-y: auto;
-  z-index: 5;
+  z-index: 1;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 300;
+  padding: 0 0 20px;
+  color: #F7F7F7;
 
   body {
     width: 100%;
@@ -67,6 +72,5 @@ html {
       opacity: 0;
       padding: 0 150px;
     }
-
   }
 }

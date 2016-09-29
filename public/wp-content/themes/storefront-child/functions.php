@@ -105,6 +105,22 @@ function child_manage_woocommerce_styles() {
  }
 }
 
+// Filter the_content() on products, to strip unwanted html
+function stripped_content($content) {
+  global $post;
+
+  if ($post->post_type == 'product') {
+    $stripped_content = strip_tags($content, '<p>');
+  }
+
+  return $stripped_content;
+}
+
+add_filter('the_content', 'stripped_content');
+
+
+
+
 function create_banner() {
   register_post_type( 'Banner', /* (http://codex.wordpress.org/Function_Reference/register_post_type) */
     array( 'labels' => array(
