@@ -1,29 +1,34 @@
-.single-image-cntrl, .images-cntrl {
+.single-image-cntrl, .images-cntrl, .product-main {
   .product-controls-row.single-image {
     width: 100%;
     height: 60px;
     float: left;
     position: relative;
     margin: 0;
-    border-left: 1px solid $bord;
-    border-right: 1px solid $bord;
-    border-bottom: 1px solid $bord;
+    border: 1px solid $bord;
 
     .in-stock-icon {
       position: absolute;
       bottom: 20px;
-      left: 20px;
+      left: 0px;
       z-index: 100;
 
       span {
+        font-size: 12px;
         color: $white;
       }
 
       i.fa {
+        font-size: 14px;
         color: $mainGreen;
       }
     }
 
+    .in-stock-icon.not {
+      i.fa {
+        color: $red;
+      }
+    }
 
     .row-product-price {
       position: absolute;
@@ -50,7 +55,7 @@
 }
 
 .add-button.large {
-  width: 214px;
+  width: 215px;
   height: auto;
   background-color: $mainGreen;
   border: 1px solid $mainGreen;
@@ -75,7 +80,19 @@
   }
 }
 
+h3.specs {
+  width: 100%;
+  line-height: 1.5;
+  background: $mainGreen;
+  padding: 25px;
+  color: #000000;
+  font-weight: 700;
+  margin: 50px 0 25px;
+}
 
+p.specs {
+  margin-bottom: 50px;
+}
 
 span.no-price {
   font-size: 15px;
@@ -130,6 +147,31 @@ span.no-price {
           color: $white;
           text-transform: none;
           font-weight: 700;
+        }
+      }
+
+      .in-stock-icon {
+        position: absolute;
+        bottom: 0px;
+        right: 214px;
+        z-index: 100;
+        background: $black;
+        padding: 12.5px 25px;
+
+        span {
+          font-size: 12px;
+          color: $white;
+        }
+
+        i.fa {
+          font-size: 14px;
+          color: $mainGreen;
+        }
+      }
+
+      .in-stock-icon.not {
+        i.fa {
+          color: $red;
         }
       }
 
@@ -201,6 +243,7 @@ span.no-price {
         overflow: hidden;
         margin: 0 auto;
         z-index: 1;
+        cursor: pointer;
         background-color: $white;
 
         img {
@@ -227,11 +270,11 @@ span.no-price {
       width: 100%;
       height: auto;
       float: left;
-      margin: 50px 0 0px 0;
+      margin: 10px 0 0px 0;
       position: relative;
       z-index: 100;
       overflow: hidden;
-      padding: 70px 0 0 0;
+      padding: 50px 0 0 0;
 
       .text-content {
         width: 100%;
@@ -242,6 +285,7 @@ span.no-price {
         margin: 0px 0 0 0px;
 
         .product-main {
+          position: relative;
           float: left;
           width: 100%;
           height: auto;
@@ -252,16 +296,15 @@ span.no-price {
           font-size: 14px;
           line-height: 1.5;
           font-weight: 300;
-          padding: 0 0 20px 0;
-          color: #F7F7F7;
-          @include trans(0.5s);
+          padding: 0 0 20px;
+          color: $white;
 
           p {
             font-size: 14px;
             line-height: 1.5;
             font-weight: 300;
-            padding: 0 0 20px 0;
-            color: #F7F7F7;
+            padding: 0 0 20px;
+            color: $white;
           }
         }
 

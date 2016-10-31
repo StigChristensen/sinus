@@ -1,12 +1,14 @@
 jQuery(document).on('ready', function() {
   var $ = jQuery;
 
-  var exportBtn = $('body').find('a.export-btn'),
-      spin = $('body').find('.export-spin'),
-      link = $('body').find('.output');
+  var exportBtn = $('body').find('a.exportjson-btn'),
+      spin = $('body').find('.exportjson-spin'),
+      link = $('body').find('.outputjson');
 
   $(exportBtn).on('click', function(e) {
     e.preventDefault();
+
+    console.log('click');
 
     $(spin).show();
 
@@ -19,12 +21,12 @@ jQuery(document).on('ready', function() {
       success: function(response) {
         $(spin).hide();
 
-        // console.log(response);
+        console.log(JSON.stringify(response));
 
         $(link).html(response);
       },
       error: function(response) {
-        console.log(response);
+        console.log('Error: ' + JSON.stringify(response));
         $(spin).hide();
       }
     });

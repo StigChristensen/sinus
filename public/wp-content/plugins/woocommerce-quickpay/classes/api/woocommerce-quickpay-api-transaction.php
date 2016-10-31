@@ -25,7 +25,7 @@ class WC_QuickPay_API_Transaction extends WC_QuickPay_API
     public function get_current_type() 
     {
     	$last_operation = $this->get_last_operation();
-        
+		
         if( ! is_object( $last_operation ) ) 
         {
             throw new QuickPay_API_Exception( "Malformed operation response", 0 ); 

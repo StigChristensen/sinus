@@ -1,162 +1,175 @@
-.site-content {
+.cart-modal.cart-contents {
+  width: 100vw;
+  height: auto;
+  position: relative;
+  float: left;
+  top: 65px;
+  left: 0;
+  padding: 20px 100px 20px 100px;
+  background: $blckGrd;
+  opacity: 1;
+  text-align: center;
+  z-index: 100000;
+  border-top: 1px solid $bord;
+  border-bottom: 1px solid $bord;
+  @include trans(0.6s);
 
-  .cart-modal.cart-contents {
-    width: 630px;
-    height: auto;
-    position: fixed;
-    top: 95px;
-    right: 80px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 30px 40px 40px 40px;
-    background-color: $black;
-    border-radius: 0px 0px 10px 10px;
-    opacity: 1;
+  .cart-contents-wrapper {
+    width: 60%;
+    height: 100%;
+    margin: 0 auto;
+    padding: 50px 0;
     text-align: left;
-    z-index: 100000;
-    border-top: 1px solid $blckBorder;
-    box-shadow: 0 3px 7px 0 rgba(0,0,0,0.5);
+  }
+
+  .cart-empty {
+    width: 100%;
+    text-align: center;
+    padding: 10px 0 0 0;
+
+    h4.cart {
+      font-size: 16px;
+      font-weight: 400;
+      color: $mainGreen;
+    }
+  }
+
+  .cart-count {
+    p.small {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: $mainGreen;
+      padding: 0 0 0 10px;
+    }
+  }
+
+  .cart-element {
+    width: 100%;
+    padding: 12px 10px;
+
+    .remove-icon {
+      width: 15px;
+      height: 15px;
+      float: left;
+      margin: 0 5px 0 -25px;
+      cursor: pointer;
+
+      p {
+        color: $red;
+        font-famile: $robotCon;
+        font-weight: 700;
+        font-size: 14px;
+
+      }
+    }
+
+    .elem-title {
+      float: left;
+    }
+
+    .elem-qty-total {
+      float: right;
+    }
+  }
+
+  .cart-total {
+    width: 100%;
+    padding: 28px 10px 28px 0px;
+    color: $white;
+    text-align: right;
+
+    p.small {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: $mainGreen;
+      padding: 0 0 0 10px;
+    }
+  }
+
+  .cart-links {
+    width: 630px;
+    height: 40px;
+    position: absolute;
+    bottom: 0;
+    @include center();
+  }
+
+  .cart-link {
+    width: 210px;
+    height: 40px;
+    float: left;
+    margin: 0;
+    padding: 10px 0 10px 0;
+    text-align: center;
+    cursor: pointer;
     @include trans(0.3s);
 
-    .cart-empty {
-      width: 100%;
-      text-align: center;
-      padding: 10px 0 0 0;
-
-      h4.cart {
-        font-size: 18px;
-        color: $mainGreen;
-      }
+    a {
+      color: #000000;
+      font-weight: 700;
+      font-family: $robot;
+      font-size: 14px;
+      padding: 8px 60px;
     }
-
-    .cart-count {
-      p.small {
-        font-size: 11px;
-        text-transform: uppercase;
-        color: $mainGreen;
-        padding: 0 0 0 10px;
-      }
-    }
-
-    .cart-element {
-      width: 100%;
-      padding: 12px 10px;
-
-      .remove-icon {
-        width: 15px;
-        height: 15px;
-        float: left;
-        margin: 0 5px 0 -25px;
-        cursor: pointer;
-
-        p {
-          color: $red;
-          font-famile: $robotCon;
-          font-weight: 700;
-          font-size: 14px;
-
-        }
-      }
-
-      .elem-title {
-        float: left;
-      }
-
-      .elem-qty-total {
-        float: right;
-      }
-    }
-
-    .cart-total {
-      width: 100%;
-      padding: 28px 10px 28px 0px;
-      color: $white;
-      text-align: right;
-
-      p.small {
-        font-size: 11px;
-        text-transform: uppercase;
-        color: $mainGreen;
-        padding: 0 0 0 10px;
-      }
-    }
-
-    .cart-link {
-      width: 210px;
-      height: 40px;
-      position: absolute;
-      padding: 10px 0 10px 0;
-      text-align: center;
-      cursor: pointer;
-      @include trans(0.3s);
-
-      a {
-        color: $white;
-        font-weight: 700;
-        font-family: $robot;
-        padding: 8px 60px;
-      }
-    }
-
-    .cart-link.first {
-      background-color: $mainGreen;
-      left: 0;
-      bottom: 0;
-      border-radius: 0 0 0 10px;
-    }
-
-    .cart-link.second:hover {
-      background-color: #FFF;
-
-      a {
-        color: $mainGreen;
-      }
-    }
-
-    .cart-link.second {
-      background-color: $mainBlue;
-      left: 210px;
-      bottom: 0;
-      border-radius: 0;
-    }
-
-    .cart-link.first:hover {
-      background-color: #FFF;
-
-      a {
-        color: $mainBlue;
-      }
-    }
-
-    .cart-link.third {
-      background-color: $mainGreen;
-      right: 0;
-      bottom: 0;
-      border-radius: 0 0 10px 0;
-    }
-
-    .cart-link.third:hover {
-      background-color: #FFF;
-
-      a {
-        color: $mainGreen;
-      }
-    }
-
-    p {
-      color: $white;
-    }
-
   }
 
-  .cart-contents.hidden {
-    opacity: 0;
-    z-index: -1000;
+  .cart-link.first {
+    background-color: $mainGreen;
   }
 
-  @media screen and (max-width: 767px) {
-    .cart-modal.cart-contents,.cart-modal.cart-contents.hidden {
-      display: none;
+  .cart-link.first:hover {
+    background-color: #000000;
+
+    a {
+      color: $mainGreen;
     }
+  }
+
+  .cart-link.second {
+    background-color: $mainBlue;
+  }
+
+  .cart-link.second:hover {
+    background-color: #000000;
+
+    a {
+      color: $mainBlue;
+    }
+  }
+
+  .cart-link.third {
+    background-color: $mainGreen;
+  }
+
+  .cart-link.third:hover {
+    background-color: #000000;
+
+    a {
+      color: $mainGreen;
+    }
+  }
+
+  p {
+    color: $white;
+  }
+
+}
+
+.cart-modal.cart-contents.fixed-open {
+  position: fixed;
+  top: 65px;
+  left: 0;
+}
+
+.cart-contents.hidden {
+  height: 0px;
+  top: -400px;
+  padding: 0px 100px 0px 100px;
+  opacity: 0;
+}
+
+@media screen and (max-width: 767px) {
+  .cart-modal.cart-contents,.cart-modal.cart-contents.hidden {
+    display: none;
   }
 }

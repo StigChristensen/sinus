@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $filename = 'sinus_';
-$dir = plugin_dir_path( '/wp-content/plugins/sinus-json/output/' );
+$dir = plugin_dir_path(__FILE__);
 
 function register_json_page() {
     add_dashboard_page( 'Export JSON', 'Export JSON', 'edit_pages', 'export-json-page', 'export_json_callback' );
@@ -32,10 +32,16 @@ add_action( 'wp_ajax_export_json', 'sinus_export_json' );
 function sinus_export_json() {
   global $client, $dir;
 
+  if ( !$client ) {
+    echo 'No client';
+    wp_die();
+  }
+
   try {
     $export_products = $client->products->get(null,
       array(
-        'filter[limit]'   => -1
+        'filter[limit]'   => 5,
+        'filter[offset]'  => 0,
         )
     );
   } catch ( WC_API_Client_Exception $e ) {
@@ -148,6 +154,8 @@ function sinus_export_json() {
     }
 
     echo json_encode($return);
+  } else {
+    echo 'Query returned no results';
   }
 
  wp_die();
@@ -155,12 +163,12 @@ function sinus_export_json() {
 
 // show something on the page
 function export_json_callback() {
-  echo '<div class="export top"><h1>Sinus - Export JSON</h1>';
+  echo '<div class="exportjson top"><h1>Sinus - Export JSON</h1>';
   echo '<p>Klik på EXPORT knappen og afvent. Eksporterer produkter i overordnede kategorier ud som json.</p><br>';
-  echo '<a class="export-btn" href="#">EXPORT</a>';
+  echo '<a class="exportjson-btn" href="#">EXPORT</a>';
 
-  echo '<div class="export result"><div class="export-spin"><h4>...</h4></div>';
-  echo '<div class="output"></div></div>';
+  echo '<div class="exportjson result"><div class="exportjson-spin"><h4>...</h4></div>';
+  echo '<div class="outputjson"></div></div>';
 }
 
 ?>

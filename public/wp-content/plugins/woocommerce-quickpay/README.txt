@@ -3,8 +3,8 @@ Contributors: PerfectSolution
 Donate link: http://perfect-solution.dk/donation
 Tags: gateway, woo commerce, quickpay, quick pay, gateway, integration, woocommerce, woocommerce quickpay, payment, payment gateway, psp
 Requires at least: 4.0.0
-Tested up to: 4.5.3
-Stable tag: 4.5.3
+Tested up to: 4.6.0
+Stable tag: 4.5.6
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,6 +22,27 @@ With WooCommerce QuickPay, you are able to integrate your QuickPay gateway to yo
 6. You are good to go.
 
 == Changelog ==
+= 4.5.6 =
+* Fix bug where certain customers are not able to manually pay a failed recurring order.
+* Add convenience wrapper WC_QuickPay_Subscription::cart_contains_failed_renewal_order_payment()
+* Add convenience wrapper WC_QuickPay_Subscription::get_subscription_for_renewal_order()
+* Add convenience wrapper WC_QuickPay_Subscription::get_subscriptions_for_order()
+* Add convenience wrapper WC_QuickPay_Subscription::cart_contains_renewal()
+* Add ?synchronized query parameter to recurring requests.
+* Add WC_QuickPay_Order::get_payment_method_change_count()
+* Add WC_QuickPay_Order::increase_payment_method_change_count()
+* Hook into woocommerce_subscription_payment_method_updated_to_*
+* Use $order->update_status on failed recurring payments instead of WC_Subscriptions_Manager::process_subscription_payment_failure_on_order to get a correct count of failed payments.
+* Append the payment count (or timestamp to ensure backwards compatibility) to the order numbers sent to the QuickPay API when manually paying a failed recurring order.
+
+= 4.5.5 =
+* Fix: Problem with fees being incorrectly stored when using custom decimal pointers. Rely on wp_format_decimals.
+
+= 4.5.4 =
+* Add support for subscription_payment_method_change_customer
+* Add transaction state check in WC_QuickPay::subscription_cancel
+* Add WC_QuickPay_Order::is_request_to_change_payment()
+
 = 4.5.3 =
 * Add possibility to disable transaction information in the order overview
 * Fix bug in WC_QuickPay_Helper::price_multiply which didn't properly format prices where are not standard English format.

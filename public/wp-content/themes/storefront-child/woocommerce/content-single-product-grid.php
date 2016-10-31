@@ -12,14 +12,14 @@ global $product, $post;
 $qty = $product->get_stock_quantity();
 $terms = get_the_terms( $post->ID, 'product_cat' );
 $classes = array();
-foreach ( $terms as $term ){
+foreach ( $terms as $term ) {
     $category_slug = $term->slug;
     $classes[] = $category_slug;
 }
 
 $class_string = implode(" ", $classes);
 $content = get_the_content();
-$trimmed = wp_trim_words($content, 28, ' ... KLIK FOR MERE');
+$trimmed = wp_trim_words($content, 26, ' ... Læs mere');
 ?>
 
 <?php
@@ -32,7 +32,6 @@ if ( $qty > 0 ) {
   $stockIcon = '<div class="in-stock-icon"><span>PÅ LAGER: <i class="fa fa-check-square"></i></span></div>';
   $stockClass = 'stock-true';
 }
-
 ?>
 
 <li class="product <?php echo $class_string . ' ' . $stockClass; ?>" itemscope itemtype="http://schema.org/Product" data-singleid="<?php the_ID(); ?>" data-sort="<?php echo $class_string; ?>" data-stock="<?php echo $stockClass; ?>">

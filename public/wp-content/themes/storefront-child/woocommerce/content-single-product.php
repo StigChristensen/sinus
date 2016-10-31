@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
   $qty = $product->get_stock_quantity();
 
   if ( $qty == 0 ) {
-    $stockIcon = '<div class="in-stock-icon"><span>IKKE PÅ LAGER: <i class="fa fa-minus-square"></i></span></div>';
+    $stockIcon = '<div class="in-stock-icon not"><span>IKKE PÅ LAGER: <i class="fa fa-minus-square"></i></span></div>';
     $stockClass = 'stock-false';
   }
 
@@ -35,7 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) {
   }
 ?>
 
-  <div itemscope itemtype="<?php echo woocommerce_get_product_schema(); ?>" id="product-<?php the_ID(); ?>" class="sinus single-product <?php echo $stockClass; ?>">
+  <div itemscope itemtype="<?php echo woocommerce_get_product_schema(); ?>" id="product-<?php the_ID(); ?>" class="sinus single-product <?php echo $stockClass; ?>" data-singleid="<?php the_ID(); ?>">
 
     <h1 class="single-product-title" itemprop="name"><?php the_title(); ?></h1>
 
@@ -84,7 +84,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         <?php if ( $price ) { ?>
 
           <?php if ( $attachment_count <= 6 ): ?>
-            <div class="product-price">
+            <div class="product-price default">
               <h2><?php echo $product->price . ',- kr.'; ?></h2>
             </div>
             <div class="add-button large" data-href="<?php echo $product->id; ?>" data-title="<?php do_action( 'woocommerce_shop_loop_item_title' ); ?>">
@@ -145,28 +145,27 @@ if ( ! defined( 'ABSPATH' ) ) {
         <div class="product-main">
           <?php the_content(); ?>
 
+          <?php if ( $specs) { ?>
+            <div class="product-text-right">
+              <h3 class="specs">Specifikationer:</h3>
+              <p class="specs"><?php the_field('specifikationer'); ?></p>
+            </div>
+          <?php } ?>
+
           <?php
           if ( $price ) { ?>
-            <div class="product-controls">
-              <div class="product-price">
+            <div class="product-controls-row single-image">
+              <?php echo $stockIcon; ?>
+              <div class="row-product-price">
                 <h2><?php echo $product->price . ',- kr.'; ?></h2>
               </div>
               <div class="add-button large" data-href="<?php echo $product->id; ?>" data-title="<?php do_action( 'woocommerce_shop_loop_item_title' ); ?>">
                 <h3>Læg i kurv</h3>
               </div>
-              <?php echo $stockIcon; ?>
             </div>
           <?php } else { ?>
             <div class="product-controls">
               <span class="no-price">Kontakt os for information og pris.</span>
-            </div>
-          <?php
-          }
-
-          if ( $specs) { ?>
-            <div class="product-text-right">
-              <h3 class="specs">Specifikationer:</h3>
-              <p class="specs"><?php the_field('specifikationer'); ?></p>
             </div>
           <?php } ?>
 

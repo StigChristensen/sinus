@@ -47,9 +47,8 @@ remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'wp_print_styles', 'print_emoji_styles' );
 
 function reg_scripts() {
-	// wp_enqueue_script( 'vendor', get_stylesheet_directory_uri() . '/js/lib.js', array('jquery'), '1.0.0', true );
-	// wp_enqueue_script( 'app', get_stylesheet_directory_uri() . '/js/main.min.js', array( 'vendor' ), '0.0.1', true );
-  // wp_localize_script('app', 'site', array( 'theme_path' => get_stylesheet_directory_uri(), 'ajax_url' => admin_url( 'admin-ajax.php' ), 'site_url' => get_site_url(), 'key' => key, 'sec' => sec ));
+	wp_enqueue_script( 'front', get_stylesheet_directory_uri() . '/js/front.js', array( 'jquery' ), '0.0.1', true );
+  wp_localize_script('front', 'site', array( 'theme_path' => get_stylesheet_directory_uri(), 'ajax_url' => admin_url( 'admin-ajax.php' ), 'site_url' => get_site_url() ));
 
   // wp_enqueue_script( 'app', get_stylesheet_directory_uri() . '/js/grid.js', array(), '0.0.1', false );
   // wp_localize_script('app', 'site', array( 'theme_path' => get_stylesheet_directory_uri(), 'ajax_url' => admin_url( 'admin-ajax.php' ), 'site_url' => get_site_url(), 'key' => key, 'sec' => sec ));
@@ -111,9 +110,10 @@ function stripped_content($content) {
 
   if ($post->post_type == 'product') {
     $stripped_content = strip_tags($content, '<p>');
+    return $stripped_content;
+  } else {
+    return $content;
   }
-
-  return $stripped_content;
 }
 
 add_filter('the_content', 'stripped_content');
@@ -219,29 +219,6 @@ add_action( 'wp_ajax_sinus_brand', 'sinus_get_products_by_brand' );
 add_action( 'wp_ajax_nopriv_sinus_brand', 'sinus_get_products_by_brand' );
 add_action( 'wp_ajax_sinus_type', 'sinus_get_products_by_type' );
 add_action( 'wp_ajax_nopriv_sinus_type', 'sinus_get_products_by_type' );
-
-
-function sinus_get_single_html() {
-  $decoded = json_decode(file_get_contents("php://input"));
-  $id = intval($decoded->id);
-
-  $args = array( 'post_type' => 'product', 'posts_per_page' => 1, 'p' => $id );
-  $loop = new WP_Query( $args );
-    while ( $loop->have_posts() ) : $loop->the_post();
-    ob_start(); ?>
-    <?php wc_get_template_part('content', 'single-product'); ?>
-
-  <?php
-    $content = ob_get_contents();
-    endwhile;
-
-    ob_end_clean();
-    wp_reset_postdata();
-
-  echo $content;
-  wp_die();
-}
-
 
 $fields = "id,title,categories,tags,regular_price,sale_price,price_html,featured_src,images,description,permalink,stock_quantity,visible";
 
@@ -378,7 +355,7 @@ function cart_update() {
   // generate output to update the cart.
   ob_start();
   ?>
-
+    <div class="cart-contents-wrapper">
      <?php if ( $qty < 1 ) { ?>
         <div class="cart-empty"><h4 class="cart">Din kurv er tom...</h4></div>
       <?php } ?>
@@ -419,7 +396,7 @@ function cart_update() {
 
         </div>
       <?php } ?>
-
+    </div>
   <?php
   $cart_content = ob_get_clean();
   return $cart_content;

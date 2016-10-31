@@ -4,13 +4,13 @@
 Plugin Name: WooCommerce QuickPay
 Plugin URI: http://wordpress.org/plugins/woocommerce-quickpay/
 Description: Integrates your QuickPay payment getway into your WooCommerce installation.
-Version: 4.5.3
+Version: 4.5.6
 Author: Perfect Solution
 Text Domain: woo-quickpay
 Author URI: http://perfect-solution.dk
 */
 
-define( 'WCQP_VERSION', '4.5.3' );
+define( 'WCQP_VERSION', '4.5.6' );
 define( 'WCQP_URL', plugins_url( __FILE__ ) );
 
 add_action('plugins_loaded', 'init_quickpay_gateway', 0);
@@ -84,7 +84,7 @@ function init_quickpay_gateway() {
 		    	'subscription_suspension' ,
 		    	'subscription_amount_changes',
 		    	'subscription_date_changes',
-		    	'subscription_payment_method_change',
+				'subscription_payment_method_change_customer',
                 'refunds',
 				'multiple_subscriptions',
 				'pre-orders'
@@ -140,7 +140,8 @@ function init_quickpay_gateway() {
 
             // WooCommerce Subscriptions hooks/filters
 			add_action( 'woocommerce_scheduled_subscription_payment_' . $this->id, array( $this, 'scheduled_subscription_payment' ), 10, 2 );
-			add_action( 'woocommerce_subscription_cancelled_' . $this->id, array( $this, 'subscription_cancellation') )	;
+			add_action( 'woocommerce_subscription_cancelled_' . $this->id, array( $this, 'subscription_cancellation' ) )	;
+			add_action( 'woocommerce_subscription_payment_method_updated_to_' . $this->id, array( $this, 'on_subscription_payment_method_updated_to_quickpay' ), 10, 2 );
 
 			// WooCommerce Pre-Orders
 			add_action( 'wc_pre_orders_process_pre_order_completion_payment_' . $this->id, array( $this, 'process_pre_order_payments' ) );
@@ -253,7 +254,7 @@ function init_quickpay_gateway() {
 						if( method_exists( $payment, $param_action ) ) {
 							// Fetch amount if sent.
 							$amount = isset( $_REQUEST['quickpay_amount'] ) ?  WC_QuickPay_Helper::price_custom_to_multiplied($_REQUEST['quickpay_amount']) : $payment->get_remaining_balance();
-							
+
 							// Call the action method and parse the transaction id and order object
 							call_user_func_array( array( $payment, $param_action ), array( $transaction_id, $order, WC_QuickPay_Helper::price_multiplied_to_float( $amount ) ) );
 						}
@@ -302,7 +303,6 @@ function init_quickpay_gateway() {
                     $transaction_id = $_REQUEST['quickpay-transaction-id'];
 
                     $data_transaction_id = $transaction_id;
-                    $data_status = '';
                     $data_test = '';
                     $data_order = $order->get_transaction_order_id();
 
@@ -468,7 +468,7 @@ function init_quickpay_gateway() {
                 $order = new WC_QuickPay_Order( $order_id );
 
                 // Instantiate API Payment object
-                if( ! $order->contains_subscription() )
+                if( ! $order->contains_subscription() && !$order->is_request_to_change_payment() )
                 {
                     $api_transaction = new WC_QuickPay_API_Payment();
                 }
@@ -547,7 +547,7 @@ function init_quickpay_gateway() {
 						{
 							// Capture the payment
 							$payment->capture( $transaction_id, $order );
-						} 
+						}
 						// Payment failed
 						catch(QuickPay_API_Exception $e)
 						{
@@ -637,34 +637,49 @@ function init_quickpay_gateway() {
 		* @access public
 		* @return void
 		*/
-		public function scheduled_subscription_payment( $amount_to_charge, $order, $first_renewal = FALSE )
+		public function scheduled_subscription_payment( $amount_to_charge, $renewal_order, $init_auto = FALSE )
 		{
-            $order = new WC_QuickPay_Order( $order->id );
-
             try
             {
                 // Create subscription instance
                 $subscription = new WC_QuickPay_API_Subscription();
 
                 // Capture a recurring payment with fixed amount
-                $subscription->recurring( WC_QuickPay_Subscription::get_initial_subscription_transaction_id( $order ), $order, $amount_to_charge );
+                list($response) = $subscription->recurring( WC_QuickPay_Subscription::get_initial_subscription_transaction_id( $renewal_order ), $renewal_order, $amount_to_charge, $init_auto );
+
+				if( ! $response->accepted) {
+					throw new QuickPay_Exception("Recurring payment not accepted by acquirer.");
+				}
             }
             catch ( QuickPay_Exception $e )
             {
                 // Set the payment as failed
-                WC_Subscriptions_Manager::process_subscription_payment_failure_on_order( $order->id );
+				$renewal_order->update_status('failed', 'Automatic renewal of ' . $renewal_order->get_order_number() . ' failed. Message: ' . $e->getMessage());
 
-                // Write debug information to the logs
+				// Write debug information to the logs
+				$e->write_to_logs();
+			}
+			catch ( QuickPay_API_Exception $e )
+			{
+				// Set the payment as failed
+				$renewal_order->update_status('failed', 'Automatic renewal of ' . $renewal_order->get_order_number() . ' failed. Message: ' . $e->getMessage());
+
+				// Write debug information to the logs
                 $e->write_to_logs();
             }
-            catch ( QuickPay_API_Exception $e )
-            {
-                // Set the payment as failed
-                WC_Subscriptions_Manager::process_subscription_payment_failure_on_order( $order->id );
+		}
 
-                // Write debug information to the logs
-                $e->write_to_logs();
-            }
+		/**
+		 * Triggered when customers are changing payment method to QuickPay.
+		 *
+		 * @param $new_payment_method
+		 * @param $subscription
+		 * @param $old_payment_method
+		 */
+		public function on_subscription_payment_method_updated_to_quickpay( $subscription, $old_payment_method )
+		{
+			$order = new WC_QuickPay_Order( $subscription->id );
+			$order->increase_payment_method_change_count();
 		}
 
 
@@ -682,19 +697,24 @@ function init_quickpay_gateway() {
             try
             {
                 $order = new WC_QuickPay_Order( $order );
+				$transaction_id = WC_QuickPay_Subscription::get_initial_subscription_transaction_id( $order );
+
                 $subscription = new WC_QuickPay_API_Subscription();
-                $subscription->cancel(  WC_QuickPay_Subscription::get_initial_subscription_transaction_id( $order ) );
+				$subscription->get($transaction_id);
+
+				if ($subscription->is_action_allowed('cancel')) {
+					$subscription->cancel( $transaction_id );
+				}
             }
             catch ( QuickPay_Exception $e )
             {
-                $e->write_to_logs();
+				$e->write_to_logs();
             }
             catch ( QuickPay_API_Exception $e )
             {
                 $e->write_to_logs();
             }
 		}
-
 
 		/**
 		* on_order_cancellation function.
@@ -721,7 +741,6 @@ function init_quickpay_gateway() {
 			$order->add_order_note( __( 'QuickPay Payment', 'woo-quickpay' ) . ': ' . __( 'Cancelled during process', 'woo-quickpay' ) );
 			$woocommerce->add_error( '<p><strong>' . __( 'Payment cancelled', 'woo-quickpay' ) . '</strong>: ' . __( 'Due to cancellation of your payment, the order process was not completed. Please fulfill the payment to complete your order.', 'woo-quickpay' ) .'</p>' );
 		}
-
 
 		/**
 		* callback_handler function.
@@ -767,13 +786,10 @@ function init_quickpay_gateway() {
                             // Cancel callbacks are currently not supported by the QuickPay API
                             //
                             case 'cancel' :
-                                if( WC_QuickPay_Subscription::plugin_is_active() )
-                                {
-                                    if( $order->contains_subscription() )
-                                    {
-                                        WC_Subscriptions_Manager::cancel_subscriptions_for_order( $order->id );
-                                    }
-                                }
+								if( $order->contains_subscription() )
+								{
+									WC_Subscriptions_Manager::cancel_subscriptions_for_order( $order->id );
+								}
                                 // Write a note to the order history
                                 $order->note( __( 'Payment cancelled.', 'woo-quickpay' ) );
                                 break;
@@ -812,36 +828,41 @@ function init_quickpay_gateway() {
                                 // Subscription authorization
                                 if( isset( $json->type ) AND strtolower($json->type) == 'subscription' )
                                 {
-                                	$order->payment_complete( $json->id );
-                                	
-                                	// Process the subscription signup
-                                	WC_QuickPay_Subscription::process_recurring_response( $json, $order );
+									if( isset($json->variables->change_payment) ) {
+										// Find parent order
+										$parent = new WC_QuickPay_Order($order->post->post_parent);
+										$parent->set_transaction_id( $json->id );
+									} else {
+										$order->payment_complete( $json->id );
 
-                                    // Create subscription instance
-                                    $subscription = new WC_QuickPay_API_Subscription( $request_body );
+										// Process the subscription signup
+										WC_QuickPay_Subscription::process_recurring_response( $json, $order );
 
-                                    // Write log
-                                    $order->note( sprintf( __( 'Subscription authorized. Transaction ID: %s', 'woo-quickpay' ), $json->id ) );
+										// Write log
+										$order->note( sprintf( __( 'Subscription authorized. Transaction ID: %s', 'woo-quickpay' ), $json->id ) );
 
-                                    // If 'capture first payment on subscription' is enabled
-                                    if( WC_QuickPay_Helper::option_is_enabled( $this->s( 'quickpay_autodraw_subscription' ) ) )
-                                    {
-                    					// Check if there is an initial payment on the subscription
-                                        $subscription_initial_payment = $order->get_total();
+										// If 'capture first payment on subscription' is enabled
+										if( WC_QuickPay_Helper::option_is_enabled( $this->s( 'quickpay_autodraw_subscription' ) ) )
+										{
+											// Check if there is an initial payment on the subscription
+											$subscription_initial_payment = $order->get_total();
 
-                                        // Only make an instant payment if there is an initial payment
-                                        if( $subscription_initial_payment > 0 )
-                                        {
-	                           				// Check if this is an order containing a subscription
-						                    if ( !wcs_is_subscription( $order->id ) && $order->contains_subscription() ) {
-						                    	// Get the actual subscription order id and make a recurring payment
-							                    $subscriptions = wcs_get_subscriptions_for_order( $order->id, array( 'order_type' => 'parent' ) );
-												$subscription = end( $subscriptions );
+											// Only make an instant payment if there is an initial payment
+											if( $subscription_initial_payment > 0 )
+											{
+												// Check if this is an order containing a subscription
+												if ( !wcs_is_subscription( $order->id ) && $order->contains_subscription() ) {
+													// Get the actual subscription order id and make a recurring payment
+													$subscriptions = wcs_get_subscriptions_for_order( $order->id, array( 'order_type' => 'parent' ) );
+													$subscription = end( $subscriptions );
 
-		                						$this->scheduled_subscription_payment( $subscription_initial_payment, $subscription );
-						                    }
-                                        }
-                                    }
+													$this->scheduled_subscription_payment( $subscription_initial_payment, $subscription, TRUE );
+												}
+											}
+										}
+									}
+
+
                                 }
 
                                 // Regular payment authorization

@@ -47,28 +47,12 @@
     <ul class="menu-filter">
       <li class="cat-item">
         <a href="/type/hovedtelefoner/">Hovedtelefoner</a>
-        <!-- <ul class="children">
-          <li class="cat-item">
-            <a href="/type/hovedtelefoner/#sort=category+dj">DJ</a>
-            <a href="/type/hovedtelefoner/#sort=category+gaming">Gaming</a>
-            <a href="/type/hovedtelefoner/#sort=category+hifi">Hifi</a>
-            <a href="/type/hovedtelefoner/#sort=category+in-ear">In-Ear</a>
-            <a href="/type/hovedtelefoner/#sort=category+mikrofon">m. Mikrofon</a>
-            <a href="/type/hovedtelefoner/#sort=category+noise-cancelling">Noise-Cancelling</a>
-            <a href="/type/hovedtelefoner/#sort=category+sport">Sport</a>
-            <a href="/type/hovedtelefoner/#sort=category+street">Street</a>
-            <a href="/type/hovedtelefoner/#sort=category+studie">Wireless</a>
-          </li>
-        </ul> -->
       </li>
       <li class="cat-item">
         <a href="/type/traadloese-hoejttalere/">Trådløse Højttalere</a>
       </li>
       <li class="cat-item">
         <a href="/type/tilbehoer/">Tilbehør</a>
-        <!-- <ul class="children">
-          <li class="cat-item"><a href="/type/tilbehoer/kabler-og-stik/">Kabler og Stik</a></li>
-        </ul> -->
       </li>
       <li class="cat-item">
         <a href="/type/preamps/">Preamps / Hovedtelefonforstærker</a>
@@ -80,30 +64,6 @@
         <a href="/type/pladespillere/">Pladespillere</a>
       </li>
 
-
-      <?php
-        // $args = array(
-        //   'show_option_all'    => '',
-        //   'orderby'            => 'name',
-        //   'order'              => 'ASC',
-        //   'style'              => 'list',
-        //   'show_count'         => 0,
-        //   'hide_empty'         => 1,
-        //   'use_desc_for_title' => 1,
-        //   'child_of'           => 0,
-        //   'hierarchical'       => 1,
-        //   'title_li'           => __( '' ),
-        //   'show_option_none'   => __( '' ),
-        //   'number'             => null,
-        //   'echo'               => 1,
-        //   'depth'              => 0,
-        //   'current_category'   => 0,
-        //   'pad_counts'         => 0,
-        //   'taxonomy'           => 'product_cat',
-        //   'walker'             => null
-        // );
-        // wp_list_categories( $args );
-      ?>
     </ul>
   </div>
   <div class="menu-brands">
@@ -142,14 +102,67 @@
   </div>
 </div>
 
+
+<?php global $woocommerce;
+		$qty = $woocommerce->cart->get_cart_contents_count();
+		$total = $woocommerce->cart->get_cart_total();
+		$cart_url = $woocommerce->cart->get_cart_url();
+		$checkout_url = $woocommerce->cart->get_checkout_url();
+		$cart = $woocommerce->cart->get_cart(); ?>
+
+<div class="cart-modal cart-contents hidden">
+		<div class="cart-contents-wrapper">
+	 <?php if ( $qty < 1 ) { ?>
+			<div class="cart-empty"><h4 class="cart">Din kurv er tom...</h4></div>
+		<?php } ?>
+
+		<?php if ( $qty >= 1 ) { ?>
+
+			<div class="cart-container">
+				<div class="cart-count"><p class="small">Antal varer: <?php echo $qty; ?></p></div>
+
+				<?php foreach ($cart as $ca) { ?>
+				<?php
+					$product = new WC_Product( $ca['product_id'] );
+					$price = $product->price;
+				?>
+					<div class="cart-element">
+						<div class="remove-icon" data-id="<?php echo $ca['product_id']; ?>"><p><i class="fa fa-times-circle-o"></i></p></div>
+						<div class="elem-title"><p><?php echo get_the_title($ca['product_id']); ?></p></div>
+						<div class="elem-qty-total" data-qty="<?php echo $ca['quantity']; ?>"><p>
+						<?php
+						if ( $ca['quantity'] > 1 ) {
+							echo $ca['quantity'] . ' x ' . $price . ',- kr.';
+						} else {
+							echo $price . ',- kr.';
+						} ?>
+						</p></div>
+					</div>
+
+				<?php } ?>
+
+				<div class="cart-total">
+					<p class="small">I alt: </p><h4><?php echo $total; ?></h4>
+					<p class="small">(inkl. moms)</p>
+				</div>
+
+				<div class="cart-links">
+					<div class="cart-link first"><a class="cart" href="/reserver">Reserver</a></div>
+					<div class="cart-link second"><a class="cart" href="<?php echo $cart_url; ?>">Kurv</a></div>
+					<div class="cart-link third"><a class="cart" href="<?php echo $checkout_url; ?>">Check ud</a></div>
+				</div>
+
+			</div>
+		<?php } ?>
+	</div>
+</div>
+
+
+
+
 <div id="content" class="site-content">
 
-  <?php global $woocommerce;
-      $qty = $woocommerce->cart->get_cart_contents_count();
-      $total = $woocommerce->cart->get_cart_total();
-      $cart_url = $woocommerce->cart->get_cart_url();
-      $checkout_url = $woocommerce->cart->get_checkout_url();
-      $cart = $woocommerce->cart->get_cart(); ?>
+
 
   <div class="header top">
       <div class="headerlogo">
@@ -183,50 +196,6 @@
     <p class="green">|</p>
     <a class="green" href="/type/tilbehoer">Tilbehør</a>
 
-  </div>
-
-
-  <div class="cart-modal cart-contents hidden">
-     <?php if ( $qty < 1 ) { ?>
-        <div class="cart-empty"><h4 class="cart">Din kurv er tom...</h4></div>
-      <?php } ?>
-
-      <?php if ( $qty >= 1 ) { ?>
-
-        <div class="cart-container">
-          <div class="cart-count"><p class="small">Antal varer: <?php echo $qty; ?></p></div>
-
-          <?php foreach ($cart as $ca) { ?>
-          <?php
-            $product = new WC_Product( $ca['product_id'] );
-            $price = $product->price;
-          ?>
-            <div class="cart-element">
-              <div class="remove-icon" data-id="<?php echo $ca['product_id']; ?>"><p><i class="fa fa-times-circle-o"></i></p></div>
-              <div class="elem-title"><p><?php echo get_the_title($ca['product_id']); ?></p></div>
-              <div class="elem-qty-total" data-qty="<?php echo $ca['quantity']; ?>"><p>
-              <?php
-              if ( $ca['quantity'] > 1 ) {
-                echo $ca['quantity'] . ' x ' . $price . ',- kr.';
-              } else {
-                echo $price . ',- kr.';
-              } ?>
-              </p></div>
-            </div>
-
-          <?php } ?>
-
-          <div class="cart-total">
-            <p class="small">I alt: </p><h4><?php echo $total; ?></h4>
-            <p class="small">(inkl. moms)</p>
-          </div>
-
-          <div class="cart-link first"><a class="cart" href="/reserver">Reserver</a></div>
-          <div class="cart-link second"><a class="cart" href="<?php echo $cart_url; ?>">Kurv</a></div>
-          <div class="cart-link third"><a class="cart" href="<?php echo $checkout_url; ?>">Check ud</a></div>
-
-        </div>
-      <?php } ?>
   </div>
 
 <div class="atc-modal"></div>

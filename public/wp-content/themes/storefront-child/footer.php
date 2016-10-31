@@ -9,7 +9,7 @@
 				<span>Ved køb over 1000kr får du fri fragt.</span>
 			</div>
 			<div class="binfo-element">
-				<span>Du kan få varen leveret til nærmeste Postnord Boks</span>
+				<span>Du kan få varen leveret til nærmeste Postnord Boks. Du kan også få sendt varen direkte til dig eller til din arbejdsplads</span>
 			</div>
 			<div class="binfo-element">
 				<span>Er varen ikke på lager, kan vi typisk få den hurtigt (muligvis fra dag til dag). Det afhænger af leverandøren og varen. Vi kontakter dig med en leveringstid. Du er også velkommen til at <a href="mailto:info@sinus-store.dk">kontakte</a> os.</span>
@@ -17,7 +17,7 @@
 		</div>
 		<div class="right">
 			<div class="binfo-element">
-				<span>Du kan også få sendt varen direkte til dig eller til din arbejdsplads</span>
+				<span>Ordrer indgået inden kl 16.00 bliver afsendt samme dag, hvis alle varer er på lager.</span>
 			</div>
 
 			<div class="binfo-element">
@@ -29,7 +29,7 @@
 
 	<footer id="colophon" class="site-footer" role="contentinfo">
 
-    <div class="footer-bar"></div>
+    <!-- <div class="footer-bar"></div> -->
 
 		<div class="footer-content">
 

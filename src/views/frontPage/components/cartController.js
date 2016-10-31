@@ -2,6 +2,22 @@ import velocity from 'velocity-animate';
 const $ = jQuery;
 
 module.exports = {
+  toggleCart: function() {
+    $('body').on('click', '.cart-icon', function(e) {
+      let scrollAmount = window.pageYOffset || document.documentElement.scrollTop;
+      let cartModal = $('body').find('.cart-modal.cart-contents'),
+          siteContent = $('body').find('.site-content');
+
+      if ( scrollAmount > 300 ) {
+        $(cartModal).toggleClass('fixed-open');
+        $(cartModal).toggleClass('hidden');
+      } else {
+        $(cartModal).toggleClass('hidden');
+        $(siteContent).toggleClass('modal-open');
+      }
+    });
+  },
+
   addToCartController: function() {
     let self = this;
 
@@ -67,7 +83,7 @@ module.exports = {
               'quantity': qty
             }
 
-        data = JSON.stringify(dataObject);
+        let data = JSON.stringify(dataObject);
 
         $.ajax({
           url: url,

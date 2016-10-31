@@ -6,6 +6,7 @@
 	float: left;
 	text-align: center;
 	background-color: #000000;
+	@include trans(0.6s);
 
 	.content-area {
 		width: 100%;
@@ -28,6 +29,10 @@
 			}
 		}
 	}
+}
+
+.site-contenet.modal-open {
+	margin: 0;
 }
 
 @media (max-width: 960px) {

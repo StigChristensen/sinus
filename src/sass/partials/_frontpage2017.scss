@@ -1,0 +1,383 @@
+.fp-wrap {
+  width: 100%;
+  height: auto;
+  float: left;
+  text-align: center;
+}
+
+.fp-content-wrap {
+  width: 100vw;
+  height: auto;
+  margin: 9px auto;
+}
+
+.fp-content-row {
+  width: 100vw;
+  height: auto;
+  float: left;
+  margin: 0px auto;
+  padding: 0px 0px;
+  text-align: center;
+}
+
+.fp-content-row.fixed {
+  width: 1170px;
+  height: auto;
+  min-height: 500px;
+  float: none;
+  margin: 0px auto 150px;
+  padding: 50px 0px;
+  text-align: center;
+}
+
+.fp-content-row.black {
+  background: #000000;
+}
+
+.fp-content-row.green {
+  background: $mainGreen;
+}
+
+.main-logo {
+  background: $mainGreen;
+  width: 200px;
+  height: 200px;
+  margin: 50px auto;
+  @include border(50%);
+}
+
+.brand-circle {
+  width: 150px;
+  height: 150px;
+  background: $mainGreen;
+  text-align: center;
+  margin: 80px auto 50px;
+  position: relative;
+  @include border(50%);
+
+  span {
+    position: absolute;
+    top: 37%;
+    @include center;
+    font-size: 25px;
+    color: #000000;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+}
+
+.brand-circle.info {
+  margin: 80px auto 20px;
+}
+
+.brand-circle.articles {
+  margin: 200px auto 40px;
+}
+
+.brand-circle.reversed {
+  background: #000000;
+  span {
+    color: $mainGreen;
+  }
+}
+
+.fp-slider-container {
+  width: 66.6%;
+  height: 460px;
+  min-height: 460px;
+  float: left;
+  overflow: hidden;
+  border: 1px solid $bord;
+
+  .banners-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    top: 0;
+    left: 0;
+
+    .banner-element {
+      width: 100%;
+      height: 400px;
+
+      a > img {
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 100%;
+        margin: auto;
+        position: absolute;
+        top: 0; left: 0; bottom: 0; right: 0;
+      }
+    }
+  }
+}
+
+.fp-aboutus {
+  float: left;
+  width: 33.3%;
+  height: auto;
+  min-height: 460px;
+  background: $blckGrd;
+  text-align: left;
+  padding: 45px 25px;
+  color: $white;
+
+  h4 {
+    color: $mainGreen;
+    font-weight: 700;
+  }
+}
+
+// info
+
+.info-left {
+  width: 50%;
+  height: 0;
+  margin: 0;
+  padding: 0 0 50%;
+  float: left;
+  opacity: 0.3;
+  @include trans(0.4s);
+}
+
+.info-left:hover {
+  opacity: 1;
+}
+
+.info-right {
+  background: $mainGreen;
+  width: 50%;
+  height: 0;
+  padding: 0px 30px 50%;
+  margin: 0;
+  float: left;
+
+  .info-store-address {
+    margin: 0;
+
+    span, a {
+      font-weight: 400;
+      font-size: 14px;
+      text-transform: uppercase;
+      color: #000000;
+    }
+  }
+
+  .opening-hours {
+    width: 100%;
+    height: auto;
+    margin: 30px 0;
+
+    h4 {
+      font-weight: 400;
+      color: #000000;
+    }
+
+    .open-left, .open-right {
+      width: 50%;
+      float: left;
+      padding: 20px;
+    }
+
+    .open-left {
+      text-align: right;
+    }
+
+    .open-right {
+      text-align: left;
+    }
+
+    span {
+      font-weight: 400;
+      font-size: 14px;
+      text-transform: uppercase;
+      color: #000000;
+    }
+  }
+
+}
+
+
+// Brands
+
+.brands-left {
+  width: 50%;
+  height: 611px;
+  padding: 80px 30px 30px 30px;
+  float: left;
+  margin: 0px 0 0 0;
+  background: $mainGreen;
+}
+
+.brands-right {
+  width: 50%;
+  height: 611px;
+  padding: 0px;
+  float: left;
+  margin: 0px 0 0 0;
+}
+
+.brands-desc {
+  span {
+    font-weight: 400;
+    text-transform: uppercase;
+    color: #000000;
+  }
+}
+
+ul.brands-list {
+  width: 100%;
+  height: auto;
+  float: left;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+
+  li.brand {
+    width: 49%;
+    height: 47px;
+    padding: 15px 10px;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    @include trans(0.6s);
+
+    a {
+      font-size: 16px;
+      font-weight: 400;
+      padding: 10px 50px;
+      letter-spacing: 1px;
+      @include trans(0.3s);
+    }
+  }
+
+
+
+  li.brand:nth-child(odd) {
+    background: $blckGrd;
+
+    a {
+      color: $mainGreen;
+    }
+  }
+
+  li.brand:nth-child(even) {
+    background: #000000;
+
+    a {
+      color: $mainGreen;
+    }
+  }
+
+  li.brand:nth-child(even):hover, li.brand:nth-child(odd):hover {
+    background: $mainGreen;
+
+    a {
+      color: #000000;
+    }
+  }
+}
+
+
+
+// Articles
+
+ul.articles.front {
+  width: 100vw;
+  height: auto;
+  float: left;
+  margin: 0px 0 100px;
+}
+
+ul.articles.front > li.article {
+  width: 100vw;
+  height: 0;
+  padding-bottom: 49.5%;
+  float: left;
+  position: relative;
+  border: 2px solid $bord;
+  margin: 0 0 2px;
+  overflow: hidden;
+}
+
+
+li.article .image-container {
+  width: 50%;
+  height: auto;
+  padding-bottom: 50%;
+  float: left;
+  z-index: 1;
+  overflow: hidden;
+  background: #000000;
+
+  img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    filter: blur(0px);
+    transform: scale3d(1,1,1);
+    filter: grayscale(0%);
+    @include trans(0.3s);
+  }
+
+  .article-info {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    z-index: 10;
+    opacity: 0;
+    background: rgba(0,0,0,0.7);
+    padding: 20px 40px;
+    font-size: 16px;
+    color: $white;
+
+    letter-spacing: 10px;
+    @include trans(0.3s);
+  }
+}
+
+li.article .image-container:hover {
+  img {
+    transform: scale3d(1.05,1.05,1.05);
+    filter: blur(2px);
+    filter: grayscale(100%);
+  }
+
+  .article-info {
+    opacity: 1;
+  }
+}
+
+.article-excerpt {
+  width: 50%;
+  height: auto;
+  min-height: 300px;
+  padding: 80px 40px 50%;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  z-index: 1;
+  background: $mainGreen;
+  text-align: left;
+
+  span.article-title {
+    font-family: $robotCon;
+    font-size: 30px;
+    font-weight: 700;
+    color: #000000;
+    margin: 0 0 20px 0;
+    padding: 40px 0 0 0;
+  }
+
+  .article-content {
+    font-family: $robot;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    line-height: 1.5;
+    color: #000000;
+    padding: 15% 40px 40px;
+  }
+}

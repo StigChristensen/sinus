@@ -35,20 +35,13 @@ if ( $q->parent === 0 ) {
 <div class="product-template wrapper">
   <div class="product-header">
     <div class="product-headline">
-      <h1>- <?php echo $header; ?></h1>
+      <h1><?php echo $header; ?></h1>
     </div>
 
     <div class="template-description">
       <span class="desc"><?php echo $q->description; ?></span>
     </div>
   </div>
-
-  <div class="filters-wrap">
-    <?php
-      // Get product filtering template
-      get_template_part( 'content', 'filtering-headphones' );
-    ?>
-</div>
 
       <div class="template brand products-container" data-templatetype="<?php echo $template_type; ?>" data-brand="<?php echo $parent_term; ?>" >
           <div class="product-list-grid">

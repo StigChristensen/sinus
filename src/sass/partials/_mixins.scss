@@ -1,5 +1,11 @@
 @mixin trans($speed) {
-  transition: all $speed cubic-bezier(.24,.63,.5,.99);
+  transition: all $speed cubic-bezier(0.3,.56,.21,.99);
+}
+
+@mixin screen($breakpoint) {
+  @media screen and (max-width: $breakpoint) {
+    @content;
+  }
 }
 
 @mixin border($radius) {

@@ -54,8 +54,11 @@ if ( $q->parent === 0 ) {
 
   <div class="filters-wrap">
     <?php
-      // Get product filtering template
-      get_template_part( 'content', 'filtering-headphones' );
+      if ( $q->slug === "hovedtelefoner" ):
+        get_template_part( 'content', 'filtering-headphones' );
+      else:
+        get_template_part( 'content', 'filtering-price' );
+      endif;
     ?>
 </div>
 

@@ -1,6 +1,6 @@
 const $ = jQuery;
 
-$(document).on('ready', () => {
+$(document).on('ready', ()=> {
   addEventListener();
 });
 
@@ -22,7 +22,7 @@ const addEventListener = ()=> {
     $(parent).data('fullsrc', newThumbSrc);
   });
 
-  $('body').on('click', '.main-image', (e) => {
+  $('body').on('click', '.main-image', (e)=> {
     let parent = $(e.target).parents('.main-image'),
         fullImgSrc = $(parent).data('fullsrc');
 
@@ -30,18 +30,18 @@ const addEventListener = ()=> {
 
     $('body').append(html);
 
-    setTimeout( () => {
+    setTimeout( ()=> {
       $('.large-image-modal').removeClass('hidden');
       new modalListener();
     }, 100);
 
-    let modalListener = () => {
+    let modalListener = ()=> {
       $('body').on('click', '.large-image-modal', () => {
          $('.large-image-modal').addClass('hidden');
 
-         setTimeout( () => {
+         setTimeout( ()=> {
            $('.large-image-modal').html('');
-           $('body').remove('.large-image-modal');
+           $('.large-image-modal').remove();
            modalListener = null;
          }, 700);
       });

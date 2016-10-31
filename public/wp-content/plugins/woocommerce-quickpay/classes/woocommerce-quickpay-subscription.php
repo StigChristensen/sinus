@@ -73,6 +73,7 @@ class WC_QuickPay_Subscription {
 	public static function is_renewal( $order ) {
 		return wcs_order_contains_renewal( $order );
 	}
+	
 	/**
 	* Checks if Woocommerce Subscriptions is enabled or not
 	*
@@ -81,5 +82,57 @@ class WC_QuickPay_Subscription {
 	*/
 	public static function plugin_is_active() {
 		return class_exists( 'WC_Subscriptions' ) && WC_Subscriptions::$name = 'subscription';
+	}
+
+	/**
+	 * Convenience wrapper for wcs_cart_contains_failed_renewal_order_payment
+	 * 
+	 * @return bool
+	 */
+	public static function cart_contains_failed_renewal_order_payment() {
+		if( function_exists( 'wcs_cart_contains_failed_renewal_order_payment' )) {
+			return wcs_cart_contains_failed_renewal_order_payment();
+		}
+		
+		return FALSE;
+	}
+
+	/**
+	 * Convenience wrapper for wcs_cart_contains_renewal
+	 * 
+	 * @return bool
+	 */
+	public static function cart_contains_renewal() {
+		if( function_exists('wcs_cart_contains_renewal') ) {
+			return wcs_cart_contains_renewal();
+		}
+		
+		return FALSE;
+	}
+
+	/**
+	 * Convenience wrapper for wcs_get_subscriptions_for_renewal_order
+	 * @param $order
+	 * @param bool - to return a single item or not
+	 * @return array
+	 */
+	public static function get_subscriptions_for_renewal_order( $order, $single = FALSE ) {
+		if( function_exists('wcs_get_subscriptions_for_renewal_order') ) {
+			$subscriptions = wcs_get_subscriptions_for_renewal_order( $order );
+			return $single ? end($subscriptions) : $subscriptions;
+		}
+		return array();
+	}
+
+	/**
+	 * Convenience wrapper for wcs_get_subscriptions_for_order
+	 * @param $order
+	 * @return bool
+	 */
+	public static function get_subscriptions_for_order( $order ) {
+		if( function_exists('wcs_get_subscriptions_for_order') ) {
+			return wcs_get_subscriptions_for_order( $order );
+		}
+		return FALSE;
 	}
 }
