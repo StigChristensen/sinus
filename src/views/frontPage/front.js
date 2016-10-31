@@ -1,6 +1,7 @@
 import velocity from 'velocity-animate';
 import cartController from './components/cartController.js';
 import menuController from './components/menuController.js';
+import fpSlider from './components/fpSlider.js';
 const $ = jQuery;
 
 jQuery(document).on('ready', function() {
@@ -8,4 +9,5 @@ jQuery(document).on('ready', function() {
   cartController.addToCartController();
   cartController.removeFromCartController();
   menuController.MenuController();
+  fpSlider.initialize();
 });

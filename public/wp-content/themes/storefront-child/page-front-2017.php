@@ -24,10 +24,29 @@ $terms = wp_get_post_terms($post->ID,'product_cat', $args);
 
     <div class="fp-slider-container">
       <div class="banners-container">
+        <div class="nextprev">
+          <div class="prev-btn">
+            <i class="fa fa-caret-left" aria-hidden="true"></i>
+          </div>
+          <div class="next-btn">
+            <i class="fa fa-caret-right" aria-hidden="true"></i>
+          </div>
+        </div>
+
+        <div class="slide-controls">
+          <div class="pause-btn">
+            <i class="fa fa-pause-circle" aria-hidden="true"></i>
+          </div>
+          <div class="play-btn">
+            <i class="fa fa-play-circle" aria-hidden="true"></i>
+          </div>
+        </div>
+
+
       <?php $args = array( 'post_type' => 'banner', 'posts_per_page' => -1 );
             $loop = new WP_Query( $args );
 
-            $index = 0;
+            $index = 1;
 
             while ( $loop->have_posts() ) : $loop->the_post();
 
@@ -35,14 +54,14 @@ $terms = wp_get_post_terms($post->ID,'product_cat', $args);
 
 
               if ($should_show):
-                if ($index == 0):
+                if ($index == 1):
                   $class = 'active';
                 else:
                   $class = 'hidden';
                 endif;
                 ?>
 
-            <div class="banner-element <?php echo $class; ?>" data-index="<?php echo $index; ?>">
+            <div class="banner-element element-<?php echo $index; ?> <?php echo $class; ?>" data-index="<?php echo $index; ?>">
               <a href="<?php the_field('banner_link'); ?>" target="_parent">
                 <img src="<?php the_field('banner_image'); ?>" alt="Sinus Store Headphones and Audio Front Page Banner"/>
               </a>
@@ -67,7 +86,7 @@ $terms = wp_get_post_terms($post->ID,'product_cat', $args);
   <!-- Store info -->
 
   <div class="fp-content-row black">
-    <a href="https://goo.gl/maps/7JA3Pw2xbw72" target="_blank"><div class="info-left" style="background: url('<?php echo get_stylesheet_directory_uri() . '/img/map1.png'; ?>'); background-size: cover; background-position: top left;">
+    <a href="https://goo.gl/maps/7JA3Pw2xbw72" target="_blank"><div class="info-left" style="background: url('<?php echo get_stylesheet_directory_uri() . '/img/map1.png'; ?>'); background-size: cover; background-position: left;">
     </div></a>
 
     <div class="info-right">

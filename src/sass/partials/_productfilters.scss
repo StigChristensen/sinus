@@ -5,6 +5,11 @@
   padding: 24px;
   background-color: #000;
 
+  @include screen(857px) {
+    width: 100%;
+    height: auto;
+  }
+
   .filters-expand-btn {
     display: none;
   }
@@ -18,6 +23,14 @@
     cursor: pointer;
     border: 1px solid $mainGreen;
     @include trans(0.5s);
+
+    @include screen(857px) {
+      width: 50%;
+    }
+
+    @include screen(420px) {
+      width: 100%;
+    }
 
     h4 {
       color: $mainGreen;
@@ -44,6 +57,14 @@
     text-align: center;
     border-top: 1px solid $bord;
 
+    @include screen(857px) {
+      width: 25%;
+    }
+
+    @include screen(500px) {
+      width: 50%;
+    }
+
     input[type=checkbox] {
       display:none;
     }
@@ -55,7 +76,7 @@
       background-color: #000000;
       color: rgba(255, 255, 255, 0.5);
       display:inline-block;
-      padding: 8px 25px 7px 25px;
+      padding: 8px 25px 7px;
       margin: 0 auto 0 auto;
       cursor: pointer;
       text-align: left;
@@ -63,13 +84,24 @@
       border-right: 1px solid $bord;
       @include trans(0.5s);
 
+      @include screen(857px) {
+        width: 100%;
+      }
+
+      @include screen(660px) {
+        padding: 9px 5px 7px;
+      }
+
       i.fa {
         position: absolute;
         top: 10px;
         left: 15px;
         font-size: 14px;
         opacity: 0;
-        // @include trans(0.5s);
+
+        @include screen(660px) {
+          display: none;
+        }
       }
 
       h4 {
@@ -77,6 +109,11 @@
         font-weight: 700;
         padding: 0px 0 0 15px;
         @include trans(0.5s);
+
+        @include screen(756px) {
+          font-size: 12px;
+          padding: 0;
+        }
       }
     }
 
@@ -86,12 +123,21 @@
 
       i.fa {
         opacity: 1;
+
+        @include screen(660px) {
+          display: none;
+        }
       }
 
       h4 {
         font-size: 14px;
         font-weight: 700;
         padding: 0px 0 0 25px;
+
+        @include screen(756px) {
+          font-size: 12px;
+          padding: 0 0 0 5px;
+        }
       }
     }
   }
@@ -115,6 +161,14 @@
     border-left: 1px solid $bord;
     border-right: 1px solid $bord;
 
+    @include screen(857px) {
+        width: 50%;
+    }
+
+    @include screen(420px) {
+        width: 100%;
+    }
+
     input[type=checkbox] + label {
       position: relative;
       width: 403px;
@@ -122,12 +176,16 @@
       background-color: #000000;
       color: rgba(255, 255, 255, 0.2);
       display:inline-block;
-      padding: 8px 25px 7px 25px;
+      padding: 8px 25px 7px;
       margin: 0 auto 0 auto;
       cursor: pointer;
       text-align: left;
       border-bottom: 1px solid $bord;
       @include trans(0.5s);
+
+      @include screen(857px) {
+        width: 100%;
+      }
 
       i.fa {
         position: absolute;
@@ -157,6 +215,10 @@
         font-size: 14px;
         font-weight: 700;
         padding: 0px 0 0 25px;
+
+        @include screen(756px) {
+          font-size: 12px;
+        }
       }
     }
   }

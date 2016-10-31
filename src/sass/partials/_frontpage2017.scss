@@ -26,8 +26,17 @@
   min-height: 500px;
   float: none;
   margin: 0px auto 150px;
-  padding: 50px 0px;
+  padding: 110px 0px;
   text-align: center;
+
+  @include screen(1196px) {
+    width: 100%;
+  }
+
+  @include screen(960px) {
+    width: 100%;
+    padding: 0;
+  }
 }
 
 .fp-content-row.black {
@@ -55,6 +64,18 @@
   position: relative;
   @include border(50%);
 
+  @include screen(1170px) {
+    width: 100px;
+    height: 100px;
+    margin: 10px auto 10px;
+  }
+
+  @include screen(840px) {
+    width: 60px;
+    height: 60px;
+    margin: 10px auto 10px;
+  }
+
   span {
     position: absolute;
     top: 37%;
@@ -63,11 +84,33 @@
     color: #000000;
     font-weight: 700;
     text-transform: uppercase;
+
+    @include screen(1170px) {
+      top: 38%;
+      font-size: 16px;
+    }
+
+    @include screen(840px) {
+      top: 38%;
+      font-size: 11px;
+    }
   }
 }
 
 .brand-circle.info {
   margin: 80px auto 20px;
+
+  @include screen(1170px) {
+    margin: 30px auto 30px;
+  }
+
+  @include screen(960px) {
+    margin: 10px auto 10px;
+  }
+
+  @include screen(767px) {
+    display: none;
+  }
 }
 
 .brand-circle.articles {
@@ -81,38 +124,6 @@
   }
 }
 
-.fp-slider-container {
-  width: 66.6%;
-  height: 460px;
-  min-height: 460px;
-  float: left;
-  overflow: hidden;
-  border: 1px solid $bord;
-
-  .banners-container {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    top: 0;
-    left: 0;
-
-    .banner-element {
-      width: 100%;
-      height: 400px;
-
-      a > img {
-        width: auto;
-        height: auto;
-        max-width: 100%;
-        max-height: 100%;
-        margin: auto;
-        position: absolute;
-        top: 0; left: 0; bottom: 0; right: 0;
-      }
-    }
-  }
-}
-
 .fp-aboutus {
   float: left;
   width: 33.3%;
@@ -122,6 +133,12 @@
   text-align: left;
   padding: 45px 25px;
   color: $white;
+
+  @include screen(1169px) {
+    width: 100%;
+    height: auto;
+    min-height: 100px;
+  }
 
   h4 {
     color: $mainGreen;
@@ -139,6 +156,10 @@
   float: left;
   opacity: 0.3;
   @include trans(0.4s);
+
+  @include screen(679px) {
+    width: 100%;
+  }
 }
 
 .info-left:hover {
@@ -153,14 +174,74 @@
   margin: 0;
   float: left;
 
+  @include screen(679px) {
+    width: 100%;
+  }
+
+  @include screen(640px) {
+    width: 100%;
+    padding: 0px 30px 60%;
+  }
+
+  @include screen(600px) {
+    width: 100%;
+    padding: 0px 30px 65%;
+  }
+
+  @include screen(540px) {
+    width: 100%;
+    padding: 0px 30px 80%;
+  }
+
+  @include screen(479px) {
+    width: 100%;
+    padding: 0px 20px 85%;
+  }
+
+  @include screen(414px) {
+    width: 100%;
+    padding: 0px 20px 90%;
+  }
+
+  @include screen(400px) {
+    width: 100%;
+    padding: 0px 20px 100%;
+  }
+
+  @include screen(360px) {
+    width: 100%;
+    padding: 0px 20px 105%;
+  }
+
+  @include screen(320px) {
+    width: 100%;
+    padding: 0px 10px 115%;
+  }
+
   .info-store-address {
     margin: 0;
+
+    @include screen(767px) {
+      margin: 38px 0 0 0;
+    }
+
+    @include screen(680px) {
+      margin: 20px 0 0 0;
+    }
+
+    @include screen(640px) {
+      margin: 40px 0 0 0;
+    }
 
     span, a {
       font-weight: 400;
       font-size: 14px;
       text-transform: uppercase;
       color: #000000;
+
+      @include screen(960px) {
+        font-size: 12px;
+      }
     }
   }
 
@@ -172,12 +253,20 @@
     h4 {
       font-weight: 400;
       color: #000000;
+
+      @include screen(960px) {
+        font-size: 14px;
+      }
     }
 
     .open-left, .open-right {
       width: 50%;
       float: left;
       padding: 20px;
+
+      @include screen(960px) {
+        padding: 10px;
+      }
     }
 
     .open-left {
@@ -193,6 +282,10 @@
       font-size: 14px;
       text-transform: uppercase;
       color: #000000;
+
+      @include screen(960px) {
+        font-size: 12px;
+      }
     }
   }
 
@@ -208,6 +301,14 @@
   float: left;
   margin: 0px 0 0 0;
   background: $mainGreen;
+
+  @include screen(960px) {
+    width: 33.3%;
+  }
+
+  @include screen(464px) {
+    display: none;
+  }
 }
 
 .brands-right {
@@ -216,6 +317,14 @@
   padding: 0px;
   float: left;
   margin: 0px 0 0 0;
+
+  @include screen(960px) {
+    width: 66.6%;
+  }
+
+  @include screen(464px) {
+    width: 100%;
+  }
 }
 
 .brands-desc {
@@ -223,6 +332,14 @@
     font-weight: 400;
     text-transform: uppercase;
     color: #000000;
+
+    @include screen(960px) {
+      font-size: 12px;
+    }
+
+    @include screen(510px) {
+      font-size: 10px;
+    }
   }
 }
 
@@ -249,10 +366,17 @@ ul.brands-list {
       padding: 10px 50px;
       letter-spacing: 1px;
       @include trans(0.3s);
+
+      @include screen(960px) {
+        font-size: 12px;
+      }
+
+      @include screen(710px) {
+        font-size: 12px;
+        padding: 10px;
+      }
     }
   }
-
-
 
   li.brand:nth-child(odd) {
     background: $blckGrd;
@@ -311,6 +435,11 @@ li.article .image-container {
   overflow: hidden;
   background: #000000;
 
+  @include screen(680px) {
+    width: 100%;
+    padding-bottom: 100%;
+  }
+
   img {
     width: 100%;
     max-width: 100%;
@@ -361,6 +490,20 @@ li.article .image-container:hover {
   background: $mainGreen;
   text-align: left;
 
+  @include screen(960px) {
+    padding: 60px 40px 50%;
+  }
+
+  @include screen(850px) {
+    padding: 40px 40px 50%;
+  }
+
+  @include screen(680px) {
+    width: 100%;
+    padding-bottom: 100%;
+  }
+
+
   span.article-title {
     font-family: $robotCon;
     font-size: 30px;
@@ -368,6 +511,17 @@ li.article .image-container:hover {
     color: #000000;
     margin: 0 0 20px 0;
     padding: 40px 0 0 0;
+
+    @include screen(960px) {
+      font-size: 24px;
+      padding: 0px;
+    }
+
+
+    @include screen(850px) {
+      font-size: 24px;
+      padding: 0;
+    }
   }
 
   .article-content {
@@ -379,5 +533,19 @@ li.article .image-container:hover {
     line-height: 1.5;
     color: #000000;
     padding: 15% 40px 40px;
+
+    @include screen(960px) {
+      font-size: 12px;
+    }
+
+    @include screen(850px) {
+      line-height: 1.2;
+      padding: 10% 20px 20px;
+    }
+
+    @include screen(700px) {
+      line-height: 1.2;
+      padding: 2% 20px 20px;
+    }
   }
 }

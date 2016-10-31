@@ -158,11 +158,7 @@
 </div>
 
 
-
-
 <div id="content" class="site-content">
-
-
 
   <div class="header top">
       <div class="headerlogo">

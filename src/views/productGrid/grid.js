@@ -252,20 +252,18 @@ $(document).on('ready', function() {
 function renderTemplate(e) {
   let stockIcon, template, stockClass;
 
-  function prepare() {
-    if ( e.stock_quantity === 0 ) {
-      stockIcon = '<div class="in-stock-icon"><span>PÅ LAGER: <i class="fa fa-minus-square"></i></span></div>';
-      stockClass = 'stock-false';
-    }
-
-    if ( e.stock_quantity > 0 ) {
-      stockIcon = '<div class="in-stock-icon"><span>PÅ LAGER: <i class="fa fa-check-square"></i></span></div>';
-      stockClass = 'stock-true';
-    }
+  if ( e.stock_quantity === 0 ) {
+    stockIcon = '<div class="in-stock-icon"><span>PÅ LAGER: <i class="fa fa-minus-square"></i></span></div>';
+    stockClass = 'stock-false';
   }
 
-    let desc = e.description;
-    let stripped = desc.replace(/<(?:.|\n)*?>/gm, '');
+  if ( e.stock_quantity > 0 ) {
+    stockIcon = '<div class="in-stock-icon"><span>PÅ LAGER: <i class="fa fa-check-square"></i></span></div>';
+    stockClass = 'stock-true';
+  }
+
+  let desc = e.description;
+  let stripped = desc.replace(/<(?:.|\n)*?>/gm, '');
 
   template = '<li class="product ' + stockClass + '" itemscope itemtype="http://schema.org/Product" data-singleid="' + e.id + '">';
       template += '<a href="' + e.permalink + '"<div class="click-area"></div></a>';
@@ -276,6 +274,5 @@ function renderTemplate(e) {
       template += '<div class="sinus-product-info"><div class="short-desc" itemprop="description"><p>' + stripped.split(" ").splice(0, 26).join(" ") + '... </p><i class="fa fa-chevron-circle-up"></i></div></div>';
       template += '</li>';
 
-    prepare();
-    return template;
+  return template;
 };
