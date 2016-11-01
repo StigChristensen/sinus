@@ -8,13 +8,13 @@ var babel = require('babelify');
 var uglify = require('gulp-uglify');
 
 function compile(watch) {
-  var bundler = watchify(browserify('views/productGrid/grid.js', { debug: true }).transform(babel.configure({presets: ["es2015"]}))
+  var bundler = watchify(browserify('views/singleProductPage/singleProductPage.js', { debug: true }).transform(babel.configure({presets: ["es2015"]}))
 );
 
   function rebundle() {
     bundler.bundle()
       .on('error', function(err) { console.error(err); this.emit('end'); })
-      .pipe(source('grid.js'))
+      .pipe(source('singleProductPage.js'))
       .pipe(buffer())
       .pipe(uglify())
       // .pipe(sourcemaps.init({ loadMaps: true }))

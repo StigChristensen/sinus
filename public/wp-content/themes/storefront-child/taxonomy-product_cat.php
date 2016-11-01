@@ -27,6 +27,7 @@ if ( $q->parent === 0 ) {
   $header = $q->name;
   $post_cat = $q->slug;
   $parent_term = $q->name;
+  $sub_cat = $q->name;
   $num_posts = 36;
 } else {
   $t = get_term($q->parent);
@@ -52,7 +53,7 @@ if ( $q->parent === 0 ) {
 
   <div class="filters-wrap">
     <?php
-      if ( $q->slug === "hovedtelefoner" ):
+      if ( $q->slug === "hovedtelefoner" || $parent_term == "Hovedtelefoner" ):
         get_template_part( 'content', 'filtering-headphones' );
       else:
         get_template_part( 'content', 'filtering-price' );

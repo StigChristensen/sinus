@@ -19,10 +19,6 @@ $brands = wp_get_post_terms($post->ID,'product_tag', $args);
 ?>
 
 <div class="filters-container headphones" data-height="600">
-  <div class="filters-expand-btn">
-    <i class="fa fa-chevron-down"></i>
-  </div>
-
     <div class="filters left">
       <input type='checkbox' class='over-ear' name='over-ear' value='' id="over-ear" unchecked /><label for="over-ear"><i class="fa fa-check-square"></i> <h4>Over-Ear</h4></label>
       <input type='checkbox' class='on-ear' name='on-ear' value='' id="on-ear" unchecked /><label for="on-ear"><i class="fa fa-check-square"></i> <h4>On-Ear</h4></label>
@@ -59,4 +55,12 @@ $brands = wp_get_post_terms($post->ID,'product_tag', $args);
     <div class="filter-button">
       <h4>Filtrer <i class="fa fa-chevron-right"></i></h4>
     </div>
+</div>
+
+<div class="filters-info-box not-expanded">
+  <div class="no-results">
+    <h3>Vi fandt desværre ingen resultater.</h3>
+    <span>For at gøre søgningen mere specifik lægges valgmulighederne sammen, så du f.eks. kan finde in-ear hovedtelefoner til sport og street i prisrammen 0-1000kr. Men det kan også resultere i at man søger så specifikt, at der ingen resultater er. Prøv derfor at fjerne nogle valgmuligheder.</span>
+  </div>
+
 </div>

@@ -6,7 +6,8 @@ $(document).on('ready', ()=> {
 });
 
 const addEventListener = ()=> {
-  let mainImage = $('body').find('.main-image');
+  let mainImage = $('body').find('.main-image'),
+      width = $(window).width();
 
   $('body').on('click', '.product-image', function(e) {
     let parent = $(e.target).parents('.product-image'),
@@ -23,32 +24,65 @@ const addEventListener = ()=> {
     $(parent).data('fullsrc', newThumbSrc);
   });
 
-  $('body').on('click', '.main-image', (e) => {
-    let parent = $(e.target).parents('.main-image'),
-        fullImgSrc = $(parent).data('fullsrc');
+  if ( width > 550 ) {
+    largeImgModal();
+  }
 
-    let html = '<div class="large-image-modal hidden"><span class="tooltip">Klik hvor som helst for at lukke</span><img src="' + fullImgSrc +'" /></div>';
+  $(window).resize(() => {
+    let newWidth = $(window).width();
+    clearInterval(resizeInterval);
 
-    $('body').append(html);
-
-    setTimeout( ()=> {
-      $('.large-image-modal').removeClass('hidden');
-      new modalListener();
-    }, 100);
-
-    let modalListener = ()=> {
-      $('body').on('click', '.large-image-modal', () => {
-         $('.large-image-modal').addClass('hidden');
-
-         setTimeout( ()=> {
-           $('.large-image-modal').html('');
-           $('.large-image-modal').remove();
-           modalListener = null;
-         }, 700);
-      });
-    }
+    let resizeInterval = setTimeout(() => {
+      if ( newWidth > 550 ) {
+        largeImgModal();
+      } else {
+        largeImgModalDisable();
+      }
+    }, 1000);
 
   });
+
+  function largeImgModal() {
+    console.log('enabled');
+
+    $('body').on('click', '.main-image', (e) => {
+      let fullImgSrc;
+
+      if ( $(e.target).is('img') ) {
+        let parent = $(e.target).parents('.main-image');
+        fullImgSrc = $(parent).data('fullsrc');
+      } else {
+        fullImgSrc = $(e.target).data('fullsrc');
+      }
+
+      let html = '<div class="large-image-modal hidden"><span class="tooltip">Klik hvor som helst for at lukke</span><img src="' + fullImgSrc +'" /></div>';
+
+      $('body').append(html);
+
+      setTimeout( ()=> {
+        $('.large-image-modal').removeClass('hidden');
+        new modalListener();
+      }, 100);
+
+      let modalListener = ()=> {
+        $('body').on('click', '.large-image-modal', () => {
+           $('.large-image-modal').addClass('hidden');
+
+           setTimeout( ()=> {
+             $('.large-image-modal').html('');
+             $('.large-image-modal').remove();
+             modalListener = null;
+           }, 700);
+        });
+      }
+
+    });
+  }
+
+  function largeImgModalDisable() {
+    console.log('disabled');
+    $('body').off('click', '.main-image');
+  }
 }
 
 const addClasses = () => {

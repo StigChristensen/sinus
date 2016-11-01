@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
   exit; // Exit if accessed directly
 }
 ?>
-<script src="<?php echo get_stylesheet_directory_uri() . '/js/singleProductPage.js'; ?>" async defer></script>
+
 
 
 <div class="single-product-container">
@@ -232,6 +232,4 @@ if ( ! defined( 'ABSPATH' ) ) {
   </div>
 </div>
 
-<!-- <div class="large-image-modal">
-
-</div> -->
+<script src="<?php echo get_stylesheet_directory_uri() . '/js/singleProductPage.js'; ?>"></script>

@@ -39,25 +39,28 @@ const getURI = (category) => {
 }
 
 const getSortParams = () => {
-  let inputs = $('input[type=checkbox]:checked'),
+  let inputs = $('input:checked'),
       params = [];
 
   $(inputs).each(function(i,e) {
-    let param = $(e).attr('name');
-    params.push(param);
+    if ( $(e).attr('checked') ) {
+      let param = $(e).attr('name');
+      params.push(param);
+    }
   });
 
   return params;
 }
 
 const getData = (uri) => {
-  return $.get(uri, function(response) {
+  return $.getJSON(uri, function(response) {
     return response;
   });
 }
 
 const addFilterListener = () => {
-  let ulProducts = $('body').find('ul.products');
+  let ulProducts = $('body').find('ul.products'),
+      filtersInfo = $('body').find('.filters-info-box');
 
   $('body').on('click', '.filter-button', function(event) {
     let params = getSortParams();
@@ -66,10 +69,14 @@ const addFilterListener = () => {
       let results = sortData(params);
 
       Promise.resolve(results).then((uniqueResults) => {
-        // console.log(uniqueResults);
+        console.log("Returned: ", uniqueResults.length);
 
         if ( uniqueResults && uniqueResults.length !== 0 ) {
           animateOut();
+
+          if ( !$(filtersInfo).hasClass('not-expanded') ) {
+            $(filtersInfo).addClass('not-expanded');
+          }
 
           $(uniqueResults).each((i,e) => {
             let product = renderTemplate(e);
@@ -79,7 +86,7 @@ const addFilterListener = () => {
           });
 
         } else {
-          console.log('No results found - handle this!');
+          $(filtersInfo).removeClass('not-expanded');
         }
       });
 
@@ -109,7 +116,6 @@ const sortData = (params) => {
     });
   }
 
-  // console.log(uniqSort.length);
   return uniqSort;
 }
 
@@ -150,7 +156,7 @@ const sortByPrice = (data, params) => {
     }
   }
 
-  // console.log(sortedByPrice.length);
+  // console.log("Price sort length: ", sortedByPrice.length);
   return sortedByPrice;
 }
 
@@ -184,7 +190,7 @@ const sortByParams = (data, params) => {
     }
   }
 
-  // console.log(sortedByParams.length);
+  // console.log("Sorted by params: ", sortedByParams.length);
   return sortedByParams;
 }
 
@@ -225,10 +231,19 @@ const animateOut = () => {
   });
 }
 
-const highLightSub = () => {
-  let subCheck = $('input[type=checkbox].' + subCat);
+const highLightSub = (category) => {
+  if ( category !== 'hovedtelefoner' ) {
+    return;
+  } else {
+    console.log(subCat);
+    let inputs = $('body').find('input');
 
-  $(subCheck).prop('checked', true);
+    $(inputs).each(function(i,e) {
+      if ( $(e).hasClass(subCat) ) {
+        $(e).prop('checked', true);
+      }
+    });
+  }
 }
 
 $(document).on('ready', function() {
@@ -237,16 +252,17 @@ $(document).on('ready', function() {
       category = $(container).data('category').toLowerCase();
       subCat = $(container).data('subcat').toLowerCase();
 
-  highLightSub();
+  highLightSub(category);
 
   Promise.resolve(getURI(category)).then(function(uri) {
     return getData(uri);
   }).then(function(data) {
     rawData = data;
     setPriceRanges();
+    const listen = new addFilterListener();
   });
 
-  const listen = new addFilterListener();
+
 });
 
 function renderTemplate(e) {

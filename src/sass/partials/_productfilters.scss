@@ -223,3 +223,52 @@
     }
   }
 }
+
+.filters-info-box {
+  width: 858px;
+  height: 200px;
+  overflow: hidden;
+  text-align: left;
+  padding: 70px;
+  @include center();
+  @include trans(0.4s);
+
+  @include screen(858px) {
+    width: 100%;
+  }
+
+  @include screen(750px) {
+    height: 280px;
+
+    h3 {
+      font-size: 20px;
+    }
+  }
+
+  @include screen(450px) {
+    height: 320px;
+  }
+
+  @include screen(390px) {
+    height: 300px;
+    padding: 40px 20px;
+  }
+
+  h3 {
+    color: $mainGreen;
+  }
+
+  span {
+    color: $white;
+    opacity: 0.7;
+  }
+}
+
+.filters-info-box.not-expanded {
+  height: 0;
+  padding: 0 70px;
+
+  @include screen(390px) {
+    padding: 0 20px;
+  }
+}
