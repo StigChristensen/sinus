@@ -407,11 +407,16 @@ ul.brands-list {
     @include trans(0.6s);
 
     a {
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 400;
       padding: 10px 50px;
       letter-spacing: 1px;
       @include trans(0.3s);
+
+      @include screen(1080px) {
+        font-size: 14px;
+        padding: 10px 30px;
+      }
 
       @include screen(960px) {
         font-size: 12px;

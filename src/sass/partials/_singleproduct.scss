@@ -474,15 +474,15 @@ span.no-price {
     }
 
     .related-container {
-      width: calc(100% - 100px);
+      width: 100%;
       height: auto;
       float: left;
       position: relative;
-      margin: 100px 50px 100px 50px;
+      margin: 100px 0px;
 
       .related-products, .product-variants {
         width: 100%;
-        height: 250px;
+        height: auto;
         float: left;
         margin: 20px 0 20px 0;
         text-align: center;
