@@ -10,6 +10,32 @@
     width: 100%;
   }
 
+  @include screen(580px) {
+    width: 100%;
+    height: 250px;
+    min-height: 250px;
+  }
+
+
+  @include screen(414px) {
+    width: 100%;
+    height: 180px;
+    min-height: 180px;
+  }
+
+
+  @include screen(375px) {
+    width: 100%;
+    height: 160px;
+    min-height: 160px;
+  }
+
+  @include screen(320px) {
+    width: 100%;
+    height: 140px;
+    min-height: 140px;
+  }
+
   .banners-container {
     width: 100%;
     height: 100%;
@@ -108,6 +134,29 @@
       top: 0px;
       z-index: 1;
       @include trans(0.45s);
+
+      @include screen(580px) {
+        width: 100%;
+        height: 250px;
+        min-height: 250px;
+      }
+
+      @include screen(414px) {
+        width: 100%;
+        height: 180px;
+        min-height: 180px;
+      }
+
+      @include screen(375px) {
+        width: 100%;
+        height: 160px;
+        min-height: 160px;
+      }
+
+      @include screen(320px) {
+        width: 100%;
+        height: 140px;
+      }
 
       a > img {
         width: auto;

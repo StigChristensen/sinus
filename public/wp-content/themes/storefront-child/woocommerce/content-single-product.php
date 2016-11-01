@@ -82,15 +82,28 @@ if ( ! defined( 'ABSPATH' ) ) {
         </div>
 
         <?php if ( $price ) { ?>
-
           <?php if ( $attachment_count <= 6 ): ?>
-            <div class="product-price default">
-              <h2><?php echo $product->price . ',- kr.'; ?></h2>
+            <div class="regular-price desktop">
+              <div class="product-price default">
+                <h2><?php echo $product->price . ',- kr.'; ?></h2>
+              </div>
+              <div class="add-button large desktop" data-href="<?php echo $product->id; ?>" data-title="<?php do_action( 'woocommerce_shop_loop_item_title' ); ?>">
+                <h3>Læg i kurv</h3>
+              </div>
+              <?php echo $stockIcon; ?>
             </div>
-            <div class="add-button large" data-href="<?php echo $product->id; ?>" data-title="<?php do_action( 'woocommerce_shop_loop_item_title' ); ?>">
-              <h3>Læg i kurv</h3>
+
+            <div class="product-controls-row single-image mobile">
+              <?php echo $stockIcon; ?>
+              <div class="row-product-price">
+                <h2><?php echo $product->price . ',- kr.'; ?></h2>
+              </div>
+              <div class="add-button large" data-href="<?php echo $product->id; ?>" data-title="<?php do_action( 'woocommerce_shop_loop_item_title' ); ?>">
+                <h3>Læg i kurv</h3>
+              </div>
             </div>
-            <?php echo $stockIcon; ?>
+
+
           <?php endif; ?>
 
           <?php if ( $attachment_count >= 7 ): ?>

@@ -68,19 +68,28 @@
   </div>
   <div class="menu-brands">
     <h3>Brands</h3>
-      <ul class="menu-filter">
-        <?php
-          $args = array(
-            'orderby'      => 'name',
-            'order'        => 'ASC',
-            'hide_empty'   => 1
-          );
+		<ul class="menu-filter">
+		<?php
+			$args = array(
+				'orderby'      => 'name',
+				'order'        => 'ASC',
+				'hide_empty'   => 1
+			);
 
-          $tags = get_terms('product_tag', $args);
-          foreach( $tags as $tag ) {
-          ?>
-            <li class="filter"><a href="<?php echo get_term_link($tag->slug, 'product_tag'); ?>"><?php echo $tag->name; ?></a></li>
-          <?php } ?>
+			$tags = get_terms('product_tag', $args);
+
+			foreach( $tags as $tag ) {
+				$brands[] = $tag->name;
+			}
+
+			natcasesort($brands);
+
+			foreach( $brands as $brand ) { ?>
+				<li class="filter"><a href="<?php echo '/brands/' . str_replace(" ", "-", $brand); ?>"><?php echo $brand; ?></a></li>
+
+			<?php } ?>
+
+		</ul>
   </div>
 
   <div class="menu-brands">

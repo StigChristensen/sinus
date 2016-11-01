@@ -30,6 +30,8 @@ if ( $q->parent === 0 ) {
   $header = $parent_term . " - " . $sub_cat;
 }
 
+$product_tag = strtolower($parent_term);
+
 ?>
 
 <div class="product-template wrapper">
@@ -43,18 +45,20 @@ if ( $q->parent === 0 ) {
     </div>
   </div>
 
-      <div class="template brand products-container" data-templatetype="<?php echo $template_type; ?>" data-brand="<?php echo $parent_term; ?>" >
-          <div class="product-list-grid">
-            <div class="template page products">
-              <ul class="template products">
-              <?php while ( have_posts() ) : the_post(); ?>
+  <div class="template brand products-container" data-templatetype="<?php echo $template_type; ?>" data-brand="<?php echo $parent_term; ?>" >
+      <div class="product-list-grid">
+        <div class="template page products">
+          <ul class="template products">
+            <?php $args = array( 'post_type' => 'product', 'posts_per_page' => -1, 'product_tag' => $product_tag );
+                  $loop = new WP_Query( $args );
+                  while ( $loop->have_posts() ) : $loop->the_post(); ?>
 
-                <?php wc_get_template_part( 'content', 'single-product-grid' ); ?>
+                    <?php wc_get_template_part( 'content', 'single-product-grid' ); ?>
 
-              <?php endwhile; // end of the loop. ?>
-              </ul>
-            </div>
-          </div>
+                  <?php endwhile; ?>
+          </ul>
+        </div>
       </div>
+  </div>
 </div>
 <?php get_footer(); ?>

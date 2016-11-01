@@ -8,6 +8,12 @@
   }
 }
 
+@mixin screenUp($breakpoint) {
+  @media screen and (min-width: $breakpoint) {
+    @content;
+  }
+}
+
 @mixin border($radius) {
   border-radius: $radius;
 }

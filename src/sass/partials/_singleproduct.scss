@@ -7,11 +7,28 @@
     margin: 0;
     border: 1px solid $bord;
 
+    @include screen(550px) {
+      width: 100%;
+      height: auto;
+    }
+
     .in-stock-icon {
       position: absolute;
       bottom: 20px;
-      left: 0px;
+      left: 10px;
       z-index: 100;
+      padding: 18.5px 25px;
+
+      @include screen(900px) {
+        right: initial;
+        left: 0px;
+        padding: 18.5px 25px;
+      }
+
+      @include screen(550px) {
+        bottom: -58px;
+      }
+
 
       span {
         font-size: 12px;
@@ -35,6 +52,10 @@
       top: 0px;
       right: 230px;
 
+      @include screen(550px) {
+        right: 20px;
+      }
+
       h2 {
         color: #FFFFFF;
         text-transform: none;
@@ -46,6 +67,13 @@
       height: 60px;
       right: -1px;
       top: 0px;
+
+      @include screen(550px) {
+        position: absolute;
+        width: 100%;
+        top: 60px;
+        left: 0px;
+      }
 
       h3 {
         padding: 17px 50px;
@@ -88,6 +116,11 @@ h3.specs {
   color: #000000;
   font-weight: 700;
   margin: 50px 0 25px;
+
+  @include screen(550px) {
+    font-size: 20px;
+    padding: 25px 25px 25px 10px;
+  }
 }
 
 p.specs {
@@ -116,6 +149,19 @@ span.no-price {
     position: relative;
     text-align: left;
 
+    @include screen(900px) {
+      width: 100%;
+      padding: 100px 20px;
+    }
+
+    @include screen(768px) {
+      padding: 100px 10px;
+    }
+
+    @include screen(767px) {
+      padding: 50px 10px;
+    }
+
     h1.single-product-title {
       font-weight: 300;
       font-size: 40px;
@@ -123,6 +169,18 @@ span.no-price {
       margin-bottom: 0px;
       color: $mainGreen;
       letter-spacing: 2px;
+
+      @include screen(630px) {
+        font-size: 30px;
+      }
+
+      @include screen(590px) {
+        font-size: 26px;
+      }
+
+      @include screen(480px) {
+        font-size: 20px;
+      }
     }
 
     .images-cntrl {
@@ -131,6 +189,9 @@ span.no-price {
       float: left;
       position: relative;
 
+      @include screen(900px) {
+        height: auto;
+      }
 
       .add-button.large {
         position: absolute;
@@ -153,10 +214,23 @@ span.no-price {
       .in-stock-icon {
         position: absolute;
         bottom: 0px;
-        right: 214px;
         z-index: 100;
         background: $black;
         padding: 12.5px 25px;
+
+        @media screen and (min-width: 901px) {
+
+        }
+
+        @include screen(900px) {
+          right: initial;
+          left: 0px;
+          padding: 18.5px 25px;
+        }
+
+        @include screen(550px) {
+          bottom: -58px;
+        }
 
         span {
           font-size: 12px;
@@ -175,6 +249,19 @@ span.no-price {
         }
       }
 
+      .regular-price.desktop {
+        .in-stock-icon {
+          right: 214px;
+        }
+      }
+
+      .product-controls-row.single-image {
+        .in-stock-icon {
+          padding: 18.5px 25px;
+          left: 0px;
+        }
+      }
+
       .main-image {
         width: 75%;
         height: 480px;
@@ -184,6 +271,10 @@ span.no-price {
         z-index: 1;
         background-color: $white;
         cursor: pointer;
+
+        @include screen(900px) {
+          width: 100%;
+        }
 
         img {
           position: absolute;
@@ -204,6 +295,13 @@ span.no-price {
         margin: 0;
         z-index: 1;
 
+        @include screen(900px) {
+          width: 100%;
+          height: auto;
+          margin: 5px 0 5px;
+          text-align: center;
+        }
+
         .product-image {
           position: relative;
           height: 100px;
@@ -214,6 +312,11 @@ span.no-price {
           background-color: $white;
           overflow: hidden;
           cursor: pointer;
+
+          @include screen(900px) {
+            float: none;
+            display: inline-block;
+          }
 
           img {
             position: absolute;
@@ -271,10 +374,12 @@ span.no-price {
       height: auto;
       float: left;
       margin: 10px 0 0px 0;
-      position: relative;
-      z-index: 100;
-      overflow: hidden;
       padding: 50px 0 0 0;
+
+      @include screen(900px) {
+        margin: 100px 0 0 0;
+        padding: 20px;
+      }
 
       .text-content {
         width: 100%;
@@ -349,6 +454,22 @@ span.no-price {
             margin: 0 0 20px 0;
           }
         }
+      }
+    }
+
+    .product-content.mobile-add-padding {
+      padding-top: 100px;
+
+      @include screen(900px) {
+        margin: 85px 0 0 0;
+        padding-top: 100px;
+      }
+    }
+
+    .product-content.mobile-remove-padding {
+      @include screen(900px) {
+        margin: 50px 0 0 0;
+        padding-top: 20px;
       }
     }
 
@@ -439,6 +560,10 @@ span.no-price {
   z-index: 50000;
   @include trans(0.5s);
 
+  @include screen(740px) {
+    top: 65px;
+  }
+
   img {
     position: absolute;
     width: auto;
@@ -472,4 +597,28 @@ span.tooltip {
   width: 310px;
   opacity: 0.8;
   z-index: 2;
+
+  @include screen(740px) {
+    top: 65px;
+  }
+
+  @include screen(550px) {
+    width: 100%;
+  }
+}
+
+.mobile {
+  display: none;
+
+  @include screen(900px) {
+    display: block;
+  }
+}
+
+.desktop {
+  display: block;
+
+  @include screen(900px) {
+    display: none;
+  }
 }

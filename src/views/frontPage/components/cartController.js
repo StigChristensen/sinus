@@ -6,12 +6,14 @@ module.exports = {
     $('body').on('click', '.cart-icon', function(e) {
       let scrollAmount = window.pageYOffset || document.documentElement.scrollTop;
       let cartModal = $('body').find('.cart-modal.cart-contents'),
-          siteContent = $('body').find('.site-content');
+          siteContent = $('body').find('.site-content'),
+          subMenu = $('body').find('.header-link-row');
 
-      if ( scrollAmount > 300 ) {
+      if ( scrollAmount > 600 ) {
         $(cartModal).toggleClass('fixed-open');
         $(cartModal).toggleClass('hidden');
       } else {
+        $(subMenu).toggleClass('hidden');
         $(cartModal).toggleClass('hidden');
         $(siteContent).toggleClass('modal-open');
       }

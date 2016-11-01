@@ -2,6 +2,7 @@ const $ = jQuery;
 
 $(document).on('ready', ()=> {
   addEventListener();
+  addClasses();
 });
 
 const addEventListener = ()=> {
@@ -22,7 +23,7 @@ const addEventListener = ()=> {
     $(parent).data('fullsrc', newThumbSrc);
   });
 
-  $('body').on('click', '.main-image', (e)=> {
+  $('body').on('click', '.main-image', (e) => {
     let parent = $(e.target).parents('.main-image'),
         fullImgSrc = $(parent).data('fullsrc');
 
@@ -48,5 +49,18 @@ const addEventListener = ()=> {
     }
 
   });
+}
 
+const addClasses = () => {
+  let imgCntrl = $('body').find('.images-cntrl'),
+      singleImage = $('body').find('.single-image-cntrl'),
+      productContent = $('body').find('.product-content');
+
+      if ( imgCntrl.length !== 0 ) {
+        $(productContent).addClass('mobile-add-padding');
+      }
+
+      if ( singleImage.length !== 0 ) {
+        $(productContent).addClass('mobile-remove-padding');
+      }
 }

@@ -31,11 +31,25 @@
 
   @include screen(1196px) {
     width: 100%;
+    float: left;
   }
 
   @include screen(960px) {
     width: 100%;
     padding: 0;
+  }
+}
+
+.fp-content-row.fixed.icons {
+  height: auto;
+  min-height: 250px;
+  border: 1px solid $bord;
+
+  @include screen(1196px) {
+    width: 100%;
+    float: left;
+    min-height: 250px;
+    margin: 0px 0 0;
   }
 }
 
@@ -97,8 +111,40 @@
   }
 }
 
+.brand-circle.icon {
+  float: none;
+  display: inline-block;
+  margin: 0px 25px;
+  border: 2px solid $mainGreen;
+  @include trans(0.3s);
+
+  span {
+    top: 43%;
+    font-size: 16px;
+    font-weight: 300;
+  }
+}
+
+.brand-circle.icon:hover {
+  background: #000000;
+
+  span {
+    color: $mainGreen;
+  }
+}
+
+
 .brand-circle.info {
   margin: 80px auto 20px;
+
+  @include screenUp(1330px) {
+    margin: 120px auto 30px;
+  }
+
+  @include screenUp(1780px) {
+    margin: 250px auto 30px;
+  }
+
 
   @include screen(1170px) {
     margin: 30px auto 30px;
@@ -423,6 +469,12 @@ ul.articles.front > li.article {
   border: 2px solid $bord;
   margin: 0 0 2px;
   overflow: hidden;
+
+  @include screen(680px) {
+    padding-bottom: 0;
+    height: auto;
+    margin: 0 0 40px;
+  }
 }
 
 
@@ -437,7 +489,8 @@ li.article .image-container {
 
   @include screen(680px) {
     width: 100%;
-    padding-bottom: 100%;
+    padding-bottom: 0;
+    margin: 0 0 -5px;
   }
 
   img {
@@ -460,9 +513,12 @@ li.article .image-container {
     padding: 20px 40px;
     font-size: 16px;
     color: $white;
-
     letter-spacing: 10px;
     @include trans(0.3s);
+
+    @include screen(680px) {
+      display: none;
+    }
   }
 }
 
@@ -500,7 +556,9 @@ li.article .image-container:hover {
 
   @include screen(680px) {
     width: 100%;
-    padding-bottom: 100%;
+    position: initial;
+    float: left;
+    padding-bottom: 0;
   }
 
 
@@ -520,6 +578,11 @@ li.article .image-container:hover {
 
     @include screen(850px) {
       font-size: 24px;
+      padding: 0;
+    }
+
+    @include screen(680px) {
+      font-size: 16px;
       padding: 0;
     }
   }
@@ -543,9 +606,10 @@ li.article .image-container:hover {
       padding: 10% 20px 20px;
     }
 
-    @include screen(700px) {
+    @include screen(680px) {
       line-height: 1.2;
-      padding: 2% 20px 20px;
+      padding: 20px 0;
+      font-size: 12px;
     }
   }
 }

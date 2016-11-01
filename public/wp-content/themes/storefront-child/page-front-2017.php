@@ -52,7 +52,6 @@ $terms = wp_get_post_terms($post->ID,'product_cat', $args);
 
             $should_show = get_field('showing');
 
-
               if ($should_show):
                 if ($index == 1):
                   $class = 'active';
@@ -82,6 +81,22 @@ $terms = wp_get_post_terms($post->ID,'product_cat', $args);
       </span>
     </div>
   </div>
+
+
+  <!-- <div class="fp-content-row fixed icons">
+    <a href="/type/hovedtelefoner/overear"><div class="brand-circle icon">
+      <span>Over-Ear</span>
+    </div></a>
+
+    <a href="/type/hovedtelefoner/onear"><div class="brand-circle icon">
+      <span>On-Ear</span>
+    </div></a>
+
+    <a href="/type/hovedtelefoner/inear"><div class="brand-circle icon">
+      <span>In-Ear</span>
+    </div></a>
+  </div> -->
+
 
   <!-- Store info -->
 
@@ -170,7 +185,7 @@ $terms = wp_get_post_terms($post->ID,'product_cat', $args);
 
   <div class="fp-content-row black">
     <div class="brand-circle articles">
-      <span>Artikler</span>
+      <span>Nyheder</span>
     </div>
 
 

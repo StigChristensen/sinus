@@ -12,8 +12,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 get_header(); ?>
 
-<script type="text/javascript" src="<?php echo site_url() . '/wp-content/themes/storefront-child/js/grid.js'; ?>"></script>
-
 <?php
 global $post;
 $args = array( 'taxonomy' => 'product_cat');
@@ -79,3 +77,5 @@ if ( $q->parent === 0 ) {
       </div>
 </div>
 <?php get_footer(); ?>
+
+<script type="text/javascript" src="<?php echo site_url() . '/wp-content/themes/storefront-child/js/grid.js'; ?>"></script>

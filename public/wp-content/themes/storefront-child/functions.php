@@ -390,10 +390,11 @@ function cart_update() {
             <p class="small">(inkl. moms)</p>
           </div>
 
-          <div class="cart-link first"><a class="cart" href="/reserver">Reserver</a></div>
-          <div class="cart-link second"><a class="cart" href="<?php echo $cart_url; ?>">Kurv</a></div>
-          <div class="cart-link third"><a class="cart" href="<?php echo $checkout_url; ?>">Check ud</a></div>
-
+          <div class="cart-links">
+            <div class="cart-link first"><a class="cart" href="/reserver">Reserver</a></div>
+            <div class="cart-link second"><a class="cart" href="<?php echo $cart_url; ?>">Kurv</a></div>
+            <div class="cart-link third"><a class="cart" href="<?php echo $checkout_url; ?>">Check ud</a></div>
+          </div>
         </div>
       <?php } ?>
     </div>

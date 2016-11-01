@@ -11,7 +11,19 @@ module.exports = {
         cartIcon = $('body').find('.cart-icon'),
         cartContents = $('body').find('.cart-modal.cart-contents'),
         width = $(window).width();
-        // setMenuHeight();
+        setMenuHeight();
+
+    $(window).on('resize', function() {
+      setMenuHeight();
+    });
+
+    function setMenuHeight() {
+      let docuHeight = $(document).height();
+
+      $(mainMenu).css({
+        'height': docuHeight + 'px'
+      });
+    }
 
     function scrollTo(value) {
       $('html, body').animate({
@@ -23,9 +35,12 @@ module.exports = {
 
     function animateMenu() {
       if ( $(mainMenu).hasClass('hidden') ) {
-        $(mainMenu).css({
-          'display': 'block'
-        });
+        // $(mainMenu).css({
+        //   'display': 'block'
+        // });
+
+        $(menuBtn).addClass('open');
+
         setTimeout(function() {
           $(mainMenu).removeClass('hidden');
           $(this).addClass('open');
@@ -39,15 +54,15 @@ module.exports = {
 
       } else {
         $(mainMenu).addClass('hidden');
-        $(this).removeClass('open');
+        $(menuBtn).removeClass('open');
         if ( width > 767 ) {
             updateHeaderClose();
           }
 
         setTimeout(function() {
-          $(mainMenu).css({
-            'display': 'none'
-          }, 700);
+          // $(mainMenu).css({
+          //   'display': 'none'
+          // }, 700);
         });
       }
     }

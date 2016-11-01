@@ -14,7 +14,6 @@
     g.icon-bg {
       rect {
         fill: $black;
-        border-radius: 0 0 0 5px;
         @include trans(0.3s);
       }
     }
@@ -44,16 +43,15 @@
 
 .main-menu {
   position: absolute;
-  width: 280px;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   top: 0px;
   right: 0px;
-  background-color: $black;
-  border-left: 1px solid $blckBorder;
+  background-color: rgba(0,0,0,0.85);
   padding: 100px 50px 20px;
   display: block;
   z-index: 300000;
-  @include trans(0.5s);
+  @include trans(0.7s);
 
   h3 {
     font-size: 18px;
@@ -94,8 +92,7 @@
 }
 
 .main-menu.hidden {
-  right: -400px;
-  display: none;
+  right: -100vw;
 }
 
 .header {
@@ -226,6 +223,7 @@
       overflow: hidden;
       z-index: 5;
       @include trans(0.5s);
+      display: none;
 
       form.sinus-search {
         position: relative;
@@ -346,13 +344,33 @@
   z-index: 90000;
   @include trans(1s);
 
-  a, p {
+  @include screen(740px) {
+    display: none;
+  }
+
+  a,p {
+    width: auto;
     display: inline-block;
     font-family: $robot;
     font-size: 12px;
     font-weight: 400;
     padding: 22px 12px;
     letter-spacing: 2px;
+
+    @include screen(1060px) {
+      padding: 22px 6px;
+    }
+
+    @include screen(890px) {
+      padding: 22px 4px;
+    }
+
+    @include screen(820px) {
+      font-size: 12px;
+      letter-spacing: 1px;
+      padding: 22px 4px;
+    }
+
   }
 
   a.green, p.green {
@@ -376,23 +394,4 @@
 
 .header-link-row.hidden {
   top: -65px;
-}
-
-@media screen and ( max-width: 1000px) {
-  .header-link-row {
-
-    a, p {
-      font-size: 12px;
-      padding: 7px 5px;
-    }
-  }
-
-}
-
-
-
-@media screen and (max-width: 767px) {
-  .header-link-row {
-    display: none;
-  }
 }
