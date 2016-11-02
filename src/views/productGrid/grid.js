@@ -82,12 +82,20 @@ const addFilterListener = () => {
             let product = renderTemplate(e);
             Promise.resolve(product).then((productTemplate) => {
               $(ulProducts).append(productTemplate);
+              return productTemplate;
             });
           });
 
+          return true;
         } else {
           $(filtersInfo).removeClass('not-expanded');
         }
+      }).catch(TypeError, (e) => {
+        console.log('TypeError: ', e);
+      }).catch(ReferenceError, (e) => {
+        console.log('ReferenceError: ', e);
+      }).catch((e) => {
+        console.log('Error: ', e);
       });
 
     } else {
@@ -106,13 +114,17 @@ const sortData = (params) => {
         return sortByParams(sortedByPrice, params);
     }).then(function(sortedByParams) {
         return getUniqueResults(sortedByParams);
-    });
+    }).catch((e) => {
+      console.log(e);
+    });;
 
   } else {
     paramsSort = sortByParams(rawData, params);
 
     uniqSort = Promise.resolve(paramsSort).then((paramsSorted) => {
       return getUniqueResults(paramsSorted);
+    }).catch((e) => {
+      console.log(e);
     });
   }
 
@@ -260,6 +272,8 @@ $(document).on('ready', function() {
     rawData = data;
     setPriceRanges();
     const listen = new addFilterListener();
+  }).catch((e) => {
+    console.log(e);
   });
 
 
