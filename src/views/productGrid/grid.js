@@ -1,5 +1,5 @@
 import Promise from "bluebird";
-import _ from "underscore";
+// import _ from "underscore";
 const $ = jQuery || window.jQuery;
 const jsonUrlBase = '/wp-content/themes/storefront-child/inc/woocommerce-api/type_';
 const jsonUrlEnd = '.json';
@@ -69,7 +69,7 @@ const addFilterListener = () => {
       let results = sortData(params);
 
       Promise.resolve(results).then((uniqueResults) => {
-        console.log("Returned: ", uniqueResults.length);
+        // console.log("Returned: ", uniqueResults.length);
 
         if ( uniqueResults && uniqueResults.length !== 0 ) {
           animateOut();
@@ -80,15 +80,19 @@ const addFilterListener = () => {
 
           $(uniqueResults).each((i,e) => {
             let product = renderTemplate(e);
+
             Promise.resolve(product).then((productTemplate) => {
               $(ulProducts).append(productTemplate);
-              return productTemplate;
+              return Promise.resolve(productTemplate);
             });
+
           });
 
-          return true;
+          return Promise.resolve(true);
+
         } else {
           $(filtersInfo).removeClass('not-expanded');
+          Promise.reject(false);
         }
       }).catch(TypeError, (e) => {
         console.log('TypeError: ', e);
@@ -206,29 +210,25 @@ const sortByParams = (data, params) => {
   return sortedByParams;
 }
 
-
 const getUniqueResults = (data) => {
-  let uniqueResults = [];
+  let seen = {},
+      uniqueResults = [];
 
-  function sortByFrequency(array) {
-    var frequency = {};
-
-    array.forEach(function(value) { frequency[value] = 0; });
-
-    var uniques = array.filter(function(value) {
-        return ++frequency[value] == 1;
-    });
-
-    return uniques.sort(function(a, b) {
-        return frequency[b] - frequency[a];
-    });
+  // filter out duplicates by id
+  function uniqueId(obj) {
+    return obj.hasOwnProperty(obj.id) ? false : (seen[obj.id] = true);
   }
 
-  let getTopHits = data.sort(sortByFrequency(data));
-  let uniq = _.uniq(getTopHits, true);
+  uniqueResults = data.filter(uniqueId);
 
-  return uniq;
+  let filterData = Promise.resolve(uniqueResults).then((uniq) => {
+    console.log(uniq.length);
+    return Promise.resolve(uniq);
+  })
+
+  return filterData;
 }
+
 
 
 const animateOut = () => {
@@ -247,7 +247,6 @@ const highLightSub = (category) => {
   if ( category !== 'hovedtelefoner' ) {
     return;
   } else {
-    console.log(subCat);
     let inputs = $('body').find('input');
 
     $(inputs).each(function(i,e) {

@@ -16,7 +16,7 @@ function compile(watch) {
       .on('error', function(err) { console.error(err); this.emit('end'); })
       .pipe(source('grid.js'))
       .pipe(buffer())
-      .pipe(uglify())
+      // .pipe(uglify())
       .pipe(gulp.dest('../public/wp-content/themes/storefront-child/js'));
   }
 
