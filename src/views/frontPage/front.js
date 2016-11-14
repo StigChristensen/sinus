@@ -12,4 +12,15 @@ jQuery(document).on('ready', function() {
   menuController.MenuController();
   fpSlider.initialize();
   subMenuScroll.scrollListener();
+
+  let mapCover = $('body').find('.mapcover');
+
+  if ( mapCover.length > 0 ) {
+    $(mapCover).on('click', function() {
+      $(this).css({
+        'display': 'none'
+      });
+    });
+  }
+
 });

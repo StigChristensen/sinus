@@ -446,6 +446,22 @@
       map: map,
       title: 'Sinus | Headphones & Audio'
     });
+
+		var largeMap = document.getElementById('largemap');
+
+		if ( largeMap ) {
+			fpMap = new google.maps.Map(document.getElementById('largemap'), {
+	      center: latLng,
+	      zoom: 16,
+	      styles: mapStyle
+	    });
+
+	    var marker = new google.maps.Marker({
+	      position: latLng,
+	      map: fpMap,
+	      title: 'Sinus | Headphones & Audio'
+	    });
+		}
   }
 </script>
 

@@ -106,14 +106,6 @@ module.exports = {
   eventListeners: function() {
     let self = this;
 
-    $('body').on('click', '.pause-btn', () => {
-      clearInterval(interval);
-    });
-
-    $('body').on('click', '.play-btn', () => {
-      self.startInterval();
-    });
-
     $('body').on('click', '.next-btn', () => {
       clearInterval(interval);
       self.moveForward();

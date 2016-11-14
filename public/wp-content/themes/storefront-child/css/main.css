@@ -543,16 +543,19 @@ html, body {
   @media screen and (max-width: 1196px) {
     .fp-content-row.fixed {
       width: 100%;
-      float: left; } }
+      float: left;
+      padding: 48px 0px;
+      margin: 0px auto 150px; } }
   @media screen and (max-width: 960px) {
     .fp-content-row.fixed {
       width: 100%;
-      padding: 0; } }
+      padding: 0;
+      margin: 48px auto 0px; } }
 
 .fp-content-row.fixed.icons {
   height: auto;
-  min-height: 250px;
-  border: 1px solid rgba(255, 255, 255, 0.1); }
+  min-height: 350px;
+  border: none; }
   @media screen and (max-width: 1196px) {
     .fp-content-row.fixed.icons {
       width: 100%;
@@ -593,12 +596,12 @@ html, body {
       margin: 10px auto 10px; } }
   .brand-circle span {
     position: absolute;
-    top: 37%;
+    top: 40%;
     left: 0;
     right: 0;
     margin-left: auto;
     margin-right: auto;
-    font-size: 25px;
+    font-size: 22px;
     color: #000000;
     font-weight: 700;
     text-transform: uppercase; }
@@ -615,26 +618,21 @@ html, body {
   float: none;
   display: inline-block;
   margin: 0px 25px;
-  border: 2px solid #4fd5ca;
+  border: 2px solid #000000;
   transition: all 0.3s cubic-bezier(0.3, 0.56, 0.21, 0.99); }
   .brand-circle.icon span {
     top: 43%;
     font-size: 16px;
-    font-weight: 300; }
+    font-weight: 300;
+    color: #ffffff; }
 
 .brand-circle.icon:hover {
-  background: #000000; }
+  border: 2px solid #4fd5ca; }
   .brand-circle.icon:hover span {
     color: #4fd5ca; }
 
 .brand-circle.info {
-  margin: 80px auto 20px; }
-  @media screen and (min-width: 1330px) {
-    .brand-circle.info {
-      margin: 120px auto 30px; } }
-  @media screen and (min-width: 1780px) {
-    .brand-circle.info {
-      margin: 250px auto 30px; } }
+  margin: 60px auto 20px; }
   @media screen and (max-width: 1170px) {
     .brand-circle.info {
       margin: 30px auto 30px; } }
@@ -673,24 +671,42 @@ html, body {
 
 .info-left {
   width: 50%;
-  height: 0;
+  height: 611px;
   margin: 0;
-  padding: 0 0 50%;
+  padding: 0;
   float: left;
-  opacity: 0.3;
+  opacity: 1;
+  position: relative;
   transition: all 0.4s cubic-bezier(0.3, 0.56, 0.21, 0.99); }
   @media screen and (max-width: 679px) {
     .info-left {
       width: 100%; } }
-
-.info-left:hover {
-  opacity: 1; }
+  .info-left .mapcover {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 2;
+    cursor: pointer; }
+  .info-left .largemap {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1; }
+    .info-left .largemap .gm-style-cc {
+      opacity: 0.05; }
 
 .info-right {
   background: #4fd5ca;
   width: 50%;
-  height: 0;
-  padding: 0px 30px 50%;
+  height: 611px;
+  padding: 0px 30px;
   margin: 0;
   float: left; }
   @media screen and (max-width: 679px) {
@@ -752,7 +768,9 @@ html, body {
     height: auto;
     margin: 30px 0; }
     .info-right .opening-hours h4 {
+      font-family: "Roboto", sans-serif;
       font-weight: 400;
+      letter-spacing: 1px;
       color: #000000; }
       @media screen and (max-width: 960px) {
         .info-right .opening-hours h4 {
@@ -1008,18 +1026,18 @@ li.article .image-container:hover .article-info {
   @media screen and (max-width: 414px) {
     .fp-slider-container {
       width: 100%;
-      height: 180px;
-      min-height: 180px; } }
+      height: 230px;
+      min-height: 230px; } }
   @media screen and (max-width: 375px) {
     .fp-slider-container {
       width: 100%;
-      height: 160px;
-      min-height: 160px; } }
+      height: 210px;
+      min-height: 210px; } }
   @media screen and (max-width: 320px) {
     .fp-slider-container {
       width: 100%;
-      height: 140px;
-      min-height: 140px; } }
+      height: 190px;
+      min-height: 190px; } }
   .fp-slider-container .banners-container {
     width: 100%;
     height: 100%;
@@ -1063,30 +1081,6 @@ li.article .image-container:hover .article-info {
         left: 0; }
         .fp-slider-container .banners-container .nextprev .prev-btn i.fa {
           left: 4px; }
-    .fp-slider-container .banners-container .slide-controls {
-      position: absolute;
-      left: 0;
-      right: 0;
-      margin-left: auto;
-      margin-right: auto;
-      bottom: 0px;
-      width: 60px;
-      height: 30px;
-      background: rgba(0, 0, 0, 0.6);
-      z-index: 10; }
-      .fp-slider-container .banners-container .slide-controls .pause-btn, .fp-slider-container .banners-container .slide-controls .play-btn {
-        width: 50%;
-        height: 100%;
-        float: left;
-        cursor: pointer; }
-        .fp-slider-container .banners-container .slide-controls .pause-btn i.fa, .fp-slider-container .banners-container .slide-controls .play-btn i.fa {
-          font-size: 26px;
-          color: #ffffff;
-          opacity: 0.2;
-          transition: all 0.3s cubic-bezier(0.3, 0.56, 0.21, 0.99); }
-        .fp-slider-container .banners-container .slide-controls .pause-btn i.fa:hover, .fp-slider-container .banners-container .slide-controls .play-btn i.fa:hover {
-          color: #4fd5ca;
-          opacity: 1; }
     .fp-slider-container .banners-container .banner-element {
       width: 100%;
       height: 460px;
@@ -1102,17 +1096,17 @@ li.article .image-container:hover .article-info {
       @media screen and (max-width: 414px) {
         .fp-slider-container .banners-container .banner-element {
           width: 100%;
-          height: 180px;
-          min-height: 180px; } }
+          height: 230px;
+          min-height: 230px; } }
       @media screen and (max-width: 375px) {
         .fp-slider-container .banners-container .banner-element {
           width: 100%;
-          height: 160px;
-          min-height: 160px; } }
+          height: 210px;
+          min-height: 210px; } }
       @media screen and (max-width: 320px) {
         .fp-slider-container .banners-container .banner-element {
           width: 100%;
-          height: 140px; } }
+          height: 190px; } }
       .fp-slider-container .banners-container .banner-element a > img {
         width: auto;
         height: auto;

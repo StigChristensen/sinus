@@ -56,7 +56,7 @@ function sinus_export() {
 function export_file($rows) {
   global $filename, $dir;
   // Output csv data
-  $filecontent = "Item ID,Name,Category,Description,Variant 1 - Name,Variant 1 - Price,Variant 1 - SKU,Variant 2 - Name,Variant 2 - Price,Variant 2 - SKU,Variant 3 - Name,Variant 3 - Price,Variant 3 - SKU,Tax - Moms (25%)\r\n";
+  $filecontent = "Token,Item Name,Description,Category,SKU,Variation Name,Price,Current Quantity,New Quantity,Stock Alert Enabled,Stock Alert Count,Modifier Set - Nr 1,Tax - Moms (25%)\r\n";
 
   foreach ($rows as $row) {
     $cats = "";
@@ -73,7 +73,8 @@ function export_file($rows) {
       $sale = "";
     }
 
-    $filecontent .= ",".$title.",".$cats.",".$title.",".$title.",".$price.".000000".",,".$title.' Tilbud'.",".$sale.",,,,,"."Y"."\r\n";
+    $filecontent .= "," . $title . "," . "," . "$cats" . "," . "," . $title . "," . $price . "," . ",,,," . "N" . "," . "Y" . "\r\n";
+    // $filecontent .= ",".$title.",".$cats.",".$title.",".$title.",".$price.".000000".",,".$title.' Tilbud'.",".$sale.",,,,,"."Y"."\r\n";
   }
 
   $csv_filename = $filename;

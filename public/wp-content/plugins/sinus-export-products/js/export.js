@@ -17,6 +17,7 @@ jQuery(document).on('ready', function() {
       type: "GET",
       dataType: 'json',
       success: function(response) {
+        console.log(response);
         $(spin).hide();
 
         var split = response.split('/wp-content/'),
@@ -26,7 +27,7 @@ jQuery(document).on('ready', function() {
         $(link).html(returned);
       },
       error: function(response) {
-        console.log('response');
+        console.log(JSON.stringify(response));
         $(spin).hide();
       }
     });

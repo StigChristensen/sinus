@@ -32,18 +32,21 @@
   @include screen(1196px) {
     width: 100%;
     float: left;
+    padding: 48px 0px;
+    margin: 0px auto 150px;
   }
 
   @include screen(960px) {
     width: 100%;
     padding: 0;
+    margin: 48px auto 0px;
   }
 }
 
 .fp-content-row.fixed.icons {
   height: auto;
-  min-height: 250px;
-  border: 1px solid $bord;
+  min-height: 350px;
+  border: none;
 
   @include screen(1196px) {
     width: 100%;
@@ -92,9 +95,9 @@
 
   span {
     position: absolute;
-    top: 37%;
+    top: 40%;
     @include center;
-    font-size: 25px;
+    font-size: 22px;
     color: #000000;
     font-weight: 700;
     text-transform: uppercase;
@@ -115,18 +118,19 @@
   float: none;
   display: inline-block;
   margin: 0px 25px;
-  border: 2px solid $mainGreen;
+  border: 2px solid #000000;
   @include trans(0.3s);
 
   span {
     top: 43%;
     font-size: 16px;
     font-weight: 300;
+    color: #ffffff;
   }
 }
 
 .brand-circle.icon:hover {
-  background: #000000;
+  border: 2px solid $mainGreen;
 
   span {
     color: $mainGreen;
@@ -135,15 +139,15 @@
 
 
 .brand-circle.info {
-  margin: 80px auto 20px;
+  margin: 60px auto 20px;
 
-  @include screenUp(1330px) {
-    margin: 120px auto 30px;
-  }
-
-  @include screenUp(1780px) {
-    margin: 250px auto 30px;
-  }
+  // @include screenUp(1330px) {
+  //   margin: 120px auto 30px;
+  // }
+  //
+  // @include screenUp(1780px) {
+  //   margin: 250px auto 30px;
+  // }
 
 
   @include screen(1170px) {
@@ -196,27 +200,51 @@
 
 .info-left {
   width: 50%;
-  height: 0;
+  height: 611px;
   margin: 0;
-  padding: 0 0 50%;
+  padding: 0;
   float: left;
-  opacity: 0.3;
+  opacity: 1;
+  position: relative;
   @include trans(0.4s);
 
   @include screen(679px) {
     width: 100%;
   }
-}
 
-.info-left:hover {
-  opacity: 1;
+  .mapcover {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 2;
+    cursor: pointer;
+  }
+
+  .largemap {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+
+    .gm-style-cc {
+      opacity: 0.05;
+    }
+  }
+
 }
 
 .info-right {
   background: $mainGreen;
   width: 50%;
-  height: 0;
-  padding: 0px 30px 50%;
+  height: 611px;
+  padding: 0px 30px;
   margin: 0;
   float: left;
 
@@ -297,7 +325,9 @@
     margin: 30px 0;
 
     h4 {
+      font-family: $robot;
       font-weight: 400;
+      letter-spacing: 1px;
       color: #000000;
 
       @include screen(960px) {

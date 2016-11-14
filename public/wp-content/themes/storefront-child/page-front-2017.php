@@ -33,16 +33,6 @@ $terms = wp_get_post_terms($post->ID,'product_cat', $args);
           </div>
         </div>
 
-        <div class="slide-controls">
-          <div class="pause-btn">
-            <i class="fa fa-pause-circle" aria-hidden="true"></i>
-          </div>
-          <div class="play-btn">
-            <i class="fa fa-play-circle" aria-hidden="true"></i>
-          </div>
-        </div>
-
-
       <?php $args = array( 'post_type' => 'banner', 'posts_per_page' => -1 );
             $loop = new WP_Query( $args );
 
@@ -83,26 +73,50 @@ $terms = wp_get_post_terms($post->ID,'product_cat', $args);
   </div>
 
 
-  <!-- <div class="fp-content-row fixed icons">
-    <a href="/type/hovedtelefoner/overear"><div class="brand-circle icon">
+  <div class="fp-content-row fixed icons">
+    <a href="/type/hovedtelefoner/overear"><div class="brand-circle icon" style="background: url('<?php echo get_stylesheet_directory_uri() . '/img/overear_bg.png'; ?>'); background-size: cover; background-position: left;">
       <span>Over-Ear</span>
     </div></a>
 
-    <a href="/type/hovedtelefoner/onear"><div class="brand-circle icon">
+    <a href="/type/hovedtelefoner/onear"><div class="brand-circle icon" style="background: url('<?php echo get_stylesheet_directory_uri() . '/img/onear_bg.png'; ?>'); background-size: cover; background-position: left;">
       <span>On-Ear</span>
     </div></a>
 
-    <a href="/type/hovedtelefoner/inear"><div class="brand-circle icon">
+    <a href="/type/hovedtelefoner/inear"><div class="brand-circle icon" style="background: url('<?php echo get_stylesheet_directory_uri() . '/img/inear_bg.png'; ?>'); background-size: cover; background-position: left;">
       <span>In-Ear</span>
     </div></a>
-  </div> -->
+  </div>
+
+
+  <!-- T0p 10 -->
+
+  <?php
+    global $post;
+    $posts = get_field('top_ten');
+
+    var_dump($posts);
+
+    if ( $posts ): ?>
+    <div class="fp-content-row black">
+      <ul class="products list">
+        <?php foreach ($posts as $p ) { ?>
+          <?php wc_get_template_part('content', 'single-product-list'); ?>
+    <?php }
+       ?>
+      </ul>
+    </div>
+    <?php endif; ?>
 
 
   <!-- Store info -->
 
   <div class="fp-content-row black">
-    <a href="https://goo.gl/maps/7JA3Pw2xbw72" target="_blank"><div class="info-left" style="background: url('<?php echo get_stylesheet_directory_uri() . '/img/map1.png'; ?>'); background-size: cover; background-position: left;">
-    </div></a>
+    <!-- <a href="https://goo.gl/maps/7JA3Pw2xbw72" target="_blank"><div class="info-left" style="background: url('<?php echo get_stylesheet_directory_uri() . '/img/map1.png'; ?>'); background-size: cover; background-position: left;"></div></a> -->
+
+    <div class="info-left">
+      <div class="mapcover"></div>
+      <div class="largemap" id="largemap"></div>
+    </div>
 
     <div class="info-right">
       <div class="brand-circle reversed info">
@@ -223,13 +237,24 @@ $terms = wp_get_post_terms($post->ID,'product_cat', $args);
       <?php endwhile; ?>
         </ul>
 
-</div>
-
-
-
-</div>
-</div>
+      </div>
+    </div>
+  </div>
 
 <?php get_footer(); ?>
 
-<!-- <script src="<?php echo get_stylesheet_directory_uri() . '/js/fp.js'; ?>"></script> -->
+<script>
+function largeMap() {
+  map = new google.maps.Map(document.getElementById('largemap'), {
+    center: latLng,
+    zoom: 16,
+    styles: mapStyle
+  });
+
+  var marker = new google.maps.Marker({
+    position: latLng,
+    map: map,
+    title: 'Sinus | Headphones & Audio'
+  });
+}
+</script>
