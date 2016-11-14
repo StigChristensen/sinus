@@ -52,7 +52,14 @@
     width: 100%;
     float: left;
     min-height: 250px;
-    margin: 0px 0 0;
+    margin: 0px 0;
+  }
+
+  @include screen(960px) {
+    width: 100%;
+    float: left;
+    min-height: 250px;
+    margin: 100px 0;
   }
 }
 
@@ -114,22 +121,30 @@
   }
 }
 
-.brand-circle.icon {
+a > .icon-circle.icon {
+  width: 200px;
+  height: 200px;
   float: none;
   display: inline-block;
+  position: relative;
+  text-align: center;
   margin: 0px 25px;
   border: 2px solid #000000;
+  cursor: pointer;
+  @include border(50%);
   @include trans(0.3s);
 
   span {
-    top: 43%;
+    position: absolute;
+    top: 45%;
+    @include center;
     font-size: 16px;
     font-weight: 300;
     color: #ffffff;
   }
 }
 
-.brand-circle.icon:hover {
+a > .icon-circle.icon:hover {
   border: 2px solid $mainGreen;
 
   span {
@@ -208,6 +223,10 @@
   position: relative;
   @include trans(0.4s);
 
+  @include screen(960px) {
+    height: 430px;
+  }
+
   @include screen(679px) {
     width: 100%;
   }
@@ -247,6 +266,10 @@
   padding: 0px 30px;
   margin: 0;
   float: left;
+
+  @include screen(960px) {
+    height: 430px;
+  }
 
   @include screen(679px) {
     width: 100%;

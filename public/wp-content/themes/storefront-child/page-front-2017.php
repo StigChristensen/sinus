@@ -74,39 +74,21 @@ $terms = wp_get_post_terms($post->ID,'product_cat', $args);
 
 
   <div class="fp-content-row fixed icons">
-    <a href="/type/hovedtelefoner/overear"><div class="brand-circle icon" style="background: url('<?php echo get_stylesheet_directory_uri() . '/img/overear_bg.png'; ?>'); background-size: cover; background-position: left;">
+    <a href="/type/hovedtelefoner/overear"><div class="icon-circle icon" style="background: url('<?php echo get_stylesheet_directory_uri() . '/img/overear_bg.png'; ?>'); background-size: cover; background-position: left;">
       <span>Over-Ear</span>
     </div></a>
 
-    <a href="/type/hovedtelefoner/onear"><div class="brand-circle icon" style="background: url('<?php echo get_stylesheet_directory_uri() . '/img/onear_bg.png'; ?>'); background-size: cover; background-position: left;">
+    <a href="/type/hovedtelefoner/onear"><div class="icon-circle icon" style="background: url('<?php echo get_stylesheet_directory_uri() . '/img/onear_bg.png'; ?>'); background-size: cover; background-position: left;">
       <span>On-Ear</span>
     </div></a>
 
-    <a href="/type/hovedtelefoner/inear"><div class="brand-circle icon" style="background: url('<?php echo get_stylesheet_directory_uri() . '/img/inear_bg.png'; ?>'); background-size: cover; background-position: left;">
+    <a href="/type/hovedtelefoner/inear"><div class="icon-circle icon" style="background: url('<?php echo get_stylesheet_directory_uri() . '/img/inear_bg.png'; ?>'); background-size: cover; background-position: left;">
       <span>In-Ear</span>
     </div></a>
   </div>
 
 
   <!-- T0p 10 -->
-
-  <?php
-    global $post;
-    $posts = get_field('top_ten');
-
-    var_dump($posts);
-
-    if ( $posts ): ?>
-    <div class="fp-content-row black">
-      <ul class="products list">
-        <?php foreach ($posts as $p ) { ?>
-          <?php wc_get_template_part('content', 'single-product-list'); ?>
-    <?php }
-       ?>
-      </ul>
-    </div>
-    <?php endif; ?>
-
 
   <!-- Store info -->
 

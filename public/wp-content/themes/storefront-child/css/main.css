@@ -561,7 +561,13 @@ html, body {
       width: 100%;
       float: left;
       min-height: 250px;
-      margin: 0px 0 0; } }
+      margin: 0px 0; } }
+  @media screen and (max-width: 960px) {
+    .fp-content-row.fixed.icons {
+      width: 100%;
+      float: left;
+      min-height: 250px;
+      margin: 100px 0; } }
 
 .fp-content-row.black {
   background: #000000; }
@@ -614,21 +620,32 @@ html, body {
         top: 38%;
         font-size: 11px; } }
 
-.brand-circle.icon {
+a > .icon-circle.icon {
+  width: 200px;
+  height: 200px;
   float: none;
   display: inline-block;
+  position: relative;
+  text-align: center;
   margin: 0px 25px;
   border: 2px solid #000000;
+  cursor: pointer;
+  border-radius: 50%;
   transition: all 0.3s cubic-bezier(0.3, 0.56, 0.21, 0.99); }
-  .brand-circle.icon span {
-    top: 43%;
+  a > .icon-circle.icon span {
+    position: absolute;
+    top: 45%;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
     font-size: 16px;
     font-weight: 300;
     color: #ffffff; }
 
-.brand-circle.icon:hover {
+a > .icon-circle.icon:hover {
   border: 2px solid #4fd5ca; }
-  .brand-circle.icon:hover span {
+  a > .icon-circle.icon:hover span {
     color: #4fd5ca; }
 
 .brand-circle.info {
@@ -678,6 +695,9 @@ html, body {
   opacity: 1;
   position: relative;
   transition: all 0.4s cubic-bezier(0.3, 0.56, 0.21, 0.99); }
+  @media screen and (max-width: 960px) {
+    .info-left {
+      height: 430px; } }
   @media screen and (max-width: 679px) {
     .info-left {
       width: 100%; } }
@@ -709,6 +729,9 @@ html, body {
   padding: 0px 30px;
   margin: 0;
   float: left; }
+  @media screen and (max-width: 960px) {
+    .info-right {
+      height: 430px; } }
   @media screen and (max-width: 679px) {
     .info-right {
       width: 100%; } }
