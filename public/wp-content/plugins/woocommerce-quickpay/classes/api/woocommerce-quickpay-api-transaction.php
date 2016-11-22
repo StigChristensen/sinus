@@ -98,14 +98,18 @@ class WC_QuickPay_API_Transaction extends WC_QuickPay_API
     {     
         $base_params = array(
             'currency' => WC_QP()->get_gateway_currency( $order ),
-            'text_on_statement' => WC_QP()->s('quickpay_text_on_statement'),
             'order_post_id' => $order->post->ID,
         );
+
+        $text_on_statement = WC_QP()->s('quickpay_text_on_statement');
+        if (!empty($text_on_statement)) {
+            $base_params['text_on_statement'] = $text_on_statement;
+        }
         
         $order_params = $order->get_transaction_params();
         
         $params = array_merge( $base_params, $order_params );
-        
+
     	$payment = $this->post( '/', $params);
         
         return $payment;
@@ -141,7 +145,6 @@ class WC_QuickPay_API_Transaction extends WC_QuickPay_API
             'google_analytics_tracking_id'  => WC_QP()->s( 'quickpay_google_analytics_tracking_id' ),
             'google_analytics_client_id'    => WC_QP()->s('quickpay_google_analytics_client_id'),
             'customer_email' 				=> $order->billing_email,
-            'order_post_id' => $order->post->ID,
         );
         
         $order_params = $order->get_transaction_link_params();
@@ -185,7 +188,7 @@ class WC_QuickPay_API_Transaction extends WC_QuickPay_API
 		{
 			throw new QuickPay_API_Exception( 'No API payment resource data available.', 0 );
 		}
-		return $this->resource_data->balance;		
+		return ! empty($this->resource_data->balance) ? $this->resource_data->balance : NULL;
 	}
 	
 	/**

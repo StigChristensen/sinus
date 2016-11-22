@@ -55,8 +55,8 @@ class WC_QuickPay_Subscription {
     */
     public static function process_recurring_response( $recurring_response, $order )
     {
-        // Process payment on subscription
-        WC_Subscriptions_Manager::process_subscription_payments_on_order( $order->id );
+        // Set transaction order ID
+        $order->set_transaction_order_id($recurring_response->order_id);
 
         // Complete payment
         $order->payment_complete( $recurring_response->id );
@@ -71,7 +71,11 @@ class WC_QuickPay_Subscription {
 	 * @return boolean
 	 */
 	public static function is_renewal( $order ) {
-		return wcs_order_contains_renewal( $order );
+	    if (function_exists('wcs_order_contains_renewal')) {
+            return wcs_order_contains_renewal( $order );
+        }
+
+        return FALSE;
 	}
 	
 	/**
@@ -135,4 +139,47 @@ class WC_QuickPay_Subscription {
 		}
 		return FALSE;
 	}
+
+    /**
+     * @param WC_QuickPay_Order $order The parent order
+     * @return bool
+     */
+	public static function get_subscription_id(WC_QuickPay_Order $order) {
+	    if (WC_QuickPay_Subscription::is_subscription($order->id)) {
+	        return $order->id;
+        }
+        else if ($order->contains_subscription()) {
+            // Find all subscriptions
+            $subscriptions = WC_QuickPay_Subscription::get_subscriptions_for_order($order->id);
+            // Get the last one and base the transaction on it.
+            $subscription = end($subscriptions);
+            // Fetch the post ID of the subscription, not the parent order.
+            return  $subscription->id;
+        }
+        return FALSE;
+    }
+
+    /**
+     * Activates subscriptions on a parent order
+     * @param $order
+     */
+    public static function activate_subscriptions_for_order( $order ) {
+        if (self::plugin_is_active()) {
+            WC_Subscriptions_Manager::activate_subscriptions_for_order( $order );
+        }
+        return FALSE;
+    }
+
+    /**
+     * Check if a given object is a WC_Subscription (or child class of WC_Subscription), or if a given ID
+     * belongs to a post with the subscription post type ('shop_subscription')
+     * @param $subscription
+     * @return bool
+     */
+    public static function is_subscription( $subscription ) {
+        if (function_exists('wcs_is_subscription')) {
+            return wcs_is_subscription( $subscription );
+        }
+        return FALSE;
+    }
 }

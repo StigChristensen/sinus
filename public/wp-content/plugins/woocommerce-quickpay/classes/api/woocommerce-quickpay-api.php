@@ -10,7 +10,7 @@
  * @docs        http://tech.quickpay.net/api/services/?scope=merchant
  */
 
-class WC_QuickPay_API 
+class WC_QuickPay_API
 {
 
     /**
@@ -32,7 +32,14 @@ class WC_QuickPay_API
 	 * @access protected
 	 */
 	protected $resource_data;
-    
+
+    protected $api_key = NULL;
+
+    /**
+     * @var bool
+     */
+    public $block_callback = FALSE;
+
 
   	/**
 	* __construct function.
@@ -40,9 +47,15 @@ class WC_QuickPay_API
 	* @access public
 	* @return void
 	*/      
-    public function __construct() 
+    public function __construct( $api_key = NULL )
     {
         add_action('shutdown', array($this, 'shutdown'));
+
+        if (empty($api_key)) {
+            $this->api_key = WC_QP()->s( 'quickpay_apikey' );
+        } else {
+            $this->api_key = $api_key;
+        }
 
         // Instantiate an empty object ready for population
         $this->resource_data = new stdClass();
@@ -155,7 +168,7 @@ class WC_QuickPay_API
  		if( is_array( $form ) && ! empty( $form ) )
  		{
             // Build a string query based on the form array values
-            $request_form_data = http_build_query( $form, '', '&' );
+            $request_form_data = preg_replace('/%5B[0-9]+%5D/simU', '%5B%5D', http_build_query( $form, '', '&' ));
 
             // Prepare to post the data string
  			curl_setopt( $this->ch, CURLOPT_POSTFIELDS, $request_form_data );
@@ -237,17 +250,17 @@ class WC_QuickPay_API
 	*/
 	protected function remote_instance( $post_id = NULL ) 
 	{
-		if( $this->ch === NULL ) 
+		if( $this->ch === NULL )
 		{
 			$this->ch = curl_init();
 			curl_setopt( $this->ch, CURLOPT_RETURNTRANSFER, TRUE );
 			curl_setopt( $this->ch, CURLOPT_SSL_VERIFYPEER , FALSE );
 			curl_setopt( $this->ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC); 
             curl_setopt( $this->ch, CURLOPT_HTTPHEADER, array(
-            	'Authorization: Basic ' . base64_encode(':' . WC_QP()->s( 'quickpay_apikey' ) ),
+            	'Authorization: Basic ' . base64_encode(':' . $this->api_key ),
                 'Accept-Version: v10',
                 'Accept: application/json',
-                'QuickPay-Callback-Url: ' . WC_QuickPay_Helper::get_callback_url( $post_id )
+                'QuickPay-Callback-Url: ' . (!$this->block_callback) ? WC_QuickPay_Helper::get_callback_url( $post_id ) : NULL
             ));
 		}
 

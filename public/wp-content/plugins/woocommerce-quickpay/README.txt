@@ -1,10 +1,9 @@
 === WooCommerce QuickPay ===
 Contributors: PerfectSolution
-Donate link: http://perfect-solution.dk/donation
 Tags: gateway, woo commerce, quickpay, quick pay, gateway, integration, woocommerce, woocommerce quickpay, payment, payment gateway, psp
 Requires at least: 4.0.0
-Tested up to: 4.6.0
-Stable tag: 4.5.6
+Tested up to: 4.6.1
+Stable tag: 4.6.4
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,6 +21,45 @@ With WooCommerce QuickPay, you are able to integrate your QuickPay gateway to yo
 6. You are good to go.
 
 == Changelog ==
+= 4.6.4 =
+* Fix issue with WC_QuickPay_Install not being included properly on plugin activation
+
+= 4.6.3 =
+* Remove: WC_QuickPay_Install_Helper
+* Improvement: Stop relying on register_activation_hook when upgrading.
+* Improvement: Show admin notice when a database upgrade is required. This action must be triggered manually and it will run in the background.
+* Add views folder
+* Add WC_QuickPay_Views to simplify view handling.
+
+= 4.6.2 =
+* Fix issue with older PHP version not bein able to use return value in write context in WC_QuickPay_Settings.
+
+= 4.6.1 =
+* Replaced Paii logo with Swipp
+
+= 4.6.0 =
+* Feature: Add basket content to transactions.
+* Feature: Always add invoice + shipping information on transactions.
+* Feature: Add Klarna as separate payment method.
+* Feature: Add Swipp as separate payment method.
+* Feature: Add Sofort as separate payment method
+* Feature: New filters added. (woocommerce_quickpay_transaction_params_shipping, woocommerce_quickpay_transaction_params_invoice, woocommerce_quickpay_transaction_params_basket)
+* Feature: Visualize required settings on the settings page.
+* Feature: Add admin notice if required fields are not configured.
+* Feature: Add button in the plugin settings' "Logs"-section for easy debug log access.
+* Feature: Add direct link to the wiki from the settings page.
+* Feature: Add live API key validator on the settings page.
+* Feature: Simplifying the settings page by removing unused fields.
+* Feature: Add hook 'woocommerce_quickpay_loaded'.
+* Feature: Add hook 'woocommerce_quickpay_accepted_callback_status_{$state}'.
+* Removed: Autocapture settings for subscriptions. Subscriptions now rely on the main autocapture settings (Physical/virtual products).
+* Removed: WC_QuickPay_Order::get_callback_url - deprecated since 4.2.0.
+* Bug: Remove subscription cancellation from callback handler, on 'cancel'-callbacks to avoid situations where subscriptions ends up in a faulty "Pending Cancellation" state.
+* Bug: Fix bug where fees area added on top of each other.
+* Bug: Clean up old payment IDs and payment links before creating a new payment link used to update a credit card. Legacy data caused problems in some cases.
+* Improvement: Complete refactoring of how subscriptions are handled. The subscription transaction ID is now stored on the 'shop_subscription'-post. Now only payment transactions are stored on regular orders which should improve the renewal/capturing process and make the UI more intuitive. This should also eliminate a lot of quirks when it comes to renewal orders.
+
+
 = 4.5.6 =
 * Fix bug where certain customers are not able to manually pay a failed recurring order.
 * Add convenience wrapper WC_QuickPay_Subscription::cart_contains_failed_renewal_order_payment()
@@ -202,7 +240,7 @@ With WooCommerce QuickPay, you are able to integrate your QuickPay gateway to yo
 * Updated translations
 
 = 4.0.7 =
-* Add upgrade notifce for 4.0.0
+* Add upgrade notiece for 4.0.0
 
 = 4.0.6 =
 * Activate autofee settings
@@ -409,8 +447,5 @@ With WooCommerce QuickPay, you are able to integrate your QuickPay gateway to yo
 *  Bugfix: Corrected a few unchecked variables that caused php notices in error logs.
 
 == Upgrade Notice ==
-= 4.4.0 =
-Notice: WooCommerce Subscriptions 1.5 is no longer supported in this version. If you use WooCommerce Subscriptions, please make sure that you have at least v 2.0.0 installed before updating WooCommerce QuickPay.
-
-= 4.0.0 =
-4.0.0 is a major update. 4.0.0 will only work with the new QuickPay v10 manager, so it is advised to consult QuickPay before upgrading. Also, the plugin will require additional setup before working! It is advised to test this version out before upgrading in production.
+= 4.6.0 =
+4.6.0 is a major update and requires data migration. We strongly recommend saving a backup of your database before upgrading this plugin!

@@ -5,7 +5,7 @@
   margin: 0;
   padding: 0px 0 0 0;
   text-align: center;
-  background-color: $white;
+  background-color: #000;
 
   .article.headline-wrap {
     width: 100%;
@@ -15,10 +15,10 @@
     background-color: $mainGreen;
 
     .article.headline {
-      width: 70%;
+      width: 80%;
       height: auto;
       margin: 0 auto 0 auto;
-      padding: 180px 150px 150px 100px;;
+      padding: 180px 50px 150px 50px;
       text-align: left;
 
       h1 {
@@ -30,9 +30,9 @@
   }
 
   .content-container {
-    width: 70%;
+    width: 80%;
     height: auto;
-    padding: 50px 100px 100px;
+    padding: 50px 50px 100px;
     margin: 100px auto 0 auto;
     text-align: left;
 
@@ -40,7 +40,7 @@
       font-size: 32px;
       font-weight: 700;
       margin: 80px 0 0px 0;
-      color: $black;
+      color: $white;
     }
 
     h4 {
@@ -56,7 +56,7 @@
       }
 
       a:hover {
-        color: $black;
+        color: $white;
       }
     }
 
@@ -64,6 +64,7 @@
       font-weight: 400;
       line-height: 1.5;
       font-size: 15px;
+      color: $white;
     }
 
     a {
@@ -74,10 +75,154 @@
     }
 
     a:hover {
-      color: $black;
+      color: $white;
     }
   }
 }
+
+.article-products {
+  width: 960px;
+  height: auto;
+  margin: 0 auto 0 auto;
+  padding: 150px 0px;
+
+  @include screen(959px) {
+    width: 640px;
+    height: auto;
+    float: none;
+    margin: 0 auto;
+    padding: 50px 0;
+  }
+
+  @include screen(639px) {
+    width: 320px;
+    height: auto;
+    float: none;
+    margin: 0 auto;
+    padding: 50px 0;
+  }
+
+  .article-product {
+    width: 315px;
+    height: 415px;
+    float: left;
+    margin: 0 5px 5px 0;
+    position: relative;
+    border: 1px solid $bord;
+    background: #000000;
+    z-index: 1;
+
+    @include screen(959px) {
+      margin: 0 2.5px 15px;
+    }
+
+    a, .article-product-image {
+      width: 315px;
+      height: 315px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: #FFFFFF;
+      z-index: 1;
+    }
+
+    .article-product-image {
+      overflow: hidden;
+    }
+
+    .article-product-info {
+      height: 100px;
+      width: 100%;
+      position: absolute;
+      bottom: -100px;
+      left: 0px;
+      padding: 30px 0px;
+      text-align: left;
+
+      h4 {
+        color: $mainGreen;
+        font-size: 16px;
+        margin: 0 0 10px 10px;
+      }
+
+      span {
+        font-size: 12px;
+        color: $white;
+        margin: 0 0 0 0px;
+      }
+
+      .sale-price {
+        position: absolute;
+        height: 50px;
+        width: 100%;
+        bottom: 100px;
+        z-index: 5;
+        padding: 10px 10px;
+        background: $obLight;
+
+        span {
+          font-size: 12px;
+          color: $mainGreen;
+        }
+
+        span.sale-amount {
+          font-size: 24px;
+          color: #FFFFFF;
+          font-weight: 900;
+          text-transform: capitalize;
+        }
+      }
+
+      .reg-price {
+        padding: 0 0 0 10px;
+
+        span {
+          color: rgba(255, 255, 255, 0.5);
+        }
+
+      }
+    }
+
+    img {
+      height: 315px;
+      width: auto;
+      max-width: 315px;
+      @include center();
+    }
+
+
+
+    .savings {
+      background: $mainGreen;
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      top: -20px;
+      right: 0px;
+      @include border(50%);
+      z-index: 2;
+
+      span.savetext {
+        position: absolute;
+        @include center();
+        top: 38px;
+        font-size: 12px;
+        color: #000000;
+      }
+
+      span.save-amount {
+        position: absolute;
+        @include center();
+        top: 52px;
+        font-size: 22px;
+        color: #000000;
+        text-transform: capitalize;
+      }
+    }
+
+  }
+}
+
 
 @media screen and (max-width: 888px) {
   .article.container {
@@ -402,7 +547,7 @@
 
     .content-container {
       width: 100%;
-      padding: 50px 50px 100px;
+      padding: 50px 20px 100px;
       margin: 100px auto 0 auto;
 
       h2 {

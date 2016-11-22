@@ -175,5 +175,17 @@ class WC_QuickPay_Helper {
 	public static function has_preorder_plugin() {
 		return class_exists('WC_Pre_Orders');
 	}
+
+	/**
+	 * @param $value
+	 * @param null $default
+	 * @return null
+	 */
+	public static function value($value, $default = NULL ) {
+		if( empty($value) ) {
+			return $default;
+		}
+		return $value;
+	}
 }
 ?>

@@ -10,6 +10,7 @@
 }
 
 .woocommerce-quickpay-authorize,
+.woocommerce-quickpay-recurring,
 .woocommerce-quickpay-refund {
 	color:#7499ad !important;
 }
@@ -135,4 +136,33 @@
 	top: 3px;
 	position: relative;
 	margin-left: 5px;
+}
+
+#wcqp_wiki, #wcqp_logs {
+	margin-right: 5px;
+}
+
+.wcqp_api_indicator {
+	position: absolute;
+	display: inline-block;
+	width: 34px;
+	height: 34px;
+	border-radius: 50%;
+	margin-left: 10px;
+	top: -5px;
+	-webkit-background-size: contain;
+	-moz-background-size: contain;
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+
+.wcqp_api_indicator.error {
+	background-image: url(../images/icons/error.png);
+}
+.wcqp_api_indicator.ok {
+	background-image: url(../images/icons/ok.png);
+}
+
+.woocommerce table.form-table fieldset:first-child {
+	position: relative;
 }

@@ -31,38 +31,17 @@ class WC_QuickPay_Settings {
 
 				'_Account_setup' => array(
 					'type' => 'title',
-					'title' => __( 'Payment Window - Integration', 'woo-quickpay' ),
+					'title' => __( 'API - Integration', 'woo-quickpay' ),
 				),
-					'quickpay_merchantid' => array(
-                        'title' => __('Merchant id', 'woo-quickpay'),
-                        'type' => 'text',
-                        'description' => __('Your Payment Window agreement merchant id. Found in the "Integration" tab inside the QuickPay manager.', 'woo-quickpay'),
-                        'desc_tip' => true
-                    ),
-					'quickpay_agreement_id' => array(
-                        'title' => __('Agreement id', 'woo-quickpay'),
-                        'type' => 'text',
-                        'description' => __('Your Payment Window agreement id. Found in the "Integration" tab inside the QuickPay manager.', 'woo-quickpay' ),
-                        'desc_tip' => true,
-					),
-					'quickpay_agreement_apikey' => array(
-						'title' => __('Api key', 'woo-quickpay'),
-						'type' => 'text',
-						'description' => __( 'Your Payment Window agreement API key. Found in the "Integration" tab inside the QuickPay manager.', 'woo-quickpay' ),
-					    'desc_tip' => true,
-                    ),
+
 					'quickpay_privatekey' => array(
-						'title' => __('Private key', 'woo-quickpay'),
+						'title' => __('Private key', 'woo-quickpay') . self::get_required_symbol(),
 						'type' => 'text',
 						'description' => __( 'Your Payment Window agreement private key. Found in the "Integration" tab inside the QuickPay manager.', 'woo-quickpay' ),
                         'desc_tip' => true,
 					),
-				'_API_setup' => array(
-					'type' => 'title',
-					'title' => __( 'API - Integration', 'woo-quickpay' ),
-				),
 					'quickpay_apikey' => array(
-						'title' => __('Api User key', 'woo-quickpay'),
+						'title' => __('Api User key', 'woo-quickpay') . self::get_required_symbol(),
 						'type' => 'text',
 						'description' => __( 'Your API User\'s key. Create a separate API user in the "Users" tab inside the QuickPay manager.' , 'woo-quickpay' ),
                         'desc_tip' => true,
@@ -248,7 +227,7 @@ class WC_QuickPay_Settings {
                             'paypal' => 'Paypall',
                             'danskebank' => 'Danske Bank',
                             'nordea' => 'Nordea',
-                            'paii' => 'Paii',
+                            'swipp' => 'Swipp',
                             'mobilepay' => 'MobilePay',
                             'forbrugsforeningen' => 'Forbrugsforeningen'
                         ),
@@ -310,23 +289,7 @@ class WC_QuickPay_Settings {
                             'data-placeholder' => __( 'Select order data', 'woo-quickpay' )
                         )
                     ),
-				);	
-
-			if( WC_QuickPay_Subscription::plugin_is_active() )
-			{			
-				$fields['woocommerce-subscriptions'] = array(
-					'type' => 'title',
-					'title' => 'Subscriptions'
 				);
-				$fields['quickpay_autodraw_subscription'] = array(
-						'title' => __( 'Autocapture first payment', 'woo-quickpay' ), 
-						'type' => 'checkbox', 
-						'label' => __( 'Enable/Disable', 'woo-quickpay' ), 
-						'description' => __( 'Automatically capture the first payment of a subscription when order is complete.', 'woo-quickpay' ), 
-						'default' => 'yes',
-                        'desc_tip' => true,
-				);
-			}
 
 		return $fields;
 	}
@@ -356,9 +319,86 @@ class WC_QuickPay_Settings {
         return $options;
     }
 
+    /**
+     * Clears the log file.
+     *
+     * @return void
+     */
     public static function clear_logs_section() {
-        printf( '<h3 class="wc-settings-sub-title">%s</h3>', __( 'Logs', 'woo-quickpay' ) );
+        printf( '<h3 class="wc-settings-sub-title">%s</h3>', __( 'Debug', 'woo-quickpay' ) );
+        printf( '<a id="wcqp_wiki" class="button button-primary" href="%s" target="_blank">%s</a>', self::get_wiki_link(), __( 'Got problems? Check out the Wiki.', 'woo-quickpay' ) );
+        printf( '<a id="wcqp_logs" class="button" href="%s">%s</a>', WC_QP()->log->get_admin_link(), __( 'View debug logs', 'woo-quickpay' ) );
         printf( '<button id="wcqp_logs_clear" class="button">%s</button>', __( 'Empty debug logs', 'woo-quickpay' ) );
+        printf( '<br/>');
+        printf( '<h3 class="wc-settings-sub-title">%s</h3>', __( 'Enable', 'woo-quickpay' ) );
+    }
+
+    /**
+     * Returns the link to the gateway settings page.
+     *
+     * @return mixed
+     */
+    public static function get_settings_page_url() {
+        return admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc_quickpay' );
+    }
+
+    /**
+     * Shows an admin notice if the setup is not complete.
+     *
+     * @return void
+     */
+    public static function show_admin_setup_notices() {
+        $error_fields = array();
+
+        $mandatory_fields = array(
+            'quickpay_privatekey' => __('Private key', 'woo-quickpay'),
+            'quickpay_apikey' => __('Api User key', 'woo-quickpay')
+        );
+
+        foreach($mandatory_fields as $mandatory_field_setting => $mandatory_field_label) {
+            if (self::has_empty_mandatory_post_fields($mandatory_field_setting)) {
+                $error_fields[] = $mandatory_field_label;
+            }
+        }
+
+        if (!empty($error_fields)) {
+            $message = sprintf('<h2>%s</h2>', __( "WooCommerce QuickPay", 'woo-quickpay' ) );
+            $message .= sprintf('<p>%s</p>', sprintf(__('You have missing or incorrect settings. Go to the <a href="%s">settings page</a>.', 'woo-quickpay'), self::get_settings_page_url()) );
+            $message .= '<ul>';
+            foreach($error_fields as $error_field) {
+                $message .= "<li>" . sprintf(__('<strong>%s</strong> is mandatory.', 'woo-quickpay'), $error_field) . "</li>";
+            }
+            $message .= '</ul>';
+
+            printf('<div class="%s">%s</div>', 'notice notice-error', $message);
+        }
+
+    }
+
+    /**
+     * @return string
+     */
+    public static function get_wiki_link() {
+        return 'http://quickpay.perfect-solution.dk';
+    }
+
+    /**
+     * Logic wrapper to check if some of the mandatory fields are empty on post request.
+     *
+     * @return bool
+     */
+    private static function has_empty_mandatory_post_fields($settings_field) {
+        $post_key = 'woocommerce_quickpay_' . $settings_field;
+        $setting_key = WC_QP()->s($settings_field);
+        return empty($_POST[$post_key]) && empty($setting_key);
+
+    }
+
+    /**
+     * @return string
+     */
+    private static function get_required_symbol() {
+        return '<span style="color: red;">*</span>';
     }
 }
 

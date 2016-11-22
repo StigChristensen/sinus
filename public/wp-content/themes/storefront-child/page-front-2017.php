@@ -93,8 +93,6 @@ $terms = wp_get_post_terms($post->ID,'product_cat', $args);
   <!-- Store info -->
 
   <div class="fp-content-row black">
-    <!-- <a href="https://goo.gl/maps/7JA3Pw2xbw72" target="_blank"><div class="info-left" style="background: url('<?php echo get_stylesheet_directory_uri() . '/img/map1.png'; ?>'); background-size: cover; background-position: left;"></div></a> -->
-
     <div class="info-left">
       <div class="mapcover"></div>
       <div class="largemap" id="largemap"></div>

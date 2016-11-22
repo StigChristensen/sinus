@@ -133,11 +133,34 @@
         });
         return promise;
     };
+
+    QuickPayCheckAPIStatus.prototype.init = function () {
+    	if (this.apiSettingsField.length) {
+			$(window).on('load', $.proxy(this.pingAPI, this));
+			this.apiSettingsField.on('blur', $.proxy(this.pingAPI, this));
+			this.insertIndicator();
+		}
+	};
+
+	QuickPayCheckAPIStatus.prototype.insertIndicator = function () {
+		this.indicator.insertAfter(this.apiSettingsField);
+	};
+
+	QuickPayCheckAPIStatus.prototype.pingAPI = function () {
+		$.post(ajaxurl, { action: 'quickpay_ping_api', apiKey: this.apiSettingsField.val() }, $.proxy(function (response) {
+			if (response.status === 'success') {
+				this.indicator.addClass('ok').removeClass('error');
+			} else {
+				this.indicator.addClass('error').removeClass('ok');
+			}
+		}, this), "json");
+	};
     
 	// DOM ready
 	$(function() {
 		new QuickPay().init();
         new QuickPayAjaxStatus().init();
+		new QuickPayCheckAPIStatus().init();
 
         var emptyLogsButton = $('#wcqp_logs_clear');
         emptyLogsButton.on('click', function(e) {
@@ -146,7 +169,7 @@
         		if (response.hasOwnProperty('status') && response.status == 'success') {
         			var message = $('<div id="message" class="updated"><p>' + response.message + '</p></div>');
         			message.hide();
-        			message.insertBefore(emptyLogsButton);
+        			message.insertBefore($('#wcqp_wiki'));
         			message.fadeIn('fast', function () {
         				setTimeout(function () {
         					message.fadeOut('fast', function () {
@@ -168,5 +191,10 @@
     function QuickPayAjaxStatus() {
         this.elements = $( '[data-quickpay-transaction-id]' );
     }
+
+    function QuickPayCheckAPIStatus() {
+    	this.apiSettingsField = $('#woocommerce_quickpay_quickpay_apikey');
+		this.indicator = $('<span class="wcqp_api_indicator"></span>');
+	}
 
 })(jQuery);

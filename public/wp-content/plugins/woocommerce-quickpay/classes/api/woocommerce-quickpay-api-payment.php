@@ -60,7 +60,7 @@ class WC_QuickPay_API_Payment extends WC_QuickPay_API_Transaction
 	* @access public
 	* @param  int $transaction_id
 	* @param  int $amount
-	* @return void
+	* @return object
 	* @throws QuickPay_API_Exception
 	*/   
     public function capture( $transaction_id, $order, $amount = NULL ) 
@@ -72,7 +72,7 @@ class WC_QuickPay_API_Payment extends WC_QuickPay_API_Transaction
             $amount = $order->get_total();   
         }
         
-    	$this->post( sprintf( '%d/%s', $transaction_id, "capture" ), array( 'amount' => WC_QuickPay_Helper::price_multiply( $amount ) ) );
+    	return $this->post( sprintf( '%d/%s', $transaction_id, "capture" ), array( 'amount' => WC_QuickPay_Helper::price_multiply( $amount ) ) );
     }
 
 
@@ -130,13 +130,13 @@ class WC_QuickPay_API_Payment extends WC_QuickPay_API_Transaction
 		$remaining_balance = $this->get_remaining_balance();
 
 		$allowed_states = array(
-			'capture' => array( 'authorize' ),
+			'capture' => array( 'authorize', 'recurring' ),
 			'cancel' => array( 'authorize' ),
 			'refund' => array( 'capture', 'refund' ),
 			'renew' => array( 'authorize' ),
 			'splitcapture' => array( 'authorize', 'capture' ),
 			'recurring' => array( 'subscribe' ),
-            'standard_actions' => array( 'authorize' )
+            'standard_actions' => array( 'authorize', 'recurring' )
 		);
 
 		// We wants to still allow captures if there is a remaining balance.

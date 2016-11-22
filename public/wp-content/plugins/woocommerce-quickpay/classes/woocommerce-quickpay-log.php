@@ -90,4 +90,17 @@ class WC_QuickPay_Log {
     {
     	return $this->_domain;
     }
+
+    /**
+     * Returns a link to the log files in the WP backend.
+     */
+    public function get_admin_link() {
+        $log_path = wc_get_log_file_path($this->_domain);
+        $log_path_parts = explode('/', $log_path);
+        return add_query_arg(array(
+            'page' => 'wc-status',
+            'tab' => 'logs',
+            'log_file' => end($log_path_parts)
+        ), admin_url('admin.php'));
+    }
 }
