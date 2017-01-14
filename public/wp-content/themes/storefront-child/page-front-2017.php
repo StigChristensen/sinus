@@ -92,7 +92,7 @@ $terms = wp_get_post_terms($post->ID,'product_cat', $args);
 
   <!-- Store info -->
 
-  <div class="fp-content-row black">
+  <!-- <div class="fp-content-row black">
     <div class="info-left">
       <div class="mapcover"></div>
       <div class="largemap" id="largemap"></div>
@@ -133,7 +133,7 @@ $terms = wp_get_post_terms($post->ID,'product_cat', $args);
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <!-- Brands -->
 
@@ -224,17 +224,17 @@ $terms = wp_get_post_terms($post->ID,'product_cat', $args);
 <?php get_footer(); ?>
 
 <script>
-function largeMap() {
-  map = new google.maps.Map(document.getElementById('largemap'), {
-    center: latLng,
-    zoom: 16,
-    styles: mapStyle
-  });
-
-  var marker = new google.maps.Marker({
-    position: latLng,
-    map: map,
-    title: 'Sinus | Headphones & Audio'
-  });
-}
+// function largeMap() {
+//   map = new google.maps.Map(document.getElementById('largemap'), {
+//     center: latLng,
+//     zoom: 16,
+//     styles: mapStyle
+//   });
+//
+//   var marker = new google.maps.Marker({
+//     position: latLng,
+//     map: map,
+//     title: 'Sinus | Headphones & Audio'
+//   });
+// }
 </script>

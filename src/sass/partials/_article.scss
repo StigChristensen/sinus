@@ -36,17 +36,27 @@
     margin: 100px auto 0 auto;
     text-align: left;
 
+    h3 {
+      font-size: 26px;
+      font-weight: 900;
+      margin: 20px 0;
+      color: $white;
+      line-height: 1.5;
+    }
+
     h2 {
       font-size: 32px;
       font-weight: 700;
       margin: 80px 0 0px 0;
       color: $white;
+      line-height: 1.5;
     }
 
     h4 {
       color: $mainGreen;
       font-weight: 900;
       font-size: 20px;
+      line-height: 1.5;
 
       a {
         color: $mainGreen;
